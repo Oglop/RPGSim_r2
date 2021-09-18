@@ -15,6 +15,32 @@ const createMapArray = size => {
     return arr
 }
 
+const drawOnMap = (map, startX, startY, filter, positive) => {
+    try {
+        for (let y = 0; y < filter[0].length; y++) {
+            for (let x = 0; x < filter[0].length; x++) {
+                if (
+                    startX + x >= 0 &&
+                    startX + x < map.length &&
+                    startY + y >= 0 &&
+                    startY + y < map.length) {
+                        if (positive) {
+                            map[startX + x][startY + y].elevation += filter[x][y]
+                            console.log(`filter[x][y] ${filter[x][y]}`)
+                            console.log(`map[startX + x][startY + y].elevation ${map[startX + x][startY + y].elevation}`)
+
+
+                        } else {
+                            map[startX + x][startY + y].elevation -= filter[x][y]
+                        }
+                    }
+            }
+        }
+    } catch (e) {
+        console.log(e.message)
+    }
+}
+
 const generateMountains = (map, size) => {
     const loops = size / 4
     const skips = size / 5
@@ -23,9 +49,13 @@ const generateMountains = (map, size) => {
     // TODO
     for (let y = 0; y < loops; y++) {
         for (let x = 0; x < loops; x++) {
-            const i = getRandomNumberInRange(rangeFrom, rangeTo)
-            const filter = getRandomElementFromArray(filters)
-
+            drawOnMap(
+                map, 
+                (x * skips) + getRandomNumberInRange(rangeFrom, rangeTo), 
+                (y * skips) + getRandomNumberInRange(rangeFrom, rangeTo),
+                getRandomElementFromArray(filters),
+                true
+            )
         }
     }
 
@@ -47,12 +77,14 @@ module.exports.build = (options) => {
     const world = copyObject(objects.world)
     const worldSize = options.size ? options.size : WORLD_SIZE;
     const mapInit = createMapArray(worldSize)
-    const mapMountains = generateMountains(mapInit)
+    const mapMountains = generateMountains(mapInit, worldSize)
     
 
     for (let y = 0; y < worldSize; y++) {
+        let s = ''
         for (let x = 0; x < worldSize; x++) {
-            console.log()
+            s += mapMountains[x][y].elevation
         }
+        console.log(s)
     }
 }
