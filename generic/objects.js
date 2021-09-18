@@ -12,7 +12,7 @@ module.exports = {
     room: {
         elevation: 0,
         temprature: 0,
-        humidity: 0
+        biome: undefined
     }
 
 }
