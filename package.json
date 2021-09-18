@@ -1,0 +1,19 @@
+{
+  "name": "rpg_simulator",
+  "version": "1.0.0",
+  "description": "simulation fantasy world",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oglop/RPGSim_r2.git"
+  },
+  "author": "Stefan Gustavsson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oglop/RPGSim_r2/issues"
+  },
+  "homepage": "https://github.com/Oglop/RPGSim_r2#readme"
+}
