@@ -4,7 +4,7 @@
   "description": "simulation fantasy world",
   "main": "app.js",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Oglop/RPGSim_r2/issues"
   },
-  "homepage": "https://github.com/Oglop/RPGSim_r2#readme"
+  "homepage": "https://github.com/Oglop/RPGSim_r2#readme",
+  "devDependencies": {
+    "jest": "^27.2.0"
+  }
 }
