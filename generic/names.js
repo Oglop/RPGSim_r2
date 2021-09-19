@@ -1,8 +1,9 @@
 const {
     getRandomElementFromArray,
-    shuffleArray
+    shuffleArray,
+    chance
 } = require('../lib/utils')
-const { SEX } = require('../enums')
+const { ENUM_GENDER } = require('../generic/enums')
 
 const firstFamilyNames = [
     'Day',
@@ -172,11 +173,62 @@ const regionNames = [
     'Tuno'
 ]
 
+const dwellingNamePrefixes = [
+    'High',
+    'East',
+    'West',
+    'North',
+    'South',
+    'Low'
+]
+
+const dwellingNames = [
+    'Aronden',
+    'Annolin',
+    'Benndros',
+    'Bronnid',
+    'Ciriandon',
+    'Cynnos',
+    'Dibronnon',
+    'Diolis',
+    'Elios',
+    'Eranios',
+    'Famion',
+    'Forios',
+    'Gallion',
+    'Girionden',
+    'Holoios',
+    'Hirkos',
+    'Illios',
+    'Irvandon',
+    'Kroas',
+    'Kruvinden',
+    'Lamian',
+    'Larkornoch',
+    'Mandos',
+    'Morfarlian',
+    'Nian',
+    'Nirochlias',
+    'Orio',
+    'Onteroch',
+    'Perion',
+    'Puntorlo',
+    'Rindolias',
+    'Ross',
+    'Sindas',
+    'Sumforos',
+    'Torfon',
+    'Tenhelia',
+    'Urhus',
+    'Uvion'
+
+]
+
 /**
  * returns a persons name
  */
 const getPersonName = sex => {
-    if (sex === SEX.female) {
+    if (sex === ENUM_GENDER.FEMALE) {
         return getRandomElementFromArray(firstFemaleNames)
     } else {
         return getRandomElementFromArray(firstMaleNames)
@@ -200,6 +252,13 @@ const getRegionNameArr = i => {
     
 }
 
+const getDwellingName = () => {
+    if (chance(30)) {
+        return `${getRandomElementFromArray(dwellingNamePrefixes)} ${getRandomElementFromArray(dwellingNames)}`
+    }
+    return getRandomElementFromArray(dwellingNames)
+}
+
 module.exports = {
-    getPersonName, getFamilyName, getRegionNameArr
+    getPersonName, getFamilyName, getRegionNameArr, getDwellingName
 }

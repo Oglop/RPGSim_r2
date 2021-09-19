@@ -166,5 +166,23 @@ module.exports = {
     ENUM_GAME_STATE: {
         IDLE: 0,
         BUILDING_WORLD: 1
+    },
+    ENUM_GAME_MODE: {
+        HISTORY: 0,
+        ADVENTURE: 1,
+        FAMILY: 2
+    },
+    ENUM_DWELLINGS: {
+        NONE: 0,
+        TOWN: 1,
+        CITY: 2,
+        TOWER: 3,
+        DWARVEN_MINE: 4,
+        ELF_TOWN: 5,
+        RUINS: 6
+    },
+    ENUM_GENDER: {
+        MALE: 'male',
+        FEMALE: 'female'
     }
 }

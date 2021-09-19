@@ -1,7 +1,16 @@
+const { NoPositionAvailableError, WorldGenerationFailedError } = require('../exceptions')
+const dwellingsBuilder = require('./dwelling')
 const objects = require('../generic/objects')
 const { filters, clouds } = require('../generic/filters')
-const { copyObject, getRandomElementFromArray, getRandomNumberInRange, getRandomNumber} = require('../lib/utils')
+const { copyObject, 
+    getRandomElementFromArray, 
+    getRandomNumberInRange, 
+    getRandomNumber, 
+    chance
+} = require('../lib/utils')
 const { WORLD_SIZE } = require('../generic/statics')
+const { ENUM_BIOMES, ENUM_DWELLINGS } = require('../generic/enums')
+// const { point } = require('../generic/objects')
 
 const createMapArray = size => {
         var arr = [];
@@ -14,8 +23,65 @@ const createMapArray = size => {
         return arr
 }
 
+/**
+ * set bioms from elevation and temprature
+ * @param {array} map 
+ * @param {int} size 
+ */
 const setBiome = (map, size) => {
-    
+    let pen = ENUM_BIOMES.plains
+
+    for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+            if (map[x][y].elevation < 0) { map[x][y].biome = ENUM_BIOMES.lake }
+            else if (map[x][y].elevation == 4) { map[x][y].biome = ENUM_BIOMES.hills }
+            else if (map[x][y].elevation >= 5) { map[x][y].biome = ENUM_BIOMES.mountains }
+            else {
+                if (map[x][y].elevation == 0) { 
+                    if (map[x][y].temprature < 0) {
+                        if (chance(40)) { pen = ENUM_BIOMES.swamp }
+                    } else if (map[x][y].temprature >= 0) {
+                        if (chance(40)) { pen = ENUM_BIOMES.plains }
+                    } else if (map[x][y].temprature >= 1) {
+                        if (chance(30)) { pen = ENUM_BIOMES.forest }
+                    } else if (map[x][y].temprature > 2) {
+                        if (chance(70)) { pen = ENUM_BIOMES.dessert }
+                    }
+                } else if (map[x][y].elevation == 1) { 
+                    if (map[x][y].temprature >= 0) {
+                        if (chance(40)) { pen = ENUM_BIOMES.forest }
+                    } else if (map[x][y].temprature >= 1) {
+                        if (chance(70)) { pen = ENUM_BIOMES.plains }
+                    } else if (map[x][y].temprature > 2) {
+                        if (chance(50)) { pen = ENUM_BIOMES.dessert }
+                    }
+                } else if (map[x][y].elevation == 2) { 
+                    if (map[x][y].temprature >= 0) {
+                        if (chance(20)) { pen = ENUM_BIOMES.forest }
+                    } else if (map[x][y].temprature >= 1) {
+                        if (chance(60)) { pen = ENUM_BIOMES.plains }
+                    } else if (map[x][y].temprature > 2) {
+                        if (chance(30)) { pen = ENUM_BIOMES.badlands }
+                    }
+
+                } else if (map[x][y].elevation == 3) { 
+                    if (map[x][y].temprature >= 0) {
+                        if (chance(30)) { pen = ENUM_BIOMES.hills }
+                    } else if (map[x][y].temprature >= 1) {
+                        if (chance(50)) { pen = ENUM_BIOMES.hills }
+                        if (chance(40)) { pen = ENUM_BIOMES.plains }
+                    } else if (map[x][y].temprature > 2) {
+                        if (chance(50)) { pen = ENUM_BIOMES.badlands }
+                    }
+                } if (map[x][y].temprature >= 4) { 
+                    pen = ENUM_BIOMES.dessert
+                } 
+
+                map[x][y].biome = pen
+            }
+
+        }
+    }
 }
 
 /**
@@ -67,7 +133,7 @@ const drawTemprature = (map, startX, startY, cloud, positive) => {
                         if (positive) {
                             map[startX + x][startY + y].temprature += cloud[x][y]
                         } else {
-                            map[startX + x][startY + y].temprature -= Math.floor(cloud[x][y] / 2)
+                            map[startX + x][startY + y].temprature -= cloud[x][y]//Math.floor(cloud[x][y] / 2)
                         }
                     }
             }
@@ -124,7 +190,7 @@ const generateLakes = (map, size) => {
 }
 
 /**
- * 
+ * set tempratures on map
  * @param {array} map 
  * @param {int} size 
  */
@@ -145,7 +211,7 @@ const generateTempratures = (map, size) => {
             )
         }
     }
-    const iter = getRandomNumber(3)
+    const iter = 3 + getRandomNumber(3)
     for(let i = 0; i<iter; i++) {
         const randX = getRandomNumber(size)
         const randY = getRandomNumber(size)
@@ -159,24 +225,178 @@ const generateTempratures = (map, size) => {
     }
 }
 
+const getUninhabitedPoint = (map, size, biome) => {
+    const p = copyObject(objects.point)
+    const points = []
+    for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+            if ( (biome == map[x][y].biome || (!biome && map[x][y].elevation < 5 && map[x][y].elevation >= 0) ) && !map[x][y].dwelling ) {
+                const p = copyObject(objects.point)
+                p.x = x
+                p.y = y
+                points.push(p)
+            }
+        }
+    }
+    if (points.length > 0) {
+        return points[getRandomNumber(points.length)]
+    }
+    else {
+        throw new NoPositionAvailableError('No point found')
+    }
+}
+
+/**
+ * Add dwellings to map
+ * @param {array} map 
+ * @param {int} size 
+*/
+ const setDwellings = (map, size) => {
+    const elfTowns = 2 + getRandomNumber( Math.floor(size / 10) )
+    const dwarfMines = 1 + getRandomNumber( Math.floor(size / 10) )
+    const towers = 2 + getRandomNumber( Math.floor(size / 10) )
+    const cities = 1 + getRandomNumber( Math.floor(size / 20) )
+    const towns = 4 + getRandomNumber( Math.floor(size / 10) )
+    const ruins = 3 + getRandomNumber( Math.floor(size / 10) )
+
+    // Elf towns
+    for (let i = 0; i < elfTowns; i++) {
+        try {
+            const p = getUninhabitedPoint(map, size, ENUM_BIOMES.forest)
+            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.ELF_TOWN)
+        } catch (e) {
+            if(e instanceof NoPositionAvailableError) {
+                break;
+            } else {
+                // TODO Error
+                console.log(e.message)
+            }
+        }
+    }
+
+    // Dwarf mines
+    for (let i = 0; i < dwarfMines; i++) {
+        try {
+            const p = getUninhabitedPoint(map, size, ENUM_BIOMES.hills)
+            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.DWARVEN_MINE)
+        } catch (e) {
+            if(e instanceof NoPositionAvailableError) {
+                break;
+            } else {
+                // TODO Error
+                console.log(e.message)
+            }
+        }
+    }
+
+    // townes
+    for (let i = 0; i < towns; i++) {
+        try {
+            const p = getUninhabitedPoint(map, size)
+            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.TOWN)
+        } catch (e) {
+            if(e instanceof NoPositionAvailableError) {
+                break;
+            } else {
+                // TODO Error
+                console.log(e.message)
+            }
+        }
+    }
+
+    // cities
+    for (let i = 0; i < cities; i++) {
+        try {
+            const p = getUninhabitedPoint(map, size, ENUM_BIOMES.plains)
+            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.CITY)
+        } catch (e) {
+            if(e instanceof NoPositionAvailableError) {
+                break;
+            } else {
+                // TODO Error
+                console.log(e.message)
+            }
+        }
+    }
+
+    // towers
+    for (let i = 0; i < towers; i++) {
+        try {
+            const p = getUninhabitedPoint(map, size)
+            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.TOWER)
+        } catch (e) {
+            if(e instanceof NoPositionAvailableError) {
+                break;
+            } else {
+                // TODO Error
+                console.log(e.message)
+            }
+        }
+    }
+
+    // ruins
+    for (let i = 0; i < ruins; i++) {
+        try {
+            const p = getUninhabitedPoint(map, size)
+            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.RUINS)
+        } catch (e) {
+            if(e instanceof NoPositionAvailableError) {
+                break;
+            } else {
+                // TODO Error
+                console.log(e.message)
+            }
+        }
+    }
+
+
+}
+
+const visualizeMap = (map, worldSize) => {
+    for (let y = 0; y < worldSize; y++) {
+        let s = ''
+        for (let x = 0; x < worldSize; x++) {
+            if (map[x][y].dwelling) {
+                switch(map[x][y].dwelling.type) {
+                    case ENUM_DWELLINGS.ELF_TOWN: s += 'e'; break;
+                    case ENUM_DWELLINGS.DWARVEN_MINE: s += 'd'; break;
+                    case ENUM_DWELLINGS.TOWN: s += '"'; break;
+                    case ENUM_DWELLINGS.CITY: s += '#'; break;
+                    case ENUM_DWELLINGS.TOWER: s += '|'; break;
+                    case ENUM_DWELLINGS.RUINS: s += 'x'; break;
+                }
+                
+            } else {
+                switch (map[x][y].biome) {
+                    case 'F': s += '`'; break;
+                    case 'H': s += '^'; break;
+                    case 'S': s += ','; break;
+                    case 'M': s += '/'; break;
+                    case 'P': s += '.'; break;
+                    case 'L': s += ' '; break;
+                    case 'D': s += '_'; break;
+                    case 'B': s += ' '; break;
+                }
+            }
+        }
+        console.log(s)
+    }
+}
+ 
 
 /**
  * generate world map
  * @param {object} options 
  */
 module.exports.build = (options) => {
-    const world = copyObject(objects.world)
     const worldSize = options.size ? options.size : WORLD_SIZE;
     const map = createMapArray(worldSize)
     generateMountains(map, worldSize)
     generateLakes(map, worldSize)
     generateTempratures(map, worldSize)
+    setBiome(map, worldSize)
+    setDwellings(map, worldSize)
 
-    for (let y = 0; y < worldSize; y++) {
-        let s = ''
-        for (let x = 0; x < worldSize; x++) {
-            s += map[x][y].temprature
-        }
-        console.log(s)
-    }
+    visualizeMap(map, worldSize)
+    return map
 }
