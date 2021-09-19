@@ -4,7 +4,7 @@ module.exports = {
         name: undefined,
         map: undefined,
         date: undefined,
-        families: undefined
+        families: []
 
     },
     character: {
@@ -15,6 +15,8 @@ module.exports = {
         race: undefined,
         languages: [],
         skills: [],
+        birthDate: undefined,
+        age: 0,
         stats: {
             int: 0,
             str: 0,
@@ -43,5 +45,12 @@ module.exports = {
     language: {
         name: undefined,
         mastery: 0
+    },
+    family: {
+        id: undefined,
+        name: undefined,
+        influence: 0,
+        members: [],
+        dwellingId: undefined
     }
 }
