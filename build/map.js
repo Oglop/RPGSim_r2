@@ -226,7 +226,6 @@ const generateTempratures = (map, size) => {
 }
 
 const getUninhabitedPoint = (map, size, biome) => {
-    const p = copyObject(objects.point)
     const points = []
     for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {

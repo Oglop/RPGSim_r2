@@ -10,8 +10,11 @@ module.exports = {
     character: {
         id: undefined,
         name: undefined,
+        gender: undefined,
         job: undefined,
         race: undefined,
+        languages: [],
+        skills: [],
         stats: {
             int: 0,
             str: 0,
@@ -36,5 +39,9 @@ module.exports = {
         id: undefined,
         name: undefined,
         type: undefined
+    },
+    language: {
+        name: undefined,
+        mastery: 0
     }
 }
