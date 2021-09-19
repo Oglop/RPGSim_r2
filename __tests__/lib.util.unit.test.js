@@ -1,4 +1,4 @@
-const { generateID } = require('../lib/utils')
+const { generateID, capitalizeFirstLetter } = require('../lib/utils')
 
 describe('util tests', () => {
     test('generateID to generate uniqe string', () => {
@@ -9,4 +9,9 @@ describe('util tests', () => {
         expect(actual2).not.toBe(actual3)
         expect(actual1).not.toBe(actual3)
     })    
+    test('that function capitilaze first letter', () => {
+        const expected = 'Aa'
+        const actual = capitalizeFirstLetter('aa')
+        expect(actual).toBe(expected)
+    })
 })
