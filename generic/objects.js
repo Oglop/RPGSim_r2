@@ -11,6 +11,8 @@ module.exports = {
         id: undefined,
         name: undefined,
         gender: undefined,
+        marriedTo: undefined,
+        pregnant: false,
         job: undefined,
         race: undefined,
         languages: [],

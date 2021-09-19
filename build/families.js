@@ -1,9 +1,30 @@
 const objects = require('../generic/objects')
 const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_DWELLINGS } = require('../generic/enums')
-const { copyObject, generateID, getRandomNumberInRange } = require('../lib/utils')
+const { copyObject, generateID, getRandomNumberInRange, getRandomNumber, chance } = require('../lib/utils')
 const { getFamilyName } = require('../generic/names')
 const { dwelling } = require('../generic/objects')
 
+/**
+ * 
+ * @returns {Array} Array of integer
+ */
+const getFamilyAges = () => {
+    const ages = []
+    const fatherAge = getRandomNumberInRange(18, 60)
+    ages.push(fatherAge)
+    const motherAge = fatherAge - 3 + getRandomNumber(4)
+    ages.push(motherAge)
+    const maxChildren = getRandomNumberInRange(1, 5)
+    let lastChildAge = motherAge - 18
+    while (lastChildAge >= 0) {
+        if (chance(50)) {
+            ages.push(lastChildAge)
+        }
+        lastChildAge -= getRandomNumberInRange(1, 3)
+        if (ages.length - 2 >= maxChildren) { break; }
+    }
+    return ages
+}
 
 /**
  * create a new family
@@ -16,6 +37,16 @@ const createFamily = (options) => {
     f.dwellingId = options.dwellingId
     f.name = getFamilyName()
     f.race = (!options.race) ? ENUM_RACE_NAMES.human : options.race
+
+    const ages = getFamilyAges()
+    for (let i = 0; i < ages.length; i++) {
+        let gender = ENUM_GENDER.MALE
+        if (i == 0) { gender = ENUM_GENDER.MALE }
+        else if (i == 1) { gender = ENUM_GENDER.FEMALE }
+        else {
+            gender = (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
+        }
+    }
 
 
     return f
