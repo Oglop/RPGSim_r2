@@ -24,6 +24,12 @@ const createMapArray = size => {
         return arr
 }
 
+/**
+ * Draw farmland biom to map
+ * @param {Array} map 
+ * @param {Object} point 
+ * @param {Int} size 
+ */
 const drawFarmlands = (map, point, size) => {
     const pen = ENUM_BIOMES.farmlands
     for (let y = point.y - 1; y < point.y + 1; y++) {

@@ -1,8 +1,9 @@
 const objects = require('../generic/objects')
-const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_DWELLINGS } = require('../generic/enums')
+const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_DWELLINGS, ENUM_JOB_NAMES } = require('../generic/enums')
 const { copyObject, generateID, getRandomNumberInRange, getRandomNumber, chance } = require('../lib/utils')
 const { getFamilyName } = require('../generic/names')
-const { dwelling } = require('../generic/objects')
+const { dwelling, character } = require('../generic/objects')
+const characterBuilder = require('./character')
 
 /**
  * 
@@ -31,7 +32,8 @@ const getFamilyAges = () => {
  * @param {object} options { ?race: ENUM_RACE_NAMES,  }
  */
 const createFamily = (options) => {
-
+    let father = ''
+    let mother = ''
     const f = copyObject(objects.family)
     f.id = generateID()
     f.dwellingId = options.dwellingId
@@ -42,12 +44,24 @@ const createFamily = (options) => {
     for (let i = 0; i < ages.length; i++) {
         let gender = ENUM_GENDER.MALE
         if (i == 0) { gender = ENUM_GENDER.MALE }
-        else if (i == 1) { gender = ENUM_GENDER.FEMALE }
+        else if (i == 1) {  gender = ENUM_GENDER.FEMALE }
         else {
+            father = f.members[0].id
+            mother = f.members[1].id
             gender = (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
         }
+        const c = characterBuilder.build({ 
+            age: ages[i],
+            gender,
+            race: f.race,
+            job: ENUM_JOB_NAMES.noble,
+            mother,
+            father
+         })
+         f.members.push(c)
     }
-
+    f.members[0].marriedTo = f.members[1].id
+    f.members[1].marriedTo = f.members[0].id
 
     return f
 }
@@ -88,8 +102,8 @@ module.exports.build = (options) => {
             case ENUM_DWELLINGS.DWARVEN_MINE: influence = 60; race = ENUM_RACE_NAMES.dwarf; break;
         }
         influence += getRandomNumberInRange(-5, 5)
-        const f = createFamily( { race: ENUM_RACE_NAMES.human, dwellingId: dwelling.id } )
-
+        const f = createFamily( { race: ENUM_RACE_NAMES.human, dwellingId: d.id } )
+        families.push(f)
     }
 
     

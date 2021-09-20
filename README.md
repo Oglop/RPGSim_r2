@@ -1,8 +1,17 @@
-# RPGSim_r2
+# RPG Simulation m2
 
 // TODO
 
+## SYSTEM
 - custom exeptions
-- farmlands
-- landmärken
-- familjer
+- stave
+
+## MAP
+- landmarks
+- dark lords
+- bandit camps
+
+## HISTORY
+- families
+- characters
+- dark lords
