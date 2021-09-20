@@ -10,6 +10,7 @@ const { copyObject,
 } = require('../lib/utils')
 const { WORLD_SIZE } = require('../generic/statics')
 const { ENUM_BIOMES, ENUM_DWELLINGS } = require('../generic/enums')
+const { world } = require('../generic/objects')
 // const { point } = require('../generic/objects')
 
 const createMapArray = size => {
@@ -21,6 +22,49 @@ const createMapArray = size => {
             }
         }
         return arr
+}
+
+const drawFarmlands = (map, point, size) => {
+    const pen = ENUM_BIOMES.farmlands
+    for (let y = point.y - 1; y < point.y + 1; y++) {
+        for (let x = point.x - 1; x < point.x + 1; x++) {
+            if (
+                x >= 0 &&
+                x < size &&
+                y >= 0 &&
+                y < size &&
+                !map[x][y].dwelling) {
+                    if ((map[x][y].biome == ENUM_BIOMES.plains ||
+                        map[x][y].biome == ENUM_BIOMES.forest ||
+                        map[x][y].biome == ENUM_BIOMES.dessert) &&
+                        chance(60)
+                        ) {
+                            map[x][y].biome = pen
+                        }
+                }
+        }
+    }
+
+
+}
+
+const setFarmlands = (map, size) => {
+    const dwellings = []
+    for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+            if (map[x][y].dwelling && 
+                (map[x][y].dwelling.type === ENUM_DWELLINGS.TOWN || 
+                map[x][y].dwelling.type === ENUM_DWELLINGS.CITY)) {
+                    const p = copyObject(objects.point)
+                    p.x = x
+                    p.y = y
+                    dwellings.push(p)
+            }
+        }
+    }
+    for (let i = 0; i < dwellings.length; i++) {
+        drawFarmlands(map, dwellings[i], size)
+    }
 }
 
 /**
@@ -375,6 +419,7 @@ const visualizeMap = (map, worldSize) => {
                     case 'L': s += ' '; break;
                     case 'D': s += '_'; break;
                     case 'B': s += ' '; break;
+                    case 'A': s += '='; break;
                 }
             }
         }
@@ -395,6 +440,7 @@ module.exports.build = (options) => {
     generateTempratures(map, worldSize)
     setBiome(map, worldSize)
     setDwellings(map, worldSize)
+    setFarmlands(map, worldSize)
 
     visualizeMap(map, worldSize)
     return map

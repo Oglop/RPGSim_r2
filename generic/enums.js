@@ -137,7 +137,8 @@ module.exports = {
         plains: 'P',
         lake: 'L',
         dessert: 'D',
-        badlands: 'B'
+        badlands: 'B',
+        farmlands: 'A'
     },
     ENUM_BIOME_DESCRIPTIONS: {
         forest: 'forest',
@@ -147,7 +148,8 @@ module.exports = {
         plains: 'plains',
         lake: 'lake',
         dessert: 'dessert',
-        badlands: 'badlands'
+        badlands: 'badlands',
+        farmlands: 'farmlands'
     },
     ENUM_EVENT_TYPE: {
         restEvent:'restEvent',
