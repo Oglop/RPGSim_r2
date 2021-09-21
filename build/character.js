@@ -41,6 +41,8 @@ const getRandomJob = () => {
         case 9: return ENUM_JOB_NAMES.wizard
     }
 }
+
+
 /**
  * 
  * @param {object} s 
@@ -95,6 +97,7 @@ module.exports.build = (options) => {
     c.job = (options.job) ? options.job : getRandomJob()
     c.father = options.father
     c.mother = options.mother
+    c.pregnant = false
     c.stats = rollStats(options.enforceMinimumSum || true)
     return c
 }
