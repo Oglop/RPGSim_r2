@@ -56,7 +56,8 @@ const createFamily = (options) => {
             race: f.race,
             job: ENUM_JOB_NAMES.noble,
             mother,
-            father
+            father,
+            enforceMinimumSum: false
          })
          f.members.push(c)
     }

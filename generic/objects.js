@@ -21,15 +21,16 @@ module.exports = {
         skills: [],
         birthDate: undefined,
         age: 0,
-        stats: {
-            int: 0,
-            str: 0,
-            agi: 0,
-            wis: 0,
-            int: 0,
-            cha: 0,
-            luc: 0
-        }
+        stats: undefined
+    },
+    stats: {
+        str: 0,
+        vit: 0,
+        agi: 0,
+        wis: 0,
+        int: 0,
+        cha: 0,
+        luc: 0
     },
     room: {
         elevation: 0,

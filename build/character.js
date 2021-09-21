@@ -2,6 +2,7 @@ const objects = require('../generic/objects')
 const { copyObject, generateID, chance, getRandomNumberInRange } = require('../lib/utils')
 const { getPersonName } = require('../generic/names')
 const { ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITY_TRAITS } = require('../generic/enums')
+const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM } = require('../generic/statics')
 
 /**
  * return a random
@@ -40,6 +41,35 @@ const getRandomJob = () => {
         case 9: return ENUM_JOB_NAMES.wizard
     }
 }
+/**
+ * 
+ * @param {object} s 
+ * @returns {int} sum
+ */
+const checkStatSum = s => {
+    return s.agi + s.str + s.vit + s.int + s.wis + s.luc + s.cha
+};
+
+/**
+ * Roll sats
+ * @param {bool} enforceMinimumSum
+ * @returns {Object} object of stats
+ */
+const rollStats = (enforceMinimumSum) => {
+    const s = copyObject(objects.stats)
+    let i = 0
+    while (i < STATS_MINIMUM_SUM) {
+        s.str = getRandomNumberInRange(STAT_MINIMUM_VALUE, STAT_MAXIMUM_VALUE)
+        s.vit = getRandomNumberInRange(STAT_MINIMUM_VALUE, STAT_MAXIMUM_VALUE)
+        s.agi = getRandomNumberInRange(STAT_MINIMUM_VALUE, STAT_MAXIMUM_VALUE)
+        s.wis = getRandomNumberInRange(STAT_MINIMUM_VALUE, STAT_MAXIMUM_VALUE)
+        s.int = getRandomNumberInRange(STAT_MINIMUM_VALUE, STAT_MAXIMUM_VALUE)
+        s.cha = getRandomNumberInRange(STAT_MINIMUM_VALUE, STAT_MAXIMUM_VALUE)
+        s.luc = getRandomNumberInRange(STAT_MINIMUM_VALUE, STAT_MAXIMUM_VALUE)
+        i = (enforceMinimumSum) ? checkStatSum(s) : STATS_MINIMUM_SUM
+    }
+    return s
+}
 
 /**
  * 
@@ -51,6 +81,7 @@ const getRandomJob = () => {
  * age: int
  * mother: string
  * father: string
+ * enforceMinimumSum: bool
  * }
  * @returns 
  */
@@ -64,7 +95,7 @@ module.exports.build = (options) => {
     c.job = (options.job) ? options.job : getRandomJob()
     c.father = options.father
     c.mother = options.mother
-
+    c.stats = rollStats(options.enforceMinimumSum || true)
     return c
 }
 
