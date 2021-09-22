@@ -5,6 +5,30 @@ const { ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSO
 const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM } = require('../generic/statics')
 
 /**
+ * edit character stats by race
+ * @param {Object} c 
+ */
+const setRaceTrait = (c) => {
+    let traits = {}
+    switch (c.race) {
+        case ENUM_RACE_NAMES.human: traits = copyObject(objects.traits.human); break;
+        case ENUM_RACE_NAMES.darkElf: traits = copyObject(objects.traits.darkElf); break;
+        case ENUM_RACE_NAMES.dwarf: traits = copyObject(objects.traits.dwarf); break;
+        case ENUM_RACE_NAMES.halfElf: traits = copyObject(objects.traits.halfElf); break;
+        case ENUM_RACE_NAMES.halfling: traits = copyObject(objects.traits.halfling); break;
+        case ENUM_RACE_NAMES.highElf: traits = copyObject(objects.traits.highElf); break;
+        case ENUM_RACE_NAMES.woodElf: traits = copyObject(objects.traits.woodElf); break;
+    }
+    c.str += traits.str
+    c.agi += traits.agi
+    c.vit += traits.vit
+    c.int += traits.int
+    c.wis += traits.wis
+    c.luc += traits.luc
+    c.cha += traits.cha
+}
+
+/**
  * return a random
  * @returns ENUM_RACE_NAMES
  */
@@ -26,6 +50,10 @@ const getRandomRace = () => {
     }
 }
 
+/**
+ * Returns random job by Enum
+ * @returns ENUM_JOB_NAMES
+ */
 const getRandomJob = () => {
     const i = getRandomNumberInRange(0, 9)
     switch (i) {
@@ -41,7 +69,6 @@ const getRandomJob = () => {
         case 9: return ENUM_JOB_NAMES.wizard
     }
 }
-
 
 /**
  * 
@@ -99,6 +126,7 @@ module.exports.build = (options) => {
     c.mother = options.mother
     c.pregnant = false
     c.stats = rollStats(options.enforceMinimumSum || true)
+    setRaceTrait(c)
     return c
 }
 
