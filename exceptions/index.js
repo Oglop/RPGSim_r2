@@ -11,3 +11,8 @@ class WorldGenerationFailedError extends Error {
         this.data = { error };
     }
 }
+
+module.exports = {
+    NoPositionAvailableError,
+    WorldGenerationFailedError
+}

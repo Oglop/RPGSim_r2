@@ -3,7 +3,6 @@
 // TODO
 
 ## SYSTEM
-- custom exeptions
 - save
 - load
 
@@ -16,3 +15,6 @@
 - families
 - characters
 - dark lords
+
+## bugs
+
