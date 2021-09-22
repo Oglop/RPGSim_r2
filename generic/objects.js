@@ -36,7 +36,8 @@ module.exports = {
         elevation: 0,
         temprature: 0,
         biome: undefined,
-        dwelling: undefined
+        dwelling: undefined,
+        description: undefined
     },
     point: {
         x: undefined,

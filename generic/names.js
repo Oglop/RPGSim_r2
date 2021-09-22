@@ -1,6 +1,5 @@
 const {
     getRandomElementFromArray,
-    shuffleArray,
     chance
 } = require('../lib/utils')
 const { ENUM_GENDER } = require('../generic/enums')
@@ -25,7 +24,17 @@ const firstFamilyNames = [
     'Black',
     'Blue',
     'Green',
-    'Crossed'
+    'Crossed',
+    'Yellow',
+    'Red',
+    'Green',
+    'Dark',
+    'Bright',
+    'Bloody',
+    'Singing',
+    'Riding',
+    'Blessed',
+    'Oaken'
 ]
 
 const lastFamilyNames = [
@@ -45,7 +54,22 @@ const lastFamilyNames = [
     'axe',
     'brigde',
     'lake',
-    'river'
+    'river',
+    'bridge',
+    'axes',
+    'lance',
+    'giants',
+    'claw',
+    'crown',
+    'helmet',
+    'flower',
+    'rainbow',
+    'tower',
+    'feather',
+    'tree',
+    'flower',
+    'hart',
+    'gate'
 ]
 
 const firstMaleNames = [
@@ -133,46 +157,6 @@ const firstFemaleNames = [
     'Sonjia',
 ]
 
-const regionNames = [
-    'Terria',
-    'Borios',
-    'Genos',
-    'Nocio',
-    'Tresia',
-    'Fandios',
-    'Eagos',
-    'Aenos',
-    'Borolia',
-    'Ciados',
-    'Delemos',
-    'Eaonos',
-    'Fagria',
-    'Gronos',
-    'Galion',
-    'Hera',
-    'Helios',
-    'Iaon',
-    'Iktos',
-    'Junos',
-    'Kriaos',
-    'Knossos',
-    'Lua',
-    'Omios',
-    'Ourto',
-    'Minos',
-    'Manossos',
-    'Nio',
-    'Nakdriss',
-    'Piato',
-    'Petra',
-    'Rito',
-    'Rassdos',
-    'Spheros',
-    'Siattro',
-    'Tressios',
-    'Tuno'
-]
-
 const dwellingNamePrefixes = [
     'High',
     'East',
@@ -220,9 +204,70 @@ const dwellingNames = [
     'Torfon',
     'Tenhelia',
     'Urhus',
-    'Uvion'
+    'Uvion',
+    'Terria',
+    'Borios',
+    'Genos',
+    'Nocio',
+    'Tresia',
+    'Fandios',
+    'Eagos',
+    'Aenos',
+    'Borolia',
+    'Ciados',
+    'Delemos',
+    'Eaonos',
+    'Fagria',
+    'Gronos',
+    'Galion',
+    'Hera',
+    'Helios',
+    'Iaon',
+    'Iktos',
+    'Junos',
+    'Kriaos',
+    'Knossos',
+    'Lua',
+    'Omios',
+    'Ourto',
+    'Minos',
+    'Manossos',
+    'Nio',
+    'Nakdriss',
+    'Piato',
+    'Petra',
+    'Rito',
+    'Rassdos',
+    'Spheros',
+    'Siattro',
+    'Tressios',
+    'Tuno'
 
 ]
+
+const landmarks = {
+    mountains: [
+        'The fingers',
+        'Broken peak',
+        'Shadow hills',
+        'The needle mountais',
+        'Stone head mountains'
+    ],
+    lakes: [
+        'Troll lake',
+        'The sisters',
+        'The lost river',
+        'Southern great lake'
+    ],
+    forests: [
+        'silent woods',
+        'golden forest',
+        'forest of night',
+        'shadow hills',
+        'great oaks'
+    ]
+}
+
 
 /**
  * returns a persons name
@@ -242,15 +287,6 @@ const getFamilyName = () => {
     const l = getRandomElementFromArray(lastFamilyNames)
     return `${f} ${l}`
 }
-/**
- * returns randomized positions 0 to i as array
- * @param {Integer} i 
- */
-const getRegionNameArr = i => {
-    const arr = shuffleArray(regionNames)
-    return arr.slice(0, i)
-    
-}
 
 const getDwellingName = () => {
     if (chance(30)) {
@@ -260,5 +296,5 @@ const getDwellingName = () => {
 }
 
 module.exports = {
-    getPersonName, getFamilyName, getRegionNameArr, getDwellingName
+    getPersonName, getFamilyName, getDwellingName
 }
