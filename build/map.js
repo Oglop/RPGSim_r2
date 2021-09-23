@@ -304,108 +304,35 @@ const setLandmarks = (map, size) => {
     }
 }
 
+const drawDwelling = (map, size, count, biome, dwelling) => {
+
+    for (let i = 0; i < count; i++) {
+        try {
+            const p = getUninhabitedPoint(map, size, biome)
+            map[p.x][p.y].dwelling = dwellingsBuilder.build(dwelling)
+        } catch (e) {
+            if(e instanceof NoPositionAvailableError) {
+                break;
+            } else {
+                // TODO Error
+                console.log(e.message)
+            }
+        }
+    }
+}
+
 /**
  * Add dwellings to map
  * @param {array} map 
  * @param {int} size 
 */
  const setDwellings = (map, size) => {
-    const elfTowns = 2 + getRandomNumber( Math.floor(size / 10) )
-    const dwarfMines = 1 + getRandomNumber( Math.floor(size / 10) )
-    const towers = 2 + getRandomNumber( Math.floor(size / 10) )
-    const cities = 1 + getRandomNumber( Math.floor(size / 20) )
-    const towns = 4 + getRandomNumber( Math.floor(size / 10) )
-    const ruins = 3 + getRandomNumber( Math.floor(size / 10) )
-
-    // Elf towns
-    for (let i = 0; i < elfTowns; i++) {
-        try {
-            const p = getUninhabitedPoint(map, size, ENUM_BIOMES.forest)
-            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.ELF_TOWN)
-        } catch (e) {
-            if(e instanceof NoPositionAvailableError) {
-                break;
-            } else {
-                // TODO Error
-                console.log(e.message)
-            }
-        }
-    }
-
-    // Dwarf mines
-    for (let i = 0; i < dwarfMines; i++) {
-        try {
-            const p = getUninhabitedPoint(map, size, ENUM_BIOMES.hills)
-            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.DWARVEN_MINE)
-        } catch (e) {
-            if(e instanceof NoPositionAvailableError) {
-                break;
-            } else {
-                // TODO Error
-                console.log(e.message)
-            }
-        }
-    }
-
-    // townes
-    for (let i = 0; i < towns; i++) {
-        try {
-            const p = getUninhabitedPoint(map, size)
-            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.TOWN)
-        } catch (e) {
-            if(e instanceof NoPositionAvailableError) {
-                break;
-            } else {
-                // TODO Error
-                console.log(e.message)
-            }
-        }
-    }
-
-    // cities
-    for (let i = 0; i < cities; i++) {
-        try {
-            const p = getUninhabitedPoint(map, size, ENUM_BIOMES.plains)
-            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.CITY)
-        } catch (e) {
-            if(e instanceof NoPositionAvailableError) {
-                break;
-            } else {
-                // TODO Error
-                console.log(e.message)
-            }
-        }
-    }
-
-    // towers
-    for (let i = 0; i < towers; i++) {
-        try {
-            const p = getUninhabitedPoint(map, size)
-            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.TOWER)
-        } catch (e) {
-            if(e instanceof NoPositionAvailableError) {
-                break;
-            } else {
-                // TODO Error
-                console.log(e.message)
-            }
-        }
-    }
-
-    // ruins
-    for (let i = 0; i < ruins; i++) {
-        try {
-            const p = getUninhabitedPoint(map, size)
-            map[p.x][p.y].dwelling = dwellingsBuilder.build(ENUM_DWELLINGS.RUINS)
-        } catch (e) {
-            if(e instanceof NoPositionAvailableError) {
-                break;
-            } else {
-                // TODO Error
-                console.log(e.message)
-            }
-        }
-    }
+    drawDwelling(map, size, 2 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.forest, ENUM_DWELLINGS.ELF_TOWN)
+    drawDwelling(map, size, 1 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.hills, ENUM_DWELLINGS.DWARVEN_MINE)
+    drawDwelling(map, size, 2 + getRandomNumber( Math.floor(size / 10) ), undefined, ENUM_DWELLINGS.TOWN)
+    drawDwelling(map, size, 1 + getRandomNumber( Math.floor(size / 20) ), ENUM_BIOMES.plains, ENUM_DWELLINGS.CITY)
+    drawDwelling(map, size, 4 + getRandomNumber( Math.floor(size / 10) ), undefined, ENUM_DWELLINGS.TOWER)
+    drawDwelling(map, size, 3 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.hills, ENUM_DWELLINGS.RUINS)
 }
 
 const visualizeMap = (map, worldSize) => {
@@ -446,15 +373,20 @@ const visualizeMap = (map, worldSize) => {
  * @param {object} options 
  */
 module.exports.build = (options) => {
-    const worldSize = options.size ? options.size : WORLD_SIZE;
-    const map = createMapArray(worldSize)
-    generateMountains(map, worldSize)
-    generateLakes(map, worldSize)
-    generateTempratures(map, worldSize)
-    setBiome(map, worldSize)
-    setDwellings(map, worldSize)
-    setFarmlands(map, worldSize)
-    setLandmarks(map, worldSize)
-    visualizeMap(map, worldSize)
-    return map
+    try {
+        const worldSize = options.size ? options.size : WORLD_SIZE;
+        const map = createMapArray(worldSize)
+        generateMountains(map, worldSize)
+        generateLakes(map, worldSize)
+        generateTempratures(map, worldSize)
+        setBiome(map, worldSize)
+        setDwellings(map, worldSize)
+        setFarmlands(map, worldSize)
+        setLandmarks(map, worldSize)
+        // visualizeMap(map, worldSize)
+        return map
+    } catch (e) {
+        throw new WorldGenerationFailedError(e.message)
+    }
+    
 }

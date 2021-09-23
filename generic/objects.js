@@ -122,6 +122,12 @@ module.exports = {
             wis: 0,
             luc: 4,
             cha: 2
+        },
+        dungeon: {
+            rooms: []
+        },
+        dungeonRoom: {
+            
         }
     }
 }
