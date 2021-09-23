@@ -1,8 +1,9 @@
+const { getElfWord } = require('../lib/language')
 const {
     getRandomElementFromArray,
     chance
 } = require('../lib/utils')
-const { ENUM_GENDER } = require('../generic/enums')
+const { ENUM_GENDER, ENUM_BIOME_DESCRIPTIONS, ENUM_BIOMES } = require('../generic/enums')
 
 const firstFamilyNames = [
     'Day',
@@ -245,27 +246,48 @@ const dwellingNames = [
 
 ]
 
-const landmarks = {
-    mountains: [
-        'The fingers',
-        'Broken peak',
-        'Shadow hills',
-        'The needle mountais',
-        'Stone head mountains'
-    ],
-    lakes: [
-        'Troll lake',
-        'The sisters',
-        'The lost river',
-        'Southern great lake'
-    ],
-    forests: [
-        'silent woods',
-        'golden forest',
-        'forest of night',
-        'shadow hills',
-        'great oaks'
-    ]
+const landmarkDescrptions = [
+    'finger',
+    'silent',
+    'troll',
+    'shadow',
+    'broken',
+    'head',
+    'lost',
+    'great',
+    'golden',
+    'three',
+    'twin',
+    'father',
+    'snowy',
+    'hidden',
+    'dead',
+    'spider',
+    'sunny',
+    'moon',
+]
+
+
+/**
+ * return name of landmark based on bioms
+ * @param {ENUM_BIOMES} biome 
+ */
+const getLandmarkName = (biome) => {
+    const elfWord = getElfWord()
+    const landWord = getRandomElementFromArray(landmarkDescrptions)
+    let biomeWord = ''
+    switch (biome) {
+        case ENUM_BIOMES.badlands: biomeWord = ENUM_BIOME_DESCRIPTIONS.badlands; break;
+        case ENUM_BIOMES.dessert: biomeWord = ENUM_BIOME_DESCRIPTIONS.dessert; break;
+        case ENUM_BIOMES.farmlands: biomeWord = ENUM_BIOME_DESCRIPTIONS.plains; break;
+        case ENUM_BIOMES.forest: biomeWord = ENUM_BIOME_DESCRIPTIONS.forest; break;
+        case ENUM_BIOMES.hills: biomeWord = ENUM_BIOME_DESCRIPTIONS.hills; break;
+        case ENUM_BIOMES.lake: biomeWord = ENUM_BIOME_DESCRIPTIONS.lake; break;
+        case ENUM_BIOMES.mountains: biomeWord = ENUM_BIOME_DESCRIPTIONS.mountains; break;
+        case ENUM_BIOMES.plains: biomeWord = ENUM_BIOME_DESCRIPTIONS.plains; break;
+        case ENUM_BIOMES.swamp: biomeWord = ENUM_BIOME_DESCRIPTIONS.swamp; break;
+    }
+    return `${elfWord}, the ${landWord} ${biomeWord}`
 }
 
 
@@ -296,5 +318,5 @@ const getDwellingName = () => {
 }
 
 module.exports = {
-    getPersonName, getFamilyName, getDwellingName
+    getPersonName, getFamilyName, getDwellingName, getLandmarkName
 }

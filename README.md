@@ -7,7 +7,6 @@
 - load
 
 ## MAP
-- landmarks
 - dark lords
 - bandit camps
 

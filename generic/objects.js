@@ -60,7 +60,7 @@ module.exports = {
         dwellingId: undefined
     },
     traits: {
-        human = {
+        human: {
             str: 0,
             agi: 0,
             vit: 0,
@@ -69,7 +69,7 @@ module.exports = {
             luc: 0,
             cha: 0
         },
-        halfElf = {
+        halfElf: {
             str: 0,
             agi: 1,
             vit: -1,
@@ -78,7 +78,7 @@ module.exports = {
             luc: 0,
             cha: 1
         },
-        woodElf = {
+        woodElf: {
             str: -1,
             agi: 2,
             vit: -1,
@@ -87,7 +87,7 @@ module.exports = {
             luc: 0,
             cha: 0
         },
-        darkElf = {
+        darkElf: {
             str: 0,
             agi: 2,
             vit: -1,
@@ -96,7 +96,7 @@ module.exports = {
             luc: -1,
             cha: -2
         },
-        highElf = {
+        highElf: {
             str: -1,
             agi: 1,
             vit: -1,
@@ -105,7 +105,7 @@ module.exports = {
             luc: 0,
             cha: 1
         },
-        dwarf = {
+        dwarf: {
             str: 2,
             agi: 0,
             vit: 1,
@@ -114,7 +114,7 @@ module.exports = {
             luc: -2,
             cha: -1
         },
-        halfling = {
+        halfling: {
             str: -2,
             agi: 3,
             vit: -2,

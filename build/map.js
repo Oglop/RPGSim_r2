@@ -11,7 +11,7 @@ const { copyObject,
 const { WORLD_SIZE } = require('../generic/statics')
 const { ENUM_BIOMES, ENUM_DWELLINGS } = require('../generic/enums')
 const { world } = require('../generic/objects')
-// const { point } = require('../generic/objects')
+const { getLandmarkName } = require('../generic/names')
 
 const createMapArray = size => {
         var arr = [];
@@ -295,6 +295,15 @@ const getUninhabitedPoint = (map, size, biome) => {
     }
 }
 
+const setLandmarks = (map, size) => {
+    const min = Math.floor( size / 5)
+    const n = getRandomNumberInRange(min, min + 5)
+    for (let i = 0; i < n; i++) {
+        const x = getRandomNumber(size), y = getRandomNumber(size)
+        map[x][y].description = getLandmarkName(map[x][y].biome)
+    }
+}
+
 /**
  * Add dwellings to map
  * @param {array} map 
@@ -397,8 +406,6 @@ const getUninhabitedPoint = (map, size, biome) => {
             }
         }
     }
-
-
 }
 
 const visualizeMap = (map, worldSize) => {
@@ -447,7 +454,7 @@ module.exports.build = (options) => {
     setBiome(map, worldSize)
     setDwellings(map, worldSize)
     setFarmlands(map, worldSize)
-
+    setLandmarks(map, worldSize)
     visualizeMap(map, worldSize)
     return map
 }
