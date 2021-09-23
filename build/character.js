@@ -1,8 +1,11 @@
 const objects = require('../generic/objects')
+const skillsBuilder = require('./skill')
 const { copyObject, generateID, chance, getRandomNumberInRange } = require('../lib/utils')
 const { getPersonName } = require('../generic/names')
 const { ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITY_TRAITS } = require('../generic/enums')
 const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM } = require('../generic/statics')
+
+
 
 /**
  * edit character stats by race
@@ -127,6 +130,7 @@ module.exports.build = (options) => {
     c.pregnant = false
     c.stats = rollStats(options.enforceMinimumSum || true)
     setRaceTrait(c)
+    c.skills = skillsBuilder.build(c)
     return c
 }
 

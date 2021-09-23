@@ -5,7 +5,7 @@ module.exports = {
         dagger: 'Dagger',
         oneHandSword: '1H Sword',
         twoHandSword: '2H Sword',
-        archer: 'archer',
+        bow: 'Bow',
         staff: 'Staff',
         shield: 'Shield',
         axe: 'Axe',
@@ -24,16 +24,17 @@ module.exports = {
         healing: 'Healing',
         hunting: 'Hunting',
         woodWorking: 'Wood working',
-        scholar: 'Scholar'
+        scholar: 'Scholar',
+        leadership: 'Leadership'
     },
     ENUM_STAT_NAMES: {
-        strength: 'strength',
-        agility: 'agility',
-        vitality: 'vitality',
-        intelligence: 'intelligence',
-        wisdom: 'wisdom',
-        luck: 'luck',
-        charm: 'charm'
+        str: 'Strength',
+        agi: 'Agility',
+        vit: 'Vitality',
+        int: 'Intelligence',
+        wis: 'Wisdom',
+        luc: 'Luck',
+        cha: 'Charm'
     },
     ENUM_JOB_NAMES: {
         rouge: 'Rouge',

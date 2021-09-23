@@ -122,12 +122,19 @@ module.exports = {
             wis: 0,
             luc: 4,
             cha: 2
-        },
-        dungeon: {
-            rooms: []
-        },
-        dungeonRoom: {
-            
         }
+    },
+    dungeon: {
+        rooms: []
+    },
+    dungeonRoom: {
+
+    },
+    skill: {
+        name: undefined,
+        printable: undefined,
+        statsBase: undefined,
+        luckTest: false,
+        mastery: 0
     }
 }
