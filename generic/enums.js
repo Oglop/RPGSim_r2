@@ -189,6 +189,7 @@ module.exports = {
         FEMALE: 'female'
     },
     ENUM_FILE_TYPE: {
-        WORLD: 0
+        NONE: 0,
+        WORLD: 1
     }
 }

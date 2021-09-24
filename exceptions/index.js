@@ -12,7 +12,15 @@ class WorldGenerationFailedError extends Error {
     }
 }
 
+class MissingParameterError extends Error {
+    constructor(error) {
+        super(error.message);
+        this.data = { error };
+    }
+}
+
 module.exports = {
     NoPositionAvailableError,
-    WorldGenerationFailedError
+    WorldGenerationFailedError,
+    MissingParameterError
 }

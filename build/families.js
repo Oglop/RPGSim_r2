@@ -106,8 +106,5 @@ module.exports.build = (options) => {
         const f = createFamily( { race: ENUM_RACE_NAMES.human, dwellingId: d.id } )
         families.push(f)
     }
-
-    
-    
-    
+    return families
 }

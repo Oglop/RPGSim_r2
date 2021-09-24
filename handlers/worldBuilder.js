@@ -4,6 +4,8 @@ const mapBuilder = require('../build/map')
 const familyBuilder = require('../build/families')
 const { copyObject, generateID } = require('../lib/utils')
 const { getDwellingsFromMap } = require('../models/map')
+const { ENUM_FILE_TYPE } = require('../generic/enums')
+const { save } = require('../data/fileStorage')
         
 
 const setWorldStartDate = (options) => {
@@ -35,7 +37,7 @@ const generateWorld = (output) => {
     
     const dwellings = getDwellingsFromMap(world.map)
     world.families = familyBuilder.build({ dwellings });
-    
+    save(world, { id: world.id, fileType: ENUM_FILE_TYPE.WORLD })
 
 }
 

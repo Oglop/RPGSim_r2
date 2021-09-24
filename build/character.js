@@ -22,13 +22,13 @@ const setRaceTrait = (c) => {
         case ENUM_RACE_NAMES.highElf: traits = copyObject(objects.traits.highElf); break;
         case ENUM_RACE_NAMES.woodElf: traits = copyObject(objects.traits.woodElf); break;
     }
-    c.str += traits.str
-    c.agi += traits.agi
-    c.vit += traits.vit
-    c.int += traits.int
-    c.wis += traits.wis
-    c.luc += traits.luc
-    c.cha += traits.cha
+    c.stats.str += traits.str
+    c.stats.agi += traits.agi
+    c.stats.vit += traits.vit
+    c.stats.int += traits.int
+    c.stats.wis += traits.wis
+    c.stats.luc += traits.luc
+    c.stats.cha += traits.cha
 }
 
 /**
