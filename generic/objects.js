@@ -136,5 +136,10 @@ module.exports = {
         statsBase: undefined,
         luckTest: false,
         mastery: 0
+    },
+    date: {
+        year: 0,
+        month: 0,
+        day: 0
     }
 }
