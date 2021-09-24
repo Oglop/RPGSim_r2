@@ -130,7 +130,7 @@ module.exports.build = (options) => {
     c.pregnant = false
     c.stats = rollStats(options.enforceMinimumSum || true)
     setRaceTrait(c)
-    c.skills = skillsBuilder.build(c)
+    skillsBuilder.build(c)
     return c
 }
 

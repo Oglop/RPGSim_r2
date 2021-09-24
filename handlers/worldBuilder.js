@@ -1,4 +1,4 @@
-    const { WorldGenerationFailedError } = require('../exceptions')
+const { WorldGenerationFailedError } = require('../exceptions')
 const objects = require('../generic/objects')
 const mapBuilder = require('../build/map')
 const familyBuilder = require('../build/families')

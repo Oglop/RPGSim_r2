@@ -5,7 +5,6 @@ module.exports = {
         map: undefined,
         date: undefined,
         families: []
-
     },
     character: {
         id: undefined,
