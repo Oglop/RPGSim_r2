@@ -57,31 +57,15 @@ const createFamily = (options) => {
             job: ENUM_JOB_NAMES.noble,
             mother,
             father,
-            enforceMinimumSum: false
+            enforceMinimumSum: false,
+            date: options.date
          })
          f.members.push(c)
     }
     f.members[0].marriedTo = f.members[1].id
     f.members[1].marriedTo = f.members[0].id
-
     return f
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * 
@@ -103,8 +87,9 @@ module.exports.build = (options) => {
             case ENUM_DWELLINGS.DWARVEN_MINE: influence = 60; race = ENUM_RACE_NAMES.dwarf; break;
         }
         influence += getRandomNumberInRange(-5, 5)
-        const f = createFamily( { race: ENUM_RACE_NAMES.human, dwellingId: d.id } )
+        const f = createFamily( { race: ENUM_RACE_NAMES.human, dwellingId: d.id, date: options.date } )
         families.push(f)
     }
+
     return families
 }

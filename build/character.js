@@ -4,7 +4,7 @@ const { copyObject, generateID, chance, getRandomNumberInRange } = require('../l
 const { getPersonName } = require('../generic/names')
 const { ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITY_TRAITS } = require('../generic/enums')
 const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM } = require('../generic/statics')
-
+const { getBirthDate } = require('../lib/time')
 
 
 /**
@@ -131,6 +131,7 @@ module.exports.build = (options) => {
     c.stats = rollStats(options.enforceMinimumSum || true)
     setRaceTrait(c)
     skillsBuilder.build(c)
+    c.getBirthDate = getBirthDate(options.date, c.age)
     return c
 }
 

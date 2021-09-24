@@ -36,8 +36,8 @@ const generateWorld = (output) => {
     }
     
     const dwellings = getDwellingsFromMap(world.map)
-    world.families = familyBuilder.build({ dwellings });
-    save(world, { id: world.id, fileType: ENUM_FILE_TYPE.WORLD })
+    world.families = familyBuilder.build({ dwellings, date: world.date });
+    // save(world, { id: world.id, fileType: ENUM_FILE_TYPE.WORLD })
 
 }
 
