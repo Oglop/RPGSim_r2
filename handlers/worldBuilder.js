@@ -34,7 +34,7 @@ const generateWorld = (output) => {
                 console.log(e.message)
             }
             const err = objects.error
-            err.file = __dirname
+            err.file = __filename
             err.function = 'generateWorld'
             err.message = e.message
             logError(err)

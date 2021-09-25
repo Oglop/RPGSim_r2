@@ -136,7 +136,7 @@ module.exports.build = (options) => {
         c.getBirthDate = getBirthDate(options.date, c.age)
     } catch (e) {
         const err = objects.error
-        err.file = __dirname
+        err.file = __filename
         err.function = 'build'
         err.message = e.message
         logError(err)
