@@ -1,8 +1,7 @@
 const { ENUM_FILE_TYPE } = require('../generic/enums')
 const { MissingParameterError } = require('../exceptions')
-const { fileStorage } = require('../config')
+const { fileStorage, version } = require('../config')
 const fs = require('fs');
-const { config } = require('process');
 
 /**
  * return sub catalouge based on file type
@@ -35,6 +34,7 @@ const checkAndCreateDirectory = (directory) => {
  */
 module.exports.save = (data, args) => {
     try {
+
         // If data is an object turn into string
         if (data instanceof Object) {
             data = JSON.stringify(data)
@@ -47,9 +47,15 @@ module.exports.save = (data, args) => {
         if (id === '') { throw new MissingParameterError(`id`) }
         if (fileType === ENUM_FILE_TYPE.NONE) { throw new MissingParameterError(`fileType`) }
 
+        const index = JSON.stringify({
+            id, version, fileType
+        })
         checkAndCreateDirectory(`${fileStorage}\\${getCatalougeByFileType(fileType)}\\`)
-        const fileName = `${fileStorage}\\${getCatalougeByFileType(fileType)}\\${id}.json`
+        checkAndCreateDirectory(`${fileStorage}\\index\\`)
+        let fileName = `${fileStorage}\\${getCatalougeByFileType(fileType)}\\${id}.json`
         fs.writeFileSync(fileName, data)
+        fileName = `${fileStorage}\\index\\${id}.json`
+        fs.writeFileSync(fileName, index)
     } catch (e) {
         if (e instanceof MissingParameterError) {
             console.log(`Required argument ${e.data.error} missing.`)

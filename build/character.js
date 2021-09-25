@@ -5,6 +5,7 @@ const { getPersonName } = require('../generic/names')
 const { ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITY_TRAITS } = require('../generic/enums')
 const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM } = require('../generic/statics')
 const { getBirthDate } = require('../lib/time')
+const { logError } = require('../data/errorFile')
 
 
 /**
@@ -119,19 +120,28 @@ const rollStats = (enforceMinimumSum) => {
  */
 module.exports.build = (options) => {
     const c = copyObject(objects.character)
-    c.id = generateID()
-    c.gender = (options.gender) ? options.gender : (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
-    c.name = getPersonName(c.gender)
-    c.age = (options.age) ? options.age : getRandomNumberInRange(15, 60)
-    c.race = (options.race) ? options.race : getRandomRace()
-    c.job = (options.job) ? options.job : getRandomJob()
-    c.father = options.father
-    c.mother = options.mother
-    c.pregnant = false
-    c.stats = rollStats(options.enforceMinimumSum || true)
-    setRaceTrait(c)
-    skillsBuilder.build(c)
-    c.getBirthDate = getBirthDate(options.date, c.age)
+    try {
+        c.id = generateID()
+        c.gender = (options.gender) ? options.gender : (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
+        c.name = getPersonName(c.gender)
+        c.age = (options.age) ? options.age : getRandomNumberInRange(15, 60)
+        c.race = (options.race) ? options.race : getRandomRace()
+        c.job = (options.job) ? options.job : getRandomJob()
+        c.father = options.father
+        c.mother = options.mother
+        c.pregnant = false
+        c.stats = rollStats(options.enforceMinimumSum || true)
+        setRaceTrait(c)
+        skillsBuilder.build(c)
+        c.getBirthDate = getBirthDate(options.date, c.age)
+    } catch (e) {
+        const err = objects.error
+        err.file = __dirname
+        err.function = 'build'
+        err.message = e.message
+        logError(err)
+    }
+    
     return c
 }
 

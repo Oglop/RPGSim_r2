@@ -1,3 +1,4 @@
 module.exports = {
-    fileStorage: 'storage'
+    fileStorage: 'storage',
+    version: 1.0
 }

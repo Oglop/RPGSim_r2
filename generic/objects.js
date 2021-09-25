@@ -140,5 +140,15 @@ module.exports = {
         year: 0,
         month: 0,
         day: 0
+    },
+    language: {
+        name: undefined,
+        mastery: 0
+    },
+    error: {
+        time: undefined,
+        message: undefined,
+        file: undefined,
+        function: undefined
     }
 }

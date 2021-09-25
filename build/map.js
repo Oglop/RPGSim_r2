@@ -10,8 +10,8 @@ const { copyObject,
 } = require('../lib/utils')
 const { WORLD_SIZE } = require('../generic/statics')
 const { ENUM_BIOMES, ENUM_DWELLINGS } = require('../generic/enums')
-const { world } = require('../generic/objects')
 const { getLandmarkName } = require('../generic/names')
+const { logError } = require('../data/errorFile')
 
 const createMapArray = size => {
         var arr = [];
