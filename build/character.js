@@ -1,5 +1,6 @@
 const objects = require('../generic/objects')
 const skillsBuilder = require('./skill')
+const languageBuilder = require('../build/languages')
 const { copyObject, generateID, chance, getRandomNumberInRange } = require('../lib/utils')
 const { getPersonName } = require('../generic/names')
 const { ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITY_TRAITS } = require('../generic/enums')
@@ -133,6 +134,7 @@ module.exports.build = (options) => {
         c.stats = rollStats(options.enforceMinimumSum || true)
         setRaceTrait(c)
         skillsBuilder.build(c)
+        c.languages = languageBuilder.build(c)
         c.getBirthDate = getBirthDate(options.date, c.age)
     } catch (e) {
         const err = objects.error

@@ -191,5 +191,10 @@ module.exports = {
     ENUM_FILE_TYPE: {
         NONE: 0,
         WORLD: 1
+    },
+    ENUM_MASTERY_LEVELS: {
+        NOVICE:0,
+        SKILLED: 1,
+        MASTER: 2
     }
 }

@@ -58,14 +58,23 @@ const setFarmlands = (map, size) => {
     const dwellings = []
     for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
-            if (map[x][y].dwelling && 
-                (map[x][y].dwelling.type === ENUM_DWELLINGS.TOWN || 
-                map[x][y].dwelling.type === ENUM_DWELLINGS.CITY)) {
-                    const p = copyObject(objects.point)
-                    p.x = x
-                    p.y = y
-                    dwellings.push(p)
+            try {
+                if (map[x][y].dwelling && 
+                    (map[x][y].dwelling.type === ENUM_DWELLINGS.TOWN || 
+                    map[x][y].dwelling.type === ENUM_DWELLINGS.CITY)) {
+                        const p = copyObject(objects.point)
+                        p.x = x
+                        p.y = y
+                        dwellings.push(p)
+                }
+            } catch (e) {
+                const err = objects.error
+                err.file = __filename
+                err.function = 'build'
+                err.message = e.message
+                logError(err)
             }
+            
         }
     }
     for (let i = 0; i < dwellings.length; i++) {

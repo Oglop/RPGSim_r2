@@ -150,5 +150,14 @@ module.exports = {
         message: undefined,
         file: undefined,
         function: undefined
+    },
+    event: {
+        items: []
+    },
+    eventItem: {
+        language: undefined,
+        test: undefined,
+        skill: undefined,
+        resolution: undefined
     }
 }
