@@ -20,7 +20,11 @@ module.exports = {
         skills: [],
         birthDate: undefined,
         age: 0,
-        stats: undefined
+        stats: undefined,
+        health: 0,
+        maxHealth: 0,
+        stamina: 0,
+        maxStamina: 0
     },
     stats: {
         str: 0,
