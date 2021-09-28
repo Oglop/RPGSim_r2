@@ -4,7 +4,8 @@ module.exports = {
         name: undefined,
         map: undefined,
         date: undefined,
-        families: []
+        families: [],
+        darkness: undefined
     },
     character: {
         id: undefined,
