@@ -7,6 +7,7 @@ const { ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSO
 const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM, STAT_HEALTH_BASE, STAT_HEALTH_INCREASE, STAT_STAMINA_BASE, STAT_STAMINA_INCREASE } = require('../generic/statics')
 const { getBirthDate } = require('../lib/time')
 const { logError } = require('../data/errorFile')
+const { getRandomReligion } = require('../generic/religions')
 
 
 /**
@@ -129,6 +130,7 @@ const rollStats = (enforceMinimumSum) => {
  * mother: string
  * father: string
  * enforceMinimumSum: bool
+ * religion: ENUM_GODS
  * }
  * @returns 
  */
@@ -137,6 +139,7 @@ module.exports.build = (options) => {
     try {
         c.id = generateID()
         c.gender = (options.gender) ? options.gender : (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
+        c.religion = (options.religion) ? options.religion : getRandomReligion()
         c.name = getPersonName(c.gender)
         c.age = (options.age) ? options.age : getRandomNumberInRange(15, 60)
         c.race = (options.race) ? options.race : getRandomRace()

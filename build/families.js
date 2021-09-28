@@ -3,6 +3,7 @@ const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_DWELLINGS, ENUM_JOB_NAMES } = require
 const { copyObject, generateID, getRandomNumberInRange, getRandomNumber, chance } = require('../lib/utils')
 const { getFamilyName } = require('../generic/names')
 const { dwelling, character } = require('../generic/objects')
+const { getRandomReligion } = require('../generic/religions')
 const characterBuilder = require('./character')
 
 /**
@@ -32,6 +33,7 @@ const getFamilyAges = () => {
  * @param {object} options { ?race: ENUM_RACE_NAMES,  }
  */
 const createFamily = (options) => {
+    let religion = getRandomReligion()
     let father = ''
     let mother = ''
     const f = copyObject(objects.family)
@@ -58,7 +60,8 @@ const createFamily = (options) => {
             mother,
             father,
             enforceMinimumSum: false,
-            date: options.date
+            date: options.date,
+            religion
          })
          f.members.push(c)
     }

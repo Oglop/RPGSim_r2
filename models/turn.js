@@ -4,7 +4,7 @@ const {  } = require('../models/darkness')
 /**
  * Resolves one turn
  * 
- * @param {*} world 
+ * @param {Object} world 
  */
 const next = (world) => {
     const pastTime = addDay(world.date)

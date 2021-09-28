@@ -196,5 +196,15 @@ module.exports = {
         NOVICE:0,
         SKILLED: 1,
         MASTER: 2
+    },
+    ENUM_GODS: {
+        Gaeleath:0,
+        Eyrnid:1,
+        Zinzu:2,
+        Norneiros:3,
+        Norfaes:4,
+        Neybne:5,
+        Nerimoira:6,
+        Wrezar
     }
 }

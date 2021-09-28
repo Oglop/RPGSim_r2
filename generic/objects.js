@@ -25,7 +25,8 @@ module.exports = {
         health: 0,
         maxHealth: 0,
         stamina: 0,
-        maxStamina: 0
+        maxStamina: 0,
+        religion: undefined
     },
     stats: {
         str: 0,
@@ -164,5 +165,10 @@ module.exports = {
         test: undefined,
         skill: undefined,
         resolution: undefined
+    },
+    god: {
+        name: undefined,
+        description: undefined,
+        type: undefined
     }
 }
