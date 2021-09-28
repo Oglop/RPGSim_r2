@@ -39,7 +39,11 @@ const checkCharacterSkill = (c, stat) => {
         }
         return false
     } catch (e) {
-
+        const err = objects.error
+        err.file = __filename
+        err.function = 'checkCharacterSkill'
+        err.message = e.message
+        logError(err)
     }
 }
 
