@@ -1,9 +1,10 @@
 const objects = require('../generic/objects')
 const skillsBuilder = require('./skill')
-const languageBuilder = require('../build/languages')
+const languageBuilder = require('./languages')
+const personalityBuilder = require('./personality')
 const { copyObject, generateID, chance, getRandomNumberInRange } = require('../lib/utils')
 const { getPersonName } = require('../generic/names')
-const { ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITY_TRAITS } = require('../generic/enums')
+const { ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITIES } = require('../generic/enums')
 const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM, STAT_HEALTH_BASE, STAT_HEALTH_INCREASE, STAT_STAMINA_BASE, STAT_STAMINA_INCREASE } = require('../generic/statics')
 const { getBirthDate } = require('../lib/time')
 const { logError } = require('../data/errorFile')
@@ -153,6 +154,7 @@ module.exports.build = (options) => {
         skillsBuilder.build(c)
         c.languages = languageBuilder.build(c)
         c.getBirthDate = getBirthDate(options.date, c.age)
+        personalityBuilder.build(c)
     } catch (e) {
         const err = objects.error
         err.file = __filename

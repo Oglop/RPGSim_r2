@@ -105,3 +105,5 @@ dist
 
 # Local storage files
 /storage/*/*.json
+
+*/launch.json

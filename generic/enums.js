@@ -92,7 +92,7 @@ module.exports = {
         d20:'D20',
         d100:'D100',
     },
-    ENUM_PERSONALITY_TRAITS: {
+    ENUM_PERSONALITIES: {
         egoistic:'egoistic',
         currious:'currious',
         friendly:'friendly',
@@ -102,7 +102,7 @@ module.exports = {
         loudmouth:'loudmouth',
         clumpsy:'clumpsy',
         meddler:'meddler',
-        knowsItAll: 'knowsItAll',
+        religious: 'religious',
         all:'all',
         none: 'none'
     },
@@ -205,6 +205,6 @@ module.exports = {
         Norfaes:4,
         Neybne:5,
         Nerimoira:6,
-        Wrezar
+        Wrezar:7
     }
 }

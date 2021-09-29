@@ -26,7 +26,9 @@ module.exports = {
         maxHealth: 0,
         stamina: 0,
         maxStamina: 0,
-        religion: undefined
+        religion: undefined,
+        personality: undefined,
+        relationships: []
     },
     stats: {
         str: 0,
@@ -36,6 +38,10 @@ module.exports = {
         int: 0,
         cha: 0,
         luc: 0
+    },
+    relation: {
+        id: undefined,
+        points: 0.0
     },
     room: {
         elevation: 0,

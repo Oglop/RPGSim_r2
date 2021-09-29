@@ -2,7 +2,7 @@ const objects = require('../generic/objects')
 const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_DWELLINGS, ENUM_JOB_NAMES } = require('../generic/enums')
 const { copyObject, generateID, getRandomNumberInRange, getRandomNumber, chance } = require('../lib/utils')
 const { getFamilyName } = require('../generic/names')
-const { dwelling, character } = require('../generic/objects')
+// const { dwelling, character } = require('../generic/objects')
 const { getRandomReligion } = require('../generic/religions')
 const characterBuilder = require('./character')
 
@@ -75,24 +75,27 @@ const createFamily = (options) => {
  * @param {Object} options { dwellings: [] }
  */
 module.exports.build = (options) => {
-    
     const families = []
-
-
     for (const d of options.dwellings) {
         let influence = 0
+        let noOfFamilies = 0
         let race = ENUM_RACE_NAMES.human
-
         switch (d.type) {
-            case ENUM_DWELLINGS.TOWN: influence = 40; race = ENUM_RACE_NAMES.human; break; 
-            case ENUM_DWELLINGS.CITY: influence = 100; race = ENUM_RACE_NAMES.human; break;
-            case ENUM_DWELLINGS.ELF_TOWN: influence = 70; race = ENUM_RACE_NAMES.highElf; break;
-            case ENUM_DWELLINGS.DWARVEN_MINE: influence = 60; race = ENUM_RACE_NAMES.dwarf; break;
+            case ENUM_DWELLINGS.TOWN: influence = 40; race = ENUM_RACE_NAMES.human; noOfFamilies = getRandomNumberInRange(3, 5); break; 
+            case ENUM_DWELLINGS.CITY: influence = 100; race = ENUM_RACE_NAMES.human; noOfFamilies = getRandomNumberInRange(7, 15); break;
+            case ENUM_DWELLINGS.ELF_TOWN: influence = 70; race = ENUM_RACE_NAMES.highElf; noOfFamilies = getRandomNumberInRange(5, 9); break;
+            case ENUM_DWELLINGS.DWARVEN_MINE: influence = 60; race = ENUM_RACE_NAMES.dwarf; noOfFamilies = getRandomNumberInRange(3, 7); break;
         }
         influence += getRandomNumberInRange(-5, 5)
-        const f = createFamily( { race: ENUM_RACE_NAMES.human, dwellingId: d.id, date: options.date } )
-        families.push(f)
-    }
+        for (let i = 0; i < noOfFamilies; i++) {
+            const power = (influence * 0.6 > 5) ? Math.ceil(influence * 0.6) : 5
+            influence -= power
+            const f = createFamily( { race, dwellingId: d.id, date: options.date } )
+            f.influence = power
+            families.push(f)
+        }
 
+        
+    }
     return families
 }
