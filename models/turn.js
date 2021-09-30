@@ -1,5 +1,7 @@
 const { addDay } = require('../lib/time')
 const {  } = require('../models/darkness')
+const {} = require('../handlers/adventureHandler')
+const {} = require('../handlers/historyHandler')
 
 /**
  * Resolves one turn
