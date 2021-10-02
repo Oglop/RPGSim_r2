@@ -166,10 +166,12 @@ module.exports = {
         function: undefined
     },
     event: {
-        items: []
+        items: [],
+        output: undefined
     },
     eventItem: {
         language: undefined,
+        execute: undefined,
         test: undefined,
         skill: undefined,
         resolution: undefined
@@ -178,5 +180,11 @@ module.exports = {
         name: undefined,
         description: undefined,
         type: undefined
+    },
+    enemy: {
+        id: undefined,
+        type: undefined,
+        name: undefined,
+        hp: 0
     }
 }

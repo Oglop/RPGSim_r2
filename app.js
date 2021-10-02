@@ -8,7 +8,7 @@ const main = (args) => {
         const output = (!args.outputType) ? consoleType : htmlType
         const world = generateWorld(output)
 
-        for (let i=0;i<10;i++) {
+        for (let i=0;i<80;i++) {
             next(world)
         }
         

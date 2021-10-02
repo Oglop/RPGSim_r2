@@ -206,5 +206,15 @@ module.exports = {
         Neybne:5,
         Nerimoira:6,
         Wrezar:7
+    },
+    ENUM_EVENT_TYPE: {
+        HISTORY: 0,
+        ADVENTURE: 1,
+        DOOM: 2
+    },
+    ENUM_ENEMY_TYPE: {
+        VILE:0,
+        WILD:1,
+        ANCIENT:2
     }
 }

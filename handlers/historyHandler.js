@@ -11,5 +11,5 @@ module.exports.progressHistory = (world) => {
     socialize(world.families)
     checkMarriages(world.families)
     checkPregnancies(world.families, world.date)
-
+    
 }

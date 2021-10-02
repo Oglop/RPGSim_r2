@@ -11,13 +11,12 @@ const { progressHistory } = require('../handlers/historyHandler')
  */
 const next = (world) => {
     const pastTime = addDay(world.date)
-    progressHistory(world)
 
-    if (pastTime === 'd') {
+    if (pastTime === 'd' || pastTime === 'm' || pastTime === 'y') {
         // events for adventureres
 
 
-        if (pastTime === 'm') {
+        if (pastTime === 'm' || pastTime === 'y') {
             // events for families
             progressHistory(world)
             // world events
