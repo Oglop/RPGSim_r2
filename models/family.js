@@ -1,8 +1,9 @@
 const { compabilityCheck } = require('../models/personality')
-const { chance, copyObject, getRandomNumberInRange } = require('../lib/utils')
+const { chance, copyObject, getRandomNumberInRange, getIndexOfObjectInArrayById } = require('../lib/utils')
 const { logError } = require('../data/errorFile')
 const { validateCharacterCompabilityForMarige, setRelation } = require('./character')
 const objects = require('../generic/objects')
+const { ENUM_GENDER } = require('../generic/enums')
 
 /**
  * return true if families are in same city 
@@ -64,12 +65,42 @@ const checkUnmarriedFamilyMembers = (family1, family2) => {
                 if (chance(50)) {
                     const compPoints = compabilityCheck(family1.members[i], family2.members[j])
                     setRelation(family1.members[i], family2.members[j], compPoints)
+                    marriage(family1.members[i], family2.members[j], family1, family2)
                 }
             }
         }
     }
 }
 
+/**
+ * 
+ * 
+ * @param {Object} character1 
+ * @param {Object} character2 
+ * @param {Object} family1 
+ * @param {Object} family2 
+ */
+const marriage = (character1, character2, family1, family2) => {
+    let r1 = character1.relationships.find(r => r.id === character2.id)
+    let r2 = character2.relationships.find(r => r.id === character1.id)
+    let pointsSum = (r1 && r2) ? r1.points + r2.points : 0
+    if (chance(pointsSum)) {
+        character1.marriedTo = character2.id
+        character2.marriedTo = character1.id
+        if (character1.gender === ENUM_GENDER.MALE) {
+            let toBeremoved = getIndexOfObjectInArrayById(family2.members, character2.id)
+            family2.members.splice(toBeremoved, 1)
+            family1.members.push(character2)
+        } else {
+            let toBeremoved = getIndexOfObjectInArrayById(family1.members, character1.id)
+            family1.members.splice(toBeremoved, 1)
+            family2.members.push(character1)
+        }
+        
+    }
+
+
+}
 
 /**
  * 
