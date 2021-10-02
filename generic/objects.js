@@ -15,6 +15,7 @@ module.exports = {
         mother: undefined,
         father: undefined,
         pregnant: false,
+        pregnantTime: 0,
         job: undefined,
         race: undefined,
         languages: [],
@@ -28,7 +29,8 @@ module.exports = {
         maxStamina: 0,
         religion: undefined,
         personality: undefined,
-        relationships: []
+        relationships: [],
+        isAlive: true
     },
     stats: {
         str: 0,
@@ -41,7 +43,7 @@ module.exports = {
     },
     relation: {
         id: undefined,
-        points: 0.0
+        points: 0
     },
     room: {
         elevation: 0,
@@ -60,7 +62,7 @@ module.exports = {
         type: undefined
     },
     language: {
-        name: undefined,
+        language: undefined,
         mastery: 0
     },
     family: {

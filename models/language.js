@@ -7,8 +7,8 @@ const tryToUnderstandEachOther = (char1, char2) => {
     try {
         for(l1 of char1.languages) {
             for(l2 of char2.languages) {
-                if (l1.name === l2.name) {
-                    if(languageCheck(char1, l1.name) || languageCheck(char2, l2.name)) {
+                if (l1.language === l2.language) {
+                    if(languageCheck(char1, l1.language) || languageCheck(char2, l2.language)) {
                         return true
                     }
                 }
@@ -34,7 +34,7 @@ const tryToUnderstandEachOther = (char1, char2) => {
 const languageCheck = (character, language) => {
     try {
         let i = 0
-        const lang = character.languages.find(l => l.name === language)
+        const lang = character.languages.find(l => l.language === language)
         if (lang != undefined) {    
             if (getRandomNumber(20) <= lang.mastery) {
                 return true

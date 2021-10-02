@@ -41,8 +41,8 @@ const setRaceTrait = (c) => {
  * @param {Object} c of Characher
  */
 const setHealthAndStamina = (c) => {
-    c.maxHealth = STAT_HEALTH_BASE + (STAT_HEALTH_INCREASE * c.vit)
-    c.maxStamina = STAT_STAMINA_BASE + (STAT_STAMINA_INCREASE * c.int)
+    c.maxHealth = STAT_HEALTH_BASE + (STAT_HEALTH_INCREASE * c.stats.vit)
+    c.maxStamina = STAT_STAMINA_BASE + (STAT_STAMINA_INCREASE * c.stats.int)
     c.health = c.maxHealth
     c.stamina = c.maxStamina
 }
@@ -162,7 +162,6 @@ module.exports.build = (options) => {
         err.message = e.message
         logError(err)
     }
-    
     return c
 }
 

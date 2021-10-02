@@ -1,7 +1,8 @@
 const { addDay } = require('../lib/time')
 const {  } = require('../models/darkness')
 const {} = require('../handlers/adventureHandler')
-const {} = require('../handlers/historyHandler')
+const { progressHistory } = require('../handlers/historyHandler')
+
 
 /**
  * Resolves one turn
@@ -10,12 +11,16 @@ const {} = require('../handlers/historyHandler')
  */
 const next = (world) => {
     const pastTime = addDay(world.date)
+    progressHistory(world)
+
     if (pastTime === 'd') {
         // events for adventureres
 
 
         if (pastTime === 'm') {
             // events for families
+            progressHistory(world)
+            // world events
 
             if (pastTime === 'y') {
                 // darkness

@@ -1,5 +1,7 @@
 const { ENUM_PERSONALITIES } = require('../generic/enums')
 const { tryToUnderstandEachOther } = require('./language')
+const { logError } = require('../data/errorFile')
+const objects = require('../generic/objects')
 
 const traitsChecks = [
     {
@@ -70,15 +72,23 @@ const likes = trait => {
  */
 const compabilityCheck = (charA, charB) => {
     let i = 1;
-    if (likes(charA.personality) === ENUM_PERSONALITIES.all) { i += 1 }
-    if (likes(charB.personality) === ENUM_PERSONALITIES.all) { i += 1 }
-    if (dislikes(charA.personality) === ENUM_PERSONALITIES.all) { i -= 1 }
-    if (dislikes(charB.personality) === ENUM_PERSONALITIES.all) { i -= 1 }
-    if (likes(charA.personality) === charB.personality) { i += 2 }
-    if (likes(charB.personality) === charA.personality) { i += 2 }
-    if (dislikes(charA.personality) === charB.personality) { i -= 1 }
-    if (dislikes(charB.personality) === charA.personality) { i -= 1 }
-    if (tryToUnderstandEachOther(charA, charB)) { i += 1 }
+    try {
+        if (likes(charA.personality) === ENUM_PERSONALITIES.all) { i += 1 }
+        if (likes(charB.personality) === ENUM_PERSONALITIES.all) { i += 1 }
+        if (dislikes(charA.personality) === ENUM_PERSONALITIES.all) { i -= 1 }
+        if (dislikes(charB.personality) === ENUM_PERSONALITIES.all) { i -= 1 }
+        if (likes(charA.personality) === charB.personality) { i += 2 }
+        if (likes(charB.personality) === charA.personality) { i += 2 }
+        if (dislikes(charA.personality) === charB.personality) { i -= 1 }
+        if (dislikes(charB.personality) === charA.personality) { i -= 1 }
+        if (tryToUnderstandEachOther(charA, charB)) { i += 1 }
+    } catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'compabilityCheck'
+        err.message = e.message
+        logError(err)
+    }
     return i
 }
 

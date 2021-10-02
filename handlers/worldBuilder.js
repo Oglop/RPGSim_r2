@@ -45,7 +45,7 @@ const generateWorld = (output) => {
     world.families = familyBuilder.build({ dwellings, date: world.date })
     world.darkness = 10
     // save(world, { id: world.id, fileType: ENUM_FILE_TYPE.WORLD })
-
+    return world
 }
 
 module.exports = {
