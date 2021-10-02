@@ -142,7 +142,7 @@ module.exports.build = (options) => {
         c.gender = (options.gender) ? options.gender : (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
         c.religion = (options.religion) ? options.religion : getRandomReligion()
         c.name = getPersonName(c.gender)
-        c.age = (options.age) ? options.age : getRandomNumberInRange(15, 60)
+        c.age = (options.age ||options.age === 0) ? options.age : getRandomNumberInRange(15, 60)
         c.race = (options.race) ? options.race : getRandomRace()
         c.job = (options.job) ? options.job : getRandomJob()
         c.father = options.father

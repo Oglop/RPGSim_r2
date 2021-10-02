@@ -3,7 +3,8 @@ const { chance, copyObject, getRandomNumberInRange, getIndexOfObjectInArrayById 
 const { logError } = require('../data/errorFile')
 const { validateCharacterCompabilityForMarige, setRelation } = require('./character')
 const objects = require('../generic/objects')
-const { ENUM_GENDER } = require('../generic/enums')
+const { ENUM_GENDER, ENUM_JOB_NAMES } = require('../generic/enums')
+const characterBuilder = require('../build/character')
 
 /**
  * return true if families are in same city 
@@ -128,15 +129,46 @@ const checkMarriages = (families) => {
 /**
  * 
  * 
- * @param {Array} families 
+ * @param {Array} families Array of families
+ * @param {Object} data  current date
  */
-const checkPregnancies = (families) => {
+const checkPregnancies = (families, date) => {
     try {
-
+        for (let i = 0; i < families.length; i++) {
+            for (let j = 0; j < families[i].members.length; j++) {
+                if (families[i].members[j].pregnant == true) {
+                    if (families[i].members[j].pregnantTime >= 9) {
+                        families[i].members[j].pregnant = false
+                        families[i].members[j].pregnantTime = 0
+                        const baby = characterBuilder.build({
+                            job: ENUM_JOB_NAMES.noble,
+                            race: families[i].members[j].race,
+                            age:0,
+                            mother: families[i].members[j].id,
+                            father: families[i].members[j].marriedTo,
+                            religion: families[i].members[j].religion,
+                            date
+                        })
+                        families[i].members.push(baby)
+                    }
+                    families[i].members[j].pregnantTime += 1
+                } else if (families[i].members[j].pregnant == false &&
+                    families[i].members[j].gender == ENUM_GENDER.FEMALE &&
+                    families[i].members[j].marriedTo) {
+                        const result = []
+                        for(member of families[i].members) { if(member.mother === families[i].members[j].id) { result.push('.')}}
+                        const pregnancyCheck = 80 - families[i].members[j].age - (result.length * 10)
+                        if(chance(pregnancyCheck)) {  
+                            families[i].members[j].pregnant = true
+                            families[i].members[j].pregnantTime = 0
+                        } // if chance
+                } // else if
+            }// for j
+        }// for i
     } catch (e) {
         const err = objects.error
         err.file = __filename
-        err.function = 'tryToUnderstandEachOther'
+        err.function = 'checkPregnancies'
         err.message = e.message
         logError(err)
     }

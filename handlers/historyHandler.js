@@ -10,6 +10,6 @@ module.exports.progressHistory = (world) => {
     //const dwellings = getDwellingsFromMap(world.map)
     socialize(world.families)
     checkMarriages(world.families)
-    
+    checkPregnancies(world.families, world.date)
 
 }
