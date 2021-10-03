@@ -6,6 +6,12 @@ const adventureEvents = (world, output) => {
     
 }
 
+/**
+ * Creates a new event and processes active ones.
+ * 
+ * @param {Object} world 
+ * @param {Object} output 
+ */
 const historyEvents = (world, output) => {
     const e = eventBuilder.build(world, output, ENUM_EVENT_TYPE.HISTORY)
     world.events.history.push(e)

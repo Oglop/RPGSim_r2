@@ -17,8 +17,7 @@ const resolveEvent = (event, output) => {
         }  
         if (event.items[i].resolution == ENUM_EVENT_ITEM_STATUS.UNRESOLVED) {
             event.items[i].execute(previousResult)
-            // todo proper output
-            console.log(event.items[i].resolutionText)
+            output.print(event.items[i].resolutionText)
             break;
         }
     }
