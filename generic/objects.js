@@ -5,7 +5,11 @@ module.exports = {
         map: undefined,
         date: undefined,
         families: [],
-        darkness: undefined
+        darkness: undefined,
+        events: {
+            history:[],
+            adventure:[]
+        }
     },
     character: {
         id: undefined,
@@ -167,6 +171,7 @@ module.exports = {
         function: undefined
     },
     event: {
+        active: true,
         items: [],
         output: undefined
     },
@@ -176,7 +181,8 @@ module.exports = {
         execute: undefined,
         test: undefined,
         skill: undefined,
-        resolution: undefined
+        resolution: 0,
+        resolutionText: undefined
     },
     god: {
         name: undefined,

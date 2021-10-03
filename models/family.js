@@ -45,7 +45,9 @@ const getLeaderByDwellingId = (families, dwellingId) => {
     }
     if (rulingFamily) {
         const c = getRulingMember(rulingFamily)
+        return c
     }
+    throw new Error('No leader found')
 }
 
 /**

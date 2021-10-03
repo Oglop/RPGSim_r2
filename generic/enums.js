@@ -93,18 +93,18 @@ module.exports = {
         d100:'D100',
     },
     ENUM_PERSONALITIES: {
-        egoistic:'egoistic',
-        currious:'currious',
-        friendly:'friendly',
-        lonewolf:'lonewolf',
-        stoic:'stoic',
-        leader:'leader',
-        loudmouth:'loudmouth',
-        clumpsy:'clumpsy',
-        meddler:'meddler',
-        religious: 'religious',
-        all:'all',
-        none: 'none'
+        AMBITIOUS:0, // starts projects wants to be ruler
+        INTELLIGENT:1, // reasons questioning
+        GIFTED:2, // solves problems
+        KIND:3, // meddles
+        CRUEL:4, // calculating
+        LAZY:5, // ignores issues
+        NAIVE:6, // easy to manipulate
+        PARANOID:7, // defensive
+        RELIGIOUS:8, // good at chrsis
+        GREEDY:9, // manipulative
+        ALL:98,
+        NONE:99
     },
     ENUM_PERSONALITY_DEALS_RESULT: {
         BAD:'BAD',
@@ -116,6 +116,9 @@ module.exports = {
         PLANNING:1,
         DEFENCE:2,
         CHRISIS:3,
+        PREPERATIONS:4,
+        INITIATIVE:5,
+        STRATEGY:6
 
     },
     ENUM_SEASONS: {
@@ -234,5 +237,11 @@ module.exports = {
         MEDIUM:1,
         STRONG:2,
         EPIC:3
+    },
+    ENUM_EVENT_ITEM_STATUS: {
+        UNRESOLVED:0,
+        SUCCESS:1,
+        RESOLVED:2,
+        FAILURE:3
     }
 }
