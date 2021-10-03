@@ -21,12 +21,45 @@ const validateFamilyCompability = (family1, family2, checkRace = true) => {
 }
 
 const getRulingMember = (family, options = {}) => {
-
     const c = family.members.find(m => m.id == family.ruler)
     if (!c || !c.isAlive) {
         // TODO find new ruler
     }
     return c
+}
+
+/**
+ * retuirn all families with dwelling id = dwellingId in families
+ * 
+ * @param {Array} families 
+ * @param {String} dwellingId 
+ * @returns {Array} families with dwellingId
+ */
+const getFamiliesByDwellingId = (families, dwellingId) => {
+    const fams = []
+    for (let i = 0; i < families.length; i++) {
+        if (families[i].dwellingId == dwellingId) {
+            fams.push(families[i])
+        }
+    }
+    return fams
+}
+
+/**
+ * 
+ * @param {Objects} families 
+ * @param {String} famId Id of family of re distribution
+ * @param {*} amount 
+ */
+const distributInfluence = (families, famId, amount, characterId = undefined) => {
+    if (characterId) {
+        famId = getFamilyIdByCharacterId(families, characterId)
+    }
+    const dist = Math.floor( amount / (families.length - 1) )
+    for (let i = 0; i < families.length; i++) {
+        if (families[i].id == famId) { families[i].influence += amount }
+        else { families[i].influence -= dist }
+    }
 }
 
 /**
@@ -49,6 +82,24 @@ const getLeaderByDwellingId = (families, dwellingId) => {
     }
     throw new Error('No leader found')
 }
+
+/**
+ * @param {Array} families
+ * @param {String} characterId
+ * @returns {String} familyId
+ */
+const getFamilyIdByCharacterId = (families, characterId) => {
+    for (let i = 0; i < families.length; i++) {
+        if (families[i].ruler == characterId) {
+            return families[i].id
+        } else {
+            if (families.members.find(m => m.id == characterId) != undefined) {
+                return families[i].id
+            }
+        }
+    }
+    throw new Error('No family for characterId')
+} 
 
 /**
  * 
@@ -210,5 +261,8 @@ module.exports = {
     checkPregnancies,
     socialize,
     getLeaderByDwellingId,
-    getRulingMember
+    getRulingMember,
+    getFamiliesByDwellingId,
+    distributInfluence,
+    getFamilyIdByCharacterId
 }

@@ -7,7 +7,11 @@ const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH,
     ENUM_PERSONALITY_DEALS_RESULT, 
     ENUM_EVENT_ITEM_STATUS } = require('../generic/enums')
 const { getDwellingsFromMap } = require('../models/map')
-const { getLeaderByDwellingId } = require('../models/family')
+const { 
+    getLeaderByDwellingId,
+    getFamiliesByDwellingId,
+    distributInfluence,
+    getFamilyIdByCharacterId } = require('../models/family')
 const { personalityDealsWith } = require('../models/personality')
 const { getSeason } = require('../lib/time')
 const monsterBuilder = require('../build/monster')
@@ -23,7 +27,6 @@ const raiders = (event, world) => {
         strength: ENUM_ENEMY_STRENGTH.WEAK,
         type: ENUM_ENEMY_TYPE.VILE
     })
-
 
     const i1 = copyObject(objects.eventItem)
     i1.description = `Scouts from ${dwelling.name} report of a raiding party of ${monster.name}s approaching.`    
@@ -48,12 +51,16 @@ const raiders = (event, world) => {
         if (previousResult == ENUM_EVENT_ITEM_STATUS.SUCCESS) {
             i2.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i2.resolutionText = `Due to early initiative the ${monster.name} raiders are fought off, a great victory for ${leader.name}.`
+            const fams = getFamiliesByDwellingId(world.families, dwelling.id)
+            distributInfluence(fams, undefined, 6, leader.id)
         } else if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD || result == ENUM_PERSONALITY_DEALS_RESULT.NORMAL) {
             i2.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
             i2.resolutionText = `After some hard fighting the defenders of ${dwelling.name} succeeds in fighting off the ${monster.name} raiders.`
         } else {
             i2.resolution = ENUM_EVENT_ITEM_STATUS.FAILURE
-            i2.resolutionText = `Taken by supprise the ${monster.name} raiders defeats the defenders. ${dwelling.name} is sacked.`
+            i2.resolutionText = `Taken by supprise the ${monster.name} raiders defeats the defenders. ${dwelling.name} was sacked!`
+            const fams = getFamiliesByDwellingId(world.families, dwelling.id)
+            distributInfluence(fams, undefined, -10, leader.id)
         }
     }
     event.items.push(i2)

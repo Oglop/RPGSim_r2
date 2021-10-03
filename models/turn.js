@@ -9,7 +9,7 @@ const { progressHistory } = require('../handlers/historyHandler')
  * 
  * @param {Object} world 
  */
-const next = (world) => {
+const next = (world, output) => {
     const pastTime = addDay(world.date)
 
     if (pastTime === 'd' || pastTime === 'm' || pastTime === 'y') {
@@ -18,7 +18,7 @@ const next = (world) => {
 
         if (pastTime === 'm' || pastTime === 'y') {
             // events for families
-            progressHistory(world)
+            progressHistory(world, output)
             // world events
 
             if (pastTime === 'y') {

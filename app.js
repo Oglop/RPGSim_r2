@@ -9,7 +9,7 @@ const main = (args) => {
         const world = generateWorld(output)
 
         for (let i=0;i<80;i++) {
-            next(world)
+            next(world, output)
         }
         
     } catch (e) {
