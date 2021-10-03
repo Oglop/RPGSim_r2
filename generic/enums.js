@@ -106,6 +106,18 @@ module.exports = {
         all:'all',
         none: 'none'
     },
+    ENUM_PERSONALITY_DEALS_RESULT: {
+        BAD:'BAD',
+        GOOD:'GOOD',
+        NORMAL:'NORMAL'
+    },
+    ENUM_PERSONALITY_DEALS_TYPE: {
+        STRESS:0,
+        PLANNING:1,
+        DEFENCE:2,
+        CHRISIS:3,
+
+    },
     ENUM_SEASONS: {
         winter: 'Winter',
         spring: 'Spring',
@@ -216,5 +228,11 @@ module.exports = {
         VILE:0,
         WILD:1,
         ANCIENT:2
+    },
+    ENUM_ENEMY_STRENGTH: {
+        WEAK:0,
+        MEDIUM:1,
+        STRONG:2,
+        EPIC:3
     }
 }

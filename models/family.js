@@ -20,6 +20,34 @@ const validateFamilyCompability = (family1, family2, checkRace = true) => {
     return true
 }
 
+const getRulingMember = (family, options = {}) => {
+
+    const c = family.members.find(m => m.id == family.ruler)
+    if (!c || !c.isAlive) {
+        // TODO find new ruler
+    }
+    return c
+}
+
+/**
+ * Returns oldest person in family with highest influence by dwelling id
+ * @param {Array} families 
+ * @param {string} dwellingId 
+ * @returns {Object} character
+ */
+const getLeaderByDwellingId = (families, dwellingId) => {
+    let rulingFamily = undefined
+    for (let i = 0; i < families.length; i++) {
+        if (families[i].dwellingId == dwellingId) {
+            if (!rulingFamily) { rulingFamily = families[i] }
+            if (rulingFamily.id != families[i].id && families[i].influence > rulingFamily.id ) { rulingFamily = families[i] }
+        }
+    }
+    if (rulingFamily) {
+        const c = getRulingMember(rulingFamily)
+    }
+}
+
 /**
  * 
  * 
@@ -178,5 +206,7 @@ const checkPregnancies = (families, date) => {
 module.exports = {
     checkMarriages,
     checkPregnancies,
-    socialize
+    socialize,
+    getLeaderByDwellingId,
+    getRulingMember
 }

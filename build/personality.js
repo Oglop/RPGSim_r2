@@ -2,7 +2,7 @@ const { ENUM_PERSONALITIES } = require('../generic/enums')
 const { getRandomNumberInRange } = require('../lib/utils')
 
 const getRandomPersonality = () => {
-    const i = getRandomNumberInRange(0, 2)
+    const i = getRandomNumberInRange(0, 9)
     switch (i) {
         case 0: return ENUM_PERSONALITIES.egoistic;
         case 1: return ENUM_PERSONALITIES.currious;

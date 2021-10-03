@@ -63,6 +63,7 @@ const createFamily = (options) => {
             date: options.date,
             religion
          })
+         if (i == 0) { f.ruler = c.id }
          f.members.push(c)
     }
     f.members[0].marriedTo = f.members[1].id

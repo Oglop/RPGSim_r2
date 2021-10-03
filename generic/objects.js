@@ -68,6 +68,7 @@ module.exports = {
     family: {
         id: undefined,
         name: undefined,
+        ruler: undefined,
         influence: 0,
         members: [],
         dwellingId: undefined
@@ -170,6 +171,7 @@ module.exports = {
         output: undefined
     },
     eventItem: {
+        description: undefined,
         language: undefined,
         execute: undefined,
         test: undefined,

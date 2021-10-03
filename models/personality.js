@@ -1,7 +1,20 @@
-const { ENUM_PERSONALITIES } = require('../generic/enums')
+const { ENUM_PERSONALITIES, ENUM_PERSONALITY_DEALS_RESULT, ENUM_PERSONALITY_DEALS_TYPE } = require('../generic/enums')
 const { tryToUnderstandEachOther } = require('./language')
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
+
+/*
+AMBITIOUS, // starts projects wants to be ruler
+INTELLIGENT, // reasons
+GIFTED, // solves problems
+KIND, // meddles
+CRUEL, // wants
+LAZY, // ignores issues
+NAIVE, // easy to manipulate
+PARANOID, // defensive
+RELIGIOUS, // good at chrisis
+GREEDY // manipulative
+ */
 
 const traitsChecks = [
     {
@@ -92,6 +105,33 @@ const compabilityCheck = (charA, charB) => {
     return i
 }
 
+/**
+ * returns how a character deals with situation
+ * @param {ENUM_PERSONALITIES} personality 
+ * @param {ENUM_PERSONALITY_DEALS_TYPE} type 
+ * @returns {ENUM_PERSONALITY_DEALS_RESULT} result
+ */
+const personalityDealsWith = (personality, type) => {
+    switch (type) {
+        case ENUM_PERSONALITY_DEALS_TYPE.STRESS: 
+            switch (personality) {
+                case ENUM_PERSONALITIES.leader: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
+                case ENUM_PERSONALITIES.meddler: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
+                case ENUM_PERSONALITIES.loudmouth: return ENUM_PERSONALITY_DEALS_RESULT.BAD
+                case ENUM_PERSONALITIES.egoistic: return ENUM_PERSONALITY_DEALS_RESULT.BAD
+            }
+        case ENUM_PERSONALITY_DEALS_TYPE.PLANNING: 
+            switch (personality) {
+                case ENUM_PERSONALITIES.leader: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
+                case ENUM_PERSONALITIES.meddler: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
+        
+    }
+
+
+    return ENUM_PERSONALITY_DEALS_RESULT.NORMAL
+}
+
 module.exports = {
-    compabilityCheck
+    compabilityCheck,
+    personalityDealsWith
 }
