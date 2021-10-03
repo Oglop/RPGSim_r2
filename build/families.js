@@ -95,8 +95,24 @@ module.exports.build = (options) => {
             f.influence = power
             families.push(f)
         }
-
-        
     }
     return families
+}
+
+/**
+ * character: Object
+ * dwellingId: String
+ * 
+ * @param {Object} options 
+ * @returns {Object} family
+ */
+module.exports.create = (options) => {
+    const f = copyObject(objects.family)
+    f.members.push(options.character)
+    f.id = generateID()
+    f.name = getFamilyName()
+    f.influence = getRandomNumber(6)
+    f.ruler = options.character.id
+    f.religion = options.character.religion
+    return f
 }

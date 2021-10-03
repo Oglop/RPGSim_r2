@@ -31,7 +31,9 @@ module.exports = {
  
          ],
          STRONG: [
- 
+            {
+                name: 'griffin'
+            }
          ],
          EPIC: [
             {

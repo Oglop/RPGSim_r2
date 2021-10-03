@@ -131,7 +131,8 @@ const rollStats = (enforceMinimumSum) => {
  * mother: string
  * father: string
  * enforceMinimumSum: bool
- * religion: ENUM_GODS
+ * religion: ENUM_GODS,
+ * date
  * }
  * @returns 
  */

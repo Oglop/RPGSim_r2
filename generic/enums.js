@@ -118,7 +118,8 @@ module.exports = {
         CHRISIS:3,
         PREPERATIONS:4,
         INITIATIVE:5,
-        STRATEGY:6
+        STRATEGY:6,
+        RESOLUTION:7
 
     },
     ENUM_SEASONS: {

@@ -129,7 +129,9 @@ const personalityDealsWith = (personality, type) => {
             switch (personality) {
                 case ENUM_PERSONALITIES.AMBITIOUS: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
                 case ENUM_PERSONALITIES.NAIVE: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
+                case ENUM_PERSONALITIES.LAZY: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
                 case ENUM_PERSONALITIES.PARANOID: return ENUM_PERSONALITY_DEALS_RESULT.BAD
+                case ENUM_PERSONALITIES.GREEDY: return ENUM_PERSONALITY_DEALS_RESULT.BAD
             }
             break
         case ENUM_PERSONALITY_DEALS_TYPE.PLANNING: 
@@ -154,6 +156,22 @@ const personalityDealsWith = (personality, type) => {
                 case ENUM_PERSONALITIES.INTELLIGENT: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
                 case ENUM_PERSONALITIES.RELIGIOUS: return ENUM_PERSONALITY_DEALS_RESULT.BAD
                 case ENUM_PERSONALITIES.KIND: return ENUM_PERSONALITY_DEALS_RESULT.BAD
+            }
+            break
+        case ENUM_PERSONALITY_DEALS_TYPE.PREPERATIONS: 
+            switch (personality) {
+                case ENUM_PERSONALITIES.KIND: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
+                case ENUM_PERSONALITIES.CRUEL: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
+                case ENUM_PERSONALITIES.GIFTED: return ENUM_PERSONALITY_DEALS_RESULT.BAD
+                case ENUM_PERSONALITIES.LAZY: return ENUM_PERSONALITY_DEALS_RESULT.BAD
+            }
+            break
+        case ENUM_PERSONALITY_DEALS_TYPE.RESOLUTION: 
+            switch (personality) {
+                case ENUM_PERSONALITIES.AMBITIOUS: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
+                case ENUM_PERSONALITIES.CRUEL: return ENUM_PERSONALITY_DEALS_RESULT.GOOD
+                case ENUM_PERSONALITIES.KIND: return ENUM_PERSONALITY_DEALS_RESULT.BAD
+                case ENUM_PERSONALITIES.GIFTED: return ENUM_PERSONALITY_DEALS_RESULT.BAD
             }
             break
     }
