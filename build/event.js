@@ -10,7 +10,8 @@ const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH,
     ENUM_JOB_NAMES, 
     ENUM_RACE_NAMES, 
     ENUM_LANGUAGES, 
-    ENUM_PERSONALITIES
+    ENUM_PERSONALITIES,
+    ENUM_SEASONS
 } = require('../generic/enums')
 const { getDwellingsFromMap } = require('../models/map')
 const { 
@@ -158,16 +159,56 @@ const powerStrife = (event, world) => {
  * 
  */
 const badWeather = (event, world) => {
+    const i1 = copyObject(objects.eventItem)
+    const season = getSeason(world.date)
+    const dwellings = getDwellingsFromMap(world.map)
+    const dwelling = getRandomElementFromArray(dwellings)
+    const leader =  getLeaderByDwellingId(world.families, dwelling.id)
+    let adjust = 0
+    if (season == ENUM_SEASONS.winter) {
+        i1.description = `A blizzard burries ${dwelling.name} in snow.`
+        const result = personalityDealsWith(leader.personality, ENUM_PERSONALITY_DEALS_TYPE.RESOLUTION)
+        if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
+            adjust = 5
+            i1.resolutionText = `${leader.name} organizes the towns people to dig out the vital functions of the town.`
+        } else {
+            adjust = -6
+            i1.resolutionText = `${leader.name} fails to rally the people of ${dwelling.name} and some older citizens are lost in the cold.`
+        }
+        
+    } else if (season == ENUM_SEASONS.summer) {
+        i1.description = `A great thunder storm hits ${dwelling.name}. The food storage catches fire after lightning hits the roof`
+        const result = personalityDealsWith(leader.personality, ENUM_PERSONALITY_DEALS_TYPE.INITIATIVE)
+        if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
+            i1.resolutionText = `${leader.name} quickly rallies the people of ${dwelling.name} to put out the fire.`
+            adjust = -8
+        } else {
+            i1.resolutionText = `After some time the fire burns out, lots of food are lost.`
+            adjust = -10
+        }
 
+        i1.resolutionText = `Due to early initiative the ${monster.name} raiders are fought off, a great victory for ${leader.name}.`
+    } else {
+        i1.description = `A great storm hits ${dwelling.name} and causes the river banks to flood`
+        const result = personalityDealsWith(leader.personality, ENUM_PERSONALITY_DEALS_TYPE.PREPERATIONS)
+        if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
+            i1.resolutionText = `Carefull preperations leads the water away from the city.`
+            adjust = 6
+        } else {
+            i1.resolutionText = `Water floods the streets of ${dwelling.name} destroying buildings.`
+            adjust = -6
+        }
+    }
+    i1.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
+    const fams = getFamiliesByDwellingId(world.families, dwelling.id)
+    distributInfluence(fams, undefined, adjust, leader.id)
+    event.items.push(i1)
+    return event
 }
 
-/**
- * 
- * @param {*} event 
- * @param {*} world 
- * @param {*} options 
- * @returns 
- */
+const plauge = (event, world) => {
+
+}
 
 
 /**
@@ -182,6 +223,7 @@ const getHistoryEvent = (event, world, options) => {
     switch(i) {
         case 1: event = raiders(event, world); break;
         case 2: event = questingKnight(event, world); break;
+        case 3: event = badWeather(world, event); break;
     }
     
     return event
