@@ -111,7 +111,7 @@ const questingKnight = (event, world) => {
             i1.resolutionText = `The young adventurer ${hero.name} sets out to slay the beast.`
         }
     }
-    items.push(i1)
+    event.items.push(i1)
 
     const i2 = copyObject(objects.eventItem)
     i2.description = `After a long journey ${hero.name} closes in on the beasts lair.`
@@ -123,16 +123,16 @@ const questingKnight = (event, world) => {
         } else {
             let i = (result == ENUM_PERSONALITY_DEALS_RESULT.BAD) ? 30 : 60
             if (chance(i)) {
-                `${hero.name} is supprises a wild ${monster.name}. After a tough battle ${hero.name} defeats the beast.`
+                i2.resolutionText = `${hero.name} is supprises a wild ${monster.name}. After a tough battle ${hero.name} defeats the beast.`
                 i2.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             } else {
-                `${hero.name} is supprised by a wild ${monster.name}! The fight is over before it is started. ${hero.name} is killed.`
+                i2.resolutionText = `${hero.name} is supprised by a wild ${monster.name}! The fight is over before it is started. ${hero.name} is killed.`
                 i2.resolution = ENUM_EVENT_ITEM_STATUS.FAILURE
                 event.active = false
             }
         }
     }
-    items.push(i2)
+    event.items.push(i2)
 
     const i3 = copyObject(objects.eventItem)
     i3.description = `${hero.name} returs to ${dwelling.name}.`
@@ -145,7 +145,7 @@ const questingKnight = (event, world) => {
         i3.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
         i3.resolutionText = `${f.name} is reqognized amoung the noble houses of ${dwelling.name}.`
     }
-    items.push(i3)
+    event.items.push(i3)
     return event
 }
 
@@ -223,7 +223,7 @@ const getHistoryEvent = (event, world, options) => {
     switch(i) {
         case 1: event = raiders(event, world); break;
         case 2: event = questingKnight(event, world); break;
-        case 3: event = badWeather(world, event); break;
+        case 3: event = badWeather(event, world); break;
     }
     
     return event

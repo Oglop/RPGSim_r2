@@ -29,7 +29,7 @@
 
 ## bugs and exceptions
 ```json
-{"message":"Cannot read properties of undefined (reading 'race')","file":"cmodels\\character.js","function":"validateCharacterCompabilityForMarige","date":"2021-10-03T16:43:18.653Z"}
+{"message":"Cannot read properties of undefined (reading 'race')","file":"models\\character.js","function":"validateCharacterCompabilityForMarige","date":"2021-10-03T16:43:18.653Z"}
 data/errorFile.js:8
 
 {"message":"","file":"handlers\\worldBuilder.js","function":"generateWorld","date":"2021-10-03T16:46:02.469Z"}

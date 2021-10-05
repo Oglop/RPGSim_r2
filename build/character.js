@@ -53,7 +53,7 @@ const setHealthAndStamina = (c) => {
  * @returns ENUM_RACE_NAMES
  */
 const getRandomRace = () => {
-    const i = getRandomNumber(0, 11)
+    const i = getRandomNumberInRange(0, 11)
     switch (i) {
         case 0: return ENUM_RACE_NAMES.human
         case 1: return ENUM_RACE_NAMES.darkElf
@@ -120,6 +120,20 @@ const rollStats = (enforceMinimumSum) => {
     return s
 }
 
+
+/**
+ * 
+ * @param {Object} c 
+ */
+const validateBuild = (c) => {
+    if (c.race == undefined) { throw new Error('Missing value race') }
+    if (c.gender == undefined) { throw new Error('Missing value gender') }
+    if (c.age == undefined) { throw new Error('Missing value age') }
+    if (c.languages.length == 0) { throw new Error('Missing value language') }
+    if (c.skills.length == 0) { throw new Error('Missing value skills') }
+
+}
+
 /**
  * 
  * @param {object} options {
@@ -156,7 +170,9 @@ module.exports.build = (options) => {
         c.languages = languageBuilder.build(c)
         c.getBirthDate = getBirthDate(options.date, c.age)
         personalityBuilder.build(c)
+        validateBuild(c)
     } catch (e) {
+        console.log(JSON.stringify(options))
         const err = objects.error
         err.file = __filename
         err.function = 'build'

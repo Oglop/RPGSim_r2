@@ -244,5 +244,10 @@ module.exports = {
         SUCCESS:1,
         RESOLVED:2,
         FAILURE:3
+    },
+    ENUM_ITEM_TYPE: {
+        ITEM:1,
+        WEAPON:2,
+        ARMOR:3
     }
 }
