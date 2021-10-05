@@ -196,8 +196,10 @@ module.exports = {
         hp: 0
     },
     item: {
-        type: '',
-        name: ''
+        type: undefined,
+        name: undefined,
+        use: undefined,
+        effect: undefined
     
     }
 }

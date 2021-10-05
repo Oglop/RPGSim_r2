@@ -104,8 +104,6 @@ const compabilityCheck = (charA, charB) => {
                 (charA.religion == charB.religion)) {
                     i += 2
                 }
-
-
         if (tryToUnderstandEachOther(charA, charB)) { i += 1 }
     } catch (e) {
         const err = objects.error

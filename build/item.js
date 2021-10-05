@@ -4,11 +4,18 @@ const { logError } = require('../data/errorFile')
 const { getRandomNumberInRange, copyObject, getRandomElementFromArray } = require('../lib/utils')
 
 
-const daggers = {
-    common: [
-        { name: 'Long dagger', use: getRandomNumberInRange(2, 6) },
-        { name: 'Thiefs dagger', use: getRandomNumberInRange(3, 5) }
-    ]
+const weapons = {
+    daggers: {
+        common: [
+            { name: 'Short dagger', use: getRandomNumberInRange(2, 6) },
+            { name: 'Knife', use: getRandomNumberInRange(1, 4) },
+            { name: 'Thiefs dagger', use: getRandomNumberInRange(3, 5) }
+        ],
+        elite: [
+            { name: 'Curved dagger', use: getRandomNumberInRange(4, 8) }
+        ]
+    }
+    
 }
 
 
@@ -35,7 +42,21 @@ const daggers = {
 module.exports.build = (type, tier, options) => {
     try {
         const i = copyObject(objects.item)
-        
+        i.type = type
+        if (type == ENUM_ITEM_TYPE.DAGGER) {
+            if (tier == ENUM_ITEM_TIER.COMMON) {
+                const commonDaggers = weapons.daggers.common
+                const dagger = { ...i, ...getRandomElementFromArray(commonDaggers) }
+                return dagger
+            } else if (tier == ENUM_ITEM_TIER.ELITE) {
+                const eliteDaggers = weapons.daggers.elite
+                const dagger = { ...i, ...getRandomElementFromArray(eliteDaggers) }
+                return dagger
+            } else {
+                
+            }
+            
+        }
 
     } catch (e) {
         const err = objects.error

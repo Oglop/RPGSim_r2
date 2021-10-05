@@ -261,7 +261,8 @@ module.exports = {
     },
     ENUM_ITEM_TIER: {
         COMMON: 1,
-        MAGICAL: 2,
-        LEGENDARY: 3,
+        ELITE: 2,
+        MAGICAL: 3,
+        LEGENDARY: 4,
     }
 }

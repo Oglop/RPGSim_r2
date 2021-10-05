@@ -10,12 +10,13 @@ const resolveEvent = (event, output) => {
     if (event.active == false) { return false }
     let previousResult = ENUM_EVENT_ITEM_STATUS.UNRESOLVED
     for (let i = 0; i < event.items.length; i++) {
-        if (i > 0 && 
+         if (i > 0 && 
             event.items[i].resolution == ENUM_EVENT_ITEM_STATUS.UNRESOLVED &&
             event.items[i - 1].resolution != ENUM_EVENT_ITEM_STATUS.UNRESOLVED) {  
                 result = event.items[i - 1].resolution
         }  
         if (event.items[i].resolution == ENUM_EVENT_ITEM_STATUS.UNRESOLVED) {
+            output.print(event.items[i].description)
             event.items[i].execute(previousResult)
             output.print(event.items[i].resolutionText)
             break;
