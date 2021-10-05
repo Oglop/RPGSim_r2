@@ -247,7 +247,21 @@ module.exports = {
     },
     ENUM_ITEM_TYPE: {
         ITEM:1,
-        WEAPON:2,
-        ARMOR:3
+        ONE_HAND_WEAPON:2,
+        TWO_HAND_WEAPON:3,
+        LIGHT_ARMOR:4,
+        HEAVY_ARMOR: 5,
+        ROBES:6,
+        DAGGER: 7,
+        BOW:8,
+        SPEAR:9,
+        STAFF:10,
+        MACE:11
+        
+    },
+    ENUM_ITEM_TIER: {
+        COMMON: 1,
+        MAGICAL: 2,
+        LEGENDARY: 3,
     }
 }
