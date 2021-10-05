@@ -219,7 +219,7 @@ const plauge = (event, world) => {
  * @returns {Object} event
  */
 const getHistoryEvent = (event, world, options) => {
-    const i = getRandomNumber(1)
+    const i = getRandomNumber(3)
     switch(i) {
         case 1: event = raiders(event, world); break;
         case 2: event = questingKnight(event, world); break;

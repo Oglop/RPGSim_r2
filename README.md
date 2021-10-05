@@ -22,6 +22,7 @@
 - battles armies
 - family banners
 - items
+- famous people
 
 ## dungeons
 - 
@@ -47,6 +48,11 @@ data/errorFile.js:8
 data/errorFile.js:8
 
 
+questing knight event
+{"message":"getRandomNumber is not defined","file":"build\\character.js","function":"build","date":"2021-10-05T04:15:04.600Z"}
+data/errorFile.js:8
+items is not defined
+app.js:16
 
 ```
 
