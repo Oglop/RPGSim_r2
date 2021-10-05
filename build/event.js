@@ -169,7 +169,7 @@ const badWeather = (event, world) => {
         i1.description = `A blizzard burries ${dwelling.name} in snow.`
         const result = personalityDealsWith(leader.personality, ENUM_PERSONALITY_DEALS_TYPE.RESOLUTION)
         if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
-            adjust = 5
+            adjust = 8
             i1.resolutionText = `${leader.name} organizes the towns people to dig out the vital functions of the town.`
         } else {
             adjust = -6
