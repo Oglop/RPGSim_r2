@@ -18,13 +18,15 @@ const {
     getLeaderByDwellingId,
     getFamiliesByDwellingId,
     distributInfluence,
-    getFamilyIdByCharacterId } = require('../../models/family')
+    getFamilyIdByCharacterId,
+    getRandomAlivePerson } = require('../../models/family')
 const { personalityDealsWith } = require('../../models/personality')
 const { getSeason } = require('../../lib/time')
 const monsterBuilder = require('../../build/monster')
 const charachterBuilder = require('../../build/character')
 const familyBuilder = require('../../build/families')
 const { event, world } = require('../../generic/objects')
+const { getPersonName } = require('../../generic/names')
 
 
 
@@ -166,43 +168,46 @@ const badWeather = (event, world) => {
     const dwelling = getRandomElementFromArray(dwellings)
     const leader =  getLeaderByDwellingId(world.families, dwelling.id)
     let adjust = 0
-    if (season == ENUM_SEASONS.winter) {
-        i1.description = `A blizzard burries ${dwelling.name} in snow.`
-        const result = personalityDealsWith(leader.personality, ENUM_PERSONALITY_DEALS_TYPE.RESOLUTION)
-        if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
-            adjust = 8
-            i1.resolutionText = `${leader.name} organizes the towns people to dig out the vital functions of the town.`
+    i1.execute = (previousResult) => {
+        if (season == ENUM_SEASONS.winter) {
+            i1.description = `A blizzard burries ${dwelling.name} in snow.`
+            const result = personalityDealsWith(leader.personality, ENUM_PERSONALITY_DEALS_TYPE.RESOLUTION)
+            if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
+                adjust = 8
+                i1.resolutionText = `${leader.name} organizes the towns people to dig out the vital functions of the town.`
+            } else {
+                adjust = -6
+                i1.resolutionText = `${leader.name} fails to rally the people of ${dwelling.name} and some older citizens are lost in the cold.`
+            }
+            
+        } else if (season == ENUM_SEASONS.summer) {
+            i1.description = `A great thunder storm hits ${dwelling.name}. The food storage catches fire after lightning hits the roof`
+            const result = personalityDealsWith(leader.personality, ENUM_PERSONALITY_DEALS_TYPE.INITIATIVE)
+            if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
+                i1.resolutionText = `${leader.name} quickly rallies the people of ${dwelling.name} to put out the fire.`
+                adjust = -8
+            } else {
+                i1.resolutionText = `After some time the fire burns out, lots of food are lost.`
+                adjust = -10
+            }
+    
+            i1.resolutionText = `Due to early initiative the ${monster.name} raiders are fought off, a great victory for ${leader.name}.`
         } else {
-            adjust = -6
-            i1.resolutionText = `${leader.name} fails to rally the people of ${dwelling.name} and some older citizens are lost in the cold.`
+            i1.description = `A great storm hits ${dwelling.name} and causes the river banks to flood`
+            const result = personalityDealsWith(leader.personality, ENUM_PERSONALITY_DEALS_TYPE.PREPERATIONS)
+            if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
+                i1.resolutionText = `Carefull preperations leads the water away from the city.`
+                adjust = 6
+            } else {
+                i1.resolutionText = `Water floods the streets of ${dwelling.name} destroying buildings.`
+                adjust = -6
+            }
         }
-        
-    } else if (season == ENUM_SEASONS.summer) {
-        i1.description = `A great thunder storm hits ${dwelling.name}. The food storage catches fire after lightning hits the roof`
-        const result = personalityDealsWith(leader.personality, ENUM_PERSONALITY_DEALS_TYPE.INITIATIVE)
-        if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
-            i1.resolutionText = `${leader.name} quickly rallies the people of ${dwelling.name} to put out the fire.`
-            adjust = -8
-        } else {
-            i1.resolutionText = `After some time the fire burns out, lots of food are lost.`
-            adjust = -10
-        }
-
-        i1.resolutionText = `Due to early initiative the ${monster.name} raiders are fought off, a great victory for ${leader.name}.`
-    } else {
-        i1.description = `A great storm hits ${dwelling.name} and causes the river banks to flood`
-        const result = personalityDealsWith(leader.personality, ENUM_PERSONALITY_DEALS_TYPE.PREPERATIONS)
-        if (result == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
-            i1.resolutionText = `Carefull preperations leads the water away from the city.`
-            adjust = 6
-        } else {
-            i1.resolutionText = `Water floods the streets of ${dwelling.name} destroying buildings.`
-            adjust = -6
-        }
+        i1.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
+        const fams = getFamiliesByDwellingId(world.families, dwelling.id)
+        distributInfluence(fams, undefined, adjust, leader.id)
     }
-    i1.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
-    const fams = getFamiliesByDwellingId(world.families, dwelling.id)
-    distributInfluence(fams, undefined, adjust, leader.id)
+    
     event.items.push(i1)
     return event
 }
@@ -213,8 +218,49 @@ const plauge = (event, world) => {
 
 
 const advisor = (event, world) => {
+    const i1 = copyObject(objects.eventItem)
+    const dwellings = getDwellingsFromMap(world.map)
+    const dwelling = getRandomElementFromArray(dwellings)
+    const advisorName = getPersonName(ENUM_GENDER.MALE)
+    const families = getFamiliesByDwellingId(dwelling.id)
+    const fam = getRandomElementFromArray(families)
+    let character = undefined
+    i1.description = `An old man, ${advisorName} arrives at ${dwelling.name}.`
+    i1.execute = () => {
+        i1.resolutionText = `${advisorName} is hired by the house of ${fam.name} as an advisor.`
+        i1.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
+    }
+    event.items.push(i1)
 
+    const i2 = copyObject(objects.eventItem)
+    try {
+        character = getRandomAlivePerson(fam)
+        i2.description = `${advisorName} advises ${character.name} of house ${fam.name}.`
+    } catch (e) {
+        
+    }
+    
+    
+
+    return events
 }
+
+/*
+const template = (event, world) => {
+    const i1 = copyObject(objects.eventItem)
+    const dwellings = getDwellingsFromMap(world.map)
+    const dwelling = getRandomElementFromArray(dwellings)
+    const advisorName = getPersonName(ENUM_GENDER.MALE)
+    i1.description = `The advisor ${advisorName} arrives at ${dwelling.name}`
+    i1.execute = () => {
+
+        i1.resolutionText = `` 
+    }
+    event.items.push(i1)
+
+    return events
+}
+*/
 
 
 module.exports = {

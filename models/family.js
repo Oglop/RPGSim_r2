@@ -1,10 +1,12 @@
 const { compabilityCheck } = require('../models/personality')
-const { chance, copyObject, getRandomNumberInRange, getIndexOfObjectInArrayById } = require('../lib/utils')
+const { chance, copyObject, getRandomNumberInRange, getIndexOfObjectInArrayById, getRandomElementFromArray } = require('../lib/utils')
 const { logError } = require('../data/errorFile')
-const { validateCharacterCompabilityForMarige, setRelation } = require('./character')
+const { validateCharacterCompabilityForMarige, setRelation, checkForOldAge } = require('./character')
 const objects = require('../generic/objects')
 const { ENUM_GENDER, ENUM_JOB_NAMES } = require('../generic/enums')
 const characterBuilder = require('../build/character')
+const { NoAliveCharacterInArray } = require('../exceptions')
+const { character, family } = require('../generic/objects')
 
 /**
  * return true if families are in same city 
@@ -99,7 +101,23 @@ const getFamilyIdByCharacterId = (families, characterId) => {
         }
     }
     throw new Error('No family for characterId')
-} 
+}
+
+/**
+ * 
+ * @param {Object} family 
+ * @returns {Object} character
+ */
+const getRandomAlivePerson = (family) => {
+    const alive = []
+    for (character of family.members) {
+        if (character.isAlive) { alive.push(character) }
+    }
+    if (alive.length) {
+        return getRandomElementFromArray(alive)
+    }
+    throw new NoAliveCharacterInArray('getRandomAlivePerson')
+}
 
 /**
  * 
@@ -239,7 +257,7 @@ const checkPregnancies = (families, date) => {
                 if (families[i].members[j].pregnant == true) {
                     if (families[i].members[j].pregnantTime >= 9) {
                         families[i].members[j].pregnant = false
-                        families[i].members[j].pregnantTime = 0
+                         families[i].members[j].pregnantTime = 0
                         const baby = characterBuilder.build({
                             job: ENUM_JOB_NAMES.noble,
                             race: families[i].members[j].race,
@@ -274,6 +292,15 @@ const checkPregnancies = (families, date) => {
     }
 }
 
+const checkFamiliesForAge = (families) => {
+    for (let family of families) {
+        for (let member of family.members) {
+            if (member.isAlive) { checkForOldAge(member) }
+        }
+    }
+}
+
+
 
 module.exports = {
     checkMarriages,
@@ -283,5 +310,7 @@ module.exports = {
     getRulingMember,
     getFamiliesByDwellingId,
     distributInfluence,
-    getFamilyIdByCharacterId
+    getFamilyIdByCharacterId,
+    getRandomAlivePerson,
+    checkFamiliesForAge
 }

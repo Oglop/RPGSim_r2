@@ -1,6 +1,6 @@
 const { point } = require('../generic/objects')
 const objects = require('../generic/objects')
-const { copyObject } = require('../lib/utils')
+const { copyObject, chance } = require('../lib/utils')
 const { MAX_MARRIAGE_AGE_GAP, 
     MIN_MARRIAGE_AGE,
     MAX_RELATIONS_POINTS,
@@ -74,7 +74,23 @@ const setRelation = (character1, character2, points) => {
 }
 
 
+/**
+ * Check if character dies from old age
+ * 
+ * @param {Object} character 
+ */
+const checkForOldAge = (character) => {
+    if (character.age < 40) { return true }
+    else {
+        const i = (60 - Math.floor( character.age * 0.5 ))
+        if (!chance(i)) {
+            character.isAlive = false
+        }
+    }
+}
+
 module.exports = {
     validateCharacterCompabilityForMarige,
-    setRelation
+    setRelation,
+    checkForOldAge
 }

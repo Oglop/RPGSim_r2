@@ -41,6 +41,8 @@ const weapons = {
  */
 module.exports.build = (type, tier, options) => {
     try {
+        
+
         const i = copyObject(objects.item)
         i.type = type
         if (type == ENUM_ITEM_TYPE.DAGGER) {
@@ -53,7 +55,7 @@ module.exports.build = (type, tier, options) => {
                 const dagger = { ...i, ...getRandomElementFromArray(eliteDaggers) }
                 return dagger
             } else {
-                
+                const _name = (options.name) ? options.name : '' // todo
             }
             
         }
