@@ -308,8 +308,14 @@ const setLandmarks = (map, size) => {
     const min = Math.floor( size / 5)
     const n = getRandomNumberInRange(min, min + 5)
     for (let i = 0; i < n; i++) {
-        const x = getRandomNumber(size), y = getRandomNumber(size)
-        map[x][y].description = getLandmarkName(map[x][y].biome)
+        try {
+            const x = getRandomNumberInRange(0, size - 1), y = getRandomNumberInRange(0, size - 1)
+            // console.log(`${x}:${y}`)
+            map[x][y].description = getLandmarkName(map[x][y].biome)
+        } catch (e) {
+            console.log(`${e.message}`)
+        }
+        
     }
 }
 
@@ -392,6 +398,7 @@ module.exports.build = (options) => {
         setDwellings(map, worldSize)
         setFarmlands(map, worldSize)
         setLandmarks(map, worldSize)
+        
         // visualizeMap(map, worldSize)
         return map
     } catch (e) {

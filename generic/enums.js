@@ -247,8 +247,8 @@ module.exports = {
     },
     ENUM_ITEM_TYPE: {
         ITEM:1,
-        ONE_HAND_WEAPON:2,
-        TWO_HAND_WEAPON:3,
+        ONE_HAND_SWORD:2,
+        TWO_HAND_SWORD:3,
         LIGHT_ARMOR:4,
         HEAVY_ARMOR: 5,
         ROBES:6,

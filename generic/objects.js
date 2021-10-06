@@ -199,7 +199,8 @@ module.exports = {
         type: undefined,
         name: undefined,
         use: undefined,
-        effect: undefined
+        effect: undefined,
+        value: 0
     
     }
 }

@@ -7,12 +7,20 @@ const { getRandomNumberInRange, copyObject, getRandomElementFromArray } = requir
 const weapons = {
     daggers: {
         common: [
-            { name: 'Short dagger', use: getRandomNumberInRange(2, 6) },
-            { name: 'Knife', use: getRandomNumberInRange(1, 4) },
-            { name: 'Thiefs dagger', use: getRandomNumberInRange(3, 5) }
+            { name: 'Short dagger', use: getRandomNumberInRange(2, 6), value: 8 },
+            { name: 'Knife', use: getRandomNumberInRange(1, 4), value: 5 },
+            { name: 'Thiefs dagger', use: getRandomNumberInRange(3, 5), value: 8 }
         ],
         elite: [
-            { name: 'Curved dagger', use: getRandomNumberInRange(4, 8) }
+            { name: 'Curved dagger', use: getRandomNumberInRange(4, 8), value: 12 }
+        ]
+    },
+    swords: {
+        common: [
+            { name: 'Short sword', use: getRandomNumberInRange(4, 7), value: 11 },
+            { name: 'Long sword', use: getRandomNumberInRange(6, 8), value: 14 },
+            { name: 'Curved sword', use: getRandomNumberInRange(4, 12), value: 16 },
+            { name: 'Knight sword', use: getRandomNumberInRange(8, 12), value: 20 },
         ]
     }
     
@@ -58,6 +66,19 @@ module.exports.build = (type, tier, options) => {
                 const _name = (options.name) ? options.name : '' // todo
             }
             
+        }
+        if (type == ENUM_ITEM_TYPE.ONE_HAND_SWORD) {
+            if (tier == ENUM_ITEM_TIER.COMMON) {
+                const commonDaggers = weapons.daggers.common
+                const dagger = { ...i, ...getRandomElementFromArray(commonDaggers) }
+                return dagger
+            } else if (tier == ENUM_ITEM_TIER.ELITE) {
+                const eliteDaggers = weapons.daggers.elite
+                const dagger = { ...i, ...getRandomElementFromArray(eliteDaggers) }
+                return dagger
+            } else {
+                const _name = (options.name) ? options.name : '' // todo
+            }
         }
 
     } catch (e) {
