@@ -85,6 +85,7 @@ const checkForOldAge = (character) => {
         const i = 5 + Math.floor( character.age * 0.1 )
         if (chance(i)) {
             character.isAlive = false
+            character.diedFrom = 'age'
         }
     }
 }

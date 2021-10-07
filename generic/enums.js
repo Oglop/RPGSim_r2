@@ -264,5 +264,9 @@ module.exports = {
         ELITE: 2,
         MAGICAL: 3,
         LEGENDARY: 4,
+    },
+    ENUM_ITEM_EFFECTS: {
+        FIRE: 1,
+        BLIND: 2
     }
 }

@@ -1,4 +1,4 @@
-const { socialize, checkMarriages, checkPregnancies, checkFamiliesForAge } = require('../models/family')
+const { socialize, checkMarriages, checkPregnancies, checkFamiliesForAge, removeDead } = require('../models/family')
 const { historyEvents } = require('./eventsHandler')
 /**
  * 
@@ -10,6 +10,7 @@ module.exports.progressHistory = (world, output) => {
     checkPregnancies(world.families, world.date)
     checkFamiliesForAge(world.families)
     historyEvents(world, output)
-    
+
+    removeDead(world.families, world.dead, output)
     
 }

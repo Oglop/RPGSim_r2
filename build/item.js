@@ -1,4 +1,4 @@
-const { ENUM_ITEM_TYPE, ENUM_ITEM_TIER } = require('../generic/enums')
+const { ENUM_ITEM_TYPE, ENUM_ITEM_TIER, ENUM_ITEM_EFFECTS } = require('../generic/enums')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { getRandomNumberInRange, copyObject, getRandomElementFromArray } = require('../lib/utils')

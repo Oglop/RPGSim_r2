@@ -229,15 +229,22 @@ const advisor = (event, world) => {
     i1.execute = () => {
         i1.resolutionText = `${advisorName} is hired by the house of ${fam.name} as an advisor.`
         i1.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
+        character = getRandomAlivePerson(fam)
     }
     event.items.push(i1)
 
-    const i2 = copyObject(objects.eventItem)
-    try {
-        character = getRandomAlivePerson(fam)
+    if (fam.length) { 
+        const i2 = copyObject(objects.eventItem)
         i2.description = `${advisorName} advises ${character.name} of house ${fam.name}.`
-    } catch (e) {
-        
+    }
+    else {
+        const i2 = copyObject(objects.eventItem)
+        i2.description = `${advisorName} advises ${character.name} of house ${fam.name}.`
+        i2.execute = () => {
+            i2.resolutionText = `${advisorName} is hired by the house of ${fam.name} as an advisor.`
+            i2.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
+            character = getRandomAlivePerson(fam)
+        }
     }
     
     

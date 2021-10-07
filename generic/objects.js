@@ -5,6 +5,7 @@ module.exports = {
         map: undefined,
         date: undefined,
         families: [],
+        dead: [],
         darkness: undefined,
         events: {
             history:[],
@@ -34,7 +35,8 @@ module.exports = {
         religion: undefined,
         personality: undefined,
         relationships: [],
-        isAlive: true
+        isAlive: true,
+        diedFrom:undefined
     },
     stats: {
         str: 0,
@@ -63,7 +65,8 @@ module.exports = {
     dwelling: {
         id: undefined,
         name: undefined,
-        type: undefined
+        type: undefined,
+        inhabited: true
     },
     language: {
         language: undefined,

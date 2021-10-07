@@ -181,10 +181,52 @@ const checkUnmarriedFamilyMembers = (family1, family2) => {
     }
     for (let i = 0; i < arr.length; i++) {
         marriage(arr[i].char1, arr[i].char2, family1, family2)
-            //family1.members[i], family2.members[j], family1, family2)
     }
-
 }
+
+/**
+ * Remove dead characters from families
+ * 
+ * @param {Array} family 
+ * @param {Object} output 
+ */
+const burial = (family, dead, output) => {
+    let foundDeadPeople = true
+    try {
+        while(foundDeadPeople) {
+            foundDeadPeople = false
+            for (let i = 0; i < family.members.length; i++) {
+                if (!family.members[i].isAlive) {
+                    dead.push(family.members[i])
+                    output.print(`${family.members[i].name} of ${family.name} died from ${family.members[i].diedFrom}.` )
+                    family.members.splice(i, 1)
+
+                    foundDeadPeople = true
+                    break
+                }               
+            }
+        }
+    } catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'burial'
+        err.message = e.message
+        logError(err)
+    }
+}
+
+/**
+ * Remove dead characters
+ * 
+ * @param {Array} families 
+ * @param {Object} output 
+ */
+const removeDead = (families, dead, output) => {
+    for (let family of families) {
+        burial(family, output)
+    }
+}
+
 
 /**
  * 
@@ -312,5 +354,6 @@ module.exports = {
     distributInfluence,
     getFamilyIdByCharacterId,
     getRandomAlivePerson,
-    checkFamiliesForAge
+    checkFamiliesForAge,
+    removeDead
 }
