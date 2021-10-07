@@ -12,7 +12,8 @@ const weapons = {
             { name: 'Thiefs dagger', use: getRandomNumberInRange(3, 5), value: 8 }
         ],
         elite: [
-            { name: 'Curved dagger', use: getRandomNumberInRange(4, 8), value: 12 }
+            { name: 'Curved dagger', use: getRandomNumberInRange(4, 8), value: 12 },
+            { name: 'Long dagger', use: getRandomNumberInRange(3, 9), value: 12 }
         ]
     },
     swords: {
@@ -20,7 +21,12 @@ const weapons = {
             { name: 'Short sword', use: getRandomNumberInRange(4, 7), value: 11 },
             { name: 'Long sword', use: getRandomNumberInRange(6, 8), value: 14 },
             { name: 'Curved sword', use: getRandomNumberInRange(4, 12), value: 16 },
-            { name: 'Knight sword', use: getRandomNumberInRange(8, 12), value: 20 },
+            { name: 'Knight sword', use: getRandomNumberInRange(8, 12), value: 20 }
+        ],
+        elite: [
+            { name: 'Mythril sword', use: getRandomNumberInRange(12, 18), value: 30 },
+            { name: 'Royal guard sword', use: getRandomNumberInRange(10, 20), value: 30 },
+            { name: 'Rune sword', use: getRandomNumberInRange(14, 22), value: 36 }
         ]
     }
     
@@ -80,6 +86,8 @@ module.exports.build = (type, tier, options) => {
                 const _name = (options.name) ? options.name : '' // todo
             }
         }
+
+
 
     } catch (e) {
         const err = objects.error
