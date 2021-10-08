@@ -1,3 +1,4 @@
+const { ENUM_EXPLORE_STATUS } = require('../generic/enums')
 module.exports = {
     world: {
         id: undefined,
@@ -56,7 +57,8 @@ module.exports = {
         temprature: 0,
         biome: undefined,
         dwelling: undefined,
-        description: undefined
+        description: undefined,
+        exploreStatus: ENUM_EXPLORE_STATUS.empty,
     },
     point: {
         x: undefined,
@@ -204,6 +206,12 @@ module.exports = {
         use: undefined,
         effect: undefined,
         value: 0
-    
+    },
+    party: {
+        id: undefined,
+        members: [],
+        questGoal: { x:0, y:0},
+        crowns:0,
+        food:0
     }
 }

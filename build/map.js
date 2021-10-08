@@ -9,7 +9,7 @@ const { copyObject,
     chance
 } = require('../lib/utils')
 const { WORLD_SIZE } = require('../generic/statics')
-const { ENUM_BIOMES, ENUM_DWELLINGS } = require('../generic/enums')
+const { ENUM_BIOMES, ENUM_DWELLINGS, ENUM_EXPLORE_STATUS } = require('../generic/enums')
 const { getLandmarkName } = require('../generic/names')
 const { logError } = require('../data/errorFile')
 
@@ -92,7 +92,10 @@ const setBiome = (map, size) => {
 
     for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
-            if (map[x][y].elevation < 0) { map[x][y].biome = ENUM_BIOMES.lake }
+            if (map[x][y].elevation < 0) { 
+                map[x][y].biome = ENUM_BIOMES.lake 
+                map[x][y].exploreStatus = ENUM_EXPLORE_STATUS.blocked
+            }
             else if (map[x][y].elevation == 4) { map[x][y].biome = ENUM_BIOMES.hills }
             else if (map[x][y].elevation >= 5) { map[x][y].biome = ENUM_BIOMES.mountains }
             else {
@@ -135,7 +138,7 @@ const setBiome = (map, size) => {
                 } if (map[x][y].temprature >= 4) { 
                     pen = ENUM_BIOMES.dessert
                 } 
-
+                map[x][y].exploreStatus = ENUM_EXPLORE_STATUS.empty
                 map[x][y].biome = pen
             }
 
