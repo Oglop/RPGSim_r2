@@ -1,4 +1,10 @@
-const { socialize, checkMarriages, checkPregnancies, checkFamiliesForAge, removeDead } = require('../models/family')
+const { 
+    socialize, 
+    checkMarriages, 
+    checkPregnancies, 
+    checkFamiliesForAge, 
+    removeDead 
+} = require('../models/family')
 const { historyEvents } = require('./eventsHandler')
 /**
  * 

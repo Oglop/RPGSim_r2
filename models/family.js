@@ -223,7 +223,7 @@ const burial = (family, dead, output) => {
  */
 const removeDead = (families, dead, output) => {
     for (let family of families) {
-        burial(family, output)
+        burial(family, dead, output)
     }
 }
 

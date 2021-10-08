@@ -218,34 +218,36 @@ const plauge = (event, world) => {
 
 
 const advisor = (event, world) => {
-    const i1 = copyObject(objects.eventItem)
+    
     const dwellings = getDwellingsFromMap(world.map)
     const dwelling = getRandomElementFromArray(dwellings)
     const advisorName = getPersonName(ENUM_GENDER.MALE)
     const families = getFamiliesByDwellingId(dwelling.id)
     const fam = getRandomElementFromArray(families)
     let character = undefined
+
+    const i1 = copyObject(objects.eventItem)
     i1.description = `An old man, ${advisorName} arrives at ${dwelling.name}.`
     i1.execute = () => {
         i1.resolutionText = `${advisorName} is hired by the house of ${fam.name} as an advisor.`
         i1.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
-        character = getRandomAlivePerson(fam)
+        
     }
     event.items.push(i1)
 
-    if (fam.length) { 
-        const i2 = copyObject(objects.eventItem)
-        i2.description = `${advisorName} advises ${character.name} of house ${fam.name}.`
-    }
-    else {
-        const i2 = copyObject(objects.eventItem)
-        i2.description = `${advisorName} advises ${character.name} of house ${fam.name}.`
-        i2.execute = () => {
-            i2.resolutionText = `${advisorName} is hired by the house of ${fam.name} as an advisor.`
+
+    const i2 = copyObject(objects.eventItem)
+    character = getRandomAlivePerson(fam)
+    i2.description = `${advisorName} advises ${character.name} of house ${fam.name}.`
+    i2.execute = () => {
+        i2.resolutionText = `${character.name} is growing as a leader.`
+        i2.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
+        if (chance(10)) {
             i2.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
-            character = getRandomAlivePerson(fam)
         }
     }
+    event.items.push(i2)
+    
     
     
 
