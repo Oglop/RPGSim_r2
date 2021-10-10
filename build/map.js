@@ -398,8 +398,8 @@ module.exports.build = (options) => {
         generateLakes(map, worldSize)
         generateTempratures(map, worldSize)
         setBiome(map, worldSize)
-        setDwellings(map, worldSize)
-        setFarmlands(map, worldSize)
+        //setDwellings(map, worldSize)
+        //setFarmlands(map, worldSize)
         setLandmarks(map, worldSize)
         
         // visualizeMap(map, worldSize)

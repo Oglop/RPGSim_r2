@@ -2,6 +2,7 @@ const { WorldGenerationFailedError } = require('../exceptions')
 const objects = require('../generic/objects')
 const mapBuilder = require('../build/map')
 const familyBuilder = require('../build/families')
+const familyTreeBuilder = require('../build/familyTree')
 const { copyObject, generateID } = require('../lib/utils')
 const { getDwellingsFromMap } = require('../models/map')
 const { ENUM_FILE_TYPE } = require('../generic/enums')
@@ -11,7 +12,7 @@ const { logError } = require('../data/errorFile')
 
 const setWorldStartDate = (options) => {
     const date = copyObject(objects.date)
-    date.year = 901
+    date.year = 0
     date.month = 2
     date.day = 1
     return date
@@ -40,9 +41,14 @@ const generateWorld = (output) => {
             logError(err)
         }
     }
+    familyTreeBuilder.build(world, output, {
+        years: 1000,
+        noOfStartFamilies: 4,
+        noOfStartDwellings: 3
+    })
+    //const dwellings = getDwellingsFromMap(world.map)
+    //world.families = familyBuilder.build({ dwellings, date: world.date })
     
-    const dwellings = getDwellingsFromMap(world.map)
-    world.families = familyBuilder.build({ dwellings, date: world.date })
     world.darkness = 10
     // save(world, { id: world.id, fileType: ENUM_FILE_TYPE.WORLD })
     return world

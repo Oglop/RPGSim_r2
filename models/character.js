@@ -82,7 +82,7 @@ const setRelation = (character1, character2, points) => {
 const checkForOldAge = (character) => {
     if (character.age < 50) { return true }
     else {
-        const i = 5 + Math.floor( character.age * 0.1 )
+        const i = 5 + Math.floor( (character.age * 0.1) * 0.5 )
         if (chance(i)) {
             character.isAlive = false
             character.diedFrom = 'age'

@@ -210,7 +210,9 @@ module.exports = {
     party: {
         id: undefined,
         members: [],
-        questGoal: { x:0, y:0},
+        position: { x: 0, y: 0 },
+        quest: undefined,
+        questGoal: { x: 0, y: 0 },
         crowns:0,
         food:0
     }

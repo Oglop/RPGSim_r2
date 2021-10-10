@@ -168,7 +168,7 @@ module.exports.build = (options) => {
         setHealthAndStamina(c)
         skillsBuilder.build(c)
         c.languages = languageBuilder.build(c)
-        c.getBirthDate = getBirthDate(options.date, c.age)
+        c.birthDate = getBirthDate(options.date, c.age)
         personalityBuilder.build(c)
         validateBuild(c)
     } catch (e) {

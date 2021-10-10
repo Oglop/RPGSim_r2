@@ -38,6 +38,7 @@ const getRandomReligion = () => {
         r.description = 'Storms and Rivers'
         r.type = ENUM_GODS.Wrezar
     }
+    return r
 }
 
 module.exports = {
