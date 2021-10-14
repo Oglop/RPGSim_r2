@@ -31,6 +31,7 @@ const getFamilyAges = () => {
 /**
  * create a new family
  * @param {object} options { ?race: ENUM_RACE_NAMES,  }
+ * @returns {object} family
  */
  module.exports.createFamily = (options) => {
     let religion = getRandomReligion()

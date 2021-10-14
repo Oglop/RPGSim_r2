@@ -1,13 +1,15 @@
 const { copyObject, chance, generateID, getRandomNumberInRange, getIndexOfObjectInArrayById } = require('../lib/utils')
-const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_DWELLINGS } = require('../generic/enums')
+const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_DWELLINGS, ENUM_JOB_NAMES } = require('../generic/enums')
 const { addYear, getAgeSimple } = require('../lib/time')
 const { getDwellingName } = require('../generic/names')
 const objects = require('../generic/objects')
 const familyBuilder = require('../build/families')
+const characterBuilder = require('../build/character')
 const { MAX_MARRIAGE_AGE_GAP, 
     MIN_MARRIAGE_AGE
 } = require('../generic/statics')
 const { logError } = require('../data/errorFile')
+const 
 
 /**
  * 
@@ -52,12 +54,17 @@ const checkUnmarriedFamilyMembers = (family1, family2, currentDate, output) => {
         for (let j = 0; j < family2.members.length; j++) {
             if (validateCharacterCompabilityForMarige(family1.members[i], family2.members[j], currentDate)) {
                 if (chance(20)) {
-                    family1.members[i].marriedTo = family1.members[j].id
-                    family2.members[j].marriedTo = family1.members[i].id
-                    const o = copyObject(compatibel)
-                    o.char1 = family1.members[i]
-                    o.char2 = family2.members[j]
-                    arr.push(o)  
+                    try {
+                        family1.members[i].marriedTo = family2.members[j].id
+                        family2.members[j].marriedTo = family1.members[i].id
+                        const o = copyObject(compatibel)
+                        o.char1 = family1.members[i]
+                        o.char2 = family2.members[j]
+                        arr.push(o)  
+                    } catch (e) {
+                        console.log(e.message)
+                    }
+                    
                 }
             }
         }
@@ -103,11 +110,76 @@ const marriages = (families, currentDate, output) => {
     }
 }
 
-const moves = (dwellings, families) => {
-
+const noOfKids = (family, id) => {
+    let noOfKids = 0
+    for (let member of family.members) {
+        if (member.mother == id) { noOfKids++ }
+    }
+    return noOfKids
 }
 
+const getKids = (families, currentDate, output) => {
+    for(let family of families) {
+        for(let member of family.members) {
+            if (member.gender == ENUM_GENDER.FEMALE &&
+                member.marriedTo) {
+                    const kids = noOfKids(family, member.id)
+                    const test = (80 - getAgeSimple(currentDate, member.birthDate)) - (kids * 10)
+                    if (chance(test)) {
+                        const kid = characterBuilder.build({ 
+                            age: 0,
+                            race: member.race,
+                            job: ENUM_JOB_NAMES.noble,
+                            mother: member.id,
+                            father: member.marriedTo,
+                            enforceMinimumSum: false,
+                            date: currentDate,
+                            religion: family.religion
+                         })
+                         output.print(`${member.name} of house ${family.name} gave birth to ${kid.name}.`)
+                         family.members.push(kid)
+                    }
+                    
+            }
+        }
+    }
+}
 
+const moves = (dwellings, families, currentDate, output, options) => {
+    const i = 10 - dwellings.length
+    if (chance(i)) {
+        const d = copyObject(objects.dwelling)
+        d.id = generateID()
+        d.name = getDwellingName()
+        d.type = ENUM_DWELLINGS.TOWN
+        d.inhabited = true
+        dwellings.push(d)
+
+        const f1 = familyBuilder.createFamily({
+            race: ENUM_RACE_NAMES.human,
+            dwellingId: d.id,
+            date: currentDate
+        })
+        families.push(f1)
+        const f2 = familyBuilder.createFamily({
+            race: ENUM_RACE_NAMES.human,
+            dwellingId: d.id,
+            date: currentDate
+        })
+        families.push(f2)
+        const f3 = familyBuilder.createFamily({
+            race: ENUM_RACE_NAMES.human,
+            dwellingId: d.id,
+            date: currentDate
+        })
+        families.push(f3)
+        output.print(`${f1.name} founded the town of ${d.name}.`)
+    }
+}
+
+const peopleDie = (families, currentDate, output, options) => {
+
+}
 
 /**
  * Genererate options.years worth of hostory
@@ -144,11 +216,13 @@ module.exports.build = (world, output, options) => {
     }
 
     for(let year = 0; year < years; year++) {
-        const newFamilies = []
-        const newDwellings = []
         
         marriages(families, world.date, output)
+        getKids(families, world.date, output)
+        moves(dwellings, families, world.date, output, {
+            race: options.race,
 
+        })
         addYear(world.date)
     }
 
