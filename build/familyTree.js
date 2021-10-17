@@ -1,5 +1,5 @@
 const { copyObject, chance, generateID, getRandomNumberInRange, getIndexOfObjectInArrayById } = require('../lib/utils')
-const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_DWELLINGS, ENUM_JOB_NAMES } = require('../generic/enums')
+const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_DWELLINGS, ENUM_JOB_NAMES, ENUM_BIOMES } = require('../generic/enums')
 const { addYear, getAgeSimple } = require('../lib/time')
 const { getDwellingName } = require('../generic/names')
 const objects = require('../generic/objects')
@@ -10,6 +10,7 @@ const { MAX_MARRIAGE_AGE_GAP,
 } = require('../generic/statics')
 const { logError } = require('../data/errorFile')
 const text = require('../localization')
+const { NoPositionAvailableError } = require('../exceptions')
 
 /**
  * 
@@ -329,7 +330,65 @@ const peopleDie = (families, currentDate, output, dead, options) => {
         err.message = e.message
         logError(err)
     }
-    
+}
+
+const getUninhabitedPoint = (map, size, biome) => {
+    const points = []
+    for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+            if ( (biome == map[x][y].biome || (!biome && map[x][y].elevation < 5 && map[x][y].elevation >= 0) ) && !map[x][y].dwelling ) {
+                const p = copyObject(objects.point)
+                p.x = x
+                p.y = y
+                points.push(p)
+            }
+        }
+    }
+    if (points.length > 0) {
+        return points[getRandomNumberInRange( 0, points.length - 1 )]
+    }
+    else {
+        throw new NoPositionAvailableError('No point found')
+    }
+}
+/**
+ * 
+ * @param {Array} map 
+ * @param {int} size 
+ * @param {ENUM_BIOMES} biome 
+ * @param {object} dwelling 
+ */
+const drawDwelling = (map, size, biome, dwelling) => {
+    try {
+        const p = getUninhabitedPoint(map, size, biome)
+        map[p.x][p.y].dwelling = dwelling
+    } catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'drawDwelling'
+        err.message = e.message
+        logError(err)
+    }
+}
+
+/**
+ * Place dwellings on map
+ * 
+ * @param {Array} map 
+ * @param {Array} dwellings 
+ */
+const placeDwellings = (map, dwellings) => {
+    try {
+        for(let dwelling of dwellings) {
+            drawDwelling(map, map.length, ENUM_BIOMES.plains, dwelling)
+        }
+    } catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'placeDwellings'
+        err.message = e.message
+        logError(err)
+    }
 }
 
 /**
@@ -345,7 +404,7 @@ const peopleDie = (families, currentDate, output, dead, options) => {
  * @param {object} options 
  */
 module.exports.build = (world, output, options) => {
-    const years = (options.years) ? options.years : 1000
+    const years = (options.years) ? options.years : 100
     const noOfStartFamilies = (options.noOfStartFamilies) ? options.noOfStartFamilies : 4
     const noOfStartDwellings = (options.noOfStartDwellings) ? options.noOfStartDwellings : 3
     const race = (options.race) ? options.race : ENUM_RACE_NAMES.human
@@ -381,11 +440,9 @@ module.exports.build = (world, output, options) => {
         peopleDie(families, world.date, output, world.dead, {})
         families = removeDeadFamilies(families, output)
         addYear(world.date)
-
-        if(world.date.year % 100 == 0) {
-            console.log('ddd')
-        }
-        
     }
+    placeDwellings(world.map, dwellings)
+    world.families = families
+    
 
 }

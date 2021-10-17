@@ -48,10 +48,13 @@ const generateWorld = (output) => {
     
 
     familyTreeBuilder.build(world, output, {
-        years: 1000,
+        years: 200,
         noOfStartFamilies: 4,
         noOfStartDwellings: 3
     })
+
+    mapBuilder.buildFarmlands(world.map, 30)
+    mapBuilder.buildLandMarks(world.map, 30)
     //const dwellings = getDwellingsFromMap(world.map)
     //world.families = familyBuilder.build({ dwellings, date: world.date })
     
