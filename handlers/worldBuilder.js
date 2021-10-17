@@ -9,6 +9,7 @@ const { ENUM_FILE_TYPE } = require('../generic/enums')
 const { save } = require('../data/fileStorage')
 const { logError } = require('../data/errorFile')
 const { writeMap } = require('../output/visualize')
+const { saveVisualization, saveWorld } = require('../config')
         
 
 const setWorldStartDate = (options) => {
@@ -26,7 +27,8 @@ const generateWorld = (output) => {
     world.id = generateID()
     world.name = 'Heria'
     world.date = setWorldStartDate({})
-    while (atempts > 0) {
+    world.map = mapBuilder.build( { size: 30 } )
+    /* while (atempts > 0) {
         try {
             world.map = mapBuilder.build( { size: 30 } )
             break
@@ -42,7 +44,8 @@ const generateWorld = (output) => {
             logError(err)
         }
     }
-    writeMap(world.map, world.id)
+    */
+    
 
     familyTreeBuilder.build(world, output, {
         years: 1000,
@@ -53,7 +56,8 @@ const generateWorld = (output) => {
     //world.families = familyBuilder.build({ dwellings, date: world.date })
     
     world.darkness = 10
-    // save(world, { id: world.id, fileType: ENUM_FILE_TYPE.WORLD })
+    if (saveVisualization) { writeMap(world.map, world.id) }
+    if (saveWorld) { save(world, { id: world.id, fileType: ENUM_FILE_TYPE.WORLD }) }
     return world
 }
 
