@@ -10,7 +10,6 @@ const en = require('./en')
  * @param {Array} args 
  */
 module.exports.get = (id, args) => {
-    console.log(language)
     let lang = ''
     switch (language) {
         case 'en': lang = en; break;

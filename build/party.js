@@ -16,7 +16,6 @@ module.exports.build = (options) => {
     for (let i = 0; i < noOfMembers; i++) {
         party.members.push(characterBuilder.build())
     }
-
     return party
 }
 

@@ -9,7 +9,6 @@ const { MAX_MARRIAGE_AGE_GAP,
     MIN_MARRIAGE_AGE
 } = require('../generic/statics')
 const { logError } = require('../data/errorFile')
-const { family } = require('../generic/objects')
 const text = require('../localization')
 
 /**
@@ -25,32 +24,7 @@ const newDwelling = (options) => {
     return dwelling
 }
 
-
-const marriage = (character1, character2, family1, family2, output) => {
-    try {
-        if (character1.gender === ENUM_GENDER.MALE) {
-            output.print(`${character2.name} got married to ${character1.name} and joins house ${family1.name}`)
-            let toBeremoved = getIndexOfObjectInArrayById(family2.members, character2.id)
-            family2.members.splice(toBeremoved, 1)
-            family1.members.push(character2)
-        } else {
-            output.print(`${character1.name} got married to ${character2.name} and joins house ${family2.name}`)
-            let toBeremoved = getIndexOfObjectInArrayById(family1.members, character1.id)
-            family1.members.splice(toBeremoved, 1)
-            family2.members.push(character1)
-        }
-    } catch (e) {
-        const err = objects.error
-        err.file = __filename
-        err.function = 'marriage'
-        err.message = e.message
-        logError(err)
-    }
-}
-
 const checkUnmarriedFamilyMembers = (family1, family2, currentDate, output) => {
-    const compatibel = { char1: undefined, char2: undefined }
-    const arr = []
     const i = getRandomNumberInRange(0, family1.members.length - 1)
     const j = getRandomNumberInRange(0, family2.members.length - 1)
     if (validateCharacterCompabilityForMarige(family1.members[i], family2.members[j], currentDate)) {
@@ -59,23 +33,26 @@ const checkUnmarriedFamilyMembers = (family1, family2, currentDate, output) => {
                 family1.members[i].marriedTo = family2.members[j].id
                 family2.members[j].marriedTo = family1.members[i].id
                 if (family1.members[i].gender === ENUM_GENDER.MALE) {
-                    output.print(`${family2.members[j].name} got married to ${family1.members[i].name} and joins house ${family1.name}`)
-                    let toBeremoved = getIndexOfObjectInArrayById(family2.members, family2.members[j].id)
-                    family1.members.push(family2.members[j])
-                    family2.members.splice(toBeremoved, 1)
+                    try {
+                        output.print(`${family2.members[j].name} got married to ${family1.members[i].name} and joins house ${family1.name}`)
+                        let toBeremoved = getIndexOfObjectInArrayById(family2.members, family2.members[j].id)
+                        family1.members.push(family2.members[j])
+                        family2.members.splice(toBeremoved, 1)
+                    } catch(e) {
+                        console.log(e.message)
+                    }
+                    
                 } else {
-                    output.print(`${family1.members[i].name} got married to ${family2.members[j].name} and joins house ${family2.name}`)
-                    let toBeremoved = getIndexOfObjectInArrayById(family1.members, family2.members[i].id)
+                    try {
+                        output.print(`${family1.members[i].name} got married to ${family2.members[j].name} and joins house ${family2.name}`)
+                    let toBeremoved = getIndexOfObjectInArrayById(family1.members, family1.members[i].id)
                     family2.members.push(family1.members[i])
                     family1.members.splice(toBeremoved, 1)
+                    } catch(e) {
+                        console.log(e.message)
+                    }
+                    
                 }
-
-
-                /* const o = copyObject(compatibel)
-                o.char1 = family1.members[i]
-                o.char2 = family2.members[j]
-                arr.push(o)  
-                */
             } catch (e) {
                 const err = objects.error
                 err.file = __filename
@@ -86,22 +63,19 @@ const checkUnmarriedFamilyMembers = (family1, family2, currentDate, output) => {
             
         }
     }
-
-    /*
-    for (let i = 0; i < family1.members.length; i++) {
-        for (let j = 0; j < family2.members.length; j++) {
-            
-        }
-    }
-    for (let i = 0; i < arr.length; i++) {
-        marriage(arr[i].char1, arr[i].char2, family1, family2, output)
-    }
-    */
 }
 
 const validateFamilyCompability = (family1, family2, checkRace = true) => {
-    if (family1.dwellingId != family2.dwellingId) { return false }
-    if (checkRace && (family1.members[0].race != family2.members[0].race)) { return false }
+    try {
+        if (family1.dwellingId != family2.dwellingId) { return false }
+        if (checkRace && (family1.members[0].race != family2.members[0].race)) { return false }
+    } catch(e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'validateFamilyCompability'
+        err.message = e.message
+        logError(err)
+    }
     return true
 }
 
@@ -125,14 +99,49 @@ const validateCharacterCompabilityForMarige = (char1, char2, currentDate) => {
     return true
 }
 
+/**
+ * Atempts to marry two people in families
+ * 
+ * @param {Array} families 
+ * @param {object} currentDate 
+ * @param {object} output 
+ */
 const marriages = (families, currentDate, output) => {
     for (let i = 0; i < families.length; i++) {
         for (let j = i + 1; j < families.length; j++) {
-            if (validateFamilyCompability(families[i], families[j])){
-                checkUnmarriedFamilyMembers(families[i], families[j], currentDate, output)
+            if (families[i].members.length && families[j].members.length) {
+                if (validateFamilyCompability(families[i], families[j])){
+                    const atempts =  getRandomNumberInRange(1, 5)
+                    for (let k = 0; k < atempts; k++) {
+                        if(families[i].members.length && families[j].members.length) { 
+                            checkUnmarriedFamilyMembers(families[i], families[j], currentDate, output) 
+                        }
+                    }
+                    
+                }
             }
+            
         }
     }
+}
+
+/**
+ * remove families that has no members
+ * 
+ * @param {array} families 
+ * @param {object} output 
+ * @returns {array} families
+ */
+const removeDeadFamilies = (families, output) => {
+    const alive = []
+    for (let family of families) {
+        if(family.members.length) {
+            alive.push(family)
+        } else {
+            output.print(text.get('familyTree-removeDeadFamilies-1', [ family.name ]))
+        }
+    }
+    return alive
 }
 
 /**
@@ -180,35 +189,37 @@ const noOfFamiliesInDwelling = (families, dwellingId) => {
 }
 
 const getKids = (families, currentDate, output) => {
-    for(let family of families) {
-        for(let member of family.members) {
-            if (member === undefined) {
-                console.log('sdffffffssddsfsfd')
-            }
-            if (member.gender == ENUM_GENDER.FEMALE &&
-                member.marriedTo) {
-                    const kids = noOfKids(family, member.id)
-                    const test = (80 - getAgeSimple(currentDate, member.birthDate)) - (kids * 10)
-                    if (chance(test)) {
-                        const kid = characterBuilder.build({ 
-                            age: 0,
-                            race: member.race,
-                            job: ENUM_JOB_NAMES.noble,
-                            mother: member.id,
-                            father: member.marriedTo,
-                            enforceMinimumSum: false,
-                            date: currentDate,
-                            religion: family.religion
-                         })
-                         output.print(`${member.name} of house ${family.name} gave birth to ${kid.name}.`)
-                         if(kid === undefined) {
-                             console.log('sdffffffssddsfsfd')
-                         }
-                         family.members.push(kid)
-                    }
-                    
+    try {
+        for(let family of families) {
+            for(let member of family.members) {
+                if (member.gender == ENUM_GENDER.FEMALE &&
+                    member.marriedTo) {
+                        const kids = noOfKids(family, member.id)
+                        const test = (80 - getAgeSimple(currentDate, member.birthDate)) - (kids * 10)
+                        if (chance(test)) {
+                            const kid = characterBuilder.build({ 
+                                age: 0,
+                                race: member.race,
+                                job: ENUM_JOB_NAMES.noble,
+                                mother: member.id,
+                                father: member.marriedTo,
+                                enforceMinimumSum: false,
+                                date: currentDate,
+                                religion: family.religion
+                             })
+                             output.print(`${member.name} of house ${family.name} gave birth to ${kid.name}.`)
+                             family.members.push(kid)
+                        }
+                        
+                }
             }
         }
+    } catch(e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'getKids'
+        err.message = e.message
+        logError(err)
     }
 }
 
@@ -256,7 +267,7 @@ const newFamily = (dwellings, families, currentDate, output, options) => {
     try {
         const dwellingNo = getRandomNumberInRange(0, dwellings.length - 1)
         let test = 100
-        test -= (noOfFamiliesInDwelling(families, dwellings[dwellingNo]) * 10)
+        test -= (noOfFamiliesInDwelling(families, dwellings[dwellingNo].id) * 10)
         if(dwellings[dwellingNo].type == ENUM_DWELLINGS.TOWN) {
             test -= 30
         }
@@ -266,9 +277,8 @@ const newFamily = (dwellings, families, currentDate, output, options) => {
                 dwellingId: dwellings[dwellingNo].id,
                 date: currentDate
             })
-
-
-            output.print(``)
+            families.push(f)
+            output.print(text.get('familyTree-newFamily-1', [ f.name, dwellings[dwellingNo].name ]))
         }
     } catch (e) {
         const err = objects.error
@@ -289,29 +299,37 @@ const newFamily = (dwellings, families, currentDate, output, options) => {
  * @param {object} options 
  */
 const peopleDie = (families, currentDate, output, dead, options) => {
-
-    for (let family of families) {
-        for (let member of family.members) {
-            const age = getAgeSimple(currentDate, member.birthDate)
-            if (age > 60) {
-                if (chance(10 + (age - 60))) { 
-                    output.print(text.get('familyTree-peopleDie-1', [member.name, family.name]))
-                    member.isAlive = false 
+    try {
+        for (let family of families) {
+            for (let member of family.members) {
+                const age = getAgeSimple(currentDate, member.birthDate)
+                if (age > 60) {
+                    if (chance(10 + (age - 60))) { 
+                        output.print(text.get('familyTree-peopleDie-1', [member.name, family.name]))
+                        member.isAlive = false 
+                    }
                 }
             }
+            let foundDeadPerson = true
+            while (foundDeadPerson && family.members.length) {
+                for (let i = 0; i < family.members.length; i++) {
+                    if(family.members[i].isAlive === false) {
+                        dead.push(family.members[i])
+                        family.members.splice( i, 1 )
+                        break;
+                    }
+                    if (i >= family.members.length - 1) { foundDeadPerson = false }
+                }
+            }   
         }
-        let foundDeadPerson = true
-        while (foundDeadPerson) {
-            for (let i = 0; i < family.members.length; i++) {
-                if(family.members[i].isAlive === false) {
-                    dead.push(family.members[i])
-                    family.members.splice( i, 1 )
-                    break;
-                }
-                if (i === family.members.length - 1) { foundDeadPerson = false }
-            }
-        }   
+    } catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'peopleDie'
+        err.message = e.message
+        logError(err)
     }
+    
 }
 
 /**
@@ -333,7 +351,7 @@ module.exports.build = (world, output, options) => {
     const race = (options.race) ? options.race : ENUM_RACE_NAMES.human
 
     const dwellings = []
-    const families = []
+    let families = []
 
     for (let i = 0; i < noOfStartDwellings; i++) {
         const d = newDwelling({ type: ENUM_DWELLINGS.TOWN })
@@ -361,7 +379,12 @@ module.exports.build = (world, output, options) => {
 
         })
         peopleDie(families, world.date, output, world.dead, {})
+        families = removeDeadFamilies(families, output)
         addYear(world.date)
+
+        if(world.date.year % 100 == 0) {
+            console.log('ddd')
+        }
         
     }
 
