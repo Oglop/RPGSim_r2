@@ -8,6 +8,7 @@ const { getDwellingsFromMap } = require('../models/map')
 const { ENUM_FILE_TYPE } = require('../generic/enums')
 const { save } = require('../data/fileStorage')
 const { logError } = require('../data/errorFile')
+const { writeMap } = require('../output/visualize')
         
 
 const setWorldStartDate = (options) => {
@@ -41,6 +42,8 @@ const generateWorld = (output) => {
             logError(err)
         }
     }
+    writeMap(world.map, world.id)
+
     familyTreeBuilder.build(world, output, {
         years: 1000,
         noOfStartFamilies: 4,

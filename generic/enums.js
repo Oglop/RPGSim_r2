@@ -206,7 +206,8 @@ module.exports = {
     },
     ENUM_FILE_TYPE: {
         NONE: 0,
-        WORLD: 1
+        WORLD: 1,
+        VISUALIZATION: 2
     },
     ENUM_MASTERY_LEVELS: {
         NOVICE:0,

@@ -9,7 +9,7 @@ const { MAX_MARRIAGE_AGE_GAP,
     MIN_MARRIAGE_AGE
 } = require('../generic/statics')
 const { logError } = require('../data/errorFile')
-const 
+const { family } = require('../generic/objects')
 
 /**
  * 
@@ -177,8 +177,39 @@ const moves = (dwellings, families, currentDate, output, options) => {
     }
 }
 
-const peopleDie = (families, currentDate, output, options) => {
+/**
+ * 
+ * 
+ * @param {Array} families 
+ * @param {object} currentDate 
+ * @param {object} output 
+ * @param {Array} dead
+ * @param {object} options 
+ */
+const peopleDie = (families, currentDate, output, dead, options) => {
 
+    for (let family of families) {
+        for (let member of family.members) {
+            const age = getAgeSimple(currentDate, member.birthDate)
+            if (age > 60) {
+                if (chance(10 + (age - 60))) { 
+                    output.print(`${member.name} of ${family.name} dies from old age.`)
+                    member.isAlive = false 
+                }
+            }
+        }
+        let foundDeadPerson = true
+        while (foundDeadPerson) {
+            for (let i = 0; i < family.members.length; i++) {
+                if(family.members[i].isAlive === false) {
+                    dead.push(family.members[i])
+                    family.members.splice( i, 1 )
+                    break;
+                }
+                if (i === family.members.length - 1) { foundDeadPerson = false }
+            }
+        }   
+    }
 }
 
 /**
@@ -216,14 +247,17 @@ module.exports.build = (world, output, options) => {
     }
 
     for(let year = 0; year < years; year++) {
-        
+        output.print(`- Year of ${world.date.year} -`)
+
         marriages(families, world.date, output)
         getKids(families, world.date, output)
         moves(dwellings, families, world.date, output, {
             race: options.race,
 
         })
+        peopleDie(families, world.date, output, world.dead, {})
         addYear(world.date)
+        
     }
 
 }

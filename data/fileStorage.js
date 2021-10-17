@@ -11,8 +11,16 @@ const fs = require('fs');
 const getCatalougeByFileType = fileType => {
     switch (fileType) {
         case ENUM_FILE_TYPE.WORLD: return 'world'
+        case ENUM_FILE_TYPE.VISUALIZATION: return 'visualization'
     }
     return ''
+}
+
+const getExtensionByFileType = fileType => {
+    switch (fileType) {
+        case ENUM_FILE_TYPE.VISUALIZATION: return 'html'
+    }
+    return 'json'
 }
 /**
  * Create directory if it does not exist
@@ -46,13 +54,14 @@ module.exports.save = (data, args) => {
         // Throw missing arguments
         if (id === '') { throw new MissingParameterError(`id`) }
         if (fileType === ENUM_FILE_TYPE.NONE) { throw new MissingParameterError(`fileType`) }
+        const extension = getExtensionByFileType(fileType)
 
         const index = JSON.stringify({
             id, version, fileType
         })
         checkAndCreateDirectory(`${fileStorage}\\${getCatalougeByFileType(fileType)}\\`)
         checkAndCreateDirectory(`${fileStorage}\\index\\`)
-        let fileName = `${fileStorage}\\${getCatalougeByFileType(fileType)}\\${id}.json`
+        let fileName = `${fileStorage}\\${getCatalougeByFileType(fileType)}\\${id}.${extension}`
         fs.writeFileSync(fileName, data)
         fileName = `${fileStorage}\\index\\${id}.json`
         fs.writeFileSync(fileName, index)
