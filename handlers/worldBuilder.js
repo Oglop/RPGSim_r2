@@ -20,14 +20,15 @@ const setWorldStartDate = (options) => {
     return date
 } 
 
-const generateWorld = (output) => {
+const generateWorld = (output, options = {}) => {
     
     let atempts = 3
+    const size = (options.size) ? options.size : 30
     const world = copyObject(objects.world)
     world.id = generateID()
     world.name = 'Heria'
     world.date = setWorldStartDate({})
-    world.map = mapBuilder.build( { size: 30 } )
+    world.map = mapBuilder.build( { size } )
     /* while (atempts > 0) {
         try {
             world.map = mapBuilder.build( { size: 30 } )
@@ -53,8 +54,9 @@ const generateWorld = (output) => {
         noOfStartDwellings: 3
     })
 
-    mapBuilder.buildFarmlands(world.map, 30)
-    mapBuilder.buildLandMarks(world.map, 30)
+    mapBuilder.setDwellings(world.map, size)
+    mapBuilder.buildFarmlands(world.map, size)
+    mapBuilder.buildLandMarks(world.map, size)
     //const dwellings = getDwellingsFromMap(world.map)
     //world.families = familyBuilder.build({ dwellings, date: world.date })
     

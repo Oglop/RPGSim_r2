@@ -344,11 +344,11 @@ const drawDwelling = (map, size, count, biome, dwelling) => {
  * @param {array} map 
  * @param {int} size 
 */
- const setDwellings = (map, size) => {
+module.exports.setDwellings = (map, size) => {
     drawDwelling(map, size, 2 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.forest, ENUM_DWELLINGS.ELF_TOWN)
     drawDwelling(map, size, 1 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.hills, ENUM_DWELLINGS.DWARVEN_MINE)
-    drawDwelling(map, size, 2 + getRandomNumber( Math.floor(size / 10) ), undefined, ENUM_DWELLINGS.TOWN)
-    drawDwelling(map, size, 1 + getRandomNumber( Math.floor(size / 20) ), ENUM_BIOMES.plains, ENUM_DWELLINGS.CITY)
+    // drawDwelling(map, size, 2 + getRandomNumber( Math.floor(size / 10) ), undefined, ENUM_DWELLINGS.TOWN)
+    // drawDwelling(map, size, 1 + getRandomNumber( Math.floor(size / 20) ), ENUM_BIOMES.plains, ENUM_DWELLINGS.CITY)
     drawDwelling(map, size, 4 + getRandomNumber( Math.floor(size / 10) ), undefined, ENUM_DWELLINGS.TOWER)
     drawDwelling(map, size, 3 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.hills, ENUM_DWELLINGS.RUINS)
 }
@@ -398,9 +398,9 @@ module.exports.build = (options) => {
         generateLakes(map, worldSize)
         generateTempratures(map, worldSize)
         setBiome(map, worldSize)
-        setDwellings(map, worldSize)
-        setFarmlands(map, worldSize)
-        setLandmarks(map, worldSize)
+        //setDwellings(map, worldSize)
+        //setFarmlands(map, worldSize)
+        //setLandmarks(map, worldSize)
         
         // visualizeMap(map, worldSize)
         return map
