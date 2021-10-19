@@ -269,5 +269,11 @@ module.exports = {
     ENUM_ITEM_EFFECTS: {
         FIRE: 1,
         BLIND: 2
+    },
+    ENUM_QUEST_STATUS: {
+        SEEK_QUEST:0,
+        IN_PROGRESS:1,
+        FAILED:2,
+        FINISHED:3
     }
 }

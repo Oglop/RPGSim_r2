@@ -11,7 +11,8 @@ module.exports = {
         events: {
             history:[],
             adventure:[]
-        }
+        },
+        parties:[]
     },
     character: {
         id: undefined,
@@ -209,9 +210,12 @@ module.exports = {
     },
     party: {
         id: undefined,
+        karma: 0,
         members: [],
+        path: [],
         position: { x: 0, y: 0 },
         quest: undefined,
+        questStatus: undefined,
         questGoal: { x: 0, y: 0 },
         crowns:0,
         food:0

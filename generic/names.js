@@ -33,6 +33,9 @@ const firstFamilyNames = [
     'Bright',
     'Bloody',
     'Singing',
+    'Shining',
+    'Round',
+    'Diamond',
     'Riding',
     'Blessed',
     'Oaken'
@@ -59,6 +62,7 @@ const lastFamilyNames = [
     'bridge',
     'axes',
     'lance',
+    'spear',
     'giants',
     'claw',
     'crown',

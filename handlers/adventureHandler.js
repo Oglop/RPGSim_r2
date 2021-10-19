@@ -11,8 +11,25 @@ const progressAdventure = (party, world) => {
     const season = getSeason(world.date)
 }
 
+/**
+ * 
+ * 
+ * @param {object} world 
+ * @param {object} options 
+ */
+const createParty = (world, options) => {
+    const party = partyBuilder.build({
+        partySize: 6
+    })
+    world.parties.push(party)
+
+
+
+}
+
 
 
 module.exports = {
-    progressAdventure
+    progressAdventure,
+    createParty
 }
