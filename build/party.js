@@ -1,7 +1,9 @@
 const objects = require('../generic/objects')
-const characterBuilder = require('../build/character')
+const characterBuilder = require('./character')
+const equipmentBuilder = require('./equipment')
 const { ENUM_JOB_NAMES, ENUM_QUEST_STATUS } = require('../generic/enums')
 const { chance, copyObject, generateID, getRandomNumberInRange } = require('../lib/utils')
+const { logError } = require('../data/errorFile')
 
 /**
  * Builds party object
@@ -20,7 +22,10 @@ module.exports.build = (startingPoints, options) => {
     party.questStatus = ENUM_QUEST_STATUS.SEEK_QUEST
 
     for (let i = 0; i < noOfMembers; i++) {
-        party.members.push(characterBuilder.build())
+        const character = characterBuilder.build()
+        equipmentBuilder.equipCharacter(character)
+        party.members.push(character)
+
     }
     for (let i = 0; i < noOfMembers; i++) {
         if (party.members[i].job == ENUM_JOB_NAMES.cleric) {

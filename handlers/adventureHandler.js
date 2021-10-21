@@ -1,6 +1,6 @@
 const { getSeason } = require('../lib/time')
 const partyBuilder = require('../build/party')
-
+const { partySize } = require('../config')
 
 /**
  * 
@@ -19,7 +19,7 @@ const progressAdventure = (party, world) => {
  */
 const createParty = (world, options) => {
     const party = partyBuilder.build({
-        partySize: 6
+        partySize
     })
     world.parties.push(party)
 

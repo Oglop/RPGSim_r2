@@ -3,5 +3,6 @@ module.exports = {
     version: 1.0,
     saveVisualization: true,
     saveWorld: false,
-    language: 'en'
+    language: 'en',
+    partySize: 6
 }
