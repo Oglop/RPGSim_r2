@@ -38,7 +38,13 @@ module.exports = {
         personality: undefined,
         relationships: [],
         isAlive: true,
-        diedFrom:undefined
+        diedFrom:undefined,
+        equipment: {
+            head: undefined,
+            weaponHand: undefined,
+            shieldHand:undefined,
+            body: undefined
+        }
     },
     stats: {
         str: 0,
@@ -206,7 +212,8 @@ module.exports = {
         name: undefined,
         use: undefined,
         effect: undefined,
-        value: 0
+        value: 0,
+        skillRequired: undefined
     },
     party: {
         id: undefined,

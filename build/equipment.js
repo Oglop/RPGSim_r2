@@ -13,7 +13,13 @@ const itemBuilder = require('../build/item')
 
 
 const equipCleric = (character) => {
-    const club = itemBuilder.build(ENUM_ITEM_TYPE.MACE, ENUM_ITEM_TIER.COMMON)
+    const weapon = itemBuilder.build(ENUM_ITEM_TYPE.MACE, ENUM_ITEM_TIER.COMMON)
+    const armor = itemBuilder.build(ENUM_ITEM_TYPE.LIGHT_ARMOR, ENUM_ITEM_TIER.COMMON)
+
+    character.equipment.weaponHand = weapon
+    character.equipment.body = armor
+
+
 }
 
 const equipCharacter = (character) => {
@@ -29,9 +35,6 @@ const equipCharacter = (character) => {
         logError(err)
     }
 }
-
-
-
 
 module.exports = {
     equipCharacter
