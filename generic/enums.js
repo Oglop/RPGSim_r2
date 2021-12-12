@@ -281,5 +281,13 @@ module.exports = {
         TEMPLE: 1,
         UNDERCITY: 2,
         STRONGHOLD:3
+    },
+    ENUM_DUNGEON_ROOM_TYPE: {
+        CORRIDOR
+    },
+    ENUM_LIGHT_LEVEL: {
+        BRIGHT:0,
+        DIM:1,
+        DARK:2
     }
 }

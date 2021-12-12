@@ -160,7 +160,11 @@ module.exports = {
         rooms: []
     },
     dungeonRoom: {
-        id:''
+        id:'',
+        doors: []
+    },
+    dungeonRoomDoor: {
+
     },
     skill: {
         name: undefined,
