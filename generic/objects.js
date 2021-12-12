@@ -155,10 +155,12 @@ module.exports = {
         }
     },
     dungeon: {
+        id: '',
+        theme: undefined,
         rooms: []
     },
     dungeonRoom: {
-
+        id:''
     },
     skill: {
         name: undefined,

@@ -275,5 +275,11 @@ module.exports = {
         IN_PROGRESS:1,
         FAILED:2,
         FINISHED:3
+    },
+    ENUM_DUNGEON_THEMES: {
+        CAVE: 0,
+        TEMPLE: 1,
+        UNDERCITY: 2,
+        STRONGHOLD:3
     }
 }
