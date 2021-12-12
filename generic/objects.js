@@ -161,6 +161,7 @@ module.exports = {
     },
     dungeonRoom: {
         id:'',
+        type: undefined,
         doors: []
     },
     dungeonRoomDoor: {

@@ -14,7 +14,7 @@ const {
  * 
  * @returns 
  */
-const getRandomDungeonTheme = () => {
+const getDungeonTheme = () => {
     const i = getRandomNumberInRange(0, 3)
     switch (i) {
         case 0: return ENUM_DUNGEON_THEMES.CAVE;
@@ -58,13 +58,14 @@ const getDungeonRoomType = theme => {
 module.exports.build = () => {
     const d = copyObject(objects.dungeon)
     d.id = generateID()
-    d.theme = getRandomDungeonTheme()
+    d.theme = getDungeonTheme()
 
     let previousRoom = {}
     for (let i = 0; i < 10; i++) {
         const r = copyObject(objects.dungeonRoom)
         previousRoom = r
         r.id = generateID()
+        r.type = getDungeonRoomType(r.theme)
 
     }
 

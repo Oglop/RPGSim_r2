@@ -289,5 +289,10 @@ module.exports = {
         BRIGHT:0,
         DIM:1,
         DARK:2
+    },
+    ENUM_DUNGEON_DOOR_TYPE: {
+        NONE,
+        WOOD,
+        
     }
 }
