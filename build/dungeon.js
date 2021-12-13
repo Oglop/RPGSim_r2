@@ -9,7 +9,7 @@ const {
     ENUM_DUNGEON_THEMES,
     ENUM_DUNGEON_ROOM_TYPE
  } = require('../generic/enums')
-
+const m = require('../models/dungeon')
 /**
  * 
  * @returns 
@@ -60,12 +60,18 @@ module.exports.build = () => {
     d.id = generateID()
     d.theme = getDungeonTheme()
 
-    let previousRoom = {}
-    for (let i = 0; i < 10; i++) {
+    const depth = getRandomNumberInRange(8, 12)
+
+    let previousRoom = { id:'exit' }
+    for (let i = 0; i < depth; i++) {
         const r = copyObject(objects.dungeonRoom)
         previousRoom = r
         r.id = generateID()
         r.type = getDungeonRoomType(r.theme)
+        const door = copyObject(objects.dungeonRoomDoor)
+        door.up = previousRoom.id
+        door.down = r.id
+        r.doors.push(door)
 
     }
 

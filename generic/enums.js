@@ -294,5 +294,9 @@ module.exports = {
         NONE,
         WOOD,
         
+    },
+    ENUM_TRAVERSE_DIRECTION: {
+        UP,
+        DOWN
     }
 }

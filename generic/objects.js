@@ -165,7 +165,8 @@ module.exports = {
         doors: []
     },
     dungeonRoomDoor: {
-
+        up: undefined,
+        down: undefined
     },
     skill: {
         name: undefined,
