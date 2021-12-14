@@ -283,7 +283,13 @@ module.exports = {
         STRONGHOLD:3
     },
     ENUM_DUNGEON_ROOM_TYPE: {
-        CORRIDOR
+        CORRIDOR,
+        CAVE_IN,
+        CHASM,
+        CAVE_OF_BONES,
+        FLOODED_CAVE,
+        GEMSTONE_CAVE,
+        GREAT_HALL,
     },
     ENUM_LIGHT_LEVEL: {
         BRIGHT:0,

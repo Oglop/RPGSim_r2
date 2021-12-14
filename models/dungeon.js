@@ -1,7 +1,6 @@
 const {
     copyObject,
     chance,
-    generateID,
     getRandomNumberInRange,
     getObjectByIDInArray
 } = require('../lib/utils')
@@ -26,6 +25,11 @@ const getRoomDescriptionFromType = (type) => {
 const traverseDungeon = (dungeonRoom, dungeon, direction) => {
     const room = (direction == ENUM_TRAVERSE_DIRECTION.DOWN) ? getObjectByIDInArray(dungeon.rooms, dungeonRoom.doors[0].down) : getObjectByIDInArray(dungeon.rooms, dungeonRoom.doors[0].up)
     return room
+}
+
+
+const resolveRoom = (room) => {
+    
 }
 
 
