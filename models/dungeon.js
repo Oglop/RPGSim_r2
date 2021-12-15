@@ -7,8 +7,7 @@ const {
 const objects = require('../generic/objects')
 const { 
     ENUM_DUNGEON_THEMES,
-    ENUM_DUNGEON_ROOM_TYPE,
-    ENUM_TRAVERSE_DIRECTION
+    ENUM_DUNGEON_ROOM_TYPE
 } = require('../generic/enums')
 const { get } = require('../localization')
 
@@ -22,18 +21,31 @@ const getRoomDescriptionFromType = (type) => {
     return ''
 }
 
-const traverseDungeon = (dungeonRoom, dungeon, direction) => {
-    const room = (direction == ENUM_TRAVERSE_DIRECTION.DOWN) ? getObjectByIDInArray(dungeon.rooms, dungeonRoom.doors[0].down) : getObjectByIDInArray(dungeon.rooms, dungeonRoom.doors[0].up)
-    return room
+const traverseDungeon = (dungeonRoom, dungeon) => {
+    return getObjectByIDInArray(dungeon.rooms, dungeonRoom.doors[0].to)
 }
 
+const getFirstdungeonRoom = dungeon => {
+    return getObjectByIDInArray(dungeon.rooms, 'start') 
+}
 
-const resolveRoom = (room) => {
-    
+/**
+ * 
+ * 
+ * @param {object} dungeonRoom 
+ * @param {object} output 
+ */
+const resolveRoom = (dungeonRoom, party, output) => {
+    output.print(dungeonRoom.description)
+    if (dungeonRoom.dungeonEvent != undefined && dungeonRoom.dungeonEvent instanceof Function) {
+        dungeonRoom.dungeonEvent(party)
+    }
 }
 
 
 module.exports = {
     getRoomDescriptionFromType,
-    traverseDungeon
+    traverseDungeon,
+    resolveRoom,
+    getFirstdungeonRoom
 }

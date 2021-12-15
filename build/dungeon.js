@@ -62,17 +62,20 @@ module.exports.build = () => {
 
     const depth = getRandomNumberInRange(8, 12)
 
-    let previousRoom = { id:'exit' }
+    let previousRoom = copyObject(objects.dungeonRoom)
+    previousRoom.id = 'start'
+    d.rooms.push(previousRoom)
     for (let i = 0; i < depth; i++) {
         const r = copyObject(objects.dungeonRoom)
-        previousRoom = r
-        r.id = generateID()
+        r.id = (d.rooms.length) ? generateID() : 'start'
         r.type = getDungeonRoomType(r.theme)
+        r.description = m.getRoomDescriptionFromType(r.type)
         const door = copyObject(objects.dungeonRoomDoor)
-        door.up = previousRoom.id
-        door.down = r.id
-        r.doors.push(door)
-
+        door.to = r.id
+        previousRoom.door.push(door)
+        d.rooms.push(r)
+        previousRoom = r
+        
     }
 
 }

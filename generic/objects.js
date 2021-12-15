@@ -161,11 +161,13 @@ module.exports = {
     },
     dungeonRoom: {
         id:'',
+        description: '',
         type: undefined,
-        doors: []
+        dungeonEvent: undefined,
+        door: undefined
     },
     dungeonRoomDoor: {
-        up: undefined,
+        to: undefined,
         down: undefined
     },
     skill: {
