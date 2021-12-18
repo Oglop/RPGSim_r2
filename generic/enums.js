@@ -227,7 +227,8 @@ module.exports = {
     ENUM_EVENT_TYPE: {
         HISTORY: 0,
         ADVENTURE: 1,
-        DOOM: 2
+        DOOM: 2,
+        DUNGEON: 3
     },
     ENUM_ENEMY_TYPE: {
         VILE:0,

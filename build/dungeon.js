@@ -4,10 +4,13 @@ const {
     generateID,
     getRandomNumberInRange
 } = require('../lib/utils')
+
+const eventBuilder = require('./event')
 const objects = require('../generic/objects')
 const { 
     ENUM_DUNGEON_THEMES,
-    ENUM_DUNGEON_ROOM_TYPE
+    ENUM_DUNGEON_ROOM_TYPE,
+    ENUM_EVENT_TYPE
  } = require('../generic/enums')
 const m = require('../models/dungeon')
 /**
@@ -70,6 +73,7 @@ module.exports.build = () => {
         r.id = (d.rooms.length) ? generateID() : 'start'
         r.type = getDungeonRoomType(r.theme)
         r.description = m.getRoomDescriptionFromType(r.type)
+        r.event = eventBuilder.build(undefined, undefined, ENUM_EVENT_TYPE.DUNGEON, {})
         const door = copyObject(objects.dungeonRoomDoor)
         door.to = r.id
         previousRoom.door.push(door)

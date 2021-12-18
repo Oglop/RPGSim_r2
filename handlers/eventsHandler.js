@@ -1,6 +1,7 @@
 const { resolveEvent } = require('../models/event')
 const eventBuilder = require('../build/event')
 const { ENUM_EVENT_TYPE } = require('../generic/enums')
+const { dungeonRoom } = require('../generic/objects')
 
 const adventureEvents = (world, output) => {
     
@@ -20,7 +21,12 @@ const historyEvents = (world, output) => {
     }   
 }
 
+const dungeonEvents = (dungeonRoom, output) => {
+    
+}
+
 module.exports = {
     adventureEvents,
-    historyEvents
+    historyEvents,
+    dungeonEvents
 }

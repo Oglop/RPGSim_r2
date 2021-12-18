@@ -163,11 +163,16 @@ module.exports = {
         id:'',
         description: '',
         type: undefined,
-        dungeonEvent: undefined,
+        event: undefined,
         door: undefined
     },
     dungeonRoomDoor: {
         to: undefined
+    },
+    dungeonEventItem: {
+        description: undefined,
+        execute: undefined,
+        status: undefined
     },
     skill: {
         name: undefined,

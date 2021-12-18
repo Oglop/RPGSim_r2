@@ -6,6 +6,9 @@ const {
     raiders,
     questingKnight
 } = require('../models/events/history')
+const {
+    flickeringLights
+} = require('../models/events/dungeon')
 const { ENUM_EVENT_TYPE } = require('../generic/enums')
 
 
@@ -28,6 +31,13 @@ const getHistoryEvent = (event, world, options) => {
     return event
 }
 
+const getDungeonEvent = (options) => {
+    const i = getRandomNumber(1)
+    switch(i) {
+        case 1: return flickeringLights();
+    }
+}
+
 /**
  * 
  * 
@@ -43,6 +53,7 @@ module.exports.build = (world, output, eventType, options) => {
     e.output = output
     switch (eventType) {
         case ENUM_EVENT_TYPE.HISTORY: return getHistoryEvent(e, world)
+        case ENUM_EVENT_TYPE.DUNGEON: return getDungeonEvent(options)
     }
 
 }
