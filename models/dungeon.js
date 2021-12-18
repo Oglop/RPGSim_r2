@@ -2,7 +2,7 @@ const {
     copyObject,
     chance,
     getRandomNumberInRange,
-    getObjectByIDInArray
+    getObjectByidInArray
 } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { 
@@ -22,11 +22,11 @@ const getRoomDescriptionFromType = (type) => {
 }
 
 const traverseDungeon = (dungeonRoom, dungeon) => {
-    return getObjectByIDInArray(dungeon.rooms, dungeonRoom.doors[0].to)
+    return getObjectByidInArray(dungeon.rooms, dungeonRoom.door.to)
 }
 
 const getFirstdungeonRoom = dungeon => {
-    return getObjectByIDInArray(dungeon.rooms, 'start') 
+    return getObjectByidInArray(dungeon.rooms, 'start') 
 }
 
 /**
