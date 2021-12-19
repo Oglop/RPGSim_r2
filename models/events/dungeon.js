@@ -1,4 +1,5 @@
 const { copyObject, chance, getRandomNumber, getRandomElementFromArray } = require('../../lib/utils')
+const { get } = require('../../localization')
 const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH, 
     ENUM_ENEMY_TYPE, 
     ENUM_GAME_MODE, 
@@ -21,7 +22,7 @@ const objects = require('../../generic/objects')
 const flickeringLights = () => {
     const e = copyObject(objects.dungeonEventItem)
     e.status = ENUM_EVENT_ITEM_STATUS.UNRESOLVED
-    e.description = ''
+    e.description = get('dungeon-flickeringlights-description')
     e.execute = (output, party) => {
         e.status = ENUM_EVENT_ITEM_STATUS.RESOLVED
     }

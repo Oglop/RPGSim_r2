@@ -1,4 +1,7 @@
 const m = require('../models/dungeon')
+const b = require('../build/event');
+const { ENUM_EVENT_TYPE } = require('../generic/enums');
+const { get } = require('../localization')
 
 describe('dungeon tests', () => {
     it('should be instance of  function', () => {
@@ -36,5 +39,17 @@ describe('dungeon tests', () => {
         const currentRoom = dungeon.rooms[0]
         const actual = m.traverseDungeon(currentRoom, dungeon)
         expect(actual.description).toBe('correct room')
+    })
+    it('should return a flickers event', () => {
+        const mockMath = Object.create(global.Math);
+        mockMath.random = () => 0.0;
+        global.Math = mockMath;
+        const desc = get('dungeon-flickeringlights-description')
+
+        const actual = b.build(undefined, undefined, ENUM_EVENT_TYPE.DUNGEON, {})
+
+        expect(actual.execute).toBeInstanceOf(Function)
+        expect(actual.description).toBe(desc)
+
     })
 })
