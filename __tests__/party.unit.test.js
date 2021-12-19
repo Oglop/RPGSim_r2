@@ -1,5 +1,15 @@
 const b = require('../build/party')
 
+const setWorldStartDate = (options) => {
+    const objects = require('../generic/objects')
+    const { copyObject } = require('../lib/utils')
+    const date = copyObject(objects.date)
+    date.year = 0
+    date.month = 2
+    date.day = 1
+    return date
+} 
+
 
 describe('party unit tests', () => {
     test('build should be instance of a funtion', () => {
@@ -8,7 +18,8 @@ describe('party unit tests', () => {
     test('build should return a party with of size', () => {
         const partySize = 6
         const actual = b.build(undefined, {
-            partySize
+            partySize,
+            currentDate: setWorldStartDate()
         })
         expect(actual.members.length).toBe(partySize)
         expect(actual.food).toBeGreaterThan(actual.members.length)

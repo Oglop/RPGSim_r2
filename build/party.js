@@ -23,7 +23,9 @@ module.exports.build = (startingPoints, options) => {
     party.questStatus = ENUM_QUEST_STATUS.SEEK_QUEST
 
     for (let i = 0; i < noOfMembers; i++) {
-        const character = characterBuilder.build()
+        const character = characterBuilder.build({
+            currentDate: options.date
+        })
         equipmentBuilder.equipCharacter(character)
         party.members.push(character)
 

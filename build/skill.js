@@ -50,7 +50,7 @@ const getSkill = skill => {
             o.luckTest = false
             break
         case ENUM_SKILL_NAMES.lockPicking:
-            o.name = ENUM_SKILL_NAMES-lockPicking
+            o.name = ENUM_SKILL_NAMES.lockPicking
             o.statsBase = ENUM_STAT_NAMES.agi
             o.luckTest = true
             break
