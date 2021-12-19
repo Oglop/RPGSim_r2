@@ -14,6 +14,7 @@ const { logError } = require('../data/errorFile')
  */
 module.exports.build = (startingPoints, options) => {
     const noOfMembers = (options.partySize) ? options.partySize : 6
+    if (noOfMembers == 0) { noOfMembers = 1 } 
     const party = copyObject(objects.party)
     party.id = generateID()
     party.food = 0

@@ -150,7 +150,7 @@ const validateBuild = (c) => {
  * }
  * @returns 
  */
-module.exports.build = (options) => {
+module.exports.build = (options = {}) => {
     const c = copyObject(objects.character)
     try {
         c.id = generateID()
