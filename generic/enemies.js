@@ -27,8 +27,10 @@ module.exports = {
                 name: 'wolf'
             }
          ],
-         MEDIUM: [
- 
+         MEDIUM: [ 
+            {
+                name: 'spider'
+            }
          ],
          STRONG: [
             {

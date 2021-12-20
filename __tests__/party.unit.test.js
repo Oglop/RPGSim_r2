@@ -25,6 +25,8 @@ describe('party unit tests', () => {
         expect(actual.food).toBeGreaterThan(actual.members.length)
         expect(actual.members[0].id.length).toBeGreaterThan(0)
         expect(actual.members[0].isAlive).toBeTruthy()
+        expect(actual.members[0].health).toBeGreaterThan(0)
+        expect(actual.members[0].health).toBe(actual.members[0].maxHealth)
     })
     
 })
