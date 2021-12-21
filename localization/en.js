@@ -16,6 +16,10 @@ module.exports.get = (id, args) => {
         case 'dungeon-type-gemstone-cave': return 'a cave filled with gem stone.'
         case 'dungeon-type-cave-hall': return 'a great stone hall.'
         case 'dungeon-flickeringlights-description': return 'Suddenly the torch starts flickering.'
+        case 'dungeon-theme-cave': return 'cave'
+        case 'dungeon-theme-ruins': return 'ruins'
+        case 'dungeon-theme-undercity': return 'undercity'
+        case 'dungeon-theme-stronghold': return 'stronghold'
         case 'familyTree-build-1': return `- Year of ${args[0]} -`
         case 'familyTree-peopleDie-1': return `${args[0]} of ${args[1]} dies from old age.`
         case 'familyTree-moves-1': return `${args[0]} founded the town of ${args[1]}.`

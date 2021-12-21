@@ -277,12 +277,6 @@ module.exports = {
         FAILED:2,
         FINISHED:3
     },
-    ENUM_DUNGEON_THEMES: {
-        CAVE: 0,
-        TEMPLE: 1,
-        UNDERCITY: 2,
-        STRONGHOLD:3
-    },
     ENUM_DUNGEON_ROOM_TYPE: {
         CORRIDOR: 0,
         CAVE_IN: 1,
