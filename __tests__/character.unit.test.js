@@ -1,6 +1,7 @@
 const characterBuilder = require('../build/character')
-const { validateCharacterCompabilityForMarige } = require('../models/character')
-const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_JOB_NAMES } = require('../generic/enums')
+const { validateCharacterCompabilityForMarige, getTraitDescription } = require('../models/character')
+const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_JOB_NAMES, ENUM_CHARACTER_TRAITS } = require('../generic/enums')
+const { get } = require('../localization')
 
 describe('character build', () => {
     it('should return a character', () => {
@@ -143,5 +144,10 @@ describe('character model', () => {
         expect(actual4false).toBe(false)
         expect(actual5false).toBe(false)
         expect(actual1true).toBe(true)
+    })
+    it('should return the description for a trait', () => {
+        const expected = get('character-trait-veteran', ['NAME'])
+        const actual = getTraitDescription(ENUM_CHARACTER_TRAITS.VETERAN, { name: 'NAME' })
+        expect(actual).toBe(expected)
     })
 })

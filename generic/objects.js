@@ -28,6 +28,7 @@ module.exports = {
         languages: [],
         skills: [],
         birthDate: undefined,
+        trait: undefined,
         age: 0,
         stats: undefined,
         health: 0,
@@ -156,6 +157,7 @@ module.exports = {
     },
     dungeon: {
         id: '',
+        description: undefined,
         theme: undefined,
         rooms: []
     },

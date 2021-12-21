@@ -4,7 +4,7 @@ const languageBuilder = require('./languages')
 const personalityBuilder = require('./personality')
 const { copyObject, generateID, chance, getRandomNumberInRange } = require('../lib/utils')
 const { getPersonName } = require('../generic/names')
-const { ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITIES } = require('../generic/enums')
+const { ENUM_CHARACTER_TRAITS, ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITIES } = require('../generic/enums')
 const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM, STAT_HEALTH_BASE, STAT_HEALTH_INCREASE, STAT_STAMINA_BASE, STAT_STAMINA_INCREASE } = require('../generic/statics')
 const { getBirthDate } = require('../lib/time')
 const { logError } = require('../data/errorFile')
@@ -120,6 +120,22 @@ const rollStats = (enforceMinimumSum) => {
     return s
 }
 
+const getTrait = () => {
+    const i = getRandomNumberInRange(0, 8)
+    switch (i) {
+        case 0: return ENUM_CHARACTER_TRAITS.ABOMINATION;
+        case 1: return ENUM_CHARACTER_TRAITS.ADVENTURER;
+        case 2: return ENUM_CHARACTER_TRAITS.CURSED;
+        case 3: return ENUM_CHARACTER_TRAITS.DARK_PAST;
+        case 4: return ENUM_CHARACTER_TRAITS.ESCAPED_SLAVE;
+        case 5: return ENUM_CHARACTER_TRAITS.FISHER;
+        case 6: return ENUM_CHARACTER_TRAITS.FORMER_NOBLE;
+        case 7: return ENUM_CHARACTER_TRAITS.TRAVLER;
+        case 8: return ENUM_CHARACTER_TRAITS.VETERAN;
+
+    }
+}
+
 
 /**
  * 
@@ -163,6 +179,7 @@ module.exports.build = (options = {}) => {
         c.father = options.father
         c.mother = options.mother
         c.pregnant = false
+        c.trait = getTrait()
         c.stats = rollStats(options.enforceMinimumSum || true)
         setRaceTrait(c)
         setHealthAndStamina(c)

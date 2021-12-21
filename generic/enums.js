@@ -178,6 +178,17 @@ module.exports = {
         alive: 'alive',
         died: 'died'
     },
+    ENUM_CHARACTER_TRAITS: {
+        ABOMINATION: 0,
+        DARK_PAST: 1,
+        ESCAPED_SLAVE: 2,
+        TRAVLER: 3,
+        FISHER:4,
+        CURSED: 5,
+        FORMER_NOBLE: 6,
+        ADVENTURER: 7,
+        VETERAN: 8
+    },
     ENUM_TRAVEL_RESULTS: {
         allGood: 'allGood',
         noTravel: 'noTravel'
