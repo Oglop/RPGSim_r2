@@ -192,7 +192,8 @@ module.exports = {
         STICKY_FINGERS: 10,
         ALCOHOLIC: 11,
         GAMBLER: 12,
-        SHIELDED: 13
+        SHIELDED: 13,
+        RIDER: 14
     },
     ENUM_TRAVEL_RESULTS: {
         allGood: 'allGood',

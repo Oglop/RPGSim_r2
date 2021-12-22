@@ -137,6 +137,7 @@ const getTrait = () => {
         case 11: return ENUM_CHARACTER_TRAITS.ALCOHOLIC;
         case 12: return ENUM_CHARACTER_TRAITS.GAMBLER;
         case 13: return ENUM_CHARACTER_TRAITS.SHIELDED;
+        case 14: return ENUM_CHARACTER_TRAITS.RIDER;
     }
 }
 
