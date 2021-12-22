@@ -103,6 +103,8 @@ const getTraitDescription = (trait, character) => {
         case ENUM_CHARACTER_TRAITS.FORMER_NOBLE: return get('character-trait-ex-noble', [ character.name ]);
         case ENUM_CHARACTER_TRAITS.ADVENTURER: return get('character-trait-adventurer', [ character.name ]);
         case ENUM_CHARACTER_TRAITS.VETERAN: return get('character-trait-veteran', [ character.name ]);
+        case ENUM_CHARACTER_TRAITS.SPIRIT_TALKER: return get('character-trait-spirit-talker', [ character.name ]);
+        case ENUM_CHARACTER_TRAITS.STICKY_FINGERS: return get('character-trait-sticky-fingers', [ character.name ]);
     }
 }
 

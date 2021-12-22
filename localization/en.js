@@ -16,7 +16,11 @@ module.exports.get = (id, args) => {
         case 'character-trait-ex-noble': return `${args[0]} is of a noble house who lost all money and power.`
         case 'character-trait-adventurer': return `${args[0]} has an never ending thirst for treasure and danger.`
         case 'character-trait-veteran': return `A veteran ${args[0]} of numerous campaigns.`
-        
+        case 'character-trait-spirit-talker': return `Since a young age ${args[0]} has been able to communicate with spirits.`
+        case 'character-trait-sticky-fingers': return `Things always seem to end up in ${args[0]} pockets.`
+        case 'character-trait-alcoholic': return `${args[0]} can never resist the bottle.`
+        case 'character-trait-shielded': return `${args[0]} grew up in innocense, shielded from any harshness of the world.`
+        case 'character-trait-gambler': return `${args[0]} is a gambler.`
         case 'dungeon-move': return `Proceeding further into the dungeon the ${args[0]} moves into a ${args[1]}.`
         case 'dungeon-type-corridor': return 'a corridor stretches further down.'
         case 'dungeon-type-cave-in': return 'this part of the cave has caved in.'

@@ -187,7 +187,12 @@ module.exports = {
         CURSED: 5,
         FORMER_NOBLE: 6,
         ADVENTURER: 7,
-        VETERAN: 8
+        VETERAN: 8,
+        SPIRIT_TALKER: 9,
+        STICKY_FINGERS: 10,
+        ALCOHOLIC: 11,
+        GAMBLER: 12,
+        SHIELDED: 13
     },
     ENUM_TRAVEL_RESULTS: {
         allGood: 'allGood',
