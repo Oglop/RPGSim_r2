@@ -121,7 +121,7 @@ const rollStats = (enforceMinimumSum) => {
 }
 
 const getTrait = () => {
-    const i = getRandomNumberInRange(0, 13)
+    const i = getRandomNumberInRange(0, 15)
     switch (i) {
         case 0: return ENUM_CHARACTER_TRAITS.ABOMINATION;
         case 1: return ENUM_CHARACTER_TRAITS.ADVENTURER;
@@ -138,6 +138,8 @@ const getTrait = () => {
         case 12: return ENUM_CHARACTER_TRAITS.GAMBLER;
         case 13: return ENUM_CHARACTER_TRAITS.SHIELDED;
         case 14: return ENUM_CHARACTER_TRAITS.RIDER;
+        case 15: return ENUM_CHARACTER_TRAITS.OCCULTIST;
+        case 16: return ENUM_CHARACTER_TRAITS.COOL_HEADED;
     }
 }
 

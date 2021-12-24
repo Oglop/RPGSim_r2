@@ -193,7 +193,9 @@ module.exports = {
         ALCOHOLIC: 11,
         GAMBLER: 12,
         SHIELDED: 13,
-        RIDER: 14
+        RIDER: 14,
+        OCCULTIST: 15,
+        COOL_HEADED: 16
     },
     ENUM_TRAVEL_RESULTS: {
         allGood: 'allGood',
@@ -257,6 +259,9 @@ module.exports = {
         MEDIUM:1,
         STRONG:2,
         EPIC:3
+    },
+    ENUM_ENEMY_ATTACK: {
+        HIT: 0
     },
     ENUM_EVENT_ITEM_STATUS: {
         UNRESOLVED:0,

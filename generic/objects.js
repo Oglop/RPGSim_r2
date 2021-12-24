@@ -221,7 +221,21 @@ module.exports = {
         id: undefined,
         type: undefined,
         name: undefined,
-        hp: 0
+        hp: 0,
+        stats: undefined,
+        attacks: []
+
+    },
+    enemyStats: {
+        str:0,
+        agi:0,
+        res:0,
+        int:0
+    },
+    enemyAttack: {
+        min: 0,
+        max: 0,
+        name: undefined,
     },
     item: {
         type: undefined,

@@ -50,7 +50,9 @@ module.exports = {
             }
          ],
          MEDIUM: [
- 
+             {
+                name: 'golem'
+             }
          ],
          STRONG: [
             {
@@ -58,7 +60,9 @@ module.exports = {
             }
          ],
          EPIC: [
- 
+            {
+                name: 'vampire'
+            }
          ]
     }
 }

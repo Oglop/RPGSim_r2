@@ -1,8 +1,26 @@
 const { ENUM_GAME_MODE, ENUM_ENEMY_TYPE, ENUM_ENEMY_STRENGTH } = require('../generic/enums')
-const { getRandomElementFromArray, copyObject, generateID } = require('../lib/utils')
+const { getRandomElementFromArray, copyObject, generateID, getRandomNumberInRange } = require('../lib/utils')
 const enemies = require('../generic/enemies')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
+
+const setStats = (enemy) => {
+    enemy.stats = copyObject(objects.enemyStats)
+    if (enemy.name == 'goblin') {
+        enemy.stats.str = getRandomNumberInRange(2, 4)
+        enemy.stats.agi = getRandomNumberInRange(4, 5)
+        enemy.stats.res = getRandomNumberInRange(1, 2)
+        enemy.stats.int = getRandomNumberInRange(2, 3)
+        enemy.hp = getRandomNumberInRange(4, 6)
+    }
+}
+
+
+const setAttacks = (enemy) => {
+    if (enemy.name == 'goblin') {
+        enemy.attacks.push()
+    }
+}
 
 /**
  * options {
@@ -43,7 +61,8 @@ module.exports.build = (options) => {
             return enemy
         }
         // TODO adventure mode enemy
-
+        setStats(enemy)
+        setAttacks(enemy)
         return enemy
 
     } catch (e) {
