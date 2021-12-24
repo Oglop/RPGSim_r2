@@ -9,6 +9,20 @@ module.exports.build = (attack) => {
         case ENUM_ENEMY_ATTACK.HIT:
             a.min = 2;
             a.max = 4;
-            a.name = 'Hit'
+            a.name = 'hits'
+            break;
+        case ENUM_ENEMY_ATTACK.BITE:
+            a.min = 1;
+            a.max = 5;
+            a.name = 'bites'
+            break;
+
+        default:
+            a.min = 2;
+            a.max = 4;
+            a.name = 'hits'
     }
+
+
+    return a
 }
