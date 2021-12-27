@@ -46,6 +46,9 @@ const setAttacks = (enemy) => {
         enemy.attacks.push(attackBuilder.build(ENUM_ENEMY_ATTACK.HIT))
     } else if (enemy.name == 'orc') {
         enemy.attacks.push(attackBuilder.build(ENUM_ENEMY_ATTACK.HIT))
+    } else if (enemy.name == 'troll') {
+        enemy.attacks.push(attackBuilder.build(ENUM_ENEMY_ATTACK.HIT))
+        enemy.attacks.push(attackBuilder.build(ENUM_ENEMY_ATTACK.SMASH))
     }
 }
 

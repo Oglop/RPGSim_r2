@@ -1,4 +1,4 @@
-const { generateID, capitalizeFirstLetter } = require('../lib/utils')
+const { generateID, capitalizeFirstLetter, getRandomElementFromArray } = require('../lib/utils')
 
 describe('util tests', () => {
     it('should generate uniqe stringa', () => {
@@ -13,5 +13,14 @@ describe('util tests', () => {
         const expected = 'Aa'
         const actual = capitalizeFirstLetter('aa')
         expect(actual).toBe(expected)
+    })
+    it('should be an instance of a getRandomElementInArray function', () => {
+        expect(getRandomElementFromArray).toBeInstanceOf(Function)
+    })
+    it('getRandomElementFromArray should return the only element from array', () => {
+        const expected = 'ABC'
+        const arr = [{ id:expected }]
+        const actual = getRandomElementFromArray(arr)
+        expect(actual.id).toBe(expected)
     })
 })

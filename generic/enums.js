@@ -261,7 +261,9 @@ module.exports = {
         EPIC:3
     },
     ENUM_ENEMY_ATTACK: {
-        HIT: 0
+        HIT: 0,
+        BITE: 1,
+        SMASH: 2
     },
     ENUM_EVENT_ITEM_STATUS: {
         UNRESOLVED:0,
