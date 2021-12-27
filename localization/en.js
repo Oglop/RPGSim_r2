@@ -26,6 +26,26 @@ module.exports.get = (id, args) => {
         case 'character-trait-rider': return `${args[0]} grew up among the nomads on the plains and is an excellent rider.`
         case 'character-trait-occultist': return `${args[0]} is obsessed with the occult.`
         case 'character-trait-cool-header': return `${args[0]} remains calm during any situation.`
+        case 'dungeon-by-elfs': return `elves known for their ${args[0]}`
+        case 'dungeon-by-dwarves': return `dwarves known for their ${args[0]}`
+        case 'dungeon-by-wizard': return `wizard known for his ${args[0]}`
+        case 'dungeon-by-warlord': return `warlord known for his ${args[0]}`
+        case 'dungeon-by-treasurehunters': return `treasure hunters known for their ${args[0]}`
+        case 'dungeon-by-monks': return `monks ${args[0]}`
+        case 'dungeon-by-warrior': return `warriors of ${args[0]}`
+        case 'dungeon-by-darkelves': return `dark elves known for their ${args[0]}`
+        case 'dungeon-by-orcs': return `orcs known for their ${args[0]}`
+        case 'dungeon-by-demons': return `demon of ${args[0]}`
+        case 'dungeon-known-for-bloodthirst': return `blood thirst`
+        case 'dungeon-known-for-vengence': return `vengence`
+        case 'dungeon-known-for-greed': return `greed`
+        case 'dungeon-known-for-vain': return `vain`
+        case 'dungeon-known-for-wisdom': return `wisdom`
+        case 'dungeon-known-for-beuty': return `beuty`
+        case 'dungeon-known-for-cruelty': return `cruelty`
+        case 'dungeon-known-for-cunning': return `cunning`
+        case 'dungeon-known-for-evil': return `evil`
+        case 'dungeon-known-for-kindness': return `kindness`
         case 'dungeon-move': return `Proceeding further into the dungeon the ${args[0]} moves into a ${args[1]}.`
         case 'dungeon-type-corridor': return 'a corridor stretches further down.'
         case 'dungeon-type-cave-in': return 'this part of the cave has caved in.'
