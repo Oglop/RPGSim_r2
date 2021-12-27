@@ -16,6 +16,17 @@ const weapons = {
             { name: 'Long dagger', use: getRandomNumberInRange(3, 9), value: 12, skillRequired: ENUM_SKILL_NAMES.dagger }
         ]
     },
+    axes: {
+        common: [
+            { name: 'Hand Axe', use: getRandomNumberInRange(3, 6), value: 9, skillRequired: ENUM_SKILL_NAMES.dagger },
+            { name: 'Heavy axe', use: getRandomNumberInRange(5, 7), value: 11, skillRequired: ENUM_SKILL_NAMES.dagger },
+            { name: 'Cleaver', use: getRandomNumberInRange(5, 9), value: 14, skillRequired: ENUM_SKILL_NAMES.dagger }
+        ],
+        elite: [
+            { name: 'Battle axe', use: getRandomNumberInRange(12, 16), value: 28, skillRequired: ENUM_SKILL_NAMES.dagger },
+            { name: 'Bearded axe', use: getRandomNumberInRange(14, 20), value: 34, skillRequired: ENUM_SKILL_NAMES.dagger }
+        ]
+    },
     swords: {
         common: [
             { name: 'Short sword', use: getRandomNumberInRange(4, 7), value: 11, skillRequired: ENUM_SKILL_NAMES.swords },
@@ -88,8 +99,7 @@ const weapons = {
             { name: 'Elven gear', use: getRandomNumberInRange(3, 7), value: 10, skillRequired: ENUM_SKILL_NAMES.lightArmor },
 
         ]
-    }
-    ,
+    },
     heavyArmor: {
         common: [
             { name: 'Chain mail', use: getRandomNumberInRange(4, 6), value: 10, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
@@ -99,6 +109,18 @@ const weapons = {
         elite: [
             { name: 'Plate mail', use: getRandomNumberInRange(8, 10), value: 18, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
             { name: 'Battle armor', use: getRandomNumberInRange(8, 12), value: 20, skillRequired: ENUM_SKILL_NAMES.heavyArmor }
+
+        ]
+    },
+    helmet: {
+        common: [
+            { name: 'Skull cap', use: getRandomNumberInRange(1, 3), value: 4, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
+            { name: 'Casque', use: getRandomNumberInRange(1,4), value: 5, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
+
+        ], 
+        elite: [
+            { name: 'Armet', use: getRandomNumberInRange(2, 6), value: 8, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
+            { name: 'Basinet', use: getRandomNumberInRange(2, 8), value: 10, skillRequired: ENUM_SKILL_NAMES.heavyArmor }
 
         ]
     }
@@ -125,7 +147,7 @@ const weapons = {
  * 
  * @param {ENUM_ITEM_TYPE} type 
  * @param {ENUM_ITEM_TIER} tier 
- * @param {*} options 
+ * @param {object} options 
  */
 module.exports.build = (type, tier, options) => {
     try {
@@ -142,6 +164,20 @@ module.exports.build = (type, tier, options) => {
                 const eliteDaggers = weapons.daggers.elite
                 const dagger = { ...i, ...getRandomElementFromArray(eliteDaggers) }
                 return dagger
+            } else {
+                const _name = (options.name) ? options.name : '' // todo
+            }
+            
+        }
+        if (type == ENUM_ITEM_TYPE.AXE) {
+            if (tier == ENUM_ITEM_TIER.COMMON) {
+                const common = weapons.axes.common
+                const axe = { ...i, ...getRandomElementFromArray(common) }
+                return axe
+            } else if (tier == ENUM_ITEM_TIER.ELITE) {
+                const elite = weapons.axes.elite
+                const axe = { ...i, ...getRandomElementFromArray(elite) }
+                return axe
             } else {
                 const _name = (options.name) ? options.name : '' // todo
             }

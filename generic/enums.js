@@ -25,7 +25,8 @@ module.exports = {
         hunting: 'Hunting',
         woodWorking: 'Wood working',
         scholar: 'Scholar',
-        leadership: 'Leadership'
+        leadership: 'Leadership',
+        none: 'None'
     },
     ENUM_STAT_NAMES: {
         str: 'Strength',
@@ -282,7 +283,9 @@ module.exports = {
         BOW:8,
         SPEAR:9,
         STAFF:10,
-        MACE:11
+        MACE:11,
+        AXE:12,
+        SHIELD:13
         
     },
     ENUM_ITEM_TIER: {

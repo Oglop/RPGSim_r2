@@ -4,5 +4,7 @@ module.exports = {
     saveVisualization: true,
     saveWorld: false,
     language: 'en',
-    partySize: 6
+    partySize: 6,
+    treasureStepStartValue: 30,
+    treasureStepDecreaseValue: 10
 }
