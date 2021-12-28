@@ -157,6 +157,7 @@ module.exports = {
     },
     dungeon: {
         id: '',
+        by: '',
         description: undefined,
         theme: undefined,
         rooms: []

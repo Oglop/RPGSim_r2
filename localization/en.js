@@ -52,9 +52,26 @@ module.exports.get = (id, args) => {
         case 'dungeon-type-chasm': return 'a deep chasm, looking down it seems bottomless.'
         case 'dungeon-type-cave-of-bones': return 'a cave full of bones.'
         case 'dungeon-type-flooded-cave': return 'a lake of cold dark water fills the cave.'
-        case 'dungeon-type-gemstone-cave': return 'a cave filled with gem stone.'
+        case 'dungeon-type-gemstone-cave': return 'a cave filled with gem stones.'
         case 'dungeon-type-cave-hall': return 'a great stone hall.'
-        case 'dungeon-flickeringlights-description': return 'Suddenly the torch starts flickering.'
+        case 'dungeon-type-cave-catacombs': return 'catacombs'
+        case 'dungeon-room-description': return `A ${args[0]} ${args[1]}`
+        case 'dungeon-room-type-corridor': return 'corridor'
+        case 'dungeon-room-type-hall': return 'hall'
+        case 'dungeon-room-type-room': return 'room'
+        case 'dungeon-room-type-stairs': return 'stairs'
+        case 'dungeon-room-size-small': return 'small'
+        case 'dungeon-room-size-tall': return 'tall'
+        case 'dungeon-room-size-large': return 'large'
+        case 'dungeon-room-size-narrow': return 'narrow'
+        case 'dungeon-room-size-big': return 'big'
+        case 'dungeon-door-state-open': return 'The door is open.'
+        case 'dungeon-door-state-closed-unlocked': return 'The door is closed.'
+        case 'dungeon-door-state-closed-locked': return 'The door is locked.'
+        case 'dungeon-door-action-opens': return `${args[0]} opens the door.`
+        case 'dungeon-door-action-unlocks': return `${args[0]} succeeds in picking the lock.`
+        case 'dungeon-door-action-fail': return `${args[0]} atempts to pick the locked door but fails.`
+        case 'dungeon-event-flickeringlights-description': return 'Suddenly the torch starts flickering.'
         case 'dungeon-theme-cave': return 'cave'
         case 'dungeon-theme-ruins': return 'ruins'
         case 'dungeon-theme-undercity': return 'undercity'
