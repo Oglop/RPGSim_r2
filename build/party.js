@@ -4,6 +4,7 @@ const equipmentBuilder = require('./equipment')
 const { ENUM_JOB_NAMES, ENUM_QUEST_STATUS } = require('../generic/enums')
 const { chance, copyObject, generateID, getRandomNumberInRange } = require('../lib/utils')
 const { logError } = require('../data/errorFile')
+const { get } = require('../localization')
 
 /**
  * Builds party object
@@ -74,7 +75,7 @@ module.exports.build = (startingPoints, options) => {
             party.crowns += getRandomNumberInRange(5,9)
         }
     }
-
+    party.name = get('party-name-template', [ party.members[0].name ])
     return party
 }
 

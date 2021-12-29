@@ -304,6 +304,12 @@ module.exports = {
         FAILED:2,
         FINISHED:3
     },
+    ENUM_DUNGEON_SIZE: {
+        SMALL: 0,
+        MEDIUM: 1,
+        LARGE: 2,
+        EPIC: 4
+    },
     ENUM_DUNGEON_ROOM_TYPE: {
         CORRIDOR: 0,
         CAVE_IN: 1,
@@ -318,8 +324,13 @@ module.exports = {
         DIM:1,
         DARK:2
     },
-    ENUM_DUNGEON_DOOR_TYPE: {
+    ENUM_DUNGEON_DOOR_STATUS: {
         NONE: 0,
-        WOOD: 1,
-    }
+        OPEN: 1,
+        CLOSED: 2,
+        LOCKED: 3,
+        HIDDEN: 4,
+        MAGIC_SEAL: 5
+    },
+    
 }

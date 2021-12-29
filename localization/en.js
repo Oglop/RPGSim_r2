@@ -65,12 +65,15 @@ module.exports.get = (id, args) => {
         case 'dungeon-room-size-large': return 'large'
         case 'dungeon-room-size-narrow': return 'narrow'
         case 'dungeon-room-size-big': return 'big'
-        case 'dungeon-door-state-open': return 'The door is open.'
-        case 'dungeon-door-state-closed-unlocked': return 'The door is closed.'
-        case 'dungeon-door-state-closed-locked': return 'The door is locked.'
+        case 'dungeon-door-state-open': return 'The door forward is open.'
+        case 'dungeon-door-state-closed-unlocked': return 'The door forward is closed.'
+        case 'dungeon-door-state-closed-locked': return 'The door forward is locked.'
+        case 'dungeon-door-state-secret': return 'It seems the room is a dead end.'
+        case 'dungeon-door-state-sealed': return 'A magic seal holds the door forward.'
         case 'dungeon-door-action-opens': return `${args[0]} opens the door.`
         case 'dungeon-door-action-unlocks': return `${args[0]} succeeds in picking the lock.`
-        case 'dungeon-door-action-fail': return `${args[0]} atempts to pick the locked door but fails.`
+        case 'dungeon-door-action-fail': return `${args[0]} atempts to open the door but fails.`
+        case 'dungeon-door-action-seal-open': return `${args[0]} speak in ancient and the seal is broken.`
         case 'dungeon-event-flickeringlights-description': return 'Suddenly the torch starts flickering.'
         case 'dungeon-theme-cave': return 'cave'
         case 'dungeon-theme-ruins': return 'ruins'
@@ -81,6 +84,7 @@ module.exports.get = (id, args) => {
         case 'familyTree-moves-1': return `${args[0]} founded the town of ${args[1]}.`
         case 'familyTree-removeDeadFamilies-1': return `The last of house ${args[0]} has died.`
         case 'familyTree-newFamily-1': return `The house of ${args[0]} enters the nobility of ${args[1]}.`
+        case 'party-name-template': return `${args[0]} and party.`
     }
     return ''
 }

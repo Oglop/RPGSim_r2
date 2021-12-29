@@ -5,11 +5,11 @@ const {
     getRandomNumberInRange
 } = require('../lib/utils')
 
-const eventBuilder = require('./event')
 const objects = require('../generic/objects')
 const { 
     ENUM_DUNGEON_ROOM_TYPE,
-    ENUM_EVENT_TYPE
+    ENUM_EVENT_TYPE,
+    ENUM_DUNGEON_SIZE
  } = require('../generic/enums')
 const { get } = require('../localization')
 const m = require('../models/dungeon')
@@ -27,6 +27,10 @@ const getDungeonTheme = () => {
     }
 }
 
+/**
+ * get a random dungeon description
+ * @returns {string}
+ */
 const getCreatorKnownFor = () => {
     const i = getRandomNumberInRange(0, 9)
     switch (i) {
@@ -42,8 +46,21 @@ const getCreatorKnownFor = () => {
         case 9 : return get('dungeon-known-for-kindness')
     }
 }
+/**
+ * return number of rooms dungeon contains
+ * @param {int} size 
+ * @returns {int}
+ */
+const getDungeonSize = (size) => {
+    switch (size) {
+        case ENUM_DUNGEON_SIZE.SMALL: return getRandomNumberInRange(3, 5)
+        case ENUM_DUNGEON_SIZE.MEDIUM: return getRandomNumberInRange(4, 6)
+        case ENUM_DUNGEON_SIZE.LARGE: return getRandomNumberInRange(5, 7)
+        case ENUM_DUNGEON_SIZE.EPIC: return getRandomNumberInRange(7, 10)
+    }
+}
 
-const getDungeonCreatedBy = () => {
+const getDungeonDescription = () => {
 const verb = getCreatorKnownFor()
     const i = getRandomNumberInRange(0, 9)
     switch (i) {
@@ -60,54 +77,14 @@ const verb = getCreatorKnownFor()
     }
 }
 
-/**
- * 
- * @param {int} ENUM_DUNGEON_THEMES
- * @returns {int} ENUM_DUNGEON_ROOM_TYPE
- */
-const getDungeonRoomType = () => {
-    const i = getRandomNumberInRange(0, 4)
-    const j = getRandomNumberInRange(0, 3)
-    let roomType = ''
-    let roomSize = ''
-    switch (i) {
-        case 0: roomSize = get('dungeon-room-size-small'); break;
-        case 1: roomSize = get('dungeon-room-size-tall'); break;
-        case 2: roomSize = get('dungeon-room-size-large'); break;
-        case 3: roomSize = get('dungeon-room-size-narrow'); break;
-        case 4: roomSize = get('dungeon-room-size-big'); break;
+module.exports.build = (options = {}) => {
+    if (options.size != undefined) {
+        options.size = ENUM_DUNGEON_SIZE.MEDIUM
     }
-    switch (j) {
-        case 0: roomType = get('dungeon-room-type-corridor'); break;
-        case 1: roomType = get('dungeon-room-type-hall'); break;
-        case 2: roomType = get('dungeon-room-type-room'); break;
-        case 3: roomType = get('dungeon-room-type-stairs'); break;
-    }
-    return get('dungeon-room-description', [ roomSize, roomType ])
-}
-
-module.exports.build = () => {
     const d = copyObject(objects.dungeon)
     d.id = generateID()
+    d.size = getDungeonSize(options.size)
     d.theme = getDungeonTheme()
-    d.by = getDungeonCreatedBy()
-    const depth = getRandomNumberInRange(8, 12)
-
-    let previousRoom = copyObject(objects.dungeonRoom)
-    previousRoom.id = 'start'
-    d.rooms.push(previousRoom)
-    for (let i = 0; i < depth; i++) {
-        const r = copyObject(objects.dungeonRoom)
-        r.id = (d.rooms.length) ? generateID() : 'start'
-        r.type = getDungeonRoomType()
-        r.description = m.getRoomDescriptionFromType(r.type)
-        r.event = eventBuilder.build(undefined, undefined, ENUM_EVENT_TYPE.DUNGEON, {})
-        const door = copyObject(objects.dungeonRoomDoor)
-        door.to = r.id
-        previousRoom.door.push(door)
-        d.rooms.push(r)
-        previousRoom = r
-        
-    }
-
+    d.description = getDungeonDescription()
+    return d
 }

@@ -1,6 +1,7 @@
 const m = require('../models/dungeon')
 const b = require('../build/event');
-const { ENUM_EVENT_TYPE } = require('../generic/enums');
+const buildDungeonRoom = require('../build/dungeonRoom')
+const { ENUM_EVENT_TYPE } = require('../generic/enums')
 const { get } = require('../localization')
 
 describe('dungeon tests', () => {
@@ -50,6 +51,13 @@ describe('dungeon tests', () => {
 
         expect(actual.execute).toBeInstanceOf(Function)
         expect(actual.description).toBe(desc)
+
+    })
+    it('buildDungeonRoom should return a dungeon room', () => {
+        const output = { print: () => {} }
+        const r = buildDungeonRoom.build(output)
+        expect(r.description.length).toBeGreaterThan(0)
+        expect(r.event).toBeInstanceOf(Object)
 
     })
 })

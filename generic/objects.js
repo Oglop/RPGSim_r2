@@ -1,4 +1,8 @@
-const { ENUM_EXPLORE_STATUS } = require('../generic/enums')
+const { 
+    ENUM_EXPLORE_STATUS,
+    ENUM_DUNGEON_DOOR_STATUS 
+
+} = require('../generic/enums')
 module.exports = {
     world: {
         id: undefined,
@@ -157,17 +161,17 @@ module.exports = {
     },
     dungeon: {
         id: '',
-        by: '',
+        size: '',
+        position: 0,
         description: undefined,
         theme: undefined,
-        rooms: []
+        room: undefined
     },
     dungeonRoom: {
         id:'',
         description: '',
-        type: undefined,
-        event: undefined,
-        door: undefined
+        door: ENUM_DUNGEON_DOOR_STATUS.NONE,
+        event: undefined
     },
     dungeonRoomDoor: {
         to: undefined
@@ -179,10 +183,8 @@ module.exports = {
     },
     skill: {
         name: undefined,
-        printable: undefined,
         statsBase: undefined,
-        luckTest: false,
-        mastery: 0
+        luckTest: false
     },
     date: {
         year: 0,
@@ -248,6 +250,7 @@ module.exports = {
     },
     party: {
         id: undefined,
+        name: undefined,
         karma: 0,
         members: [],
         path: [],

@@ -17,9 +17,10 @@ const checkMatchingSkills = (arr1, arr2, skill) => {
 }
 
 /**
- * 
+ * return 1 if successfull, 0 if failed
  * @param {Object} c Character
  * @param {ENUM_STAT_NAMES} stat 
+ * @returns {int}
  */
 const checkCharacterSkill = (c, stat) => {
     try {
@@ -35,9 +36,9 @@ const checkCharacterSkill = (c, stat) => {
         }
 
         if (getRandomNumber(20) <= i) {
-            return true
+            return 1
         }
-        return false
+        return 0
     } catch (e) {
         const err = objects.error
         err.file = __filename
@@ -45,8 +46,48 @@ const checkCharacterSkill = (c, stat) => {
         err.message = e.message
         logError(err)
     }
+    return 0
+}
+
+const characterKnowsSkill = (character, skill) => {
+    return character.skills.find(s => s.name === skill.name)
+}
+
+
+const checkPartySkill = (p, skill) => {
+    try {
+        let successes = 0
+        for (let j = 0; j < p.members.length; j++) {
+            if (characterKnowsSkill(p.members[i], skill)) {
+                let i = 0
+                switch (stat) {
+                    case ENUM_STAT_NAMES.agi: i = c.stats.agi; break;
+                    case ENUM_STAT_NAMES.cha: i = c.stats.cha; break;
+                    case ENUM_STAT_NAMES.int: i = c.stats.int; break;
+                    case ENUM_STAT_NAMES.luc: i = c.stats.luc; break;
+                    case ENUM_STAT_NAMES.str: i = c.stats.str; break;
+                    case ENUM_STAT_NAMES.vit: i = c.stats.vit; break;
+                    case ENUM_STAT_NAMES.wis: i = c.stats.wis; break;
+                }
+        
+                if (getRandomNumber(20) <= i) {
+                    successes += 1
+                }
+            }
+        }
+        return successes
+    } catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'checkPartySkill'
+        err.message = e.message
+        logError(err)
+    }
+    return 0
 }
 
 moodule.exports = {
-    checkCharacterSkill
+    checkCharacterSkill,
+    checkPartySkill,
+    characterKnowsSkill
 }
