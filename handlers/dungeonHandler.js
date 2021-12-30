@@ -15,7 +15,6 @@ const resolveDungeon = (party, output, options = {}) => {
             }
         }
     }
-
 }
 
 
