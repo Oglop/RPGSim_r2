@@ -13,7 +13,7 @@ const {
     ENUM_SKILL_NAMES
 } = require('../generic/enums')
 const { get } = require('../localization')
-const { checkPartySkill } = require('./models/skill')
+const { checkPartySkill } = require('../models/skill')
 
 
 const getRoomDescriptionFromType = (type) => {
