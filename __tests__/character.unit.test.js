@@ -10,7 +10,8 @@ describe('character build', () => {
             job: ENUM_JOB_NAMES.knight,
             race: ENUM_RACE_NAMES.halfling,
             mother: 'aaa',
-            father: 'bbb'
+            father: 'bbb',
+            date: { year: 100, month: 2, day: 1 }
         })
         expect(actual.gender).toBe(ENUM_GENDER.FEMALE)
         expect(actual.job).toBe(ENUM_JOB_NAMES.knight)

@@ -118,9 +118,7 @@ const checkPartySkill = (p, skill) => {
         const stat = getStatBaseBySkillName(skill)
         for (let j = 0; j < p.members.length; j++) {
             if (characterKnowsSkill(p.members[j], skill)) {
-                console.log(`${p.members[j].name} knows ${skill}`)
                 let i = 0
-                console.log(`p.members[j].stats.luc ${p.members[j].stats.luc}`)
                 switch (stat) {
                     case ENUM_STAT_NAMES.agi: i = p.members[j].stats.agi; break;
                     case ENUM_STAT_NAMES.cha: i = p.members[j].stats.cha; break;
@@ -130,7 +128,6 @@ const checkPartySkill = (p, skill) => {
                     case ENUM_STAT_NAMES.vit: i = p.members[j].stats.vit; break;
                     case ENUM_STAT_NAMES.wis: i = p.members[j].stats.wis; break;
                 }
-                console.log(`${p.members[j].name} i is ${i}`)
                 if (getRandomNumber(20) <= i) {
                     successes += 1
                 } else {

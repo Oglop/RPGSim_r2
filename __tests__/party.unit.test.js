@@ -17,9 +17,9 @@ describe('party unit tests', () => {
     })
     test('build should return a party with of size', () => {
         const partySize = 6
-        const actual = b.build(undefined, {
+        const actual = b.build({
             partySize,
-            currentDate: setWorldStartDate()
+            date: setWorldStartDate()
         })
         expect(actual.members.length).toBe(partySize)
         expect(actual.food).toBeGreaterThan(actual.members.length)

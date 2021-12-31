@@ -285,7 +285,8 @@ module.exports = {
         STAFF:10,
         MACE:11,
         AXE:12,
-        SHIELD:13
+        SHIELD:13,
+        HELMET: 14
         
     },
     ENUM_ITEM_TIER: {
@@ -299,10 +300,11 @@ module.exports = {
         BLIND: 2
     },
     ENUM_QUEST_STATUS: {
-        SEEK_QUEST:0,
-        IN_PROGRESS:1,
-        FAILED:2,
-        FINISHED:3
+        NONE: 0,
+        SEEK_QUEST:1,
+        IN_PROGRESS:2,
+        FAILED:3,
+        FINISHED:4
     },
     ENUM_DUNGEON_SIZE: {
         SMALL: 0,

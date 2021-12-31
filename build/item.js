@@ -3,153 +3,153 @@ const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { getRandomNumberInRange, copyObject, getRandomElementFromArray } = require('../lib/utils')
 
-
 const weapons = {
     daggers: {
         common: [
-            { name: 'Short dagger', use: getRandomNumberInRange(2, 6), value: 8, skillRequired: ENUM_SKILL_NAMES.dagger },
-            { name: 'Knife', use: getRandomNumberInRange(1, 4), value: 5, skillRequired: ENUM_SKILL_NAMES.dagger },
-            { name: 'Thiefs dagger', use: getRandomNumberInRange(3, 5), value: 8, skillRequired: ENUM_SKILL_NAMES.dagger }
+            { name: 'Short dagger', min: 2, max: 6, value: 8, skillRequired: ENUM_SKILL_NAMES.dagger },
+            { name: 'Knife', min: 1, max: 4, value: 5, skillRequired: ENUM_SKILL_NAMES.dagger },
+            { name: 'Thiefs dagger', min: 3, max: 5, value: 8, skillRequired: ENUM_SKILL_NAMES.dagger }
         ],
         elite: [
-            { name: 'Curved dagger', use: getRandomNumberInRange(4, 8), value: 12, skillRequired: ENUM_SKILL_NAMES.dagger },
-            { name: 'Long dagger', use: getRandomNumberInRange(3, 9), value: 12, skillRequired: ENUM_SKILL_NAMES.dagger }
+            { name: 'Curved dagger', min: 4, max: 8, value: 12, skillRequired: ENUM_SKILL_NAMES.dagger },
+            { name: 'Long dagger', min: 3, max: 9, value: 12, skillRequired: ENUM_SKILL_NAMES.dagger }
         ]
     },
     axes: {
         common: [
-            { name: 'Hand Axe', use: getRandomNumberInRange(3, 6), value: 9, skillRequired: ENUM_SKILL_NAMES.dagger },
-            { name: 'Heavy axe', use: getRandomNumberInRange(5, 7), value: 11, skillRequired: ENUM_SKILL_NAMES.dagger },
-            { name: 'Cleaver', use: getRandomNumberInRange(5, 9), value: 14, skillRequired: ENUM_SKILL_NAMES.dagger }
+            { name: 'Hand Axe', min: 3, max: 6, value: 9, skillRequired: ENUM_SKILL_NAMES.dagger },
+            { name: 'Heavy axe', min: 5, max: 7, value: 11, skillRequired: ENUM_SKILL_NAMES.dagger },
+            { name: 'Cleaver', min: 5, max: 9, value: 14, skillRequired: ENUM_SKILL_NAMES.dagger }
         ],
         elite: [
-            { name: 'Battle axe', use: getRandomNumberInRange(12, 16), value: 28, skillRequired: ENUM_SKILL_NAMES.dagger },
-            { name: 'Bearded axe', use: getRandomNumberInRange(14, 20), value: 34, skillRequired: ENUM_SKILL_NAMES.dagger }
+            { name: 'Battle axe', min: 12, max: 16, value: 28, skillRequired: ENUM_SKILL_NAMES.dagger },
+            { name: 'Bearded axe', min: 14, max: 20, value: 34, skillRequired: ENUM_SKILL_NAMES.dagger }
         ]
     },
     swords: {
         common: [
-            { name: 'Short sword', use: getRandomNumberInRange(4, 7), value: 11, skillRequired: ENUM_SKILL_NAMES.swords },
-            { name: 'Long sword', use: getRandomNumberInRange(6, 8), value: 14, skillRequired: ENUM_SKILL_NAMES.swords },
-            { name: 'Curved sword', use: getRandomNumberInRange(4, 12), value: 16, skillRequired: ENUM_SKILL_NAMES.swords },
-            { name: 'Knight sword', use: getRandomNumberInRange(8, 12), value: 20, skillRequired: ENUM_SKILL_NAMES.swords }
+            { name: 'Short sword', min: 4, max: 7, value: 11, skillRequired: ENUM_SKILL_NAMES.swords },
+            { name: 'Long sword', min: 6, max: 8, value: 14, skillRequired: ENUM_SKILL_NAMES.swords },
+            { name: 'Curved sword', min: 4, max: 12, value: 16, skillRequired: ENUM_SKILL_NAMES.swords },
+            { name: 'Knight sword', min: 8, max: 12, value: 20, skillRequired: ENUM_SKILL_NAMES.swords }
         ],
         elite: [
-            { name: 'Mythril sword', use: getRandomNumberInRange(12, 18), value: 30, skillRequired: ENUM_SKILL_NAMES.swords },
-            { name: 'Royal guard sword', use: getRandomNumberInRange(10, 20), value: 30, skillRequired: ENUM_SKILL_NAMES.swords },
-            { name: 'Rune sword', use: getRandomNumberInRange(14, 22), value: 36, skillRequired: ENUM_SKILL_NAMES.swords }
+            { name: 'Mythril sword', min: 12, max: 18, value: 30, skillRequired: ENUM_SKILL_NAMES.swords },
+            { name: 'Royal guard sword', min: 10, max: 20, value: 30, skillRequired: ENUM_SKILL_NAMES.swords },
+            { name: 'Rune sword', min: 14, max: 22, value: 36, skillRequired: ENUM_SKILL_NAMES.swords }
         ]
     },
     mace: {
         common: [
-            { name: 'Club', use: getRandomNumberInRange(2, 4), value: 6, skillRequired: ENUM_SKILL_NAMES.mace },
-            { name: 'Spiked club', use: getRandomNumberInRange(3, 5), value: 8, skillRequired: ENUM_SKILL_NAMES.mace }
+            { name: 'Club', min: 2, max: 4, value: 6, skillRequired: ENUM_SKILL_NAMES.mace },
+            { name: 'Spiked club', min: 3, max: 5, value: 8, skillRequired: ENUM_SKILL_NAMES.mace }
         ], 
         elite: [
-            { name: 'Mace', use: getRandomNumberInRange(4, 6), value: 10, skillRequired: ENUM_SKILL_NAMES.mace },
-            { name: 'Morning star', use: getRandomNumberInRange(10, 12), value: 24, skillRequired: ENUM_SKILL_NAMES.mace },
-            { name: 'Flail', use: getRandomNumberInRange(7, 10), value: 17, skillRequired: ENUM_SKILL_NAMES.mace }
+            { name: 'Mace', min: 4, max: 6, value: 10, skillRequired: ENUM_SKILL_NAMES.mace },
+            { name: 'Morning star', min: 10, max: 12, value: 24, skillRequired: ENUM_SKILL_NAMES.mace },
+            { name: 'Flail', min: 7, max: 10, value: 17, skillRequired: ENUM_SKILL_NAMES.mace }
         ]
     },
     twoHandSwords: {
         common: [
-            { name: 'Battle sword', use: getRandomNumberInRange(6, 14), value: 20, skillRequired: ENUM_SKILL_NAMES.twoHandSwords },
-            { name: 'Two hand sword', use: getRandomNumberInRange(8, 18), value: 26, skillRequired: ENUM_SKILL_NAMES.twoHandSwords },
+            { name: 'Battle sword', min: 6, max: 14, value: 20, skillRequired: ENUM_SKILL_NAMES.twoHandSwords },
+            { name: 'Two hand sword', min: 8, max: 18, value: 26, skillRequired: ENUM_SKILL_NAMES.twoHandSwords },
 
         ], 
         elite: [
-            { name: 'Guard sword', use: getRandomNumberInRange(14, 24), value: 38, skillRequired: ENUM_SKILL_NAMES.twoHandSwords },
-            { name: 'Flamberge', use: getRandomNumberInRange(18, 32), value: 50, skillRequired: ENUM_SKILL_NAMES.twoHandSwords },
+            { name: 'Guard sword', min: 14, max: 24, value: 38, skillRequired: ENUM_SKILL_NAMES.twoHandSwords },
+            { name: 'Flamberge', min: 18, max: 32, value: 50, skillRequired: ENUM_SKILL_NAMES.twoHandSwords },
 
         ]
     },
     bows: {
         common: [
-            { name: 'Short bow', use: getRandomNumberInRange(1, 5), value: 6, skillRequired: ENUM_SKILL_NAMES.bow },
-            { name: 'Hunting bow', use: getRandomNumberInRange(1, 8), value: 9, skillRequired: ENUM_SKILL_NAMES.bow },
+            { name: 'Short bow', min: 1, max: 5, value: 6, skillRequired: ENUM_SKILL_NAMES.bow },
+            { name: 'Hunting bow', min: 1, max: 8, value: 9, skillRequired: ENUM_SKILL_NAMES.bow },
 
         ], 
         elite: [
-            { name: 'Long bow', use: getRandomNumberInRange(4, 10), value: 14, skillRequired: ENUM_SKILL_NAMES.bow },
-            { name: 'Great bow', use: getRandomNumberInRange(6, 18), value: 24, skillRequired: ENUM_SKILL_NAMES.bow },
-            { name: 'Elven bow', use: getRandomNumberInRange(8, 24), value: 32, skillRequired: ENUM_SKILL_NAMES.bow },
+            { name: 'Long bow', min: 4, max: 10, value: 14, skillRequired: ENUM_SKILL_NAMES.bow },
+            { name: 'Great bow', min: 6, max: 18, value: 24, skillRequired: ENUM_SKILL_NAMES.bow },
+            { name: 'Elven bow', min: 8, max: 24, value: 32, skillRequired: ENUM_SKILL_NAMES.bow },
 
         ]
     },
     spears: {
         common: [
-            { name: 'Spear', use: getRandomNumberInRange(4, 10), value: 14, skillRequired: ENUM_SKILL_NAMES.spear },
-            { name: 'Boar spear', use: getRandomNumberInRange(4,14), value: 28, skillRequired: ENUM_SKILL_NAMES.spear },
+            { name: 'Spear', min: 4, max: 10, value: 14, skillRequired: ENUM_SKILL_NAMES.spear },
+            { name: 'Boar spear', min: 4, max: 14, value: 28, skillRequired: ENUM_SKILL_NAMES.spear },
 
         ], 
         elite: [
-            { name: 'Poleaxe', use: getRandomNumberInRange(4, 20), value: 24, skillRequired: ENUM_SKILL_NAMES.spear },
-            { name: 'Knight lance', use: getRandomNumberInRange(4, 24), value: 28, skillRequired: ENUM_SKILL_NAMES.spear },
+            { name: 'Poleaxe', min: 4, max: 20, value: 24, skillRequired: ENUM_SKILL_NAMES.spear },
+            { name: 'Knight lance', min: 4, max: 24, value: 28, skillRequired: ENUM_SKILL_NAMES.spear },
 
         ]
-    },
+    }
+}
+
+const armors = {
     lightArmor: {
         common: [
-            { name: 'Linne armor', use: getRandomNumberInRange(2, 4), value: 6, skillRequired: ENUM_SKILL_NAMES.lightArmor },
-            { name: 'Leather armor', use: getRandomNumberInRange(2,5), value: 7, skillRequired: ENUM_SKILL_NAMES.lightArmor },
+            { name: 'Linne armor', min: 2, max: 4, value: 6, skillRequired: ENUM_SKILL_NAMES.lightArmor },
+            { name: 'Leather armor', min: 2,max: 5, value: 7, skillRequired: ENUM_SKILL_NAMES.lightArmor },
 
         ], 
         elite: [
-            { name: 'Brigandine', use: getRandomNumberInRange(4, 6), value: 10, skillRequired: ENUM_SKILL_NAMES.lightArmor },
-            { name: 'Elven gear', use: getRandomNumberInRange(3, 7), value: 10, skillRequired: ENUM_SKILL_NAMES.lightArmor },
+            { name: 'Brigandine', min: 4, max: 6, value: 10, skillRequired: ENUM_SKILL_NAMES.lightArmor },
+            { name: 'Elven gear', min: 3, max: 7, value: 10, skillRequired: ENUM_SKILL_NAMES.lightArmor },
 
         ]
     },
     heavyArmor: {
         common: [
-            { name: 'Chain mail', use: getRandomNumberInRange(4, 6), value: 10, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
-            { name: 'Scale mail', use: getRandomNumberInRange(4,8), value: 12, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
+            { name: 'Chain mail', min: 4, max: 6, value: 10, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
+            { name: 'Scale mail', min: 4, max: 8, value: 12, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
 
         ], 
         elite: [
-            { name: 'Plate mail', use: getRandomNumberInRange(8, 10), value: 18, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
-            { name: 'Battle armor', use: getRandomNumberInRange(8, 12), value: 20, skillRequired: ENUM_SKILL_NAMES.heavyArmor }
+            { name: 'Plate mail', min: 8, max: 10, value: 18, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
+            { name: 'Battle armor', min: 8, max: 12, value: 20, skillRequired: ENUM_SKILL_NAMES.heavyArmor }
 
         ]
     },
     robes: {
         common: [
-            { name: 'Monk robes', use: getRandomNumberInRange(1, 3), value: 4, skillRequired: ENUM_SKILL_NAMES.robes },
-            { name: 'Hooded cloak', use: getRandomNumberInRange(1, 4), value: 5, skillRequired: ENUM_SKILL_NAMES.robes },
+            { name: 'Monk robes', min: 1, max: 3, value: 4, skillRequired: ENUM_SKILL_NAMES.robes },
+            { name: 'Hooded cloak', min: 1, max: 4, value: 5, skillRequired: ENUM_SKILL_NAMES.robes },
 
         ], 
         elite: [
-            { name: 'Sorceror dress', use: getRandomNumberInRange(2, 3), value: 7, skillRequired: ENUM_SKILL_NAMES.robes },
-            { name: 'Wizard cloak', use: getRandomNumberInRange(2, 4), value: 9, skillRequired: ENUM_SKILL_NAMES.robes }
+            { name: 'Sorceror dress', min: 2, max: 3, value: 7, skillRequired: ENUM_SKILL_NAMES.robes },
+            { name: 'Wizard cloak', min: 2, max: 4, value: 9, skillRequired: ENUM_SKILL_NAMES.robes }
 
         ]
     },
     helmet: {
         common: [
-            { name: 'Skull cap', use: getRandomNumberInRange(1, 3), value: 4, skillRequired: ENUM_SKILL_NAMES.helmet },
-            { name: 'Casque', use: getRandomNumberInRange(1,4), value: 5, skillRequired: ENUM_SKILL_NAMES.helmet },
+            { name: 'Skull cap', min: 1, max: 3, value: 4, skillRequired: ENUM_SKILL_NAMES.helmet },
+            { name: 'Casque', min: 1, max: 4, value: 5, skillRequired: ENUM_SKILL_NAMES.helmet },
 
         ], 
         elite: [
-            { name: 'Armet', use: getRandomNumberInRange(2, 6), value: 8, skillRequired: ENUM_SKILL_NAMES.helmet },
-            { name: 'Basinet', use: getRandomNumberInRange(2, 8), value: 10, skillRequired: ENUM_SKILL_NAMES.helmet }
+            { name: 'Armet', min: 2, max: 6, value: 8, skillRequired: ENUM_SKILL_NAMES.helmet },
+            { name: 'Basinet', min: 2, max: 8, value: 10, skillRequired: ENUM_SKILL_NAMES.helmet }
 
         ]
     },
     shield: {
         common: [
-            { name: 'Wooden shield', use: getRandomNumberInRange(1, 3), value: 4, skillRequired: ENUM_SKILL_NAMES.shield },
-            { name: 'Buckler', use: getRandomNumberInRange(1,4), value: 5, skillRequired: ENUM_SKILL_NAMES.shield },
+            { name: 'Wooden shield', min: 1, max: 3, value: 4, skillRequired: ENUM_SKILL_NAMES.shield },
+            { name: 'Buckler', min: 1, max: 4, value: 5, skillRequired: ENUM_SKILL_NAMES.shield },
 
         ], 
         elite: [
-            { name: 'Kite shield', use: getRandomNumberInRange(2, 6), value: 8, skillRequired: ENUM_SKILL_NAMES.shield },
-            { name: 'Tower shield', use: getRandomNumberInRange(2, 8), value: 10, skillRequired: ENUM_SKILL_NAMES.shield }
+            { name: 'Kite shield', min: 2, max: 6, value: 8, skillRequired: ENUM_SKILL_NAMES.shield },
+            { name: 'Tower shield', min: 2, max: 8, value: 10, skillRequired: ENUM_SKILL_NAMES.shield }
 
         ]
     }
-    
-    
 }
 
 
@@ -261,11 +261,11 @@ module.exports.build = (type, tier, options) => {
         }
         if (type == ENUM_ITEM_TYPE.LIGHT_ARMOR) {
             if (tier == ENUM_ITEM_TIER.COMMON) {
-                const common = weapons.lightArmor.common
+                const common = armors.lightArmor.common
                 const item = { ...i, ...getRandomElementFromArray(common) }
                 return item
             } else if (tier == ENUM_ITEM_TIER.ELITE) {
-                const elite = weapons.lightArmor.elite
+                const elite = armors.lightArmor.elite
                 const item = { ...i, ...getRandomElementFromArray(elite) }
                 return item
             } else {
@@ -274,34 +274,60 @@ module.exports.build = (type, tier, options) => {
         }
         if (type == ENUM_ITEM_TYPE.HEAVY_ARMOR) {
             if (tier == ENUM_ITEM_TIER.COMMON) {
-                const common = weapons.heavyArmor.common
+                const common = armors.heavyArmor.common
                 const item = { ...i, ...getRandomElementFromArray(common) }
                 return item
             } else if (tier == ENUM_ITEM_TIER.ELITE) {
-                const elite = weapons.heavyArmor.elite
+                const elite = armors.heavyArmor.elite
                 const item = { ...i, ...getRandomElementFromArray(elite) }
                 return item
             } else {
                 const _name = (options.name) ? options.name : '' // todo
             }
         }
-        /*
+        
+        if (type == ENUM_ITEM_TYPE.ROBES) {
+            if (tier == ENUM_ITEM_TIER.COMMON) {
+                const common = armors.robes.common
+                const item = { ...i, ...getRandomElementFromArray(common) }
+                return item
+            } else if (tier == ENUM_ITEM_TIER.ELITE) {
+                const elite = armors.robes.elite
+                const item = { ...i, ...getRandomElementFromArray(elite) }
+                return item
+            } else {
+                const _name = (options.name) ? options.name : '' // todo
+            }
+        }
+
         if (type == ENUM_ITEM_TYPE.SHIELD) {
             if (tier == ENUM_ITEM_TIER.COMMON) {
-                const common = weapons.shields.common
+                const common = armors.shield.common
                 const item = { ...i, ...getRandomElementFromArray(common) }
                 return item
             } else if (tier == ENUM_ITEM_TIER.ELITE) {
-                const elite = weapons.heavyArmor.elite
+                const elite = armors.shield.elite
                 const item = { ...i, ...getRandomElementFromArray(elite) }
                 return item
             } else {
                 const _name = (options.name) ? options.name : '' // todo
             }
         }
-        */
 
-
+        if (type == ENUM_ITEM_TYPE.HELMET) {
+            if (tier == ENUM_ITEM_TIER.COMMON) {
+                const common = armors.helmet.common
+                const item = { ...i, ...getRandomElementFromArray(common) }
+                return item
+            } else if (tier == ENUM_ITEM_TIER.ELITE) {
+                const elite = armors.helmet.elite
+                const item = { ...i, ...getRandomElementFromArray(elite) }
+                return item
+            } else {
+                const _name = (options.name) ? options.name : '' // todo
+            }
+        }
+        
     } catch (e) {
         const err = objects.error
         err.file = __filename
