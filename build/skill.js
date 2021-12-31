@@ -61,8 +61,8 @@ const getSkill = skill => {
             o.luckTest = true
             break
         case ENUM_SKILL_NAMES.oneHandSword:
-            o.name = m.getStatBaseBySkillName(ENUM_SKILL_NAMES.oneHandSword)
-            o.statsBase = ENUM_STAT_NAMES.str
+            o.name = ENUM_SKILL_NAMES.oneHandSword
+            o.statsBase = m.getStatBaseBySkillName(ENUM_SKILL_NAMES.oneHandSword)
             o.luckTest = false
             break
         case ENUM_SKILL_NAMES.twoHandSword:
@@ -237,7 +237,6 @@ module.exports.build = (c) => {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.lightArmor)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.lockPicking)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.steal)))
-        c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.lockPicking)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.findTraps)))
     }
     if (c.job === ENUM_JOB_NAMES.wizard) {

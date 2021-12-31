@@ -82,8 +82,20 @@ const weapons = {
 
         ], 
         elite: [
-            { name: 'Poleaxe', min: 4, max: 20, value: 24, skillRequired: ENUM_SKILL_NAMES.spear },
-            { name: 'Knight lance', min: 4, max: 24, value: 28, skillRequired: ENUM_SKILL_NAMES.spear },
+            { name: 'Poleaxe', min: 7, max: 20, value: 24, skillRequired: ENUM_SKILL_NAMES.spear },
+            { name: 'Knight lance', min: 8, max: 24, value: 28, skillRequired: ENUM_SKILL_NAMES.spear },
+
+        ]
+    },
+    staffs: {
+        common: [
+            { name: 'Wandering staff', min: 1, max: 3, value: 4, skillRequired: ENUM_SKILL_NAMES.spear },
+            { name: 'Heavy Staff', min: 2, max: 4, value: 5, skillRequired: ENUM_SKILL_NAMES.spear },
+
+        ], 
+        elite: [
+            { name: 'Runed staff', min: 4, max: 7, value: 18, skillRequired: ENUM_SKILL_NAMES.spear },
+            { name: 'Wizard staff', min: 5, max: 12, value: 22, skillRequired: ENUM_SKILL_NAMES.spear },
 
         ]
     }
@@ -209,13 +221,13 @@ module.exports.build = (type, tier, options) => {
         }
         if (type == ENUM_ITEM_TYPE.ONE_HAND_SWORD) {
             if (tier == ENUM_ITEM_TIER.COMMON) {
-                const commonDaggers = weapons.daggers.common
-                const dagger = { ...i, ...getRandomElementFromArray(commonDaggers) }
-                return dagger
+                const common = weapons.swords.common
+                const item = { ...i, ...getRandomElementFromArray(common) }
+                return item
             } else if (tier == ENUM_ITEM_TIER.ELITE) {
-                const eliteDaggers = weapons.daggers.elite
-                const dagger = { ...i, ...getRandomElementFromArray(eliteDaggers) }
-                return dagger
+                const elite = weapons.swords.elite
+                const item = { ...i, ...getRandomElementFromArray(elite) }
+                return item
             } else {
                 const _name = (options.name) ? options.name : '' // todo
             }
@@ -259,6 +271,19 @@ module.exports.build = (type, tier, options) => {
                 const _name = (options.name) ? options.name : '' // todo
             }
         }
+        if (type == ENUM_ITEM_TYPE.STAFF) {
+            if (tier == ENUM_ITEM_TIER.COMMON) {
+                const common = weapons.staffs.common
+                const item = { ...i, ...getRandomElementFromArray(common) }
+                return item
+            } else if (tier == ENUM_ITEM_TIER.ELITE) {
+                const elite = weapons.staffs.elite
+                const item = { ...i, ...getRandomElementFromArray(elite) }
+                return item
+            } else {
+                const _name = (options.name) ? options.name : '' // todo
+            }
+        }
         if (type == ENUM_ITEM_TYPE.LIGHT_ARMOR) {
             if (tier == ENUM_ITEM_TIER.COMMON) {
                 const common = armors.lightArmor.common
@@ -285,7 +310,6 @@ module.exports.build = (type, tier, options) => {
                 const _name = (options.name) ? options.name : '' // todo
             }
         }
-        
         if (type == ENUM_ITEM_TYPE.ROBES) {
             if (tier == ENUM_ITEM_TIER.COMMON) {
                 const common = armors.robes.common

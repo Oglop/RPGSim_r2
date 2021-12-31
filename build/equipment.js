@@ -17,12 +17,12 @@ const equipFromSkills = character => {
     
     if (characterKnowsSkill(character, ENUM_SKILL_NAMES.bow)) {
         character.equipment.weaponHand = itemBuilder.build(ENUM_ITEM_TYPE.BOW, ENUM_ITEM_TIER.COMMON)
+    } else if (characterKnowsSkill(character, ENUM_SKILL_NAMES.twoHandSword)) {
+        character.equipment.weaponHand = itemBuilder.build(ENUM_ITEM_TYPE.TWO_HAND_SWORD, ENUM_ITEM_TIER.COMMON)
     } else if (characterKnowsSkill(character, ENUM_SKILL_NAMES.dagger)) {
         character.equipment.weaponHand = itemBuilder.build(ENUM_ITEM_TYPE.DAGGER, ENUM_ITEM_TIER.COMMON)
     } else if (characterKnowsSkill(character, ENUM_SKILL_NAMES.axe)) {
         character.equipment.weaponHand = itemBuilder.build(ENUM_ITEM_TYPE.AXE, ENUM_ITEM_TIER.COMMON)
-    } else if (characterKnowsSkill(character, ENUM_SKILL_NAMES.twoHandSword)) {
-        character.equipment.weaponHand = itemBuilder.build(ENUM_ITEM_TYPE.TWO_HAND_SWORD, ENUM_ITEM_TIER.COMMON)
     } else if (characterKnowsSkill(character, ENUM_SKILL_NAMES.mace)) {
         character.equipment.weaponHand = itemBuilder.build(ENUM_ITEM_TYPE.MACE, ENUM_ITEM_TIER.COMMON)
     } else if (characterKnowsSkill(character, ENUM_SKILL_NAMES.spear)) {
