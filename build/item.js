@@ -112,15 +112,39 @@ const weapons = {
 
         ]
     },
-    helmet: {
+    robes: {
         common: [
-            { name: 'Skull cap', use: getRandomNumberInRange(1, 3), value: 4, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
-            { name: 'Casque', use: getRandomNumberInRange(1,4), value: 5, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
+            { name: 'Monk robes', use: getRandomNumberInRange(1, 3), value: 4, skillRequired: ENUM_SKILL_NAMES.robes },
+            { name: 'Hooded cloak', use: getRandomNumberInRange(1, 4), value: 5, skillRequired: ENUM_SKILL_NAMES.robes },
 
         ], 
         elite: [
-            { name: 'Armet', use: getRandomNumberInRange(2, 6), value: 8, skillRequired: ENUM_SKILL_NAMES.heavyArmor },
-            { name: 'Basinet', use: getRandomNumberInRange(2, 8), value: 10, skillRequired: ENUM_SKILL_NAMES.heavyArmor }
+            { name: 'Sorceror dress', use: getRandomNumberInRange(2, 3), value: 7, skillRequired: ENUM_SKILL_NAMES.robes },
+            { name: 'Wizard cloak', use: getRandomNumberInRange(2, 4), value: 9, skillRequired: ENUM_SKILL_NAMES.robes }
+
+        ]
+    },
+    helmet: {
+        common: [
+            { name: 'Skull cap', use: getRandomNumberInRange(1, 3), value: 4, skillRequired: ENUM_SKILL_NAMES.helmet },
+            { name: 'Casque', use: getRandomNumberInRange(1,4), value: 5, skillRequired: ENUM_SKILL_NAMES.helmet },
+
+        ], 
+        elite: [
+            { name: 'Armet', use: getRandomNumberInRange(2, 6), value: 8, skillRequired: ENUM_SKILL_NAMES.helmet },
+            { name: 'Basinet', use: getRandomNumberInRange(2, 8), value: 10, skillRequired: ENUM_SKILL_NAMES.helmet }
+
+        ]
+    },
+    shield: {
+        common: [
+            { name: 'Wooden shield', use: getRandomNumberInRange(1, 3), value: 4, skillRequired: ENUM_SKILL_NAMES.shield },
+            { name: 'Buckler', use: getRandomNumberInRange(1,4), value: 5, skillRequired: ENUM_SKILL_NAMES.shield },
+
+        ], 
+        elite: [
+            { name: 'Kite shield', use: getRandomNumberInRange(2, 6), value: 8, skillRequired: ENUM_SKILL_NAMES.shield },
+            { name: 'Tower shield', use: getRandomNumberInRange(2, 8), value: 10, skillRequired: ENUM_SKILL_NAMES.shield }
 
         ]
     }
@@ -261,7 +285,21 @@ module.exports.build = (type, tier, options) => {
                 const _name = (options.name) ? options.name : '' // todo
             }
         }
-
+        /*
+        if (type == ENUM_ITEM_TYPE.SHIELD) {
+            if (tier == ENUM_ITEM_TIER.COMMON) {
+                const common = weapons.shields.common
+                const item = { ...i, ...getRandomElementFromArray(common) }
+                return item
+            } else if (tier == ENUM_ITEM_TIER.ELITE) {
+                const elite = weapons.heavyArmor.elite
+                const item = { ...i, ...getRandomElementFromArray(elite) }
+                return item
+            } else {
+                const _name = (options.name) ? options.name : '' // todo
+            }
+        }
+        */
 
 
     } catch (e) {

@@ -1,4 +1,9 @@
-const { copyObject, chance, getRandomNumber, getRandomElementFromArray } = require('../lib/utils')
+const { 
+    copyObject, 
+    chance, 
+    getRandomNumber, 
+    getRandomElementFromArray 
+} = require('../lib/utils')
 const objects = require('../generic/objects')
 const {
     advisor,

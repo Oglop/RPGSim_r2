@@ -5,16 +5,19 @@ const { ENUM_JOB_NAMES, ENUM_QUEST_STATUS } = require('../generic/enums')
 const { chance, copyObject, generateID, getRandomNumberInRange } = require('../lib/utils')
 const { logError } = require('../data/errorFile')
 const { get } = require('../localization')
+const { partySize } = require('../config')
 
 /**
  * Builds party object
  * 
- * @param {Array} startingPoints
- * @param {object} options 
+ * @param {object} options {
+ *  startingPoints* Array
+ *  partySize* int
+ * }
  * @returns {object} party
  */
-module.exports.build = (startingPoints, options) => {
-    const noOfMembers = (options.partySize) ? options.partySize : 6
+module.exports.build = (options = {}) => {
+    const noOfMembers = (options.partySize) ? options.partySize : partySize
     if (noOfMembers == 0) { noOfMembers = 1 } 
     const party = copyObject(objects.party)
     party.id = generateID()
@@ -25,7 +28,7 @@ module.exports.build = (startingPoints, options) => {
 
     for (let i = 0; i < noOfMembers; i++) {
         const character = characterBuilder.build({
-            currentDate: options.date
+            date: options.date
         })
         equipmentBuilder.equipCharacter(character)
         party.members.push(character)
