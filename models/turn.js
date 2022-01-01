@@ -1,6 +1,6 @@
 const { addDay } = require('../lib/time')
-const {  } = require('../models/darkness')
-const {} = require('../handlers/adventureHandler')
+//const {  } = require('../models/darkness')
+const { progressAdventure } = require('../handlers/adventureHandler')
 const { progressHistory } = require('../handlers/historyHandler')
 
 
@@ -14,7 +14,7 @@ const next = (world, output) => {
 
     if (pastTime === 'd' || pastTime === 'm' || pastTime === 'y') {
         // events for adventureres
-
+        progressAdventure(world, output)
 
         if (pastTime === 'm' || pastTime === 'y') {
             // events for families

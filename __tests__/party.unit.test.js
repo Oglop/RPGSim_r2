@@ -1,4 +1,5 @@
 const b = require('../build/party')
+const m = require('../models/party')
 
 const setWorldStartDate = (options) => {
     const objects = require('../generic/objects')
@@ -9,7 +10,6 @@ const setWorldStartDate = (options) => {
     date.day = 1
     return date
 } 
-
 
 describe('party unit tests', () => {
     test('build should be instance of a funtion', () => {
@@ -28,5 +28,71 @@ describe('party unit tests', () => {
         expect(actual.members[0].health).toBeGreaterThan(0)
         expect(actual.members[0].health).toBe(actual.members[0].maxHealth)
     })
-    
+    test('isInDwellng should be instance of a funtion', () => {
+        expect(m.isInDwelling).toBeInstanceOf(Function)
+    })
+    test('isInDwellng should return true when party is in dwelling', () => {
+        const outputMock = {
+            print: () => {}
+        }
+        const worldMock = {
+            map: [
+                [{}, {}, {}],
+                [{}, { dwelling: {
+                    id: '123',
+                    name: 'name',
+                    type: 0,
+                    inhabited: true
+                } }, {}],
+                [{}, {}, {}],
+            ]
+        }
+        const partyMock = {
+            id: 'abc',
+            name:  'abc and party',
+            karma: 0,
+            members: [],
+            path: [],
+            position: { x: 1, y: 1 },
+            quest: 0,
+            questStatus: 0,
+            questGoal: { x: 0, y: 0 },
+            crowns:0,
+            food:0
+        }
+        const actual = m.isInDwelling(worldMock, partyMock, outputMock)
+        expect(actual).toBeTruthy()
+    })
+    test('isInDwellng should return false when party is not in dwelling', () => {
+        const outputMock = {
+            print: () => {}
+        }
+        const worldMock = {
+            map: [
+                [{}, {}, {}],
+                [{}, { dwelling: {
+                    id: '123',
+                    name: 'name',
+                    type: 0,
+                    inhabited: true
+                } }, {}],
+                [{}, {}, {}],
+            ]
+        }
+        const partyMock = {
+            id: 'abc',
+            name:  'abc and party',
+            karma: 0,
+            members: [],
+            path: [],
+            position: { x: 0, y: 0 },
+            quest: 0,
+            questStatus: 0,
+            questGoal: { x: 0, y: 0 },
+            crowns:0,
+            food:0
+        }
+        const actual = m.isInDwelling(worldMock, partyMock, outputMock)
+        expect(actual).toBeFalsy()
+    })
 })

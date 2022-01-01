@@ -6,6 +6,7 @@ const { getPercetage } = require('../lib/utils')
 const { 
     ENUM_QUEST_STATUS
 } = require('../generic/enums')
+const { get } = require('../localization')
 
 
 const checkForRest = (party) => {
@@ -51,9 +52,53 @@ const quest = (world, party) => {
     }
 }
 
+/**
+ * returns true if current location is the same as
+ * @param {object} world 
+ * @param {object} party 
+ * @param {object} output 
+ * @returns {boolean}
+ */
+const isInDwelling = (world, party, output) => {
+    try {
+        if (world.map[party.position.x][party.position.y].dwelling != undefined) {
+            output.print(get('party-is-in-dwelling', [ party.name, world.map[party.position.x][party.position.y].dwelling.name ]))
+            return true
+        }
+        return false
+    } catch(e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'isInDwelling'
+        err.message = e.message
+        logError(err)
+    }
+}
+
+/**
+ * return true if party position is same as quest location
+ * @param {object} party 
+ * @returns {boolean}
+ */
+const isOnQuestLocation = (party) => {
+    try {
+        if ( party.position.x == party.questGoal.x && party.position.y == party.questGoal.y ) {
+            return true
+        }
+        return false
+    } catch(e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'isOnQuestLocation'
+        err.message = e.message
+        logError(err)
+    }
+}
+
 const consumeFood = (party) => {
     try {
-
+        const i = noOfAliveMembers(party)
+        party.food = (party.food - i >= 0) ? party.food - i : 0 
     } catch(e) {
         const err = objects.error
         err.file = __filename
@@ -63,11 +108,18 @@ const consumeFood = (party) => {
     }
 }
 
+const noOfAliveMembers = (party) => {
+    return party.members.filter(x => x.isAlive === true).length
+}
+
 
 module.exports = {
     checkForRest,
     rest,
     travel,
     quest,
-    consumeFood
+    consumeFood,
+    isInDwelling,
+    noOfAliveMembers,
+    isOnQuestLocation
 }

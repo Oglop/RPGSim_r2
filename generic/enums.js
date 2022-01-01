@@ -8,6 +8,7 @@ module.exports = {
         bow: 'Bow',
         staff: 'Staff',
         shield: 'Shield',
+        helmet: 'Helmet',
         axe: 'Axe',
         mace: 'Mace',
         spear: 'Spear',
@@ -248,7 +249,10 @@ module.exports = {
         HISTORY: 0,
         ADVENTURE: 1,
         DOOM: 2,
-        DUNGEON: 3
+        DUNGEON: 3,
+    },
+    ENUM_EVENT_ADVENTURE_TYPE: {
+        TOWN
     },
     ENUM_ENEMY_TYPE: {
         VILE:0,
