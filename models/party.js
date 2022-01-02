@@ -2,11 +2,13 @@
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { restThreshold, restThresholdMultiplyer } = require('../config')
-const { getPercetage } = require('../lib/utils')
+const { getPercetage, getRandomNumberInRange, copyObject } = require('../lib/utils')
 const { 
-    ENUM_QUEST_STATUS
+    ENUM_QUEST_STATUS,
+    ENUM_EXPLORE_STATUS
 } = require('../generic/enums')
 const { get } = require('../localization')
+const { WORLD_SIZE } = require('../generic/statics')
 
 
 const checkForRest = (party) => {
@@ -97,19 +99,28 @@ const isOnQuestLocation = (party) => {
 
 /**
  * returns a position 
- * @param {*} world 
+ * @param {object} world 
  */
 const getStartingPosition = (world) => {
-    let validPosition = false
-    while (!validPosition) {
-        const x = getRandomNumberInRange(0, WORLD_SIZE)
-        const y = getRandomNumberInRange(0, WORLD_SIZE)
-        if (world.map[x][y].exploreStatus != ENUM_EXPLORE_STATUS.obstacle) {
-            const p = copyObject(objects.point)
-            p.x = x 
-            p.y = y
-            return p
+    try {
+        let validPosition = false
+        while (!validPosition) {
+            const x = getRandomNumberInRange(0, WORLD_SIZE)
+            const y = getRandomNumberInRange(0, WORLD_SIZE)
+            if (world.map[x][y].exploreStatus != ENUM_EXPLORE_STATUS.obstacle) {
+                const p = copyObject(objects.point)
+                p.x = x 
+                p.y = y
+                return p
+            }
         }
+    } catch(e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'getStartingPosition'
+        err.message = e.message
+        logError(err)
+        return { x: 0, y: 0 }
     }
 }
 

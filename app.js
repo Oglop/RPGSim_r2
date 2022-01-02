@@ -8,7 +8,7 @@ const main = (args) => {
     try {
         const output = (!args.outputType) ? consoleType : htmlType
         const world = generateWorld(output)
-        world.parties = createParties( {date: world.date} )
+        world.parties = createParties( {date: world.date, world} )
         for (let i=0;i<80;i++) {
             next(world, output)
         }

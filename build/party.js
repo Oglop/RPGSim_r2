@@ -6,6 +6,7 @@ const { chance, copyObject, generateID, getRandomNumberInRange } = require('../l
 const { logError } = require('../data/errorFile')
 const { get } = require('../localization')
 const { partySize } = require('../config')
+const m = require('../models/party')
 
 /**
  * Builds party object
@@ -79,6 +80,7 @@ module.exports.build = (options = {}) => {
         }
     }
     party.name = get('party-name-template', [ party.members[0].name ])
+    party.position = m.getStartingPosition(options.world)
     return party
 }
 
