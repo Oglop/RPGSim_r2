@@ -252,7 +252,7 @@ module.exports = {
         DUNGEON: 3,
     },
     ENUM_EVENT_ADVENTURE_TYPE: {
-        TOWN
+        TOWN:0
     },
     ENUM_ENEMY_TYPE: {
         VILE:0,

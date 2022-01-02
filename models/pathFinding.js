@@ -12,7 +12,7 @@ const checkPossibleGoal = (map, position) => {
  * @param {object} point 
  */
 const resetQuestGoal = (map, point) => {
-  if (map[point.x][point.y].exploreStatus === ENUM_EXPLORE_STATUS.goal) { map[point.x][point.y].exploreStatus = ENUM_EXPLORE_STATUS.empty }
+  if (map[point.y][point.x].exploreStatus === ENUM_EXPLORE_STATUS.goal) { map[point.y][point.x].exploreStatus = ENUM_EXPLORE_STATUS.empty }
   else { 
     for (let y = 0; y < map.length; y++) {
       for (let x = 0; x < map.length; x++) {
@@ -26,13 +26,15 @@ const resetQuestGoal = (map, point) => {
 
 /**
  * 
- * @param {object} point 
+ * @param {object} point {x,y}
  * @param {array[,]} grid 
+ * @param {object} goal {x,y}
  * @returns boolean
  */
-const findShortestPath = (point, grid) => {
-    var distanceFromTop = point.x;
-    var distanceFromLeft = point.y;
+const findShortestPath = (point, grid, goal) => {
+    var distanceFromTop = point.y;
+    var distanceFromLeft = point.x;
+    grid[goal.y][goal.x].exploreStatus = ENUM_EXPLORE_STATUS.goal
   
     // Each "location" will store its coordinates
     // and the shortest path required to arrive there
@@ -105,9 +107,9 @@ const findShortestPath = (point, grid) => {
   
       // location is not on the grid--return false
       return ENUM_EXPLORE_STATUS.invalid;
-    } else if (grid[dft][dfl] === ENUM_EXPLORE_STATUS.goal) {
+    } else if (grid[dft][dfl].exploreStatus === ENUM_EXPLORE_STATUS.goal) {
       return ENUM_EXPLORE_STATUS.goal;
-    } else if (grid[dft][dfl] !== ENUM_EXPLORE_STATUS.empty) {
+    } else if (grid[dft][dfl].exploreStatus !== ENUM_EXPLORE_STATUS.empty) {
       // location is either an obstacle or has been visited
       return ENUM_EXPLORE_STATUS.blocked;
     } else {
@@ -145,7 +147,7 @@ const findShortestPath = (point, grid) => {
   
     // If this new location is valid, mark it as 'Visited'
     if (newLocation.status === ENUM_EXPLORE_STATUS.valid) {
-      grid[newLocation.distanceFromTop][newLocation.distanceFromLeft] = ENUM_EXPLORE_STATUS.visited;
+      grid[newLocation.distanceFromTop][newLocation.distanceFromLeft].exploreStatus = ENUM_EXPLORE_STATUS.visited;
     }
   
     return newLocation;
