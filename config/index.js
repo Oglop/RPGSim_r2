@@ -9,5 +9,6 @@ module.exports = {
     treasureStepStartValue: 30,
     treasureStepDecreaseValue: 10,
     restThreshold: 10,
-    restThresholdMultiplyer: 7
+    restThresholdMultiplyer: 7,
+    questLocationRadius: 4
 }

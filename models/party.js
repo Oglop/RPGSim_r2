@@ -30,7 +30,7 @@ const rest = (world, party) => {
 
 const travel = (world, party) => {
     try {
-
+        
     } catch(e) {
         const err = objects.error
         err.file = __filename
@@ -95,6 +95,24 @@ const isOnQuestLocation = (party) => {
     }
 }
 
+/**
+ * returns a position 
+ * @param {*} world 
+ */
+const getStartingPosition = (world) => {
+    let validPosition = false
+    while (!validPosition) {
+        const x = getRandomNumberInRange(0, WORLD_SIZE)
+        const y = getRandomNumberInRange(0, WORLD_SIZE)
+        if (world.map[x][y].exploreStatus != ENUM_EXPLORE_STATUS.obstacle) {
+            const p = copyObject(objects.point)
+            p.x = x 
+            p.y = y
+            return p
+        }
+    }
+}
+
 const consumeFood = (party) => {
     try {
         const i = noOfAliveMembers(party)
@@ -121,5 +139,6 @@ module.exports = {
     consumeFood,
     isInDwelling,
     noOfAliveMembers,
-    isOnQuestLocation
+    isOnQuestLocation,
+    getStartingPosition
 }
