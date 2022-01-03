@@ -1,8 +1,17 @@
 const { getRandomNumberInRange, copyObject } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { WORLD_SIZE } = require('../generic/statics')
-const { ENUM_EXPLORE_STATUS } = require('../generic/enums')
+const { 
+    ENUM_EXPLORE_STATUS,
+    ENUM_QUEST_STATUS,
+    ENUM_ADVENTURE_DAILY_ACTION 
+} = require('../generic/enums')
 const { questLocationRadius } = require('../config')
+const { 
+    isInDwelling, 
+    checkForRest, 
+    isOnQuestLocation
+} = require('../models/party')
 
 /**
  * returns a random position within allwed radius from party
@@ -24,6 +33,40 @@ const getQuestLocation = (world, party) => {
     }
 }
 
+const getAdventureDailyAction = (world, party) => {
+    try {
+        const rest = checkForRest(party)
+        const inTown = isInDwelling(world, party)
+        const onQuestPosition = isOnQuestLocation(party)
+
+        if (onQuestPosition && party.quest == ENUM_QUEST_STATUS.IN_PROGRESS ) {
+            return ENUM_ADVENTURE_DAILY_ACTION.ATEMPT_QUEST
+        }
+        if (rest && inTown) {
+            return ENUM_ADVENTURE_DAILY_ACTION.REST_TOWN
+        }
+        if (rest && !inTown) {
+            return ENUM_ADVENTURE_DAILY_ACTION.REST_MAP
+        }
+        if (!rest && inTown) {
+            return ENUM_ADVENTURE_DAILY_ACTION.EVENT_TOWN
+        }
+        if(onQuestPosition && party.quest == ENUM_QUEST_STATUS.FAILED || onQuestPosition && party.quest == ENUM_QUEST_STATUS.FINISHED) {
+            return ENUM_ADVENTURE_DAILY_ACTION.SEEK_QUEST_TOWN
+        }
+        if(!onQuestPosition && party.quest == ENUM_QUEST_STATUS.IN_PROGRESS) {
+            return ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP
+        }
+        if(party.quest == ENUM_QUEST_STATUS.SEEK_QUEST) {
+            return ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP
+        }
+
+    } catch (e) {
+
+    }
+}
+
 module.exports = {
-    getQuestLocation
+    getQuestLocation,
+    getAdventureDailyAction
 }

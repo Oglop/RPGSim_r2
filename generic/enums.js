@@ -299,6 +299,20 @@ module.exports = {
         MAGICAL: 3,
         LEGENDARY: 4,
     },
+    ENUM_ADVENTURE_DAILY_ACTION: {
+        REST_TOWN:0,
+        REST_MAP:1,
+        TRAVEL_MAP:2,
+        SEEK_QUEST_TOWN:3,
+        EVENT_TOWN:4,
+        ATEMPT_QUEST:5
+    },
+    ENUM_PARTY_STATE: {
+        TRAVEL_TO_QUEST: 0,
+        SEEK_NEW_QUEST: 1,
+        RESTING: 2,
+        QUESTING: 3,
+    },
     ENUM_ITEM_EFFECTS: {
         FIRE: 1,
         BLIND: 2

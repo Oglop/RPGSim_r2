@@ -1,7 +1,8 @@
 const { 
     ENUM_EXPLORE_STATUS,
     ENUM_DUNGEON_DOOR_STATUS,
-    ENUM_QUEST_STATUS
+    ENUM_QUEST_STATUS,
+    ENUM_PARTY_STATE
 
 } = require('../generic/enums')
 module.exports = {
@@ -255,9 +256,10 @@ module.exports = {
         karma: 0,
         members: [],
         path: [],
+        state: ENUM_PARTY_STATE.SEEK_NEW_QUEST,
         position: { x: 0, y: 0 },
-        quest: ENUM_QUEST_STATUS.NONE,
-        questStatus: undefined,
+        quest: {},
+        questStatus: ENUM_QUEST_STATUS.NONE,
         questGoal: { x: 0, y: 0 },
         crowns:0,
         food:0

@@ -2,10 +2,12 @@ const { getSeason } = require('../lib/time')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const mParty = require('../models/party')
+const { getQuestLocation, getAdventureDailyAction } = require('../models/adventure')
 const bEvent = require('../build/event')
 const { 
     ENUM_EVENT_TYPE,
-    ENUM_EVENT_ADVENTURE_TYPE 
+    ENUM_EVENT_ADVENTURE_TYPE,
+    ENUM_ADVENTURE_DAILY_ACTION
 } = require('../generic/enums')
 
 /**
@@ -17,24 +19,20 @@ const progressAdventure = (world, output) => {
     try {
         const season = getSeason(world.date)
         for (let p of world.parties) {
-            let action = undefined
+            let action = getAdventureDailyAction(world, p)
             const inTown = mParty.isInDwelling(world, p, output)
             const rest = mParty.checkForRest(p)
             let event = {}
-            // set goal like quest
-            if (inTown) {
-                event = bEvent.build(world, output, ENUM_EVENT_TYPE.ADVENTURE, {
-                    adventureEventType: ENUM_EVENT_ADVENTURE_TYPE.TOWN,
-                    rest
-                })
+
+            switch (action) {
+                case ENUM_ADVENTURE_DAILY_ACTION.ATEMPT_QUEST: break;
+                case ENUM_ADVENTURE_DAILY_ACTION.EVENT_TOWN: break;
+                case ENUM_ADVENTURE_DAILY_ACTION.REST_MAP: break;
+                case ENUM_ADVENTURE_DAILY_ACTION.REST_TOWN: break;
+                case ENUM_ADVENTURE_DAILY_ACTION.SEEK_QUEST_TOWN: break;
+                case ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP: break;
             }
 
-            /*
-            if (mParty.checkForRest(p)) {
-                mParty.rest(world, p)
-            } else {
-                mParty.quest(world, p)
-            }*/
             event.items[0].execute(world, party)
             // daily event
         }
