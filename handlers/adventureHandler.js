@@ -1,7 +1,6 @@
 const { getSeason } = require('../lib/time')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
-const mParty = require('../models/party')
 const { getQuestLocation, getAdventureDailyAction } = require('../models/adventure')
 const bEvent = require('../build/event')
 const { 
@@ -20,8 +19,6 @@ const progressAdventure = (world, output) => {
         const season = getSeason(world.date)
         for (let p of world.parties) {
             let action = getAdventureDailyAction(world, p)
-            const inTown = mParty.isInDwelling(world, p, output)
-            const rest = mParty.checkForRest(p)
             let event = {}
 
             switch (action) {

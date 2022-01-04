@@ -3,6 +3,7 @@ const objects = require('../generic/objects')
 const { WORLD_SIZE } = require('../generic/statics')
 const { 
     ENUM_EXPLORE_STATUS,
+    ENUM_EXPLORE_DIR,
     ENUM_QUEST_STATUS,
     ENUM_ADVENTURE_DAILY_ACTION 
 } = require('../generic/enums')
@@ -29,6 +30,25 @@ const getQuestLocation = (world, party) => {
             p.x = x 
             p.y = y
             return p
+        }
+    }
+}
+
+/**
+ * 
+ * @param {object} world 
+ * @param {object} party 
+ */
+const travelInDirection = (party) => {
+    if (party.path.length) {
+        if (party.path[0] === ENUM_EXPLORE_DIR.east) {
+            party.position.x = (party.position.x + 1 < WORLD_SIZE) ? party.position.x + 1 : party.position.x
+        } else if (party.path[0] === ENUM_EXPLORE_DIR.north) {
+            party.position.y = (party.position.y - 1 >= 0) ? party.position.y - 1 : party.position.y
+        } else if (party.path[0] === ENUM_EXPLORE_DIR.west) { 
+            party.position.x = (party.position.x - 1 >= 0) ? party.position.x - 1 : party.position.x
+        } else if (party.path[0] === ENUM_EXPLORE_DIR.south) {
+            party.position.y = (party.position.y + 1 < WORLD_SIZE) ? party.position.y + 1 : party.position.y
         }
     }
 }
@@ -68,5 +88,6 @@ const getAdventureDailyAction = (world, party) => {
 
 module.exports = {
     getQuestLocation,
-    getAdventureDailyAction
+    getAdventureDailyAction,
+    travelInDirection
 }
