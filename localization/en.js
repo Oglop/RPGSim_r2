@@ -7,6 +7,11 @@ module.exports.get = (id, args) => {
     switch (id) {
         case 'test1': return `hello ${args[0]}`
         case 'test2': return `one ${args[0]} ${args[1]}`
+        case 'adventure-travel-failed': return `${args[0]} searches for a path forward but are lost.`
+        case 'adventure-travel-east': return `${args[0]} travels east.`
+        case 'adventure-travel-north': return `${args[0]} travels north.`
+        case 'adventure-travel-west': return `${args[0]} travels west.`
+        case 'adventure-travel-south': return `${args[0]} travels south.`
         case 'combat-fight-turn': return `${args[0]} ${args[1]} ${args[2]} for ${args[3]} damage.`
         case 'combat-defeated': return `${args[0]} fell to the ground.`
         case 'character-trait-abomination': return `During full moon nights ${args[0]} turn into an blood thirsty abomination.`

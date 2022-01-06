@@ -18,42 +18,6 @@ const checkForRest = (party) => {
     return false
 }
 
-const rest = (world, party) => {
-    try {
-
-    } catch(e) {
-        const err = objects.error
-        err.file = __filename
-        err.function = 'rest'
-        err.message = e.message
-        logError(err)
-    }
-}
-
-const travel = (world, party) => {
-    try {
-        
-    } catch(e) {
-        const err = objects.error
-        err.file = __filename
-        err.function = 'travel'
-        err.message = e.message
-        logError(err)
-    }
-}
-
-const quest = (world, party) => {
-    try {
-
-    } catch(e) {
-        const err = objects.error
-        err.file = __filename
-        err.function = 'quest'
-        err.message = e.message
-        logError(err)
-    }
-}
-
 /**
  * returns true if current location is the same as
  * @param {object} world 
@@ -144,9 +108,6 @@ const noOfAliveMembers = (party) => {
 
 module.exports = {
     checkForRest,
-    rest,
-    travel,
-    quest,
     consumeFood,
     isInDwelling,
     noOfAliveMembers,

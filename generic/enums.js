@@ -308,7 +308,7 @@ module.exports = {
         ATEMPT_QUEST:5
     },
     ENUM_PARTY_STATE: {
-        TRAVEL_TO_QUEST: 0,
+        TRAVEL: 0,
         SEEK_NEW_QUEST: 1,
         RESTING: 2,
         QUESTING: 3,

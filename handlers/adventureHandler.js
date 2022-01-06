@@ -1,7 +1,14 @@
 const { getSeason } = require('../lib/time')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
-const { getQuestLocation, getAdventureDailyAction } = require('../models/adventure')
+const { 
+    getQuestLocation, 
+    getAdventureDailyAction, 
+    travel,
+    restMap,
+    restTown,
+    quest
+} = require('../models/adventure')
 const bEvent = require('../build/event')
 const { 
     ENUM_EVENT_TYPE,
@@ -24,10 +31,10 @@ const progressAdventure = (world, output) => {
             switch (action) {
                 case ENUM_ADVENTURE_DAILY_ACTION.ATEMPT_QUEST: break;
                 case ENUM_ADVENTURE_DAILY_ACTION.EVENT_TOWN: break;
-                case ENUM_ADVENTURE_DAILY_ACTION.REST_MAP: break;
-                case ENUM_ADVENTURE_DAILY_ACTION.REST_TOWN: break;
+                case ENUM_ADVENTURE_DAILY_ACTION.REST_MAP: restMap(world, p, output); break;
+                case ENUM_ADVENTURE_DAILY_ACTION.REST_TOWN: restTown(world, p, output); break;
                 case ENUM_ADVENTURE_DAILY_ACTION.SEEK_QUEST_TOWN: break;
-                case ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP: break;
+                case ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP: travel(world, party, output);  break;
             }
 
             event.items[0].execute(world, party)
@@ -50,5 +57,6 @@ const progressAdventure = (world, output) => {
 }
 
 module.exports = {
-    progressAdventure
+    progressAdventure,
+
 }
