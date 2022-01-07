@@ -9,6 +9,7 @@ const {
 } = require('../generic/enums')
 const { get } = require('../localization')
 const { WORLD_SIZE } = require('../generic/statics')
+const { party } = require('../generic/objects')
 
 
 const checkForRest = (party) => {
@@ -101,6 +102,39 @@ const consumeFood = (party) => {
     }
 }
 
+const restParty = (party) => {
+    try {
+        for (let i = 0; i < party.members.length; i++) {
+            const val = getRandomNumberInRange(party.members[i].stats.vit, party.members[i].stats.vit * 2)
+            party.members[i].stamina = (party.members[i].stamina + val <= party.members[i].maxStamina) ? 
+                party.members[i].stamina + val : party.members[i].maxStamina
+        }
+    } catch(e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'restParty'
+        err.message = e.message
+        logError(err)
+    }
+}
+
+const exhaustParty = (party) => {
+    try {
+        for (let i = 0; i < party.members.length; i++) {
+            if (party.members[i].isAlive) {
+                const val = getRandomNumberInRange(0, 10)
+                party.food -= (val <= 9) ? 1 : 2
+            }
+        }
+    } catch(e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'exhaustParty'
+        err.message = e.message
+        logError(err)
+    }
+}
+
 const noOfAliveMembers = (party) => {
     return party.members.filter(x => x.isAlive === true).length
 }
@@ -113,5 +147,7 @@ module.exports = {
     isInDwelling,
     noOfAliveMembers,
     isOnQuestLocation,
-    getStartingPosition
+    getStartingPosition,
+    restParty,
+    exhaustParty
 }

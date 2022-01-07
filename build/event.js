@@ -77,7 +77,7 @@ module.exports.build = (world, output, eventType, options) => {
     switch (eventType) {
         case ENUM_EVENT_TYPE.HISTORY: return getHistoryEvent(e, world)
         case ENUM_EVENT_TYPE.DUNGEON: return getDungeonEvent(options)
-        case ENUM_EVENT_TYPE.REST: return getRestEvent(e, world, options.party, options)
+        case ENUM_EVENT_TYPE.REST: return getRestEvent(e, world, options)
     }
 
 }

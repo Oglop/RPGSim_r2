@@ -31,12 +31,12 @@ const { getPersonName } = require('../../generic/names')*/
 const { get } = require('../../localization')
 
 
-const story = (event, world, party, options) => { 
+const story = (event, world, options) => { 
     
     const i1 = copyObject(objects.eventItem)
     i1.description = get('event-rest-story-description', [storyTeller.name])
 
-    i1.execute = () => {
+    i1.execute = (party) => {
         const storyTeller = getRandomElementFromArray(party.members)
         const successes = checkCharacterStat(storyTeller, ENUM_STAT_NAMES.cha)
         if (successes.length) {
@@ -51,10 +51,10 @@ const story = (event, world, party, options) => {
     return event
 }
 
-const darkNight = (event, world, party, options) => { 
+const darkNight = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('')
-    i1.execute = () => {
+    i1.execute = (party) => {
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -67,10 +67,10 @@ const darkNight = (event, world, party, options) => {
     return event
 }
 
-const seasonalEffect = (event, world, party, options) => { 
+const seasonalEffect = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('')
-    i1.execute = () => {
+    i1.execute = (party) => {
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -83,10 +83,10 @@ const seasonalEffect = (event, world, party, options) => {
     return event
 }
 
-const deepSleep = (event, world, party, options) => { 
+const deepSleep = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('')
-    i1.execute = () => {
+    i1.execute = (party) => {
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -99,10 +99,10 @@ const deepSleep = (event, world, party, options) => {
     return event
 }
 
-const argument = (event, world, party, options) => { 
+const argument = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('')
-    i1.execute = () => {
+    i1.execute = (party) => {
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -115,10 +115,10 @@ const argument = (event, world, party, options) => {
     return event
 }
 
-const coldNight = (event, world, party, options) => { 
+const coldNight = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('')
-    i1.execute = () => {
+    i1.execute = (party) => {
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -131,10 +131,10 @@ const coldNight = (event, world, party, options) => {
     return event
 }
 
-const weaponPractice = (event, world, party, options) => { 
+const weaponPractice = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('')
-    i1.execute = () => {
+    i1.execute = (party) => {
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -147,10 +147,10 @@ const weaponPractice = (event, world, party, options) => {
     return event
 }
 
-const travelers = (event, world, party, options) => { 
+const travelers = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('')
-    i1.execute = () => {
+    i1.execute = (party) => {
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -163,10 +163,10 @@ const travelers = (event, world, party, options) => {
     return event
 }
 
-const hunting = (event, world, party, options) => { 
+const hunting = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('')
-    i1.execute = () => {
+    i1.execute = (party) => {
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -179,10 +179,10 @@ const hunting = (event, world, party, options) => {
     return event
 }
 
-const dreams = (event, world, party, options) => { 
+const dreams = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('')
-    i1.execute = () => {
+    i1.execute = (party) => {
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')

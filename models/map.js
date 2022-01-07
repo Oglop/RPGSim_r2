@@ -63,9 +63,18 @@ const getPointOfRandomDwelling = (map) => {
     }
 }
 
+const getBiomeAtPoint = (map, point) => {
+    try {
+        return map[point.x][point.y].biome
+    } catch (e) {
+        console.log('getBiomeAtPoint: ', e.message)
+    }
+}
+
 module.exports = {
     getDwellingsFromMap,
     getDwellingPositionById,
     getPointOfRandomDwelling,
-    getDwellingById
+    getDwellingById,
+    getBiomeAtPoint
 }

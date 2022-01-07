@@ -85,6 +85,12 @@ module.exports.get = (id, args) => {
         case 'dungeon-theme-ruins': return 'ruins'
         case 'dungeon-theme-undercity': return 'undercity'
         case 'dungeon-theme-stronghold': return 'stronghold'
+        case 'event-rest-story-description': return `At camp ${args[0]} begins telling a story.`
+        case 'event-rest-story-success': return `${args[0]} tells a captivating story, everyone feels a little closer to eachother.`
+        case 'event-rest-story-fail': return `${args[0]}´s story drags on and no one is listening. Soon everyone is falling asleep.`
+        case 'event-rest-hunt-success': return `${args[0]} returns after a successful hunt.`
+        case 'event-rest-fishing-success': return `${args[0]} returns after successfully fishing in a nearby lake.`
+        case 'event-rest-town-resting': return `${args[0]} spends the night resting at the town in.`
         case 'familyTree-build-1': return `- Year of ${args[0]} -`
         case 'familyTree-peopleDie-1': return `${args[0]} of ${args[1]} dies from old age.`
         case 'familyTree-moves-1': return `${args[0]} founded the town of ${args[1]}.`

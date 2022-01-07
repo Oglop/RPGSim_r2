@@ -1,6 +1,6 @@
 const { point, traits } = require('../generic/objects')
 const objects = require('../generic/objects')
-const { copyObject, chance } = require('../lib/utils')
+const { copyObject, chance, getRandomElementFromArray } = require('../lib/utils')
 const { MAX_MARRIAGE_AGE_GAP, 
     MIN_MARRIAGE_AGE,
     MAX_RELATIONS_POINTS,
@@ -75,6 +75,33 @@ const setRelation = (character1, character2, points) => {
     }
 }
 
+/**
+ * return array of character with trait
+ * @param {object} party 
+ * @param {ENUM_CHARACTER_TRAITS} trait
+ * @returns {ENUM_CHARACTER_TRAITS} 
+ */
+const getCharacterWithTrait = (party, trait) => {
+    try {
+        let successes = []
+        for (let i = 0; i < party.members.length; i++) {
+            if (party.members[i].isAlive && party.members[i].trait == trait) {
+                successes.push(party.members[i]) 
+            }
+        }
+        if (successes.length) {
+            return getRandomElementFromArray(successes)
+        }
+        return []
+    } catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'getCharacterWithTrait'
+        err.message = e.message
+        logError(err)
+    }
+}
+
 
 /**
  * Check if character dies from old age
@@ -115,5 +142,6 @@ module.exports = {
     validateCharacterCompabilityForMarige,
     setRelation,
     checkForOldAge,
-    getTraitDescription
+    getTraitDescription,
+    getCharacterWithTrait
 }

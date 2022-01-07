@@ -26,7 +26,7 @@ const progressAdventure = (world, output) => {
         const season = getSeason(world.date)
         for (let p of world.parties) {
             let action = getAdventureDailyAction(world, p)
-            let event = {}
+            //let event = {}
 
             switch (action) {
                 case ENUM_ADVENTURE_DAILY_ACTION.ATEMPT_QUEST: break;
@@ -34,10 +34,10 @@ const progressAdventure = (world, output) => {
                 case ENUM_ADVENTURE_DAILY_ACTION.REST_MAP: restMap(world, p, output); break;
                 case ENUM_ADVENTURE_DAILY_ACTION.REST_TOWN: restTown(world, p, output); break;
                 case ENUM_ADVENTURE_DAILY_ACTION.SEEK_QUEST_TOWN: break;
-                case ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP: travel(world, party, output);  break;
+                case ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP: travel(world, p, output);  break;
             }
 
-            event.items[0].execute(world, party)
+            //event.items[0].execute(world, party)
             // daily event
         }
 

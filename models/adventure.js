@@ -1,4 +1,4 @@
-const { getRandomNumberInRange, copyObject, getRandomNumberInRange } = require('../lib/utils')
+const { getRandomNumberInRange, copyObject, getRandomNumberInRange, chance } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { WORLD_SIZE } = require('../generic/statics')
@@ -9,19 +9,27 @@ const {
     ENUM_ADVENTURE_DAILY_ACTION,
     ENUM_BIOMES,
     ENUM_EVENT_TYPE,
-    ENUM_PARTY_STATE
+    ENUM_PARTY_STATE,
+    ENUM_EVENT_ITEM_STATUS,
+    ENUM_PERSONALITY_DEALS_RESULT,
+    ENUM_SKILL_NAMES,
+    ENUM_CHARACTER_TRAITS
 } = require('../generic/enums')
 const { questLocationRadius } = require('../config')
 const { 
+    restParty,
+    exhaustParty,
     isInDwelling, 
     checkForRest, 
     isOnQuestLocation
 } = require('../models/party')
 const { get } = require('../localization')
 const bEvent = require('../build/event')
+const mMap = require('../models/map')
 const { getDwellingsFromMap, getPointOfRandomDwelling } = require('../models/map')
 const { findShortestPath } = require('../models/pathFinding')
-
+const { partyDailyRelationShipRoll } = require('./personality')
+const { checkPartySkill } = require('./skill')
 /**
  * Check if party is able to travel to new ppositon based io biome
  * after move execute travel event
@@ -51,6 +59,8 @@ const travel = (world, party, output) => {
         }
         const e = bEvent.build(world, output, ENUM_EVENT_TYPE.travelEvent, undefined)
         e.items[0].execute(party)
+
+        exhaustParty(party)
     } catch(e) {
         const err = objects.error
         err.file = __filename
@@ -175,6 +185,21 @@ const getAdventureDailyAction = (world, party) => {
     }
 }
 
+const biomeRestMultiplier = (biome) => {
+    switch (biome) {
+        case ENUM_BIOMES.badlands: return 0.4
+        case ENUM_BIOMES.dessert: return 0.2
+        case ENUM_BIOMES.farmlands: return 1.0
+        case ENUM_BIOMES.forest: return 2.4
+        case ENUM_BIOMES.hills: return 1.6
+        case ENUM_BIOMES.lake: return 0.6
+        case ENUM_BIOMES.mountains: return 0.4
+        case ENUM_BIOMES.plains: return 1.4
+        case ENUM_BIOMES.swamp: return 0.8
+    }
+    return 1.0
+}
+
 /**
  * Rest party
  * @param {object} world
@@ -182,7 +207,23 @@ const getAdventureDailyAction = (world, party) => {
  */
 const restMap = (world, party, output) => {
     try {
-
+        const currentBiome = mMap.getBiomeAtPoint(party.position)
+        const multiplier = biomeRestMultiplier(currentBiome)
+        const successesHunt = checkPartySkill(party, ENUM_SKILL_NAMES.hunting)
+        const successesFishing = checkPartySkill(party, ENUM_SKILL_NAMES.fishing)
+        const successRandom = getRandomNumberInRange(1, party.members.length * 2)
+        const successesFinal = Math.floor( (successesHunt.length + successesFishing.length + successRandom) * multiplier )
+        party.food += successesFinal
+        if (successesHunt.length) { output.print(get('event-rest-hunt-success', [successesHunt[0].name] )) }
+        if (successesFishing.length) { output.print(get('event-rest-fishing-success', [successesFishing[0].name] )) }
+        const e = bEvent.build(world, output, ENUM_EVENT_TYPE.REST, undefined)
+        output.print(e.description)
+        e.items[0].execute(party)
+        output.print(e.items[0].resolutionText)
+        const enumPersonalityResult = (e.resolution == ENUM_EVENT_ITEM_STATUS.SUCCESS) ? ENUM_PERSONALITY_DEALS_RESULT.GOOD : 
+            (e.resolution == ENUM_EVENT_ITEM_STATUS.RESOLVED) ? ENUM_PERSONALITY_DEALS_RESULT.NORMAL : ENUM_PERSONALITY_DEALS_RESULT.BAD
+        restParty(party)
+        partyDailyRelationShipRoll(party, enumPersonalityResult)
     } catch(e) {
         const err = objects.error
         err.file = __filename
@@ -194,7 +235,24 @@ const restMap = (world, party, output) => {
 
 const restTown = (world, party, output) => {
     try {
+        output.print(get('event-rest-town-resting', [ party.name ] ))
 
+        let characterTraitEvents = []
+        if (chance(10)) {
+            const i = getRandomNumberInRange(0, 4)
+            switch (i) {
+                case 0: characterTraitEvents = getCharacterWithTrait(party, ENUM_CHARACTER_TRAITS.ALCOHOLIC); break;
+                case 1: characterTraitEvents = getCharacterWithTrait(party, ENUM_CHARACTER_TRAITS.GAMBLER); break;
+                case 2: characterTraitEvents = getCharacterWithTrait(party, ENUM_CHARACTER_TRAITS.DARK_PAST); break;
+                case 3: characterTraitEvents = getCharacterWithTrait(party, ENUM_CHARACTER_TRAITS.VETERAN); break;
+                case 4: characterTraitEvents = getCharacterWithTrait(party, ENUM_CHARACTER_TRAITS.TRAVLER); break;
+            }
+            if (characterTraitEvents.length) {
+                if (i == 0) {
+                    
+                }
+            }
+        }
     } catch(e) {
         const err = objects.error
         err.file = __filename
