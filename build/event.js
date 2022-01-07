@@ -2,7 +2,8 @@ const {
     copyObject, 
     chance, 
     getRandomNumber, 
-    getRandomElementFromArray 
+    getRandomElementFromArray, 
+    getRandomNumberInRange
 } = require('../lib/utils')
 const objects = require('../generic/objects')
 const {
@@ -15,6 +16,7 @@ const {
     flickeringLights
 } = require('../models/events/dungeon')
 const { ENUM_EVENT_TYPE } = require('../generic/enums')
+const eRest = require('../models/events/rest')
 
 
 /**
@@ -43,6 +45,22 @@ const getDungeonEvent = (options) => {
     }
 }
 
+const getRestEvent = (event, world, party, options) => {
+    const i = getRandomNumberInRange(0, 9)
+    switch(i) {
+        case 0: return eRest.argument(event, world, party, options);
+        case 1: return eRest.coldNight(event, world, party, options);
+        case 2: return eRest.darkNight(event, world, party, options);
+        case 3: return eRest.deepSleep(event, world, party, options);
+        case 4: return eRest.hunting(event, world, party, options);
+        case 5: return eRest.seasonalEffect(event, world, party, options);
+        case 6: return eRest.story(event, world, party, options);
+        case 7: return eRest.travelers(event, world, party, options);
+        case 8: return eRest.weaponPractice(event, world, party, options);
+        case 9: return eRest.dreams(event, world, party, options);
+    }
+}
+
 /**
  * 
  * 
@@ -59,6 +77,7 @@ module.exports.build = (world, output, eventType, options) => {
     switch (eventType) {
         case ENUM_EVENT_TYPE.HISTORY: return getHistoryEvent(e, world)
         case ENUM_EVENT_TYPE.DUNGEON: return getDungeonEvent(options)
+        case ENUM_EVENT_TYPE.REST: return getRestEvent(e, world, options.party, options)
     }
 
 }
