@@ -148,12 +148,45 @@ const checkPartySkill = (p, skill) => {
         err.message = e.message
         logError(err)
     }
-    return 0
+    return []
+}
+
+/**
+ * 
+ * @param {object} c character 
+ * @param {ENUM_STAT_NAMES} stat 
+ * @returns 
+ */
+const checkCharacterStat = (c, stat) => {
+    try {
+        const successes = []
+        let i = 0
+        switch (stat) {
+            case ENUM_STAT_NAMES.agi: i = c.stats.agi; break;
+            case ENUM_STAT_NAMES.cha: i = c.stats.cha; break;
+            case ENUM_STAT_NAMES.int: i = c.stats.int; break;
+            case ENUM_STAT_NAMES.luc: i = c.stats.luc; break;
+            case ENUM_STAT_NAMES.str: i = c.stats.str; break;
+            case ENUM_STAT_NAMES.vit: i = c.stats.vit; break;
+            case ENUM_STAT_NAMES.wis: i = c.stats.wis; break;
+        }
+        if (getRandomNumber(20) <= i) {
+            successes.push(c)
+        }
+        return successes
+    } catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'checkCharacterStat'
+        err.message = e.message
+        logError(err)
+    }
 }
 
 module.exports = {
     checkCharacterSkill,
     checkPartySkill,
     characterKnowsSkill,
-    getStatBaseBySkillName
+    getStatBaseBySkillName,
+    checkCharacterStat
 }

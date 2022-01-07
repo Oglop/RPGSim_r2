@@ -2,6 +2,12 @@ const { ENUM_PERSONALITIES, ENUM_PERSONALITY_DEALS_RESULT, ENUM_PERSONALITY_DEAL
 const { tryToUnderstandEachOther } = require('./language')
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
+const { noOfAliveMembers } = require('../models/party')
+const { copyObject } = require('../lib/utils')
+const { 
+    MAX_RELATIONSHIP_VALUE, 
+    MIN_RELATIONSHIP_VALUE 
+} = require('../generic/statics')
 
 /*
 AMBITIOUS, // starts projects wants to be ruler
@@ -178,7 +184,53 @@ const personalityDealsWith = (personality, type) => {
     return ENUM_PERSONALITY_DEALS_RESULT.NORMAL
 }
 
+const addOrUpdateRelations = (character1, character2, value) => {
+    const r1 = (character1.relationships.find(character2.id) != undefined) ? character1.relationships.find(character2.id) : copyObject(objects.relation)
+    const r2 = (character1.relationships.find(character1.id) != undefined) ? character1.relationships.find(character1.id) : copyObject(objects.relation)
+    if (!r1.id || r2.id) {
+        r1.id = r2.id
+        r2.id = r1.id
+    }
+    r1.points += value
+    r2.points += value
+    if (r1.points > MAX_RELATIONSHIP_VALUE) { r1.points = MAX_RELATIONSHIP_VALUE }
+    if (r2.points > MAX_RELATIONSHIP_VALUE) { r2.points = MAX_RELATIONSHIP_VALUE }
+    if (r1.points < MIN_RELATIONSHIP_VALUE) { r1.points = MIN_RELATIONSHIP_VALUE }
+    if (r2.points < MIN_RELATIONSHIP_VALUE) { r2.points = MIN_RELATIONSHIP_VALUE }
+} 
+
+/**
+ * 
+ * @param {object} party 
+ * @param {ENUM_PERSONALITY_DEALS_RESULT} dailyStatus
+ */
+const partyDailyRelationShipRoll = (party, dailyStatus) =>  {
+    const len = noOfAliveMembers(party)
+    const dailyValue = (dailyStatus == ENUM_PERSONALITY_DEALS_RESULT.NORMAL) ? 1 : 
+                (dailyStatus == ENUM_PERSONALITY_DEALS_RESULT.GOOD) ? 2 : 0
+    for (let i = 0; i < len; i++) {
+        for (let j = i + 1; j < len; j++) {
+            testResultValue = compabilityCheck(party.members[i], party.members[j])
+            addOrUpdateRelations(party.members[i], party.members[j], testResultValue + dailyValue)
+        }
+    }
+}
+/**
+ * 
+ * @param {*} party 
+ * @param {*} value 
+ */
+const partyExtraRelationshipRoll = (party, value) => {
+    for (let i = 0; i < len; i++) {
+        for (let j = i + 1; j < len; j++) {
+            addOrUpdateRelations(party.members[i], party.members[j], value)
+        }
+    }
+}
+
 module.exports = {
     compabilityCheck,
-    personalityDealsWith
+    personalityDealsWith,
+    partyDailyRelationShipRoll,
+    partyExtraRelationshipRoll
 }

@@ -95,4 +95,31 @@ describe('party unit tests', () => {
         const actual = m.isInDwelling(worldMock, partyMock, outputMock)
         expect(actual).toBeFalsy()
     })
+    test('number of alive characters in party', () => {
+        const partyMock = {
+            id: 'abc',
+            name:  'abc and party',
+            karma: 0,
+            members: [{
+                id: '1',
+                isAlive: true
+            },{
+                id: '2',
+                isAlive: true
+            },{
+                id: '3',
+                isAlive: false
+            },],
+            path: [],
+            position: { x: 0, y: 0 },
+            quest: 0,
+            questStatus: 0,
+            questGoal: { x: 0, y: 0 },
+            crowns:0,
+            food:0
+        }
+        const actual = m.noOfAliveMembers(partyMock)
+        expect(actual).toBe(2)
+    })
+
 })

@@ -106,6 +106,7 @@ const noOfAliveMembers = (party) => {
 }
 
 
+
 module.exports = {
     checkForRest,
     consumeFood,

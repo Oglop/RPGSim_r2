@@ -1,6 +1,10 @@
 const { copyObject, chance, getRandomNumber, getRandomElementFromArray } = require('../../lib/utils')
 const objects = require('../../generic/objects')
-const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH, 
+const { checkPartySkill, checkCharacterStat } = require('../../models/skill')
+const { 
+    ENUM_STAT_NAMES,
+    ENUM_SKILL_NAMES,
+    ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH, 
     ENUM_ENEMY_TYPE, 
     ENUM_GAME_MODE, 
     ENUM_PERSONALITY_DEALS_TYPE, 
@@ -14,7 +18,8 @@ const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH,
     ENUM_SEASONS
 } = require('../../generic/enums')
 const { getDwellingsFromMap } = require('../../models/map')
-const { 
+
+/*const { 
     getLeaderByDwellingId,
     getFamiliesByDwellingId,
     distributInfluence,
@@ -22,23 +27,24 @@ const {
     getRandomAlivePerson } = require('../../models/family')
 const { personalityDealsWith } = require('../../models/personality')
 const { getSeason } = require('../../lib/time')
-const monsterBuilder = require('../../build/monster')
-const charachterBuilder = require('../../build/character')
-const familyBuilder = require('../../build/families')
-const { getPersonName } = require('../../generic/names')
+const { getPersonName } = require('../../generic/names')*/
 const { get } = require('../../localization')
 
 
 const story = (event, world, party, options) => { 
+    
     const i1 = copyObject(objects.eventItem)
-    i1.description = get('')
+    i1.description = get('event-rest-story-description', [storyTeller.name])
+
     i1.execute = () => {
-        if (1 == 1) {
+        const storyTeller = getRandomElementFromArray(party.members)
+        const successes = checkCharacterStat(storyTeller, ENUM_STAT_NAMES.cha)
+        if (successes.length) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
-            i1.resolutionText = get('')
+            i1.resolutionText = get('event-rest-story-success')
         } else {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
-            i1.resolutionText = get('')
+            i1.resolutionText = get('event-rest-story-fail')
         }
     }
     event.items.push(i1)
