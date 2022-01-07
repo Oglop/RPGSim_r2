@@ -65,7 +65,7 @@ describe('skill tests', () => {
         p.members = [ c1, c2, c3 ]
 
         const successes = m.checkPartySkill(p, ENUM_SKILL_NAMES.fishing)
-        expect(successes).toBe(1)
+        expect(successes[0].name).toBe('b')
 
     })
 })

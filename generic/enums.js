@@ -2,6 +2,7 @@ module.exports = {
     ENUM_SKILL_NAMES: {
         lockPicking: 'Lock picking',
         steal: 'Steal',
+        sneak: 'Sneak',
         dagger: 'Dagger',
         oneHandSword: '1H Sword',
         twoHandSword: '2H Sword',
@@ -170,11 +171,6 @@ module.exports = {
         badlands: 'badlands',
         farmlands: 'farmlands'
     },
-    ENUM_EVENT_TYPE: {
-        restEvent:'restEvent',
-        travelEvent:'travelEvent',
-        questEvent: 'questEvent'
-    },
     ENUM_CHARACTER_STATUS: {
         dead: 'dead',
         alive: 'alive',
@@ -250,6 +246,7 @@ module.exports = {
         ADVENTURE: 1,
         DOOM: 2,
         DUNGEON: 3,
+        REST: 4
     },
     ENUM_EVENT_ADVENTURE_TYPE: {
         TOWN:0

@@ -160,6 +160,11 @@ const getSkill = skill => {
             o.statsBase = m.getStatBaseBySkillName(ENUM_SKILL_NAMES.leadership)
             o.luckTest = false
             break
+        case ENUM_SKILL_NAMES.sneak:
+            o.name = ENUM_SKILL_NAMES.sneak
+            o.statsBase = m.getStatBaseBySkillName(ENUM_SKILL_NAMES.sneak)
+            o.luckTest = false
+            break
     }
     return o
 }
@@ -184,6 +189,7 @@ module.exports.build = (c) => {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.shield)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.scout)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.hunting)))
+        c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.sneak)))
     }
     if (c.job === ENUM_JOB_NAMES.knight) {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.spear)))
@@ -216,6 +222,7 @@ module.exports.build = (c) => {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.swim)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.tracking)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.woodWorking)))
+        c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.sneak)))
     }
     if (c.job === ENUM_JOB_NAMES.ranger) {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.bow)))
@@ -231,6 +238,7 @@ module.exports.build = (c) => {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.lightArmor)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.scout)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.lockPicking)))
+        c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.sneak)))
     }
     if (c.job === ENUM_JOB_NAMES.thief) {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.dagger)))
@@ -238,6 +246,7 @@ module.exports.build = (c) => {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.lockPicking)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.steal)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.findTraps)))
+        c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.sneak)))
     }
     if (c.job === ENUM_JOB_NAMES.wizard) {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.staff)))
@@ -249,6 +258,21 @@ module.exports.build = (c) => {
     if (c.race === ENUM_RACE_NAMES.dwarf) {
         if (c.skills.find(e => e.name == ENUM_SKILL_NAMES.axe) === undefined) {
             c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.axe)))
+        }
+    }
+    if (c.race === ENUM_RACE_NAMES.halfling) {
+        if (c.skills.find(e => e.name == ENUM_SKILL_NAMES.sneak) === undefined) {
+            c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.sneak)))
+        }
+    }
+    if (c.race === ENUM_RACE_NAMES.highElf) {
+        if (c.skills.find(e => e.name == ENUM_SKILL_NAMES.scholar) === undefined) {
+            c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.scholar)))
+        }
+    }
+    if (c.race === ENUM_RACE_NAMES.darkElf) {
+        if (c.skills.find(e => e.name == ENUM_SKILL_NAMES.leadership) === undefined) {
+            c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.leadership)))
         }
     }
     setStartMasteryPoints(c)

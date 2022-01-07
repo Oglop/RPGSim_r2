@@ -79,6 +79,7 @@ const getStatBaseBySkillName = (skill) => {
         case ENUM_SKILL_NAMES.dagger: return ENUM_STAT_NAMES.agi
         case ENUM_SKILL_NAMES.lockPicking: return ENUM_STAT_NAMES.agi
         case ENUM_SKILL_NAMES.steal: return ENUM_STAT_NAMES.agi
+        case ENUM_SKILL_NAMES.sneak: return ENUM_STAT_NAMES.agi
         case ENUM_SKILL_NAMES.oneHandSword: return ENUM_STAT_NAMES.str
         case ENUM_SKILL_NAMES.twoHandSword: return ENUM_STAT_NAMES.str
         case ENUM_SKILL_NAMES.staff: return ENUM_STAT_NAMES.int
@@ -114,7 +115,7 @@ const characterKnowsSkill = (character, skill) => {
  */
 const checkPartySkill = (p, skill) => {
     try {
-        let successes = 0
+        const successes = []
         const stat = getStatBaseBySkillName(skill)
         for (let j = 0; j < p.members.length; j++) {
             if (characterKnowsSkill(p.members[j], skill)) {
@@ -129,11 +130,11 @@ const checkPartySkill = (p, skill) => {
                     case ENUM_STAT_NAMES.wis: i = p.members[j].stats.wis; break;
                 }
                 if (getRandomNumber(20) <= i) {
-                    successes += 1
+                    successes.push(p.members[j])
                 } else {
                     if (doLuckRollForSkill(skill)) {
                         if (getRandomNumber(20) <= p.members[j].stats.luc) {
-                            successes += 1
+                            successes.push(p.members[j])
                         }
                     }
                 }
