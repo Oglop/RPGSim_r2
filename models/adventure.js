@@ -217,7 +217,7 @@ const restMap = (world, party, output) => {
         if (successesHunt.length) { output.print(get('event-rest-hunt-success', [successesHunt[0].name] )) }
         if (successesFishing.length) { output.print(get('event-rest-fishing-success', [successesFishing[0].name] )) }
         const e = bEvent.build(world, output, ENUM_EVENT_TYPE.REST, undefined)
-        output.print(e.description)
+        output.print(e.items[0].description)
         e.items[0].execute(party)
         output.print(e.items[0].resolutionText)
         const enumPersonalityResult = (e.resolution == ENUM_EVENT_ITEM_STATUS.SUCCESS) ? ENUM_PERSONALITY_DEALS_RESULT.GOOD : 

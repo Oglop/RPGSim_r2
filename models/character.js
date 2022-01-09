@@ -138,10 +138,17 @@ const getTraitDescription = (trait, character) => {
     }
 }
 
+const restCharacter = (character) => {
+    const val = getRandomNumberInRange(character.stats.vit, character.stats.vit * 2)
+    character.stamina = (character.stamina + val <= character.maxStamina) ? 
+        character.stamina + val : character.maxStamina
+}
+
 module.exports = {
     validateCharacterCompabilityForMarige,
     setRelation,
     checkForOldAge,
     getTraitDescription,
-    getCharacterWithTrait
+    getCharacterWithTrait,
+    restCharacter
 }

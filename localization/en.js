@@ -32,6 +32,10 @@ module.exports.get = (id, args) => {
         case 'character-trait-rider': return `${args[0]} grew up among the nomads on the plains and is an excellent rider.`
         case 'character-trait-occultist': return `${args[0]} is obsessed with the occult.`
         case 'character-trait-cool-header': return `${args[0]} remains calm during any situation.`
+        case 'dir-east': return 'east'
+        case 'dir-north': return 'north'
+        case 'dir-west': return 'west'
+        case 'dir-south': return 'south'
         case 'dungeon-by-elfs': return `elves known for their ${args[0]}`
         case 'dungeon-by-dwarves': return `dwarves known for their ${args[0]}`
         case 'dungeon-by-wizard': return `wizard known for his ${args[0]}`
@@ -91,6 +95,22 @@ module.exports.get = (id, args) => {
         case 'event-rest-hunt-success': return `${args[0]} returns after a successful hunt.`
         case 'event-rest-fishing-success': return `${args[0]} returns after successfully fishing in a nearby lake.`
         case 'event-rest-town-resting': return `${args[0]} spends the night resting at the town in.`
+        case 'event-rest-darkNight-description': return `${args[0]} wakes up in the middle of the night.`
+        case 'event-rest-season-description': return `${args[0]} sets camp for the night.`
+        case 'event-rest-season-fall': return `It´s a grey fall night, a cold wind is blowing from the ${args[0]} .`
+        case 'event-rest-season-winter': return `A clear winter night. In the ${args[0]} some wolfes can be heard howling.`
+        case 'event-rest-season-summer': return `A warm summer night. A warm breeze is blowing from the ${args[0]}`
+        case 'event-rest-season-spring': return `A cold spring night. A cold wind is blowing from the ${args[0]}.`
+
+        case 'event-rest-deepsleep-description': return `Is a beutiful ${args[0]} night.`
+        case 'event-rest-deepsleep-resolve': return `${args[0]} wakes up feeling refreshed.`
+        case 'event-rest--': return `${args[0]} .`
+        case 'event-rest--': return `${args[0]} .`
+        case 'event-rest--': return `${args[0]} .`
+        case 'event-rest--': return `${args[0]} .`
+
+
+
         case 'familyTree-build-1': return `- Year of ${args[0]} -`
         case 'familyTree-peopleDie-1': return `${args[0]} of ${args[1]} dies from old age.`
         case 'familyTree-moves-1': return `${args[0]} founded the town of ${args[1]}.`

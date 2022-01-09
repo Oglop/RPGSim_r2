@@ -2,7 +2,7 @@
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { restThreshold, restThresholdMultiplyer } = require('../config')
-const { getPercetage, getRandomNumberInRange, copyObject } = require('../lib/utils')
+const { getPercetage, getRandomNumberInRange, copyObject, getRandomElementFromArray } = require('../lib/utils')
 const { 
     ENUM_QUEST_STATUS,
     ENUM_EXPLORE_STATUS
@@ -138,7 +138,6 @@ const exhaustParty = (party) => {
 const noOfAliveMembers = (party) => {
     return party.members.filter(x => x.isAlive === true).length
 }
-
 
 
 module.exports = {
