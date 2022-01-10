@@ -101,13 +101,14 @@ module.exports.get = (id, args) => {
         case 'event-rest-season-winter': return `A clear winter night. In the ${args[0]} some wolfes can be heard howling.`
         case 'event-rest-season-summer': return `A warm summer night. A warm breeze is blowing from the ${args[0]}`
         case 'event-rest-season-spring': return `A cold spring night. A cold wind is blowing from the ${args[0]}.`
-
         case 'event-rest-deepsleep-description': return `Is a beutiful ${args[0]} night.`
         case 'event-rest-deepsleep-resolve': return `${args[0]} wakes up feeling refreshed.`
-        case 'event-rest--': return `${args[0]} .`
-        case 'event-rest--': return `${args[0]} .`
-        case 'event-rest--': return `${args[0]} .`
-        case 'event-rest--': return `${args[0]} .`
+        
+        
+        //case 'event-rest--': return `${args[0]} .`
+        //case 'event-rest--': return `${args[0]} .`
+        //case 'event-rest--': return `${args[0]} .`
+        //case 'event-rest--': return `${args[0]} .`
 
 
 
