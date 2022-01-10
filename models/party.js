@@ -140,6 +140,15 @@ const noOfAliveMembers = (party) => {
 }
 
 
+const removeDeadMembers = (party) => {
+    return party.members.filter(x => x.isAlive === true)
+}
+
+const getRandomAliveCharacter = (party) => {
+    const arr =  party.members.filter(x => x.isAlive === true)
+    return getRandomElementFromArray(arr)
+}
+
 module.exports = {
     checkForRest,
     consumeFood,
@@ -148,5 +157,7 @@ module.exports = {
     isOnQuestLocation,
     getStartingPosition,
     restParty,
-    exhaustParty
+    exhaustParty,
+    removeDeadMembers,
+    getRandomAliveCharacter
 }
