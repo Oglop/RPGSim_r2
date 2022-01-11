@@ -141,12 +141,30 @@ const noOfAliveMembers = (party) => {
 
 
 const removeDeadMembers = (party) => {
-    return party.members.filter(x => x.isAlive === true)
+    try {
+        return party.members.filter(x => x.isAlive === true)
+    } catch(e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'removeDeadMembers'
+        err.message = e.message
+        logError(err)
+    }
+    return party
 }
 
 const getRandomAliveCharacter = (party) => {
-    const arr =  party.members.filter(x => x.isAlive === true)
-    return getRandomElementFromArray(arr)
+    try {
+        const arr =  party.members.filter(x => x.isAlive === true)
+        return getRandomElementFromArray(arr)
+    } catch(e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'getRandomAliveCharacter'
+        err.message = e.message
+        logError(err)
+    }
+    return party
 }
 
 module.exports = {

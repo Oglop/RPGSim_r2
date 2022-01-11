@@ -105,9 +105,9 @@ module.exports.get = (id, args) => {
         case 'event-rest-deepsleep-resolve': return `${args[0]} wakes up feeling refreshed.`
         
         
-        //case 'event-rest--': return `${args[0]} .`
-        //case 'event-rest--': return `${args[0]} .`
-        //case 'event-rest--': return `${args[0]} .`
+        case 'event-rest-argument-description': return `At camp an argument breaks out between the members of ${args[0]}.`
+        case 'event-rest-argument-success': return `${args[0]} stops the argument in time, everyone goes to sleep.`
+        case 'event-rest-argument-resolved': return `A fight breaks out and ${args[0]} starts to misstrust the rest of the party.`
         //case 'event-rest--': return `${args[0]} .`
 
 

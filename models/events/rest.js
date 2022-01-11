@@ -119,13 +119,18 @@ const deepSleep = (event, world, options) => {
 const argument = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.execute = (party) => {
-        i1.description = get('')
-        if (1 == 1) {
+        i1.description = get('event-rest-argument-description', [ party.name ])
+        const successes = checkPartySkill(party, ENUM_SKILL_NAMES.leadership)
+        if (successes.length) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
-            i1.resolutionText = get('')
+            i1.resolutionText = get('event-rest-argument-success')
         } else {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
-            i1.resolutionText = get('')
+            const character = getRandomElementFromArray(party.members)
+            for (let i = 0; i < character.relationships.length; i++) {
+                character.relationships[i].points -= getRandomNumberInRange(1, 5)
+            }
+            i1.resolutionText = get('event-rest-argument-resolved')
         }
     }
     event.items.push(i1)
