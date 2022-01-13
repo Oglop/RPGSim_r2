@@ -135,6 +135,7 @@ const getTraitDescription = (trait, character) => {
         case ENUM_CHARACTER_TRAITS.RIDER: return get('character-trait-rider', [ character.name ]);
         case ENUM_CHARACTER_TRAITS.OCCULTIST: return get('character-trait-occultist', [character.name]);
         case ENUM_CHARACTER_TRAITS.COOL_HEADED: return get('character-trait-cool-headed', [character.name]);
+        case ENUM_CHARACTER_TRAITS.SCEPTIC: return get('character-trait-sceptic', [ character.name ])
     }
 }
 

@@ -32,6 +32,7 @@ module.exports.get = (id, args) => {
         case 'character-trait-rider': return `${args[0]} grew up among the nomads on the plains and is an excellent rider.`
         case 'character-trait-occultist': return `${args[0]} is obsessed with the occult.`
         case 'character-trait-cool-header': return `${args[0]} remains calm during any situation.`
+        case 'character-trait-sceptic': return `${args[0]} is never fooled.`
         case 'dir-east': return 'east'
         case 'dir-north': return 'north'
         case 'dir-west': return 'west'

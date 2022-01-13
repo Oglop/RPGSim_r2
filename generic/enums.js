@@ -193,7 +193,9 @@ module.exports = {
         SHIELDED: 13,
         RIDER: 14,
         OCCULTIST: 15,
-        COOL_HEADED: 16
+        COOL_HEADED: 16,
+        SCEPTIC: 17,
+        
     },
     ENUM_TRAVEL_RESULTS: {
         allGood: 'allGood',
