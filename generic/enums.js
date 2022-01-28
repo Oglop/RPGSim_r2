@@ -195,7 +195,7 @@ module.exports = {
         OCCULTIST: 15,
         COOL_HEADED: 16,
         SCEPTIC: 17,
-        
+        BARD: 18
     },
     ENUM_TRAVEL_RESULTS: {
         allGood: 'allGood',
@@ -248,7 +248,8 @@ module.exports = {
         ADVENTURE: 1,
         DOOM: 2,
         DUNGEON: 3,
-        REST: 4
+        REST: 4,
+        DATE: 5
     },
     ENUM_EVENT_ADVENTURE_TYPE: {
         TOWN:0

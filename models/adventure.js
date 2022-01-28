@@ -148,11 +148,15 @@ const getAdventureDailyAction = (world, party) => {
         const rest = checkForRest(party)
         const inTown = isInDwelling(world, party)
         const onQuestPosition = isOnQuestLocation(party)
+        const isTraveling = party.path.length > 0
 
-        if (!party.path.length && !inTown && party.quest != ENUM_QUEST_STATUS.IN_PROGRESS) {
+        if (!isTraveling && !inTown && party.quest != ENUM_QUEST_STATUS.IN_PROGRESS) {
             const townPoint = getPointOfRandomDwelling(world.map) 
             party.path = findShortestPath(party.position, world.map, townPoint)
             party.state = ENUM_PARTY_STATE.TRAVEL
+        }
+        if (isTraveling) {
+            return ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP
         }
         if (onQuestPosition && party.quest == ENUM_QUEST_STATUS.IN_PROGRESS ) {
             return ENUM_ADVENTURE_DAILY_ACTION.ATEMPT_QUEST

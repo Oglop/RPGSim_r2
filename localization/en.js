@@ -33,6 +33,7 @@ module.exports.get = (id, args) => {
         case 'character-trait-occultist': return `${args[0]} is obsessed with the occult.`
         case 'character-trait-cool-header': return `${args[0]} remains calm during any situation.`
         case 'character-trait-sceptic': return `${args[0]} is never fooled.`
+        case 'character-trait-bard': return `${args[0]} is a skilled bard always looking to entertain.`
         case 'dir-east': return 'east'
         case 'dir-north': return 'north'
         case 'dir-west': return 'west'
@@ -90,6 +91,10 @@ module.exports.get = (id, args) => {
         case 'dungeon-theme-ruins': return 'ruins'
         case 'dungeon-theme-undercity': return 'undercity'
         case 'dungeon-theme-stronghold': return 'stronghold'
+
+        
+        case 'event-date-bloodmoon-description': return 'Tonight is the night of the blood moon.'
+        case 'event-date-bloodmoon-resolution': return 'As the red moon fills the black sky all the creatures of the night can be heard howling in the distance.'
         case 'event-rest-story-description': return `At camp ${args[0]} begins telling a story.`
         case 'event-rest-story-success': return `${args[0]} tells a captivating story, everyone feels a little closer to eachother.`
         case 'event-rest-story-fail': return `${args[0]}´s story drags on and no one is listening. Soon everyone is falling asleep.`

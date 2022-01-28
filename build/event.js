@@ -17,7 +17,7 @@ const {
 } = require('../models/events/dungeon')
 const { ENUM_EVENT_TYPE } = require('../generic/enums')
 const eRest = require('../models/events/rest')
-
+const eDate = require('../models/events/specialDate')
 
 /**
  * 
@@ -58,6 +58,14 @@ const getRestEvent = (event, world, party, options) => {
         case 7: return eRest.travelers(event, world, party, options);
         case 8: return eRest.weaponPractice(event, world, party, options);
         case 9: return eRest.dreams(event, world, party, options);
+    }
+}
+
+const getSpecialDateEvent = (event, world, party, options) => {
+    const e = copyObject(objects.event)
+    e.output = output
+    if (world.date.year % 7 == 0 && world.date.month == 8 && world.date.day == 6) {
+        return eDate.bloodMoon(e, world, options)
     }
 }
 

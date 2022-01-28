@@ -23,7 +23,7 @@ const {
  */
 const progressAdventure = (world, output) => {
     try {
-        const season = getSeason(world.date)
+        //const season = getSeason(world.date)
         for (let p of world.parties) {
             let action = getAdventureDailyAction(world, p)
             //let event = {}
