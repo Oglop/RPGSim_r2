@@ -7,6 +7,11 @@ const adventureEvents = (world, output) => {
     
 }
 
+const travelEvents = (world, output) => {
+    const e = eventBuilder.build(world, output, ENUM_EVENT_TYPE.TRAVEL)
+    resolveEvent(e, output)
+}
+
 /**
  * Creates a new event and processes active ones.
  * 
@@ -28,5 +33,6 @@ const dungeonEvents = (dungeonRoom, output) => {
 module.exports = {
     adventureEvents,
     historyEvents,
-    dungeonEvents
+    dungeonEvents,
+    travelEvents
 }

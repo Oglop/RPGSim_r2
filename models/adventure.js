@@ -57,7 +57,7 @@ const travel = (world, party, output) => {
         } else {
             output.print(get('adventure-travel-failed', [ party.name ]))
         }
-        const e = bEvent.build(world, output, ENUM_EVENT_TYPE.travelEvent, undefined)
+        const e = bEvent.build(world, output, ENUM_EVENT_TYPE.TRAVEL, undefined)
         e.items[0].execute(party)
 
         exhaustParty(party)
@@ -216,7 +216,7 @@ const biomeRestMultiplier = (biome) => {
  */
 const restMap = (world, party, output) => {
     try {
-        const currentBiome = mMap.getBiomeAtPoint(party.position)
+        const currentBiome = mMap.getBiomeAtPoint(map, party.position)
         const multiplier = biomeRestMultiplier(currentBiome)
         const successesHunt = checkPartySkill(party, ENUM_SKILL_NAMES.hunting)
         const successesFishing = checkPartySkill(party, ENUM_SKILL_NAMES.fishing)
