@@ -1,4 +1,4 @@
-const { getRandomNumberInRange, copyObject, getRandomNumberInRange, chance } = require('../lib/utils')
+const { getRandomNumberInRange, copyObject, chance } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { WORLD_SIZE } = require('../generic/statics')
@@ -149,6 +149,11 @@ const getAdventureDailyAction = (world, party) => {
         const inTown = isInDwelling(world, party)
         const onQuestPosition = isOnQuestLocation(party)
         const isTraveling = party.path.length > 0
+
+        /*if (!rest && !inTown && !onQuestPosition && !isTraveling) {
+
+
+        }*/
 
         if (!isTraveling && !inTown && party.quest != ENUM_QUEST_STATUS.IN_PROGRESS) {
             const townPoint = getPointOfRandomDwelling(world.map) 

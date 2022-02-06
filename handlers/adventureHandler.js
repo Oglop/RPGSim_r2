@@ -9,6 +9,7 @@ const {
     restTown,
     quest
 } = require('../models/adventure')
+const mParty = require('../models/party')
 const bEvent = require('../build/event')
 const { 
     ENUM_EVENT_TYPE,
@@ -43,7 +44,7 @@ const progressAdventure = (world, output) => {
 
         for (let p of world.parties) {
             // set goal like quest
-            mParty.consumeFood()
+            mParty.consumeFood(p)
 
             // daily event
         }

@@ -29,7 +29,7 @@ const getDwellingsFromMap = map => {
 const getDwellingPositionById = (map, dwellingsId) => {
     for (let y = 0; y < map.length; y++) {
         for (let x = 0; x < map.length; x++) {
-            if (map[x][y].dwelling.id == dwellingsId) {
+            if (map[x][y].dwelling && map[x][y].dwelling.id == dwellingsId) {
                 return point2d(x, y)
             }
         }
@@ -67,7 +67,11 @@ const getBiomeAtPoint = (map, point) => {
     try {
         return map[point.x][point.y].biome
     } catch (e) {
-        console.log('getBiomeAtPoint: ', e.message)
+        const err = objects.error
+        err.file = __filename
+        err.function = 'getBiomeAtPoint'
+        err.message = e.message
+        logError(err)
     }
 }
 

@@ -15,8 +15,7 @@ const {
     ENUM_JOB_NAMES, 
     ENUM_RACE_NAMES, 
     ENUM_LANGUAGES, 
-    ENUM_PERSONALITIES,
-    ENUM_SEASONS
+    ENUM_PERSONALITIES
 } = require('../../generic/enums')
 const { getDwellingsFromMap } = require('../../models/map')
 const { partyExtraRelationshipRoll } = require('../../models/personality')
