@@ -216,7 +216,7 @@ const biomeRestMultiplier = (biome) => {
  */
 const restMap = (world, party, output) => {
     try {
-        const currentBiome = mMap.getBiomeAtPoint(map, party.position)
+        const currentBiome = mMap.getBiomeAtPoint(world.map, party.position)
         const multiplier = biomeRestMultiplier(currentBiome)
         const successesHunt = checkPartySkill(party, ENUM_SKILL_NAMES.hunting)
         const successesFishing = checkPartySkill(party, ENUM_SKILL_NAMES.fishing)

@@ -221,7 +221,7 @@ const partyDailyRelationShipRoll = (party, dailyStatus) =>  {
  * @param {*} value 
  */
 const partyExtraRelationshipRoll = (party, value) => {
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < party.members.length; i++) {
         for (let j = i + 1; j < len; j++) {
             addOrUpdateRelations(party.members[i], party.members[j], value)
         }

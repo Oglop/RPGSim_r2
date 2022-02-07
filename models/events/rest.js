@@ -81,8 +81,8 @@ const seasonalEffect = (event, world, options) => {
         case 2: dir = get('dir-west'); break;
         case 3: dir = get('dir-south'); break;
     }
+    i1.description = get('event-rest-season-description', [ party.name ])
     i1.execute = (party) => {
-        i1.description = get('event-rest-season-description', [ party.name ])
         if (season == ENUM_SEASONS.fall) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
             i1.resolutionText = get('event-rest-season-fall', [ dir ])
@@ -104,6 +104,7 @@ const seasonalEffect = (event, world, options) => {
 const deepSleep = (event, world, options) => { 
     const season = getSeason(world.date)
     const i1 = copyObject(objects.eventItem)
+    i1.description = get('event-rest-deepsleep-description', [ season ])
     i1.execute = (party) => {
         const c = getRandomElementFromArray(party.members)
         mCharacter.restCharacter(c)
@@ -117,8 +118,8 @@ const deepSleep = (event, world, options) => {
 
 const argument = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
+    i1.description = get('event-rest-argument-description', [ party.name ])
     i1.execute = (party) => {
-        i1.description = get('event-rest-argument-description', [ party.name ])
         const successes = checkPartySkill(party, ENUM_SKILL_NAMES.leadership)
         if (successes.length) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
@@ -138,8 +139,8 @@ const argument = (event, world, options) => {
 
 const coldNight = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
+    i1.description = get('')
     i1.execute = (party) => {
-        i1.description = get('')
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -154,8 +155,9 @@ const coldNight = (event, world, options) => {
 
 const weaponPractice = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
+    i1.description = get('')
     i1.execute = (party) => {
-        i1.description = get('')
+        
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -170,8 +172,8 @@ const weaponPractice = (event, world, options) => {
 
 const travelers = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
+    i1.description = get('')
     i1.execute = (party) => {
-        i1.description = get('')
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -186,8 +188,8 @@ const travelers = (event, world, options) => {
 
 const hunting = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
+    i1.description = get('')
     i1.execute = (party) => {
-        i1.description = get('')
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')
@@ -202,8 +204,8 @@ const hunting = (event, world, options) => {
 
 const dreams = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)
+    i1.description = get('')
     i1.execute = (party) => {
-        i1.description = get('')
         if (1 == 1) {
             i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
             i1.resolutionText = get('')

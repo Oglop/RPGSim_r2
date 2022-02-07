@@ -249,7 +249,8 @@ module.exports = {
         DOOM: 2,
         DUNGEON: 3,
         REST: 4,
-        DATE: 5
+        DATE: 5,
+        TRAVEL: 6
     },
     ENUM_EVENT_ADVENTURE_TYPE: {
         TOWN:0

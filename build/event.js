@@ -68,10 +68,11 @@ const getSpecialDateEvent = (event, world, party, options) => {
     }
 }
 
-const getTravelEvent = (event, world, party, options) => {
+const getTravelEvent = (event, world, options) => {
     const i = getRandomNumberInRange(0, 1)
     switch (i) {
-        case 0: return 
+        case 0: return eTravel.farm(event, world, options)
+        case 1: return eTravel.river(event, world, options)
     }
 }
 
@@ -93,7 +94,7 @@ module.exports.build = (world, output, eventType, options) => {
         case ENUM_EVENT_TYPE.DUNGEON: return getDungeonEvent(options)
         case ENUM_EVENT_TYPE.REST: return getRestEvent(e, world, options)
         case ENUM_EVENT_TYPE.DATE: return getSpecialDateEvent(e, world, party, options)
-        case ENUM_EVENT_TYPE.TRAVEL: return getTravelEvent(e, world, party, options)
+        case ENUM_EVENT_TYPE.TRAVEL: return getTravelEvent(e, world, options)
     }
 
 }
