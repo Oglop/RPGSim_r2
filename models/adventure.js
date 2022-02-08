@@ -159,12 +159,11 @@ const getAdventureDailyAction = (world, party) => {
             const townPoint = getPointOfRandomDwelling(world.map) 
             party.path = findShortestPath(party.position, world.map, townPoint)
             party.state = ENUM_PARTY_STATE.TRAVEL
-        }
-        if (isTraveling) {
-            return ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP
-        }
-        if (onQuestPosition && party.quest == ENUM_QUEST_STATUS.IN_PROGRESS ) {
+        }if (onQuestPosition && party.quest == ENUM_QUEST_STATUS.IN_PROGRESS ) {
             return ENUM_ADVENTURE_DAILY_ACTION.ATEMPT_QUEST
+        }
+        if (isTraveling && !rest) {
+            return ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP
         }
         if (rest && inTown) {
             return ENUM_ADVENTURE_DAILY_ACTION.REST_TOWN
@@ -229,8 +228,8 @@ const restMap = (world, party, output) => {
         output.print(e.items[0].description)
         e.items[0].execute(party)
         output.print(e.items[0].resolutionText)
-        const enumPersonalityResult = (e.resolution == ENUM_EVENT_ITEM_STATUS.SUCCESS) ? ENUM_PERSONALITY_DEALS_RESULT.GOOD : 
-            (e.resolution == ENUM_EVENT_ITEM_STATUS.RESOLVED) ? ENUM_PERSONALITY_DEALS_RESULT.NORMAL : ENUM_PERSONALITY_DEALS_RESULT.BAD
+        const enumPersonalityResult = (e.items[0].resolution == ENUM_EVENT_ITEM_STATUS.SUCCESS) ? ENUM_PERSONALITY_DEALS_RESULT.GOOD : 
+            (e.items[0].resolution == ENUM_EVENT_ITEM_STATUS.RESOLVED) ? ENUM_PERSONALITY_DEALS_RESULT.NORMAL : ENUM_PERSONALITY_DEALS_RESULT.BAD
         restParty(party)
         partyDailyRelationShipRoll(party, enumPersonalityResult)
     } catch(e) {
