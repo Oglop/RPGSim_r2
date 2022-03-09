@@ -67,6 +67,7 @@ module.exports = {
         points: 0
     },
     room: {
+        magicWind:0,
         elevation: 0,
         temprature: 0,
         biome: undefined,
