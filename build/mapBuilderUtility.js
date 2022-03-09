@@ -1,4 +1,5 @@
 const { getRandomNumberInRange, chance } = require('../lib/utils')
+const { ENUM_EXPLORE_DIR } = require('../generic/enums')
 
 
 /**
@@ -78,12 +79,11 @@ const gradiantFilter = (map, size, startx, starty, options) => {
 const platueFilter = (map, size, startx, starty, options) => {
     const penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
-    const field = (options.field) ? options.field : "elevation"
         
     for (let y = starty - Math.floor(penSize * 0.5); y < penSize; y++ ) {
         for (let x = startx - Math.floor(penSize * 0.5); x < penSize; x++ ) {
             if (x >= 0 && x < size && y >= 0 && y < size) {
-
+                map[x][y].elevation = (!negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
             }
         }
     }
@@ -92,15 +92,14 @@ const platueFilter = (map, size, startx, starty, options) => {
 const noiceFilterLight = (map, size, startx, starty, options) => {
     const penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
-    const field = (options.field) ? options.field : "elevation"
 
     for (let y = starty - Math.floor(penSize * 0.5); y < penSize; y++ ) {
         for (let x = startx - Math.floor(penSize * 0.5); x < penSize; x++ ) {
             if (x >= 0 && x < size && y >= 0 && y < size) {
                 const i = getRandomNumberInRange(1 , 6)
                 switch (i) {
-                    case 1: map[x][y][field] = (!negative) ? map[x][y][field] += 1 : map[x][y][field] -= 1
-                    case 2: map[x][y][field] = (negative) ? map[x][y][field] += 1 : map[x][y][field] -= 1
+                    case 1: map[x][y].elevation = (!negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
+                    case 2: map[x][y].elevation = (negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
                 }
             }
         }
@@ -109,36 +108,70 @@ const noiceFilterLight = (map, size, startx, starty, options) => {
 }
 
 const verticalLine = (map, size, startx, starty, options) => {
-    const penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
+    const dir = (options.direction) ? options.direction : ENUM_EXPLORE_DIR.south
 
-    for (let y = starty - Math.floor(penSize * 0.5); y < penSize; y++ ) {
-        for (let x = startx - Math.floor(penSize * 0.5); x < penSize; x++ ) {
-            if (x >= 0 && x < size && y >= 0 && y < size) {
-                
+    let stepChance = 100
+    let x = startx
+    let y = starty
+
+    while(chance(stepChance)) {
+        const i = getRandomNumberInRange(1,10)
+            switch (i) {
+                case 1: x += 1; break;
+                case 2: x -= 1; break;
+                case 3: x += 1; x = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
+                case 4: x -= 1; x = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
+                default: y = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
             }
+        if (x >= 0 && x < size && y >= 0 && y < size) {
+            map[x][y].elevation = (!negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
         }
+        else {
+            stepChance = 0
+        }
+        stepChance -= getRandomNumberInRange(8 , 16)
     }
+    return map
 }
+
 
 const horizontalLine = (map, size, startx, starty, options) => {
-    const penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
+    const dir = (options.direction) ? options.direction : ENUM_EXPLORE_DIR.east
 
-    for (let y = starty - Math.floor(penSize * 0.5); y < penSize; y++ ) {
-        for (let x = startx - Math.floor(penSize * 0.5); x < penSize; x++ ) {
-            if (x >= 0 && x < size && y >= 0 && y < size) {
-                
+    let stepChance = 100
+    let x = startx
+    let y = starty
+
+    while(chance(stepChance)) {
+        const i = getRandomNumberInRange(1,10)
+            switch (i) {
+                case 1: y += 1; break;
+                case 2: y -= 1; break;
+                case 3: y += 1; x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
+                case 4: y -= 1; x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
+                default: x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
             }
+        if (x >= 0 && x < size && y >= 0 && y < size) {
+            map[x][y].elevation = (!negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
         }
+        else {
+            stepChance = 0
+        }
+        stepChance -= getRandomNumberInRange(8 , 16)
     }
+    return map
 }
+
 
 module.exports = {
     setTempratureByLattitude,
     gradiantFilter,
     platueFilter,
-    noiceFilterLight
+    noiceFilterLight,
+    horizontalLine,
+    verticalLine
 }
 
 
