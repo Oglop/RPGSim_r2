@@ -179,7 +179,13 @@ const horizontalLine = (map, size, startx, starty, options) => {
     return map
 }
 
-
+/**
+ * Adds magic level to rooms until 
+ * world magic level is achived
+ * 
+ * @param {array} map 
+ * @param {number} size 
+ */
 const windsOfMagic = (map, size) => {
     const worldMagicToAchive = getRandomNumberInRange(50 , 80)
     let worldMagicLevel = 0
@@ -209,7 +215,7 @@ const windsOfMagic = (map, size) => {
             if (moved) {
                 const addMagic = getRandomNumberInRange(0 , 2)
                 map[x][y].magicWind += addMagic
-                worldMagicToAchive += addMagic
+                worldMagicLevel += addMagic
             }
             stepChance -= getRandomNumberInRange(8 , 16)
         }
