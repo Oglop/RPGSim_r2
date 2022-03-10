@@ -107,10 +107,18 @@ const noiceFilterLight = (map, size, startx, starty, options) => {
     return map
 }
 
+/**
+ * draws an horizontal line of weight 1
+ * @param {array} map 
+ * @param {int} size 
+ * @param {int} startx 
+ * @param {int} starty 
+ * @param {object} options { negative: bool }
+ * @returns {Array}
+ */
 const verticalLine = (map, size, startx, starty, options) => {
     const negative = (options.negative) ? options.negative : false
-    const dir = (options.direction) ? options.direction : ENUM_EXPLORE_DIR.south
-
+    const dir = (chance(50)) ? ENUM_EXPLORE_DIR.south : ENUM_EXPLORE_DIR.north
     let stepChance = 100
     let x = startx
     let y = starty
@@ -135,11 +143,18 @@ const verticalLine = (map, size, startx, starty, options) => {
     return map
 }
 
-
+/**
+ * draws an verical line of weight 1
+ * @param {array} map 
+ * @param {int} size 
+ * @param {int} startx 
+ * @param {int} starty 
+ * @param {object} options { negative: bool }
+ * @returns {Array}
+ */
 const horizontalLine = (map, size, startx, starty, options) => {
     const negative = (options.negative) ? options.negative : false
-    const dir = (options.direction) ? options.direction : ENUM_EXPLORE_DIR.east
-
+    const dir = (chance(50)) ? ENUM_EXPLORE_DIR.east : ENUM_EXPLORE_DIR.west
     let stepChance = 100
     let x = startx
     let y = starty
@@ -165,13 +180,51 @@ const horizontalLine = (map, size, startx, starty, options) => {
 }
 
 
+const windsOfMagic = (map, size) => {
+    const worldMagicToAchive = getRandomNumberInRange(50 , 80)
+    let worldMagicLevel = 0
+    
+
+    while(worldMagicLevel < worldMagicToAchive) {
+        let x = getRandomNumberInRange(0, 99)
+        let y = getRandomNumberInRange(0, 99)
+        let stepChance = 100
+
+        while (chance(stepChance)) {
+            let moved = false
+            const dir = getRandomNumberInRange(0,3)
+            if (dir == 0 && x + 1 < size) {
+                x++
+                moved = true
+            } else if (dir == 1 && y - 1 >= 0) {
+                y--
+                moved = true
+            } else if (dir == 2 && x - 1 >= 0) {
+                x--
+                moved = true
+            } else if (dir == 3 && y + 1 < size) {
+                y++
+                moved = true
+            }
+            if (moved) {
+                const addMagic = getRandomNumberInRange(0 , 2)
+                map[x][y].magicWind += addMagic
+                worldMagicToAchive += addMagic
+            }
+            stepChance -= getRandomNumberInRange(8 , 16)
+        }
+    }
+}
+
+
 module.exports = {
     setTempratureByLattitude,
     gradiantFilter,
     platueFilter,
     noiceFilterLight,
     horizontalLine,
-    verticalLine
+    verticalLine,
+    windsOfMagic
 }
 
 
