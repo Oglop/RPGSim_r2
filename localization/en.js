@@ -15,6 +15,32 @@ module.exports.get = (id, args) => {
         case 'combat-fight-turn': return `${args[0]} ${args[1]} ${args[2]} for ${args[3]} damage.`
         case 'combat-defeated': return `${args[0]} fell to the ground.`
         case 'character-died-from-age': return 'age'
+        case 'coat-of-arms-description': return `A ${args[0]} ${args[1]} over a ${args[2]} ${args[3]}`
+        case 'coat-of-arms-field-color-or': return 'or'
+        case 'coat-of-arms-field-color-argent': return 'argent'
+        case 'coat-of-arms-field-color-gules': return 'gules'
+        case 'coat-of-arms-field-color-azure': return 'azure'
+        case 'coat-of-arms-field-color-vert': return 'vert'
+        case 'coat-of-arms-field-color-sable': return 'sable'
+        case 'coat-of-arms-field-color-purpure': return 'purpure'
+        case 'coat-of-arms-field-color-tenne': return 'tenne'
+        case 'coat-of-arms-field-color-sanguine': return 'sanguine'
+        case 'coat-of-arms-field-shape-shield': return 'shield'
+        case 'coat-of-arms-field-shape-flag': return 'flag'
+        case 'coat-of-arms-field-shape-oval': return 'oval'
+        case 'coat-of-arms-field-shape-lozenge': return 'lozenge'
+        case 'coat-of-arms-field-shape-hex': return 'hex'
+        case 'coat-of-arms-field-shape-heather': return 'heather'
+        case 'coat-of-arms-field-shape-crescent': return 'crescent'
+        case 'coat-of-arms-division-fess': return 'fess'
+        case 'coat-of-arms-division-pale': return 'pale'
+        case 'coat-of-arms-division-bend': return 'bend'
+        case 'coat-of-arms-division-chevron': return 'chevron'
+        case 'coat-of-arms-division-cross': return 'cross'
+        case 'coat-of-arms-division-saltire': return 'saltire'
+        case 'coat-of-arms-division-chief': return 'chief'
+        case 'coat-of-arms-division-bordure': return 'bordure'
+        case 'coat-of-arms-division-pile': return 'pile'
         case 'character-trait-abomination': return `During full moon nights ${args[0]} turn into an blood thirsty abomination.`
         case 'character-trait-dark-past': return `${args[0]} grew up in the slums working for the local gang.`
         case 'character-trait-escaped-slave': return `${args[0]} is a former slave and is on the run from the slavers guild.`
