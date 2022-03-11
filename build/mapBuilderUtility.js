@@ -62,7 +62,14 @@ const setTempratureByLattitude = (map) => {
     return map
 }
 
-
+/**
+ * 
+ * @param {array} map 
+ * @param {int} size 
+ * @param {int} startx 
+ * @param {int} starty 
+ * @param {object} options 
+ */
 const gradiantFilter = (map, size, startx, starty, options) => {
     const penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
@@ -75,7 +82,15 @@ const gradiantFilter = (map, size, startx, starty, options) => {
     }
 }
 
-
+/**
+ * 
+ * 
+ * @param {array} map 
+ * @param {int} size 
+ * @param {int} startx 
+ * @param {int} starty 
+ * @param {object} options 
+ */
 const platueFilter = (map, size, startx, starty, options) => {
     const penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
@@ -89,6 +104,16 @@ const platueFilter = (map, size, startx, starty, options) => {
     }
 }
 
+/**
+ * 
+ * 
+ * @param {array} map 
+ * @param {int} size 
+ * @param {int} startx 
+ * @param {int} starty 
+ * @param {object} options 
+ * @returns 
+ */
 const noiceFilterLight = (map, size, startx, starty, options) => {
     const penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
