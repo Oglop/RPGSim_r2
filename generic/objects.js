@@ -79,11 +79,42 @@ module.exports = {
         x: undefined,
         y: undefined
     },
+    ruler: {
+        id: undefined,
+        name: undefined,
+        family: undefined
+    },
     dwelling: {
         id: undefined,
         name: undefined,
         type: undefined,
+        ruler: undefined,
+        nobles: [],
         inhabited: true
+    },
+    dwellingStores: {
+        id: undefined,
+        gold: 0,
+        food: 0,
+        production: 0
+    },
+    dwellingDefenses: {
+        id: undefined,
+        power: 0
+    },
+    citizens: {
+        id: undefined,
+        count: 0
+    },
+    army: {
+        id: undefined,
+        troops: []
+    },
+    troop: {
+        id: undefined,
+        name: undefined,
+        type: undefined,
+        power: 0
     },
     language: {
         language: undefined,
