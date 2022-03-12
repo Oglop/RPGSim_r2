@@ -1,6 +1,7 @@
 const { getRandomNumberInRange, chance } = require('../lib/utils')
 const { ENUM_EXPLORE_DIR } = require('../generic/enums')
-
+const objects = require('../generic/objects')
+const { point2d } = require('../lib/utils')
 
 /**
  * Set temprature to map of size 100
@@ -71,13 +72,72 @@ const setTempratureByLattitude = (map) => {
  * @param {object} options 
  */
 const gradiantFilter = (map, size, startx, starty, options) => {
-    const penSize = (options.penSize) ? options.penSize : 10
+    let penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
     
-    for (let y = starty - Math.floor(penSize * 0.5); y < penSize; y++ ) {
-        for (let x = startx - Math.floor(penSize * 0.5); x < penSize; x++ ) {
-            
+    while (penSize > 0) {
+        for (let y = starty - Math.floor(penSize * 0.5); y < penSize; y++ ) {
+            for (let x = startx - Math.floor(penSize * 0.5); x < penSize; x++ ) {
+                if (x >= 0 && x < size && y >= 0 && y < size) {
+                    map[x][y].elevation = (negative) ? map[x][y].elevation  -= 1 : map[x][y].elevation += 1
+                }
+            }
+        }
+        penSize -= Math.floor(penSize * 0.4)
+    }
+}
 
+/**
+ * get points for spike filter
+ * 
+ * @param {object} point 
+ */
+const addSpikePoints = (point) => {
+    const points = []
+    // go east
+    if (chance(50)) {
+        points.push(point2d(point.x + 1, point.y))
+    }
+    // go north
+    if (chance(50)) {
+        points.push(point2d(point.x, point.y + 1))
+    }
+    // go west
+    if (chance(50)) {
+        points.push(point2d(point.x - 1, point.y))
+    }
+    // go south
+    if (chance(50)) {
+        points.push(point2d(point.x + 1, point.y - 1))
+    }
+    return points
+}
+
+/**
+ * draw spike fi on map
+ * 
+ * @param {*} map 
+ * @param {*} size 
+ * @param {*} startx 
+ * @param {*} starty 
+ * @param {*} options 
+ */
+const spikeFilter = (map, size, startx, starty, options) => {
+    const negative = (options.negative) ? options.negative : false
+    const iterations = (options.iterations) ? options.iterations : 5
+    const points = []
+    let toAdd = []
+    points.push(point2d(startx, starty))
+
+    for(let i = 0; i < iterations; i++) {
+        for(let p of points) {
+            toAdd = addSpikePoints(p)
+        }
+        points.concat(toAdd)
+    }
+    for(let p of points) {
+        if (p.x >= 0 && p.x < size && p.y >= 0 && p.y < size) {
+            map[p.x][p.y].elevation = (negative) ? map[p.x][p.y].elevation  -= 1 : map[p.x][p.y].elevation += 1
         }
     }
 }
@@ -129,7 +189,6 @@ const noiceFilterLight = (map, size, startx, starty, options) => {
             }
         }
     }
-    return map
 }
 
 /**
@@ -165,7 +224,6 @@ const verticalLine = (map, size, startx, starty, options) => {
         }
         stepChance -= getRandomNumberInRange(8 , 16)
     }
-    return map
 }
 
 /**
@@ -201,7 +259,6 @@ const horizontalLine = (map, size, startx, starty, options) => {
         }
         stepChance -= getRandomNumberInRange(8 , 16)
     }
-    return map
 }
 
 /**
@@ -255,7 +312,8 @@ module.exports = {
     noiceFilterLight,
     horizontalLine,
     verticalLine,
-    windsOfMagic
+    windsOfMagic,
+    spikeFilter
 }
 
 
