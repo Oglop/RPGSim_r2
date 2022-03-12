@@ -212,12 +212,25 @@ module.exports = {
     },
     ENUM_DWELLINGS: {
         NONE: 0,
+        HUMAN: 1,
+        DARK_ELF: 2,
+        HIGH_ELF: 3,
+        WOOD_ELF: 4,
+        HALFLING: 5,
+        DWARF: 6,
+        
+    },
+    ENUM_DWELLING_SIZE: {
+        VILLAGE: 0,
         TOWN: 1,
         CITY: 2,
-        TOWER: 3,
-        DWARVEN_MINE: 4,
-        ELF_TOWN: 5,
-        RUINS: 6
+        CAPITAL: 3
+    },
+    ENUM_LOCATIONS: {
+        NONE: 0,
+        RUINS: 1,
+        TOWER: 2,
+        DWARVEN_MINE: 3
     },
     ENUM_GENDER: {
         MALE: 'male',
