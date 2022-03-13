@@ -227,11 +227,11 @@ module.exports = {
         CAPITAL: 3
     },
     ENUM_DWELLING_PROJECTS: {
-        DEFENSES,
-        MONUMENT,
-        TRADE,
-        ARMY,
-        GUARDS
+        DEFENSES: 0,
+        MONUMENT: 1,
+        TRADE: 3,
+        ARMY: 4,
+        GUARDS: 6
     },
     ENUM_DWELLING_CONDITIONS: {
         NONE: 0,

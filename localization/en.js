@@ -15,7 +15,7 @@ module.exports.get = (id, args) => {
         case 'combat-fight-turn': return `${args[0]} ${args[1]} ${args[2]} for ${args[3]} damage.`
         case 'combat-defeated': return `${args[0]} fell to the ground.`
         case 'character-died-from-age': return 'age'
-        case 'coat-of-arms-description': return `A ${args[0]} ${args[1]} over a ${args[2]} ${args[3]}`
+        case 'coat-of-arms-description': return `${args[0]} ${args[1]}. A ${args[2]} ${args[3]} over a ${args[4]} ${args[5]}`
         case 'coat-of-arms-field-color-or': return 'or'
         case 'coat-of-arms-field-color-argent': return 'argent'
         case 'coat-of-arms-field-color-gules': return 'gules'
@@ -41,6 +41,33 @@ module.exports.get = (id, args) => {
         case 'coat-of-arms-division-chief': return 'chief'
         case 'coat-of-arms-division-bordure': return 'bordure'
         case 'coat-of-arms-division-pile': return 'pile'
+        case 'coat-of-arms-figure-fish': return 'fish'
+        case 'coat-of-arms-figure-hawk': return 'hawk'
+        case 'coat-of-arms-figure-griffin': return 'griffin'
+        case 'coat-of-arms-figure-sword': return 'sword'
+        case 'coat-of-arms-figure-axe': return 'axe'
+        case 'coat-of-arms-figure-crown': return 'crown'
+        case 'coat-of-arms-figure-lance': return 'lance'
+        case 'coat-of-arms-figure-hound': return 'hound'
+        case 'coat-of-arms-figure-boar': return 'boar'
+        case 'coat-of-arms-figure-lion': return 'lion'
+        case 'coat-of-arms-figure-passant': return 'passant'
+        case 'coat-of-arms-figure-wolf': return 'wolf'
+        case 'coat-of-arms-figure-dragon': return 'dragon'
+        case 'coat-of-arms-figure-cup': return 'cup'
+        case 'coat-of-arms-figure-star': return 'star'
+        case 'coat-of-arms-figure-crow': return 'crow'
+        case 'coat-of-arms-figure-unicorn': return 'unicorn'
+        case 'coat-of-arms-figure-scepter': return 'scepter'
+        case 'coat-of-arms-figure-horse': return 'horse'
+        case 'coat-of-arms-figure-hart': return 'hart'
+        case 'coat-of-arms-figure-key': return 'key'
+        case 'coat-of-arms-figure-rose': return 'rose'
+        case 'coat-of-arms-figure-tower': return 'tower'
+        case 'coat-of-arms-figure-bolt': return 'bolt'
+        case 'coat-of-arms-figure-bridge': return 'bridge'
+        case 'coat-of-arms-figure-feather': return 'feather'
+        case 'coat-of-arms-figure-skull': return 'skull'
         case 'character-trait-abomination': return `During full moon nights ${args[0]} turn into an blood thirsty abomination.`
         case 'character-trait-dark-past': return `${args[0]} grew up in the slums working for the local gang.`
         case 'character-trait-escaped-slave': return `${args[0]} is a former slave and is on the run from the slavers guild.`
@@ -151,6 +178,16 @@ module.exports.get = (id, args) => {
         case 'familyTree-newFamily-1': return `The house of ${args[0]} enters the nobility of ${args[1]}.`
         case 'party-name-template': return `${args[0]} and party`
         case 'party-is-in-dwelling': return `${args[0]} is in ${args[1]}.`
+
+        case 'system-word-a': return 'a'
+        case 'system-word-an': return 'an'
+
+        case 'system-word-one': return 'one'
+        case 'system-word-two': return 'two'
+        case 'system-word-three': return 'three'
+        case 'system-word-four': return 'four'
+        case 'system-word-five': return 'five'
+        case 'system-word-six': return 'six'
     }
     return ''
 }

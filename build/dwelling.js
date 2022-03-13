@@ -22,7 +22,6 @@ const addCitizens = (dwelling) => {
 }
 
 const addStores = (dwelling) => {
-
     dwelling.stores.food = getRandomNumberInRange(90, 110)
     dwelling.stores.gold = Math.floor(dwelling.citizens.count * 0.2)
     dwelling.stores.production = getRandomNumberInRange(90, 110)
