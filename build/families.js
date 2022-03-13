@@ -5,6 +5,7 @@ const { getFamilyName } = require('../generic/names')
 // const { dwelling, character } = require('../generic/objects')
 const { getRandomReligion } = require('../generic/religions')
 const characterBuilder = require('./character')
+const bCoatOfArms = require('../build/coatOfArms')
 
 /**
  * 
@@ -42,7 +43,7 @@ const getFamilyAges = () => {
     f.dwellingId = options.dwellingId
     f.name = getFamilyName()
     f.race = (!options.race) ? ENUM_RACE_NAMES.human : options.race
-
+    f.coatOfArms = bCoatOfArms.build()
     const ages = getFamilyAges()
     for (let i = 0; i < ages.length; i++) {
         let gender = ENUM_GENDER.MALE

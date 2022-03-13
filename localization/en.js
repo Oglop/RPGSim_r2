@@ -87,6 +87,27 @@ module.exports.get = (id, args) => {
         case 'character-trait-cool-header': return `${args[0]} remains calm during any situation.`
         case 'character-trait-sceptic': return `${args[0]} is never fooled.`
         case 'character-trait-bard': return `${args[0]} is a skilled bard always looking to entertain.`
+        case 'character-haircolor-auburn': return 'auburn'
+        case 'character-haircolor-brunette': return 'brunette'
+        case 'character-haircolor-light-brown': return 'light brown'
+        case 'character-haircolor-dark': return 'dark'
+        case 'character-haircolor-blonde': return 'blonde'
+        case 'character-haircolor-gray': return 'gray'
+        case 'character-haircolor-black': return 'black'
+        case 'character-haircolor-white': return 'white'
+        case 'character-haircolor-red': return 'red'
+        case 'character-eyes-blue': return 'blue'
+        case 'character-eyes-green': return 'green'
+        case 'character-eyes-dark-brown': return 'dark brown'
+        case 'character-eyes-brown': return 'brown'
+        case 'character-eyes-gray': return 'gray'
+        case 'character-body-tall': return 'tall'
+        case 'character-body-short': return 'short'
+        case 'character-body-stocky': return 'stocky'
+        case 'character-body-round': return 'round'
+        case 'character-body-slim': return 'slim'
+        case 'character-body-muscular': return 'muscular'
+
         case 'dir-east': return 'east'
         case 'dir-north': return 'north'
         case 'dir-west': return 'west'
@@ -181,7 +202,8 @@ module.exports.get = (id, args) => {
 
         case 'system-word-a': return 'a'
         case 'system-word-an': return 'an'
-
+        case 'system-word-he': return 'he'
+        case 'system-word-she': return 'she'
         case 'system-word-one': return 'one'
         case 'system-word-two': return 'two'
         case 'system-word-three': return 'three'

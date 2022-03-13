@@ -1,7 +1,7 @@
 const { getRandomNumberInRange, chance } = require('../lib/utils')
 const { ENUM_EXPLORE_DIR } = require('../generic/enums')
 const objects = require('../generic/objects')
-const { point2d } = require('../lib/utils')
+const { point2d, isPoint2dInArray,isEmptyObject } = require('../lib/utils')
 
 /**
  * Set temprature to map of size 100
@@ -56,10 +56,8 @@ const setTempratureByLattitude = (map) => {
             } else if (y > temps.hot.lattitude && y < size - temps.hot.lattitude) {
                     map[x][y].temprature = getRandomNumberInRange(temps.hot.minVariance, temps.hot.maxVariance) 
             }
-
         }
     }
-
     return map
 }
 
@@ -261,6 +259,33 @@ const horizontalLine = (map, size, startx, starty, options) => {
     }
 }
 
+
+const getClosePoints = (map, size, startPosition = {}, options = {}) => {
+    const positions = []
+    const noOfPositions = (options.noOfPositions) ? options.noOfPositions : 4
+    if (isEmptyObject(startPosition)) {
+        startPosition = point2d( 
+            getRandomNumberInRange(0, size-1),
+            getRandomNumberInRange(0, size-1)
+        )
+    }
+    for (let i = 0; i < noOfPositions; i++) {
+        let tryNewPosition = true
+        while(tryNewPosition) {
+            const x = getRandomNumberInRange(startPosition.x - 5, startPosition.x + 5)
+            const y = getRandomNumberInRange(startPosition.y - 5, startPosition.y + 5)
+            if (x >= 0 && x < size && y >= 0 && y < size) {
+                const p = point2d(x, y)
+                if(!isPoint2dInArray(positions, p)) {
+                    positions.push(p)
+                    tryNewPosition = false
+                }
+            }
+        }
+    }
+    return positions
+}
+
 /**
  * Adds magic level to rooms until 
  * world magic level is achived
@@ -313,7 +338,8 @@ module.exports = {
     horizontalLine,
     verticalLine,
     windsOfMagic,
-    spikeFilter
+    spikeFilter,
+    getClosePoints
 }
 
 

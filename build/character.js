@@ -2,13 +2,21 @@ const objects = require('../generic/objects')
 const skillsBuilder = require('./skill')
 const languageBuilder = require('./languages')
 const personalityBuilder = require('./personality')
-const { copyObject, generateID, chance, getRandomNumberInRange } = require('../lib/utils')
+const { 
+    copyObject, 
+    generateID, 
+    chance, 
+    getRandomNumberInRange,
+    capitalizeFirstLetter,
+    isVowel
+} = require('../lib/utils')
 const { getPersonName } = require('../generic/names')
 const { ENUM_CHARACTER_TRAITS, ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITIES } = require('../generic/enums')
 const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM, STAT_HEALTH_BASE, STAT_HEALTH_INCREASE, STAT_STAMINA_BASE, STAT_STAMINA_INCREASE } = require('../generic/statics')
 const { getBirthDate } = require('../lib/time')
 const { logError } = require('../data/errorFile')
 const { getRandomReligion } = require('../generic/religions')
+const { get } = require('../localization')
 
 
 /**
@@ -157,6 +165,46 @@ const validateBuild = (c) => {
 
 }
 
+const getCharacterDescription= (name, race, gender, options = {}) => {
+    const pronoun = (gender == ENUM_GENDER.FEMALE) ? get('system-word-she') : get('system-word-he')
+    let hair = ''
+    let body = ''
+    let eyes = ''
+    let i = getRandomNumberInRange(0, 8)
+    switch(i) {
+        case 0: hair = get('character-haircolor-auburn'); break;
+        case 1: hair = get('character-haircolor-brunette'); break;
+        case 2: hair = get('character-haircolor-light-brown'); break;
+        case 3: hair = get('character-haircolor-dark'); break;
+        case 4: hair = get('character-haircolor-blonde'); break;
+        case 5: hair = get('character-haircolor-gray'); break;
+        case 6: hair = get('character-haircolor-black'); break;
+        case 7: hair = get('character-haircolor-white'); break;
+        case 8: hair = get('character-haircolor-red'); break;
+    }
+    i = getRandomNumberInRange(0, 5)
+    switch(i) {
+        case 0: body = get('character-body-tall'); break;
+        case 1: body = get('character-body-short'); break;
+        case 2: body = get('character-body-stocky'); break;
+        case 3: body = get('character-body-round'); break;
+        case 4: body = get('character-body-slim'); break;
+        case 5: body = get('character-body-muscular'); break;
+    }
+    i = getRandomNumberInRange(0, 4)
+    switch(i) {
+        case 0: eyes = get('character-eyes-blue'); break;
+        case 1: eyes = get('character-eyes-green'); break;
+        case 2: eyes = get('character-eyes-dark-brown'); break;
+        case 3: eyes = get('character-eyes-brown'); break;
+        case 4: eyes = get('character-eyes-gray'); break;
+    }
+    const bodyAnA = isVowel(body)
+    const desc1 = capitalizeFirstLetter(`${name} is ${bodyAnA} ${body} ${race}.`)
+    const desc2 = capitalizeFirstLetter(`${pronoun} has ${eyes} eyes and ${hair} hair.`)
+    return `${desc1} ${desc2}`
+}
+
 /**
  * 
  * @param {object} options {
@@ -180,8 +228,11 @@ module.exports.build = (options = {}) => {
         c.gender = (options.gender) ? options.gender : (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
         c.religion = (options.religion) ? options.religion : getRandomReligion()
         c.name = getPersonName(c.gender)
+        
         c.age = (options.age ||options.age === 0) ? options.age : getRandomNumberInRange(15, 60)
         c.race = (options.race) ? options.race : getRandomRace()
+        c.description = getCharacterDescription(c.name, c.race, c.gender)
+
         c.job = (options.job) ? options.job : getRandomJob()
         c.father = options.father
         c.mother = options.mother

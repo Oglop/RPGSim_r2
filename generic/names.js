@@ -311,7 +311,7 @@ const getPersonName = sex => {
 const getFamilyName = () => {
     const f = getRandomElementFromArray(firstFamilyNames)
     const l = getRandomElementFromArray(lastFamilyNames)
-    return `${f} ${l}`
+    return `${f}${l}`
 }
 
 const getDwellingName = () => {

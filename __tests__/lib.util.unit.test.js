@@ -1,4 +1,10 @@
-const { generateID, capitalizeFirstLetter, getRandomElementFromArray } = require('../lib/utils')
+const { 
+    generateID, 
+    capitalizeFirstLetter, 
+    getRandomElementFromArray,
+    point2d,
+    isPoint2dInArray
+} = require('../lib/utils')
 
 describe('util tests', () => {
     it('should generate uniqe stringa', () => {
@@ -23,4 +29,27 @@ describe('util tests', () => {
         const actual = getRandomElementFromArray(arr)
         expect(actual.id).toBe(expected)
     })
+    it('point2d should be an object with x and y', () => {
+        const actual = point2d(1, 2)
+        expect(typeof(actual)).toBe('object')
+        expect(actual.x).toBe(1)
+        expect(actual.y).toBe(2)
+    })
+    it('isPoint2dInArray should return true if point2d is in array', () => {
+        const positions = []
+        positions.push(point2d(1, 1))
+        positions.push(point2d(2, 2))
+        const exists = point2d(1, 1)
+        const actual = isPoint2dInArray(positions, exists)
+        expect(actual).toBeTruthy()
+    })
+    it('isPoint2dInArray should return false if point2d is not in array', () => {
+        const positions = []
+        positions.push(point2d(1, 1))
+        positions.push(point2d(2, 2))
+        const notExists = point2d(3, 3)
+        const actual = isPoint2dInArray(positions, notExists)
+        expect(actual).toBeFalsy()
+    })
+
 })

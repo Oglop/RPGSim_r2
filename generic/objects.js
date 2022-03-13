@@ -26,6 +26,7 @@ module.exports = {
     character: {
         id: undefined,
         name: undefined,
+        description: undefined,
         gender: undefined,
         marriedTo: undefined,
         mother: undefined,
@@ -136,6 +137,7 @@ module.exports = {
     family: {
         id: undefined,
         name: undefined,
+        coatOfArms: undefined,
         ruler: undefined,
         influence: 0,
         members: [],
