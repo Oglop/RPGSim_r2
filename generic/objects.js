@@ -2,7 +2,8 @@ const {
     ENUM_EXPLORE_STATUS,
     ENUM_DUNGEON_DOOR_STATUS,
     ENUM_QUEST_STATUS,
-    ENUM_PARTY_STATE
+    ENUM_PARTY_STATE,
+    ENUM_DWELLING_CONDITIONS
 
 } = require('../generic/enums')
 module.exports = {
@@ -10,6 +11,8 @@ module.exports = {
         id: undefined,
         name: undefined,
         map: undefined,
+        dwellings: [],
+        locations: [],
         date: undefined,
         families: [],
         dead: [],
@@ -86,11 +89,13 @@ module.exports = {
     },
     dwelling: {
         id: undefined,
+        position: {},
         name: undefined,
         type: undefined,
         size: undefined,
         ruler: undefined,
         nobles: [],
+        monuments: [],
         citizens: undefined,
         stores: undefined,
         defenses: undefined,
@@ -105,9 +110,10 @@ module.exports = {
     },
     dwellingDefenses: {
         power: 0,
-        baricades: 0,
-        walls: 0,
-        moats: 0
+        gate: ENUM_DWELLING_CONDITIONS.NONE,
+        walls: ENUM_DWELLING_CONDITIONS.NONE,
+        moats: ENUM_DWELLING_CONDITIONS.NONE,
+        guards: ENUM_DWELLING_CONDITIONS.NONE
     },
     citizens: {
         id: undefined,

@@ -1,8 +1,12 @@
 const objects = require('../generic/objects')
 const { getDwellingName } = require('../generic/names')
-const { generateID, copyObject, getRandomNumberInRange } = require('../lib/utils')
+const { generateID, copyObject, getRandomNumberInRange, chance } = require('../lib/utils')
 const { getDwarfWord } = require('../lib/language')
-const { ENUM_DWELLINGS, ENUM_DWELLINGS, ENUM_DWELLING_SIZE } = require('../generic/enums')
+const { 
+    ENUM_DWELLING_SIZE,
+    ENUM_DWELLING_CONDITIONS,
+    ENUM_DWELLINGS,
+} = require('../generic/enums')
 
 
 
@@ -28,27 +32,55 @@ const addStores = (dwelling) => {
 }
 
 const addDefenses = (dwelling) => {
-
+    //const taxIncome = dwelling.citizens.count * Math.floor(dwelling.stores.taxRate * 0.01)
+    if (dwelling.size == ENUM_DWELLING_SIZE.VILLAGE) {
+        dwelling.defenses.guards = (chance(50)) ? ENUM_DWELLING_CONDITIONS.GOOD : ENUM_DWELLING_CONDITIONS.POOR
+    }
+    if (dwelling.size == ENUM_DWELLING_SIZE.TOWN) {
+        dwelling.defenses.guards = ENUM_DWELLING_CONDITIONS.GOOD
+        dwelling.defenses.walls = (chance(50)) ? ENUM_DWELLING_CONDITIONS.GOOD : ENUM_DWELLING_CONDITIONS.POOR
+    }
+    if (dwelling.size == ENUM_DWELLING_SIZE.CITY) {
+        dwelling.defenses.guards = (chance(50)) ? ENUM_DWELLING_CONDITIONS.GOOD : ENUM_DWELLING_CONDITIONS.PERFECT
+        dwelling.defenses.walls = ENUM_DWELLING_CONDITIONS.GOOD
+        dwelling.defenses.gate = (chance(50)) ? ENUM_DWELLING_CONDITIONS.GOOD : ENUM_DWELLING_CONDITIONS.POOR
+    }
+    if (dwelling.size == ENUM_DWELLING_SIZE.CAPITAL) {
+        dwelling.defenses.guards = (chance(50)) ? ENUM_DWELLING_CONDITIONS.GOOD : ENUM_DWELLING_CONDITIONS.PERFECT
+        dwelling.defenses.walls = ENUM_DWELLING_CONDITIONS.GOOD
+        dwelling.defenses.gate = ENUM_DWELLING_CONDITIONS.GOOD
+        dwelling.defenses.moats = (chance(50)) ? ENUM_DWELLING_CONDITIONS.GOOD : ENUM_DWELLING_CONDITIONS.POOR
+    }
 }
 
+/**
+ * build dwelling
+ * 
+ * @param {ENUM_DWELLINGS} type 
+ * @param {object} options 
+ * @returns {object} dwelling
+ */
 module.exports.build = (type, options = {}) => {
+    // Values from options
     const d = copyObject(objects.dwelling)
-    d.type = (options.type) ? options.type : ENUM_DWELLINGS.CITY
-    d.size = (options.dwellingSize) ? options.dwellingSize : ENUM_DWELLING_SIZE.TOWN
-    options.citizens = (options.citizens) ? d.citizens = options.citizens : copyObject(objects.citizens)
-    addCitizens(d)
-    
-    
-    if (options.ruler) { d.ruler = options.ruler }
-    if (options.nobles) { d.nobles = options.nobles }
-    addStores(d)
-    
-    if (options.army) { d.army = options.army }
     d.id = generateID()
     d.name = getDwellingName()
     d.type = type
+    d.type = (options.type) ? options.type : ENUM_DWELLINGS.TOWN
+    d.size = (options.dwellingSize) ? options.dwellingSize : ENUM_DWELLING_SIZE.TOWN
+    if (options.army) { d.army = options.army }
+    options.citizens = (options.citizens) ? d.citizens = options.citizens : copyObject(objects.citizens)
+    addCitizens(d)
+    
+    // set ruler and stores
+    if (options.ruler) { d.ruler = options.ruler }
+    if (options.nobles) { d.nobles = options.nobles }
     d.stores = copyObject(objects.dwellingStores)
+    addStores(d)
+    
+    // set defenses
     d.defenses = copyObject(objects.dwellingDefenses)
+    addDefenses(d)
 
     if (d.ruler && d.nobles && d.citizens && d.army) {
 

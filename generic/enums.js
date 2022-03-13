@@ -226,6 +226,20 @@ module.exports = {
         CITY: 2,
         CAPITAL: 3
     },
+    ENUM_DWELLING_PROJECTS: {
+        DEFENSES,
+        MONUMENT,
+        TRADE,
+        ARMY,
+        GUARDS
+    },
+    ENUM_DWELLING_CONDITIONS: {
+        NONE: 0,
+        RUINED: 1,
+        POOR: 2,
+        GOOD: 3,
+        PERFECT: 4
+    },
     ENUM_LOCATIONS: {
         NONE: 0,
         RUINS: 1,
