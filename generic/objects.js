@@ -88,14 +88,18 @@ module.exports = {
         name: undefined,
         family: undefined
     },
+    court: {
+        id: undefined,
+        ruler: undefined,
+        advisors: []
+    },
     dwelling: {
         id: undefined,
         position: {},
         name: undefined,
         type: undefined,
         size: undefined,
-        ruler: undefined,
-        nobles: [],
+        court: undefined,
         monuments: [],
         citizens: undefined,
         stores: undefined,

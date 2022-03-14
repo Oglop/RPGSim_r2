@@ -75,6 +75,36 @@ const getFamilyAges = () => {
 
 /**
  * 
+ * @param {object} options 
+ * @returns 
+ */
+module.exports.createHistoricFamily = (options) => {
+    let religion = getRandomReligion()
+    const f = copyObject(objects.family)
+    f.id = generateID()
+    f.dwellingId = options.dwellingId
+    f.name = getFamilyName()
+    f.race = (!options.race) ? ENUM_RACE_NAMES.human : options.race
+    f.coatOfArms = bCoatOfArms.build()
+    const age = getRandomNumberInRange(18, 60)
+    gender = (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
+    const c = characterBuilder.build({ 
+        age,
+        gender,
+        race: f.race,
+        job: ENUM_JOB_NAMES.noble,
+        father: '',
+        mother: '',
+        enforceMinimumSum: false,
+        date: options.date,
+        religion
+     })
+    return f
+}
+
+
+/**
+ * 
  * @param {Object} options { dwellings: [] }
  */
 module.exports.build = (options) => {

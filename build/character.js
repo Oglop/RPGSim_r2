@@ -165,7 +165,7 @@ const validateBuild = (c) => {
 
 }
 
-const getCharacterDescription= (name, race, gender, options = {}) => {
+const getCharacterDescription = (name, race, gender, options = {}) => {
     const pronoun = (gender == ENUM_GENDER.FEMALE) ? get('system-word-she') : get('system-word-he')
     let hair = ''
     let body = ''
