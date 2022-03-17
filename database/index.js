@@ -9,7 +9,7 @@ module.exports = {
         updateRoom: (room) => updateRoom(room)
     },
     queries: {
-        getRoom: () => getRoom()
+        getRoom: (x, y) => getRoom(x, y)
     },
     infrastructure: {
         migrate: () => migrate()
