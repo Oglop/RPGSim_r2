@@ -1,4 +1,5 @@
 module.exports = {
+    databasePath: ':memory:',
     fileStorage: 'storage',
     version: 1.0,
     saveVisualization: false,

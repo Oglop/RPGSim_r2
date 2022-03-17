@@ -18,5 +18,9 @@
   "homepage": "https://github.com/Oglop/RPGSim_r2#readme",
   "devDependencies": {
     "jest": "^27.2.0"
+  },
+  "dependencies": {
+    "sqlite": "^4.0.25",
+    "sqlite3": "^5.0.2"
   }
 }

@@ -107,6 +107,12 @@ module.exports.get = (id, args) => {
         case 'character-body-round': return 'round'
         case 'character-body-slim': return 'slim'
         case 'character-body-muscular': return 'muscular'
+        
+        case 'character-job-pesant-pessant': return 'pessant'
+        case 'character-job-pesant-farmer': return 'farmer'
+        
+        case 'character-job-warrior-barbarian': return 'barbarian'
+        case 'character-job-warrior-gladiator': return 'gladiator'
 
         case 'dir-east': return 'east'
         case 'dir-north': return 'north'
