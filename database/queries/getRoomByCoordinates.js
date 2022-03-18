@@ -1,7 +1,6 @@
 const { DatabaseContext } = require('../connections')
 
-module.exports.getRoom = async (x, y) => {
-    //const room = await DatabaseContext.db.get("SELECT x, y FROM room")
+module.exports.getRoomByCoordinates = async (x, y) => {
     const stmt = await DatabaseContext.db.prepare(`
         SELECT 
             id,
@@ -17,13 +16,9 @@ module.exports.getRoom = async (x, y) => {
         FROM room 
         WHERE x = @x 
         AND y = @y ;`)
-    stmt.bind({
+    await stmt.bind({
         '@x': x, 
         '@y': y
     })
     return await stmt.get()
-
-
-    return room
-    
 }

@@ -4,6 +4,7 @@ const { DatabaseContext } = require('../connections')
  * 
  * @param {room: {
         id: undefined,
+        worldId: string
         x: 0,
         y:0,
         magicWind: 0,
@@ -16,10 +17,10 @@ const { DatabaseContext } = require('../connections')
     }} room 
  */
 module.exports.insertRoom = async (room) => {
-    const stmt = await DatabaseContext.db.prepare(`INSERT INTO room 
-        (
+    const stmt = await DatabaseContext.db.prepare(`INSERT INTO room (
             x, 
             y, 
+            worldId,
             magicWind,
             elevation,
             temprature,
@@ -32,6 +33,7 @@ module.exports.insertRoom = async (room) => {
         (
             @x, 
             @y, 
+            @worldId,
             @magicWind,
             @elevation,
             @temprature,
@@ -40,9 +42,10 @@ module.exports.insertRoom = async (room) => {
             @description,
             @exploreStatus
         );`)
-    stmt.bind({
+    await stmt.bind({
         '@x': room.x, 
         '@y': room.y, 
+        '@worldId': room.worldId,
         '@magicWind': room.magicWind,
         '@elevation': room.elevation,
         '@temprature': room.temprature,

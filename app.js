@@ -9,7 +9,7 @@ const main = async (args) => {
     try {
         await migrate()
         const output = (!args.outputType) ? consoleType : htmlType
-        const world = generateWorld(output)
+        const world = await generateWorld(output)
         world.parties = createParties( {date: world.date, world} )
         for (let i=0;i<80;i++) {
             next(world, output)

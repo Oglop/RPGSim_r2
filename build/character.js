@@ -247,7 +247,6 @@ module.exports.build = (options = {}) => {
         personalityBuilder.build(c)
         validateBuild(c)
     } catch (e) {
-        console.log(JSON.stringify(options))
         const err = objects.error
         err.file = __filename
         err.function = 'build'

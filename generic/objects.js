@@ -72,6 +72,7 @@ module.exports = {
     },
     room: {
         id: undefined,
+        worldId: undefined,
         x: 0,
         y:0,
         magicWind: 0,

@@ -12,7 +12,13 @@ const { WORLD_SIZE } = require('../generic/statics')
 const { ENUM_BIOMES, ENUM_DWELLINGS, ENUM_EXPLORE_STATUS } = require('../generic/enums')
 const { getLandmarkName } = require('../generic/names')
 const { logError } = require('../data/errorFile')
+const { insertRoom, updateRoom } = require('../database').commands
 
+/**
+ * Generate an 2d array of {room}
+ * @param {integer} size 
+ * @returns array
+ */
 const createMapArray = size => {
         var arr = [];
         for (let i = 0; i < size; i++) {
@@ -22,6 +28,37 @@ const createMapArray = size => {
             }
         }
         return arr
+}
+
+/**
+ * 
+ * @param {text} worldId 
+ * @param {object} options 
+ * size: integer
+ * worldId: text
+ */
+const generateBaseMap = async (worldId, worldSize) => {
+    var arr = [];
+    for (let i = 0; i < worldSize; i++) {
+        arr[i] = [];
+        for (let j = 0; j < worldSize; j++) {
+            const r = copyObject(objects.room);
+            r.worldId = worldId
+            r.x = j
+            r.y = i
+            arr[i][j] = r
+            try {
+                await insertRoom(r)
+            } catch (e) {
+                const err = objects.error
+                err.file = __filename
+                err.function = 'generateBaseMap'
+                err.message = e.message                                                                                                                      
+                logError(err)
+            }
+        }
+    }
+    return arr
 }
 
 /**
@@ -50,8 +87,6 @@ const drawFarmlands = (map, point, size) => {
                 }
         }
     }
-
-
 }
 
 const setFarmlands = (map, size) => {
@@ -390,10 +425,11 @@ const visualizeMap = (map, worldSize) => {
  * generate world map
  * @param {object} options 
  */
-module.exports.build = (options) => {
+module.exports.build = async (options) => {
     try {
         const worldSize = options.size ? options.size : WORLD_SIZE;
-        const map = createMapArray(worldSize)
+        const map = await generateBaseMap( options.worldId, worldSize )
+        //const map = createMapArray(worldSize)
         generateMountains(map, worldSize)
         generateLakes(map, worldSize)
         generateTempratures(map, worldSize)

@@ -2,6 +2,7 @@ const { ENUM_DWELLINGS } = require('../generic/enums')
 const { copyObject, point2d, getRandomElementFromArray } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
+const { getRoomByCoordinates } = require('../database').queries
 /**
  * 
  * @param {Array[][]} map 
@@ -75,10 +76,32 @@ const getBiomeAtPoint = (map, point) => {
     }
 }
 
+/**
+ * WIP
+ * return map from database
+ * 
+ * @param {text} worldId 
+ * @param {integer} size 
+ * @returns {Array} map
+ */
+const getMap = async (worldId, size) => {
+    const map = Array(size).fill([])
+    for (let i = 0; i < size; i++) {
+        map[i] = Array(size).fill({})
+    }
+    for (let y = 0; y < map.length; y++) {
+        for (let x = 0; x < map.length; x++) {
+            map[x][y] = await getRoomByCoordinates(x, y)
+        }
+    }
+    return map
+}
+
 module.exports = {
     getDwellingsFromMap,
     getDwellingPositionById,
     getPointOfRandomDwelling,
     getDwellingById,
-    getBiomeAtPoint
+    getBiomeAtPoint,
+    getMap
 }

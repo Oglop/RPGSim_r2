@@ -1,7 +1,7 @@
 const { migrate } = require('./infrastructure/migrate')
 const { insertRoom } = require('./commands/insertRoom')
 const { updateRoom } = require('./commands/updateRoom')
-const { getRoom } = require('./queries/getRoom')
+const { getRoom } = require('./queries/getRoomByCoordinates')
 
 module.exports = {
     commands: {
@@ -9,7 +9,7 @@ module.exports = {
         updateRoom: (room) => updateRoom(room)
     },
     queries: {
-        getRoom: (x, y) => getRoom(x, y)
+        getRoomByCoordinates: (x, y) => getRoomByCoordinates(x, y)
     },
     infrastructure: {
         migrate: () => migrate()

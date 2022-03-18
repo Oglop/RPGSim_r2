@@ -20,15 +20,18 @@ const setWorldStartDate = (options) => {
     return date
 } 
 
-const generateWorld = (output, options = {}) => {
-    
+const generateWorld = async (output, options = {}) => {
+    const errors = []
     let atempts = 3
     const size = (options.size) ? options.size : 30
     const world = copyObject(objects.world)
     world.id = generateID()
     world.name = 'Heria'
     world.date = setWorldStartDate({})
-    world.map = mapBuilder.build( { size } )
+    world.map = await mapBuilder.build( { size, worldId: world.id } )
+
+
+    
     /* while (atempts > 0) {
         try {
             world.map = mapBuilder.build( { size: 30 } )
@@ -47,7 +50,7 @@ const generateWorld = (output, options = {}) => {
     }
     */
     
-
+    /*
     familyTreeBuilder.build(world, output, {
         years: 200,
         noOfStartFamilies: 4,
@@ -63,6 +66,7 @@ const generateWorld = (output, options = {}) => {
     world.darkness = 10
     if (saveVisualization) { writeMap(world.map, world.id) }
     if (saveWorld) { save(world, { id: world.id, fileType: ENUM_FILE_TYPE.WORLD }) }
+    */
     return world
 }
 

@@ -2,6 +2,7 @@
 create table room 
 (
     id          integer primary key, 
+    worldId     text,
     x           integer, 
     y           integer,
     magicWind   integer,
@@ -15,10 +16,10 @@ create table room
 
 create table world
 (
-    id          integer primary key,
+    id          text,
     name        text,
-    date        text,
-)
+    date        text
+);
 
 -- Down
 DROP TABLE room;
