@@ -256,7 +256,8 @@ module.exports = {
         time: undefined,
         message: undefined,
         file: undefined,
-        function: undefined
+        function: undefined,
+        step: undefined
     },
     event: {
         active: true,

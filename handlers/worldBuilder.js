@@ -9,8 +9,8 @@ const { ENUM_FILE_TYPE } = require('../generic/enums')
 const { save } = require('../data/fileStorage')
 const { logError } = require('../data/errorFile')
 const { writeMap } = require('../output/visualize')
-const { saveVisualization, saveWorld } = require('../config')
-        
+const { saveVisualization, saveWorld, worldSize } = require('../config')
+const { Output } = require('../output/output')
 
 const setWorldStartDate = (options) => {
     const date = copyObject(objects.date)
@@ -20,15 +20,41 @@ const setWorldStartDate = (options) => {
     return date
 } 
 
-const generateWorld = async (output, options = {}) => {
+const generateWorld = async (options = {}) => {
+    
     const errors = []
-    let atempts = 3
-    const size = (options.size) ? options.size : 30
-    const world = copyObject(objects.world)
-    world.id = generateID()
-    world.name = 'Heria'
-    world.date = setWorldStartDate({})
-    world.map = await mapBuilder.build( { size, worldId: world.id } )
+    try {
+        const size = (options.size) ? options.size : worldSize
+        const world = copyObject(objects.world)
+        world.id = generateID()
+        world.name = 'Heria'
+        world.date = setWorldStartDate({})
+        try {
+            world.map = await mapBuilder.build( { size, worldId: world.id } )
+        } catch (e) {
+            const err = objects.error
+            err.file = __filename
+            err.function = 'generateWorld'
+            err.step = 'mapBuilder.build'
+            err.message = e.message
+            errors.push(err)
+        }
+    }
+    catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'generateWorld'
+        err.message = e.message
+        errors.push(err)
+    }
+    if (errors.length > 0) {
+        errors.forEach(e => {
+            logError(e)
+        });
+    }
+
+    
+    
 
 
     
