@@ -1,17 +1,52 @@
 -- Up
-CREATE TABLE room 
+CREATE TABLE army
 (
-    id          integer primary key, 
-    worldId     text,
-    x           integer, 
-    y           integer,
-    magicWind   integer,
-    elevation   integer,
-    temprature  integer,
-    biome       integer,
-    dwelling    text,
-    description text,
-    exploreStatus integer
+    id          text,
+    dwellingId  text
+);
+
+CREATE TABLE character
+(
+    id              text,
+    name            text,
+    description     text,
+    gender          integer,
+    marriedTo       text,
+    mother          text,
+    father          text,
+    pregnant        integer,
+    pregnantTime    integer,
+    job             integer,
+    race            integer,
+    birthDate       text,
+    trait           text,
+    age             integer,
+    health          integer,
+    maxHealth       integer,
+    stamina         integer,
+    maxStamina      integer,
+    religion        integer,
+    personality     integer,
+    isAlive         integer,
+    diedFrom        text,
+    head            text,
+    weaponHand      text,
+    shieldHand      text,
+    body            text
+    str             integer,
+    vit             integer,
+    agi             integer,
+    wis             integer,
+    int             integer,
+    cha             integer,
+    luc             integer
+);
+
+CREATE TABLE court
+(
+    id          text,
+    dwellingId  integer,
+    rulerId     text
 );
 
 CREATE TABLE dwelling 
@@ -33,10 +68,41 @@ CREATE TABLE dwelling
     guards      integer
 );
 
-CREATE TABLE army
+CREATE TABLE language 
 (
-    id          text,
-    dwellingId  text
+    characterId     text,
+    language        integer,
+    mastery         integer
+);
+
+CREATE TABLE relation 
+(
+    characterId     text,
+    id              text,
+    points          integer
+);
+
+CREATE TABLE room 
+(
+    id          integer primary key, 
+    worldId     text,
+    x           integer, 
+    y           integer,
+    magicWind   integer,
+    elevation   integer,
+    temprature  integer,
+    biome       integer,
+    dwelling    text,
+    description text,
+    exploreStatus integer
+);
+
+CREATE TABLE skill
+(
+    characterId     text,
+    name            text,
+    statsBase       integer,
+    luckTest:       integer
 );
 
 CREATE TABLE troop
@@ -47,13 +113,6 @@ CREATE TABLE troop
     type        integer,
     [power]       integer
 
-);
-
-CREATE TABLE court
-(
-    id          text,
-    dwellingId  integer,
-    rulerId     text
 );
 
 CREATE TABLE world
@@ -70,3 +129,5 @@ DROP TABLE army;
 DROP TABLE troop;
 DROP TABLE court;
 DROP TABLE world;
+DROP TABLE language;
+DROP TABLE skill;

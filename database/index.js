@@ -6,9 +6,11 @@ const { updateDwelling } = require('./commands/updateDwelling')
 const { getRoomByCoordinates } = require('./queries/getRoomByCoordinates')
 const { getDwellingByCoordinates } = require('./queries/getDwellingByCoordinates')
 const { getDwellingById } = require('./queries/getDwellingById')
+const { insertCharacter } = require('./commands/insertCharacter')
 
 module.exports = {
     commands: {
+        insertCharacter: (character) => insertCharacter(character),
         insertRoom: (room) => insertRoom(room),
         insertDwelling: (dwelling) => insertDwelling(dwelling),
         updateRoom: (room) => updateRoom(room),

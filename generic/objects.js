@@ -290,6 +290,7 @@ module.exports = {
         name: undefined,
     },
     item: {
+        id: undefined,
         type: undefined,
         name: undefined,
         use: undefined,
