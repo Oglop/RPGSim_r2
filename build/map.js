@@ -6,41 +6,56 @@ const { copyObject,
     getRandomElementFromArray, 
     getRandomNumberInRange, 
     getRandomNumber, 
-    chance
+    chance,
+    point2d
 } = require('../lib/utils')
+const m = require('../models/map')
 const { WORLD_SIZE } = require('../generic/statics')
-const { ENUM_BIOMES, ENUM_DWELLINGS, ENUM_EXPLORE_STATUS } = require('../generic/enums')
+const { ENUM_BIOMES, ENUM_DWELLINGS, ENUM_DWELLING_SIZE, ENUM_EXPLORE_STATUS } = require('../generic/enums')
 const { getLandmarkName } = require('../generic/names')
 const { logError } = require('../data/errorFile')
-const { insertRoom, updateRoom } = require('../database').commands
+const { insertRoom, insertDwelling } = require('../database').commands
 const { 
     getClosePoints,
-    gradiantFilter,
     horizontalLine,
     verticalLine,
-    noiceFilterLight,
-    platueFilter,
     setTempratureByLattitude,
     spikeFilter,
     windsOfMagic,
     trueNoice,
     raiseGround
 } = require('../build/mapBuilderUtility')
-const { world } = require('../generic/objects')
 
 const saveMap = async (map) => {
-    for (let y = 0; y < size; y++) {
-        for (let x = 0; x < size; x++) {
+    for (let y = 0; y < WORLD_SIZE; y++) {
+        for (let x = 0; x < WORLD_SIZE; x++) {
             try {
                 await insertRoom(map[x][y])
             } catch (e) {
                 const err = objects.error
                 err.file = __filename
                 err.function = 'saveMap'
+                err.step = `room:${JSON.stringify(map[x][y])}`
                 err.message = e.message
                 logError(err)
             }
         }
+    }
+}
+
+const saveDwellings = async (dwellings) => {
+    for (let d of dwellings) {
+        try {
+            await insertDwelling(d)
+        } catch (e) {
+            const err = objects.error
+            err.file = __filename
+            err.function = 'saveDwellings'
+            err.step = `dwelling: ${JSON.stringify(d)}`
+            err.message = e.message
+            logError(err)
+        }
+        
     }
 }
 
@@ -51,11 +66,11 @@ const saveMap = async (map) => {
  * size: integer
  * worldId: text
  */
-const generateBaseMap = (worldId, worldSize) => {
+const generateBaseMap = (worldId) => {
     var arr = [];
-    for (let i = 0; i < worldSize; i++) {
+    for (let i = 0; i < WORLD_SIZE; i++) {
         arr[i] = [];
-        for (let j = 0; j < worldSize; j++) {
+        for (let j = 0; j < WORLD_SIZE; j++) {
             try {
                 const r = copyObject(objects.room);
                 r.worldId = worldId
@@ -80,15 +95,15 @@ const generateBaseMap = (worldId, worldSize) => {
  * @param {Object} point 
  * @param {Int} size 
  */
-const drawFarmlands = (map, point, size) => {
+const drawFarmlands = (map, point) => {
     const pen = ENUM_BIOMES.farmlands
     for (let y = point.y - 1; y < point.y + 1; y++) {
         for (let x = point.x - 1; x < point.x + 1; x++) {
             if (
                 x >= 0 &&
-                x < size &&
+                x < WORLD_SIZE &&
                 y >= 0 &&
-                y < size &&
+                y < WORLD_SIZE &&
                 !map[x][y].dwelling) {
                     if ((map[x][y].biome == ENUM_BIOMES.plains ||
                         map[x][y].biome == ENUM_BIOMES.forest ||
@@ -102,31 +117,9 @@ const drawFarmlands = (map, point, size) => {
     }
 }
 
-const setFarmlands = (map, size) => {
-    const dwellings = []
-    for (let y = 0; y < size; y++) {
-        for (let x = 0; x < size; x++) {
-            try {
-                if (map[x][y].dwelling && 
-                    (map[x][y].dwelling.type === ENUM_DWELLINGS.TOWN || 
-                    map[x][y].dwelling.type === ENUM_DWELLINGS.CITY)) {
-                        const p = copyObject(objects.point)
-                        p.x = x
-                        p.y = y
-                        dwellings.push(p)
-                }
-            } catch (e) {
-                const err = objects.error
-                err.file = __filename
-                err.function = 'build'
-                err.message = e.message
-                logError(err)
-            }
-            
-        }
-    }
+const generateFarmlands = (map, dwellings) => {
     for (let i = 0; i < dwellings.length; i++) {
-        drawFarmlands(map, dwellings[i], size)
+        drawFarmlands(map, dwellings[i])
     }
 }
 
@@ -135,11 +128,11 @@ const setFarmlands = (map, size) => {
  * @param {array} map 
  * @param {int} size 
  */
-const setBiome = (map, size) => {
+const setBiome = (map) => {
     let pen = ENUM_BIOMES.plains
 
-    for (let y = 0; y < size; y++) {
-        for (let x = 0; x < size; x++) {
+    for (let y = 0; y < WORLD_SIZE; y++) {
+        for (let x = 0; x < WORLD_SIZE; x++) {
             if (map[x][y].elevation < 0) { 
                 map[x][y].biome = ENUM_BIOMES.lake 
                 map[x][y].exploreStatus = ENUM_EXPLORE_STATUS.blocked
@@ -148,7 +141,7 @@ const setBiome = (map, size) => {
             else if (map[x][y].elevation >= 5) { map[x][y].biome = ENUM_BIOMES.mountains }
             else {
                 if (map[x][y].elevation == 0) { 
-                    if (map[x][y].temprature < 0) {
+                    if (map[x][y].temprature <= 0) {
                         if (chance(40)) { pen = ENUM_BIOMES.swamp }
                     } else if (map[x][y].temprature >= 0) {
                         if (chance(40)) { pen = ENUM_BIOMES.plains }
@@ -163,7 +156,7 @@ const setBiome = (map, size) => {
                     } else if (map[x][y].temprature >= 1) {
                         if (chance(70)) { pen = ENUM_BIOMES.plains }
                     } else if (map[x][y].temprature > 2) {
-                        if (chance(50)) { pen = ENUM_BIOMES.dessert }
+                        if (chance(50)) { pen = ENUM_BIOMES.swamp }
                     }
                 } else if (map[x][y].elevation == 2) { 
                     if (map[x][y].temprature >= 0) {
@@ -183,7 +176,7 @@ const setBiome = (map, size) => {
                     } else if (map[x][y].temprature > 2) {
                         if (chance(50)) { pen = ENUM_BIOMES.badlands }
                     }
-                } if (map[x][y].temprature >= 6) { 
+                } if (map[x][y].temprature >= 7) { 
                     pen = ENUM_BIOMES.dessert
                 } 
                 map[x][y].exploreStatus = ENUM_EXPLORE_STATUS.empty
@@ -228,9 +221,9 @@ const drawElevation = (map, startX, startY, filter, positive) => {
     }
 }
 
-const generateBaseElevation = (map, worldSize, options) => {
+const generateBaseElevation = (map, options) => {
     try {
-        trueNoice(map, worldSize)
+        trueNoice(map, WORLD_SIZE)
     } catch (e) {
         const err = objects.error
         err.file = __filename
@@ -241,11 +234,11 @@ const generateBaseElevation = (map, worldSize, options) => {
     }
 
     try {
-        const iterations = getRandomNumberInRange( Math.floor( worldSize * 0.1 ) - 2, Math.floor( worldSize * 0.1 ) + 2 )
+        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 2, Math.floor( WORLD_SIZE * 0.1 ) + 2 )
         for (let i = 0; i < iterations; i++) {
-            const x = getRandomNumberInRange( 0, worldSize - 1 )
-            const y = getRandomNumberInRange( 0, worldSize - 1 )
-            raiseGround(map, worldSize, x, y)
+            const x = getRandomNumberInRange( 0, WORLD_SIZE - 1 )
+            const y = getRandomNumberInRange( 0, WORLD_SIZE - 1 )
+            raiseGround(map, x, y)
         }
     } catch (e) {
         const err = objects.error
@@ -257,16 +250,16 @@ const generateBaseElevation = (map, worldSize, options) => {
     }
 
     try {
-        const iterations = getRandomNumberInRange( Math.floor( worldSize * 0.1 ) - 3, Math.floor( worldSize * 0.1 ) )
+        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 3, Math.floor( WORLD_SIZE * 0.1 ) )
         for (let i = 0; i < iterations; i++) {
             const type = getRandomNumberInRange( 0, 3 )
-            const x = getRandomNumberInRange( 0, worldSize - 1 )
-            const y = getRandomNumberInRange( 0, worldSize - 1 )
+            const x = getRandomNumberInRange( 0, WORLD_SIZE - 1 )
+            const y = getRandomNumberInRange( 0, WORLD_SIZE - 1 )
             switch (type) {
-                case 0: horizontalLine(map, worldSize, x, y, { negative: false });  break;
-                case 1: horizontalLine(map, worldSize, x, y, { negative: true }); break;
-                case 2: verticalLine(map, worldSize, x, y, { negative: false }); break;
-                case 3: verticalLine(map, worldSize, x, y, { negative: true }); break;
+                case 0: horizontalLine(map, x, y, { negative: false });  break;
+                case 1: horizontalLine(map, x, y, { negative: true }); break;
+                case 2: verticalLine(map, x, y, { negative: false }); break;
+                case 3: verticalLine(map, x, y, { negative: true }); break;
             }
         }
     } catch (e) {
@@ -279,53 +272,20 @@ const generateBaseElevation = (map, worldSize, options) => {
     }
 }
 
-
-/**
- * draw temprature to map
- * @param {array} map 
- * @param {int} startX 
- * @param {int} startY 
- * @param {array} cloud 
- * @param {bool} positive 
- */
-const drawTemprature = (map, startX, startY, cloud, positive) => {
-
-
-    try {
-        for (let y = 0; y < cloud[0].length; y++) {
-            for (let x = 0; x < cloud[0].length; x++) {
-                if (
-                    startX + x >= 0 &&
-                    startX + x < map.length &&
-                    startY + y >= 0 &&
-                    startY + y < map.length) {
-                        if (positive) {
-                            map[startX + x][startY + y].temprature += cloud[x][y]
-                        } else {
-                            map[startX + x][startY + y].temprature -= cloud[x][y]//Math.floor(cloud[x][y] / 2)
-                        }
-                    }
-            }
-        }
-    } catch (e) {
-        console.log(e.message)
-    }
-}
-
 /**
  * draw positive elevation
  * @param {array} map 
  * @param {int} size 
  */
-const generateMountains = (map, worldSize) => {
+const generateMountains = (map) => {
     try {
-        const iterations = getRandomNumberInRange( Math.floor( worldSize * 0.1 ) - 2, Math.floor( worldSize * 0.1 ) + 2 )
+        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 2, Math.floor( WORLD_SIZE * 0.1 ) + 2 )
         for (let i = 0; i < iterations; i++) {
-            const x = getRandomNumberInRange( 0, worldSize - 1 )
-            const y = getRandomNumberInRange( 0, worldSize - 1 )
-            const positions = getClosePoints(map, worldSize, { x, y }, { noOfPositions: getRandomNumberInRange(2,4) })
+            const x = getRandomNumberInRange( 0, WORLD_SIZE - 1 )
+            const y = getRandomNumberInRange( 0, WORLD_SIZE - 1 )
+            const positions = getClosePoints(map, { x, y }, { noOfPositions: getRandomNumberInRange(2,4) })
             for (let i = 0; i < positions.length; i++) {
-                spikeFilter(map, worldSize, positions[i].x, positions[i].y, { iterations: getRandomNumberInRange(3, 6) })
+                spikeFilter(map, positions[i].x, positions[i].y, { iterations: getRandomNumberInRange(3, 6) })
             }
         }
     } catch (e) {
@@ -338,12 +298,12 @@ const generateMountains = (map, worldSize) => {
     }
 
     try {
-        const iterations = getRandomNumberInRange( Math.floor( worldSize * 0.1 ) - 2, Math.floor( worldSize * 0.1 ) + 2 )
+        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 2, Math.floor( WORLD_SIZE * 0.1 ) + 2 )
         for (let i = 0; i < iterations; i++) {
             drawElevation(
                 map, 
-                getRandomNumberInRange( 0, worldSize - 1 ),
-                getRandomNumberInRange( 0, worldSize - 1 ),
+                getRandomNumberInRange( 0, WORLD_SIZE - 1 ),
+                getRandomNumberInRange( 0, WORLD_SIZE - 1 ),
                 getRandomElementFromArray(filters),
                 true
             )
@@ -363,14 +323,14 @@ const generateMountains = (map, worldSize) => {
  * @param {array} map 
  * @param {int} size 
  */
-const generateLakes = (map, size) => {
+const generateLakes = (map) => {
     try {
-        const iterations = getRandomNumberInRange( Math.floor( worldSize * 0.1 ) - 2, Math.floor( worldSize * 0.1 ) + 2 )
+        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 2, Math.floor( WORLD_SIZE * 0.1 ) + 2 )
         for (let i = 0; i < iterations; i++) {
             drawElevation(
                 map, 
-                getRandomNumberInRange( 0, worldSize - 1 ),
-                getRandomNumberInRange( 0, worldSize - 1 ),
+                getRandomNumberInRange( 0, WORLD_SIZE - 1 ),
+                getRandomNumberInRange( 0, WORLD_SIZE - 1 ),
                 getRandomElementFromArray(filters),
                 false
             )
@@ -392,8 +352,8 @@ const generateLakes = (map, size) => {
  * @param {array} map 
  * @param {int} size 
  */
-const generateTempratures = (map, worldSize) => {
-    setTempratureByLattitude(map, worldSize)
+const generateTempratures = (map) => {
+    setTempratureByLattitude(map)
 }
 
 const getUninhabitedPoint = (map, size, biome) => {
@@ -416,12 +376,12 @@ const getUninhabitedPoint = (map, size, biome) => {
     }
 }
 
-const setLandmarks = (map, size) => {
-    const min = Math.floor( size / 5)
+const setLandmarks = (map) => {
+    const min = Math.floor( WORLD_SIZE / 5)
     const n = getRandomNumberInRange(min, min + 5)
     for (let i = 0; i < n; i++) {
         try {
-            const x = getRandomNumberInRange(0, size - 1), y = getRandomNumberInRange(0, size - 1)
+            const x = getRandomNumberInRange(0, WORLD_SIZE - 1), y = getRandomNumberInRange(0, WORLD_SIZE - 1)
             // console.log(`${x}:${y}`)
             map[x][y].description = getLandmarkName(map[x][y].biome)
         } catch (e) {
@@ -431,11 +391,11 @@ const setLandmarks = (map, size) => {
     }
 }
 
-const drawDwelling = (map, size, count, biome, dwelling) => {
+const drawDwelling = (map, count, biome, dwelling) => {
 
     for (let i = 0; i < count; i++) {
         try {
-            const p = getUninhabitedPoint(map, size, biome)
+            const p = getUninhabitedPoint(map, WORLD_SIZE, biome)
             map[p.x][p.y].dwelling = dwellingsBuilder.build(dwelling)
         } catch (e) {
             if(e instanceof NoPositionAvailableError) {
@@ -453,19 +413,79 @@ const drawDwelling = (map, size, count, biome, dwelling) => {
  * @param {array} map 
  * @param {int} size 
 */
-module.exports.setDwellings = (map, size) => {
+module.exports.setDwellings = (map) => {
+    const allDwellings = []
+    // wood elf dwellings
+    const forests = m.getListOfPointsByBiome(map, ENUM_BIOMES.forest)
+    const startPosition = getRandomElementFromArray(forests)
+    const woodElfDwellingPoints = getClosePoints(map, startPosition, { noOfPositions: getRandomElementFromArray()})
+    for (let i = 0; i < woodElfDwellingPoints.length; i++) {
+        const size = (i == 0) ? ENUM_DWELLING_SIZE.CITY : ENUM_DWELLING_SIZE.TOWN
+        dwellingsBuilder.build(woodElfDwellingPoints[i], { type: ENUM_DWELLINGS.WOOD_ELF, size })
+    }
+
+
+    /*
     drawDwelling(map, size, 2 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.forest, ENUM_DWELLINGS.ELF_TOWN)
     drawDwelling(map, size, 1 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.hills, ENUM_DWELLINGS.DWARVEN_MINE)
     // drawDwelling(map, size, 2 + getRandomNumber( Math.floor(size / 10) ), undefined, ENUM_DWELLINGS.TOWN)
     // drawDwelling(map, size, 1 + getRandomNumber( Math.floor(size / 20) ), ENUM_BIOMES.plains, ENUM_DWELLINGS.CITY)
     drawDwelling(map, size, 4 + getRandomNumber( Math.floor(size / 10) ), undefined, ENUM_DWELLINGS.TOWER)
     drawDwelling(map, size, 3 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.hills, ENUM_DWELLINGS.RUINS)
+    */
 }
 
-const visualizeMap = (map, worldSize) => {
-    for (let y = 0; y < worldSize; y++) {
+const generateDwellings = (map) => {
+    const dwellingTypes = [
+        ENUM_DWELLINGS.WOOD_ELF,
+        ENUM_DWELLINGS.DWARF,
+        ENUM_DWELLINGS.HALFLING,
+        ENUM_DWELLINGS.HIGH_ELF,
+        ENUM_DWELLINGS.HUMAN,
+        ENUM_DWELLINGS.HUMAN,
+        ENUM_DWELLINGS.HUMAN,
+        ENUM_DWELLINGS.DARK_ELF
+    ]
+
+    const allDwellings = []
+    let capitalPlaced = false
+
+    for (let type of dwellingTypes) {
+        let biome = (type == ENUM_DWELLINGS.WOOD_ELF) ? ENUM_BIOMES.forest : (type == ENUM_DWELLINGS.DWARF) ? ENUM_BIOMES.hills : ENUM_BIOMES.plains
+        const startBiomes = m.getListOfPointsByBiome(map, biome)
+        const startPosition = getRandomElementFromArray(startBiomes)
+        const minPositions = (type == ENUM_DWELLINGS.DARK_ELF) ? 1 : (type == ENUM_DWELLINGS.HUMAN) ? 4 : 3
+        const maxPositions = (type == ENUM_DWELLINGS.DARK_ELF) ? 2 : (type == ENUM_DWELLINGS.HUMAN) ? 7 : 4
+
+        const dwellingPoints = getClosePoints(map, startPosition, { noOfPositions: getRandomNumberInRange(minPositions, maxPositions)})
+        for (let i = 0; i < dwellingPoints.length; i++) {
+            try {
+                const dwellingSize = (i == 0 && type == ENUM_DWELLINGS.HUMAN && !capitalPlaced) ? ENUM_DWELLING_SIZE.CAPITAL : 
+                (i == 0) ? ENUM_DWELLING_SIZE.CITY : (i < 3) ? ENUM_DWELLING_SIZE.TOWN : ENUM_DWELLING_SIZE.VILLAGE
+
+                if (dwellingSize == ENUM_DWELLING_SIZE.CAPITAL) { capitalPlaced = true }
+
+                const d = dwellingsBuilder.build(dwellingPoints[i], { type, dwellingSize })
+                map[d.x][d.y].dwellingId = d.id
+                allDwellings.push(d)
+            } catch (e) {
+                const err = objects.error
+                err.file = __filename
+                err.function = 'generateDwellings'
+                err.message = e.message                                                                                                                      
+                logError(err)
+            }
+            
+        }
+    }
+
+    return allDwellings
+}
+
+const visualizeMap = (map) => {
+    for (let y = 0; y < WORLD_SIZE; y++) {
         let s = ''
-        for (let x = 0; x < worldSize; x++) {
+        for (let x = 0; x < WORLD_SIZE; x++) {
             if (map[x][y].dwelling) {
                 /*switch(map[x][y].dwelling.type) {
                     case ENUM_DWELLINGS.ELF_TOWN: s += 'e'; break;
@@ -502,19 +522,20 @@ const visualizeMap = (map, worldSize) => {
 module.exports.build = async (options) => {
     try {
         const worldSize = options.size ? options.size : WORLD_SIZE;
-        const map = await generateBaseMap( options.worldId, worldSize )
-        generateTempratures(map, worldSize)
-        generateBaseElevation(map, worldSize, {})
-        generateMountains(map, worldSize)
-        generateLakes(map, worldSize)
-        setBiome(map, worldSize)
-
-        //setDwellings(map, worldSize)
-        //setFarmlands(map, worldSize)
+        const map = generateBaseMap( options.worldId )
+        generateTempratures(map)
+        generateBaseElevation(map, {})
+        generateMountains(map)
+        generateLakes(map)
+        setBiome(map)
+        const dwellings = generateDwellings(map)
+        generateFarmlands(map, dwellings)
+        windsOfMagic(map)
         //setLandmarks(map, worldSize)
         
         // visualizeMap(map, worldSize)
         await saveMap(map)
+        await saveDwellings(dwellings)
         return map
     } catch (e) {
         throw new WorldGenerationFailedError(e.message)

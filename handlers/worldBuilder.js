@@ -21,11 +21,10 @@ const setWorldStartDate = (options) => {
 } 
 
 const generateWorld = async (options = {}) => {
-    
+    const world = copyObject(objects.world)
     const errors = []
     try {
         const size = (options.size) ? options.size : worldSize
-        const world = copyObject(objects.world)
         world.id = generateID()
         world.name = 'Heria'
         world.date = setWorldStartDate({})
@@ -52,7 +51,7 @@ const generateWorld = async (options = {}) => {
             logError(e)
         });
     }
-
+    return world
     
     
 
@@ -93,7 +92,7 @@ const generateWorld = async (options = {}) => {
     if (saveVisualization) { writeMap(world.map, world.id) }
     if (saveWorld) { save(world, { id: world.id, fileType: ENUM_FILE_TYPE.WORLD }) }
     */
-    return world
+    
 }
 
 module.exports = {

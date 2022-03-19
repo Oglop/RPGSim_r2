@@ -1,4 +1,5 @@
 const { ENUM_DWELLINGS } = require('../generic/enums')
+const { WORLD_SIZE } = require('../generic/statics')
 const { copyObject, point2d, getRandomElementFromArray } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
@@ -10,8 +11,8 @@ const { getRoomByCoordinates } = require('../database').queries
  */
 const getDwellingsFromMap = map => {
     const dwellings = []
-    for (let y = 0; y < map.length; y++) {
-        for (let x = 0; x < map.length; x++) {
+    for (let y = 0; y < WORLD_SIZE; y++) {
+        for (let x = 0; x < WORLD_SIZE; x++) {
             if (map[x][y].dwelling) {
                 if (map[x][y].dwelling.type == ENUM_DWELLINGS.TOWN ||
                     map[x][y].dwelling.type == ENUM_DWELLINGS.CITY ||
@@ -27,19 +28,19 @@ const getDwellingsFromMap = map => {
     return dwellings
 }
 
-const getDwellingPositionById = (map, dwellingsId) => {
+const getDwellingPositionById = (map, dwellingId) => {
     for (let y = 0; y < map.length; y++) {
         for (let x = 0; x < map.length; x++) {
-            if (map[x][y].dwelling && map[x][y].dwelling.id == dwellingsId) {
+            if (map[x][y].dwelling && map[x][y].dwelling.id == dwellingId) {
                 return point2d(x, y)
             }
         }
     }
 }
 
-const getDwellingById = (map, dwellingsId) => {
+const getDwellingById = (map, dwellingId) => {
     try {
-        const p = map.find(r => r.dwelling.id == dwellingsId)
+        const p = map.find(r => r.dwelling.id == dwellingId)
         return p
     } catch (e) {
         const err = objects.error
@@ -76,6 +77,18 @@ const getBiomeAtPoint = (map, point) => {
     }
 }
 
+const getListOfPointsByBiome = (map, biome) => {
+    const positions = []
+    for (let y = 0; y < WORLD_SIZE; y++) {
+        for (let x = 0; x < WORLD_SIZE; x++) {
+            if (map[x][y].biome == biome && !map[x][y].dwelling) {
+                positions.push(point2d(x,y))
+            }
+        }
+    }
+    return positions
+}
+
 /**
  * WIP
  * return map from database
@@ -85,9 +98,9 @@ const getBiomeAtPoint = (map, point) => {
  * @returns {Array} map
  */
 const getMap = async (worldId, size) => {
-    const map = Array(size).fill([])
-    for (let i = 0; i < size; i++) {
-        map[i] = Array(size).fill({})
+    const map = Array(WORLD_SIZE).fill([])
+    for (let i = 0; i < WORLD_SIZE; i++) {
+        map[i] = Array(WORLD_SIZE).fill({})
     }
     for (let y = 0; y < map.length; y++) {
         for (let x = 0; x < map.length; x++) {
@@ -103,5 +116,6 @@ module.exports = {
     getPointOfRandomDwelling,
     getDwellingById,
     getBiomeAtPoint,
-    getMap
+    getMap,
+    getListOfPointsByBiome
 }

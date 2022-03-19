@@ -2,14 +2,14 @@ const { getRandomNumberInRange, chance } = require('../lib/utils')
 const { ENUM_EXPLORE_DIR } = require('../generic/enums')
 const objects = require('../generic/objects')
 const { point2d, isPoint2dInArray,isEmptyObject } = require('../lib/utils')
-
+const { WORLD_SIZE } = require('../generic/statics')
 /**
  * Set temprature to map of size 100
  * 
  * @param {Array} map 
  * @returns {Object}
  */
-const setTempratureByLattitude = (map, size) => {
+const setTempratureByLattitude = (map) => {
 
     const temps = {
         freezing: {
@@ -39,26 +39,26 @@ const setTempratureByLattitude = (map, size) => {
         }
     }
 
-    for (let y = 0; y < size; y++){
-        for (let x = 0; x < size; x++) {
+    for (let y = 0; y < WORLD_SIZE; y++){
+        for (let x = 0; x < WORLD_SIZE; x++) {
             //  5 greater than 95
             if (y <= temps.freezing.setTempratureByLattitude) { 
                 map[x][y].temprature = getRandomNumberInRange(temps.freezing.minVariance, temps.freezing.maxVariance) 
-            } else if (y >= size - temps.freezing.lattitude) { 
+            } else if (y >= WORLD_SIZE - temps.freezing.lattitude) { 
                 map[x][y].temprature = getRandomNumberInRange(temps.freezing.minVariance, temps.freezing.maxVariance) 
             } else if (y > temps.freezing.lattitude && y <= temps.cold.lattitude) {
                     map[x][y].temprature = getRandomNumberInRange(temps.cold.minVariance, temps.cold.maxVariance)
-            } else if (y > size - temps.cold.lattitude && y <= size - temps.freezing.lattitude) {
+            } else if (y > WORLD_SIZE - temps.cold.lattitude && y <= WORLD_SIZE - temps.freezing.lattitude) {
                     map[x][y].temprature = getRandomNumberInRange(temps.cold.minVariance, temps.cold.maxVariance) 
             } else if (y > temps.cold.lattitude && y <= temps.medium.lattitude ) {
                     map[x][y].temprature = getRandomNumberInRange(temps.medium.minVariance, temps.medium.maxVariance) 
-            } else if (y > size - temps.medium.lattitude && y <= size - temps.cold.lattitude) {
+            } else if (y > WORLD_SIZE - temps.medium.lattitude && y <= WORLD_SIZE - temps.cold.lattitude) {
                     map[x][y].temprature = getRandomNumberInRange(temps.medium.minVariance, temps.medium.maxVariance) 
             } else if (y > temps.medium.lattitude && y <= temps.warm.lattitude) {
                     map[x][y].temprature = getRandomNumberInRange(temps.warm.minVariance, temps.warm.maxVariance) 
-            } else if (y >= size - temps.warm.lattitude && y <= size - temps.medium.lattitude) {
+            } else if (y >= WORLD_SIZE - temps.warm.lattitude && y <= WORLD_SIZE - temps.medium.lattitude) {
                         map[x][y].temprature = getRandomNumberInRange(temps.warm.minVariance, temps.warm.maxVariance) 
-            } else if (y >= temps.hot.lattitude && y <= size - temps.hot.lattitude) {
+            } else if (y >= temps.hot.lattitude && y <= WORLD_SIZE - temps.hot.lattitude) {
                     map[x][y].temprature = getRandomNumberInRange(temps.hot.minVariance, temps.hot.maxVariance) 
             }
         }
@@ -69,19 +69,18 @@ const setTempratureByLattitude = (map, size) => {
 /**
  * 
  * @param {array} map 
- * @param {int} size 
  * @param {int} startx 
  * @param {int} starty 
  * @param {object} options 
  */
-const gradiantFilter = (map, size, startx, starty, options) => {
+const gradiantFilter = (map, startx, starty, options) => {
     let penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
     
     while (penSize > 0) {
         for (let y = starty - Math.floor(penSize * 0.5); y < penSize; y++ ) {
             for (let x = startx - Math.floor(penSize * 0.5); x < penSize; x++ ) {
-                if (x >= 0 && x < size && y >= 0 && y < size) {
+                if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
                     map[x][y].elevation = (negative) ? map[x][y].elevation  -= 1 : map[x][y].elevation += 1
                 }
             }
@@ -120,12 +119,11 @@ const addSpikePoints = (point) => {
  * draw spike fi on map
  * 
  * @param {*} map 
- * @param {*} size 
  * @param {*} startx 
  * @param {*} starty 
  * @param {*} options 
  */
-const spikeFilter = (map, size, startx, starty, options) => {
+const spikeFilter = (map, startx, starty, options) => {
     const negative = (options.negative) ? options.negative : false
     const iterations = (options.iterations) ? options.iterations : 5
     const points = []
@@ -140,7 +138,7 @@ const spikeFilter = (map, size, startx, starty, options) => {
         toAdd.forEach(p => { points.push(p) })
     }
     for(let p of points) {
-        if (p.x >= 0 && p.x < size && p.y >= 0 && p.y < size) {
+        if (p.x >= 0 && p.x < WORLD_SIZE && p.y >= 0 && p.y < WORLD_SIZE) {
             map[p.x][p.y].elevation = (negative) ? map[p.x][p.y].elevation  -= 1 : map[p.x][p.y].elevation += 1
         }
     }
@@ -150,7 +148,6 @@ const spikeFilter = (map, size, startx, starty, options) => {
  * 
  * 
  * @param {array} map 
- * @param {int} size 
  * @param {int} startx 
  * @param {int} starty 
  * @param {object} options 
@@ -168,27 +165,27 @@ const platueFilter = (map, size, startx, starty, options) => {
     }
 }
 
-const trueNoice = (map, size, options = {}) => {
+const trueNoice = (map, options = {}) => {
     let totalDistributed = 0
-    for (let i = 0; i < size * size; i++) {
-        const x = getRandomNumberInRange(0, size - 1)
-        const y = getRandomNumberInRange(0, size - 1)
-        if (x >= 0 && x < size && y >= 0 && y < size) {
+    for (let i = 0; i < WORLD_SIZE * WORLD_SIZE; i++) {
+        const x = getRandomNumberInRange(0, WORLD_SIZE - 1)
+        const y = getRandomNumberInRange(0, WORLD_SIZE - 1)
+        if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
             let h = getRandomNumberInRange(0, 1)
             if(chance(20)) { h = -1 }
             map[x][y].elevation += h
             totalDistributed += h
         }
     }
-    console.log(` ${totalDistributed}`)
+    //console.log(` ${totalDistributed}`)
 }
 
-const raiseGround = (map, size, startx, starty, options = {}) => {
+const raiseGround = (map, startx, starty, options = {}) => {
     let penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
     for (let y = starty - Math.floor(penSize * 0.5); y < penSize; y++ ) {
         for (let x = startx - Math.floor(penSize * 0.5); x < penSize; x++ ) { 
-            if (x >= 0 && x < size && y >= 0 && y < size) {
+            if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
                 if (x == startx + 1 
                     || y == starty + 1 
                     || x == startx + penSize - 2
@@ -213,19 +210,18 @@ const raiseGround = (map, size, startx, starty, options = {}) => {
  * 
  * 
  * @param {array} map 
- * @param {int} size 
  * @param {int} startx 
  * @param {int} starty 
  * @param {object} options 
  * @returns 
  */
-const noiceFilterLight = (map, size, startx, starty, options) => {
+const noiceFilterLight = (map, startx, starty, options) => {
     const penSize = (options.penSize) ? options.penSize : 10
     const negative = (options.negative) ? options.negative : false
 
     for (let y = starty - Math.floor(penSize * 0.5); y < penSize; y++ ) {
         for (let x = startx - Math.floor(penSize * 0.5); x < penSize; x++ ) {
-            if (x >= 0 && x < size && y >= 0 && y < size) {
+            if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
                 const i = getRandomNumberInRange(1 , 6)
                 switch (i) {
                     case 1: map[x][y].elevation = (!negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
@@ -237,11 +233,11 @@ const noiceFilterLight = (map, size, startx, starty, options) => {
 }
 
 
-const noiceFilterMedium = (map, size, startx, starty, endx, endy, options) => {
+const noiceFilterMedium = (map, startx, starty, endx, endy, options) => {
     const negative = (options.negative) ? options.negative : false
     for (let y = starty; y < endy; y++ ) {
         for (let x = startx; x < endx; x++ ) {
-            if (x >= 0 && x < size && y >= 0 && y < size) {
+            if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
                 const i = getRandomNumberInRange(1 , 6)
                 switch (i) {
                     case 1: map[x][y].elevation = (!negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
@@ -255,13 +251,12 @@ const noiceFilterMedium = (map, size, startx, starty, endx, endy, options) => {
 /**
  * draws an horizontal line of weight 1
  * @param {array} map 
- * @param {int} size 
  * @param {int} startx 
  * @param {int} starty 
  * @param {object} options { negative: bool }
  * @returns {Array}
  */
-const verticalLine = (map, size, startx, starty, options = {}) => {
+const verticalLine = (map, startx, starty, options = {}) => {
     const negative = (options.negative) ? options.negative : false
     const dir = (chance(50)) ? ENUM_EXPLORE_DIR.south : ENUM_EXPLORE_DIR.north
     let stepChance = 100
@@ -277,7 +272,7 @@ const verticalLine = (map, size, startx, starty, options = {}) => {
                 case 4: x -= 1; x = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
                 default: y = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
             }
-        if (x >= 0 && x < size && y >= 0 && y < size) {
+        if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
             map[x][y].elevation = (!negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
         }
         else {
@@ -290,13 +285,12 @@ const verticalLine = (map, size, startx, starty, options = {}) => {
 /**
  * draws an verical line of weight 1
  * @param {array} map 
- * @param {int} size 
  * @param {int} startx 
  * @param {int} starty 
  * @param {object} options { negative: bool }
  * @returns {Array}
  */
-const horizontalLine = (map, size, startx, starty, options) => {
+const horizontalLine = (map, startx, starty, options) => {
     const negative = (options.negative) ? options.negative : false
     const dir = (chance(50)) ? ENUM_EXPLORE_DIR.east : ENUM_EXPLORE_DIR.west
     let stepChance = 100
@@ -312,7 +306,7 @@ const horizontalLine = (map, size, startx, starty, options) => {
                 case 4: y -= 1; x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
                 default: x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
             }
-        if (x >= 0 && x < size && y >= 0 && y < size) {
+        if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
             map[x][y].elevation = (!negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
         }
         else {
@@ -322,14 +316,22 @@ const horizontalLine = (map, size, startx, starty, options) => {
     }
 }
 
-
-const getClosePoints = (map, size, startPosition = {}, options = {}) => {
+/**
+ * 
+ * @param {array} map 
+ * @param {Object} startPosition point2d
+ * @param {object} options {
+ * noOfPositions: int (4)
+ * }
+ * @returns [array] point2d
+ */
+const getClosePoints = (map, startPosition = {}, options = {}) => {
     const positions = []
     const noOfPositions = (options.noOfPositions) ? options.noOfPositions : 4
     if (isEmptyObject(startPosition)) {
         startPosition = point2d( 
-            getRandomNumberInRange(0, size-1),
-            getRandomNumberInRange(0, size-1)
+            getRandomNumberInRange(0, WORLD_SIZE-1),
+            getRandomNumberInRange(0, WORLD_SIZE-1)
         )
     }
     for (let i = 0; i < noOfPositions; i++) {
@@ -337,7 +339,7 @@ const getClosePoints = (map, size, startPosition = {}, options = {}) => {
         while(tryNewPosition) {
             const x = getRandomNumberInRange(startPosition.x - 5, startPosition.x + 5)
             const y = getRandomNumberInRange(startPosition.y - 5, startPosition.y + 5)
-            if (x >= 0 && x < size && y >= 0 && y < size) {
+            if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
                 const p = point2d(x, y)
                 if(!isPoint2dInArray(positions, p)) {
                     positions.push(p)
@@ -354,9 +356,8 @@ const getClosePoints = (map, size, startPosition = {}, options = {}) => {
  * world magic level is achived
  * 
  * @param {array} map 
- * @param {number} size 
  */
-const windsOfMagic = (map, size) => {
+const windsOfMagic = (map) => {
     const worldMagicToAchive = getRandomNumberInRange(50 , 80)
     let worldMagicLevel = 0
     
@@ -369,7 +370,7 @@ const windsOfMagic = (map, size) => {
         while (chance(stepChance)) {
             let moved = false
             const dir = getRandomNumberInRange(0,3)
-            if (dir == 0 && x + 1 < size) {
+            if (dir == 0 && x + 1 < WORLD_SIZE) {
                 x++
                 moved = true
             } else if (dir == 1 && y - 1 >= 0) {
@@ -378,7 +379,7 @@ const windsOfMagic = (map, size) => {
             } else if (dir == 2 && x - 1 >= 0) {
                 x--
                 moved = true
-            } else if (dir == 3 && y + 1 < size) {
+            } else if (dir == 3 && y + 1 < WORLD_SIZE) {
                 y++
                 moved = true
             }

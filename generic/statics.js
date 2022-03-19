@@ -1,5 +1,5 @@
 module.exports = {
-    WORLD_SIZE: 20,
+    WORLD_SIZE: 100,
     STATS_MINIMUM_SUM: 40,
     STAT_MINIMUM_VALUE: 4,
     STAT_MAXIMUM_VALUE: 13,
