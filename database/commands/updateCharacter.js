@@ -1,6 +1,6 @@
 const { DatabaseContext } = require('../connections')
 const objects = require('../../generic/objects')
-
+const { dateToText } = require('../../lib/time')
 
 module.exports.updateCharacter = async (character) => {
     const stmt = await DatabaseContext.db.prepare(`UPDATE charachter SET
@@ -49,7 +49,7 @@ module.exports.updateCharacter = async (character) => {
         '@pregnantTime': character.pregnantTime,
         '@job': character.job,
         '@race': character.race,
-        '@birthDate': character.birthDate,
+        '@birthDate': dateToText(character.birthDate),
         '@trait': character.trait,
         '@age': character.age,
         '@health': character.health,

@@ -11,6 +11,7 @@ const { logError } = require('../data/errorFile')
 const { writeMap } = require('../output/visualize')
 const { saveVisualization, saveWorld, worldSize } = require('../config')
 const { Output } = require('../output/output')
+const { insertWorld } = require('../database').commands
 
 const setWorldStartDate = (options) => {
     const date = copyObject(objects.date)
@@ -38,6 +39,8 @@ const generateWorld = async (options = {}) => {
             err.message = e.message
             errors.push(err)
         }
+
+        await insertWorld(world)
     }
     catch (e) {
         const err = objects.error

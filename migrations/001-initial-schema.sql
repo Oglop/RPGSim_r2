@@ -102,7 +102,7 @@ CREATE TABLE skill
     characterId     text,
     name            text,
     statsBase       integer,
-    luckTest:       integer
+    luckTest       integer
 );
 
 CREATE TABLE troop

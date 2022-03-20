@@ -1,5 +1,6 @@
 const { DatabaseContext } = require('../connections')
-const { dwelling } = require('../../generic/objects')
+const objects = require('../../generic/objects')
+const { copyObject } = require('../../lib/utils')
 
 module.exports.getDwellingById = async (x, y) => {
     const stmt = await DatabaseContext.db.prepare(`
@@ -21,11 +22,12 @@ module.exports.getDwellingById = async (x, y) => {
             guards 
         FROM dwelling 
         WHERE x = @x 
-        AND y = @y ;`)
+        AND y = @y;`)
     await stmt.bind({
         '@x': x, 
         '@y': y
     })
     const obj = await stmt.get()
-    return { dwelling, ...obj }
+    const dwelling = copyObject(objects.dwelling)
+    return { ...dwelling, ...obj }
 }

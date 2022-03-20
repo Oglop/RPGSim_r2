@@ -521,7 +521,6 @@ const visualizeMap = (map) => {
  */
 module.exports.build = async (options) => {
     try {
-        const worldSize = options.size ? options.size : WORLD_SIZE;
         const map = generateBaseMap( options.worldId )
         generateTempratures(map)
         generateBaseElevation(map, {})

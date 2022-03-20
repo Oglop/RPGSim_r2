@@ -1,5 +1,6 @@
 const { DatabaseContext } = require('../connections')
-const { dwelling } = require('../../generic/objects')
+const objects = require('../../generic/objects')
+const { copyObject } = require('../../lib/utils')
 
 module.exports.getDwellingById = async (id) => {
     const stmt = await DatabaseContext.db.prepare(`
@@ -24,6 +25,7 @@ module.exports.getDwellingById = async (id) => {
     await stmt.bind({
         '@id': id
     })
-    const obj = await stmt.get()
-    return { dwelling, ...obj }
+    const tmp = await stmt.get()
+    const dwelling = copyObject(objects.dwelling)
+    return { ...dwelling, ...tmp }
 }

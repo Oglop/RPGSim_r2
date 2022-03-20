@@ -9,20 +9,24 @@ const { Output } = require('./output/output')
 
 const main = async (args) => {
     try {
+        const useExistingWorld = (args.worldId) ? true : false
+        let world = {}
+
         await migrate()
         const output = (!args.outputType) ? consoleType : htmlType
         Output.setPrinter(output)
         //Output.print('World is born')
-        const world = await generateWorld()
+        if (!useExistingWorld) {
+            world = await generateWorld()
+        }
         world.parties = createParties( {date: world.date, world} )
         for (let i=0;i<80;i++) {
             next(world, output)
         }
         
     } catch (e) {
-        console.log(e.message)
+        console.log(JSON.stringify(e))
     }
 }
 
 main({});
-

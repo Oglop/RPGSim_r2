@@ -1,4 +1,5 @@
 const { DatabaseContext } = require('../connections')
+const { dateToText } = require('../../lib/time')
 
 module.exports.insertCharacter = async (character) => {
     const stmt = await DatabaseContext.db.prepare(`INSERT INTO character (
@@ -84,7 +85,7 @@ module.exports.insertCharacter = async (character) => {
         '@pregnantTime': character.pregnantTime,
         '@job': character.job,
         '@race': character.race,
-        '@birthDate': character.birthDate,
+        '@birthDate': dateToText(character.birthDate),
         '@trait': character.trait,
         '@age': character.age,
         '@health': character.health,
