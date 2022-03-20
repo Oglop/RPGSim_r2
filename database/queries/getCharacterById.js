@@ -2,6 +2,7 @@ const { DatabaseContext } = require('../connections')
 const objects = require('../../generic/objects')
 const { copyObject } = require('../../lib/utils')
 const { textToDate } = require('../../lib/time')
+const { stats } = require('../../generic/objects')
 
 module.exports.getCharacterById = () => {
     const stmt = await DatabaseContext.db.prepare(`
@@ -50,5 +51,13 @@ module.exports.getCharacterById = () => {
     })
     const tmp = await stmt.get()
     const character = copyObject(objects.character)
-    return { ...character, ...tmp, birthDate: textToDate(tmp.birthDate) }
+    return { ...character, ...tmp, birthDate: textToDate(tmp.birthDate), stats: {
+        str: tmp.str, 
+        vit: tmp.vit,
+        agi: tmp.agi,
+        wis: tmp.wis,
+        int: tmp.int,
+        cha: tmp.cha,
+        luc: tmp.luc
+    }}
 }

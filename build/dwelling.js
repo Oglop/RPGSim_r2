@@ -1,4 +1,5 @@
 const objects = require('../generic/objects')
+const { logError } = require('../data/errorFile')
 const { getDwellingName } = require('../generic/names')
 const { generateID, copyObject, getRandomNumberInRange, chance } = require('../lib/utils')
 const { getDwarfWord } = require('../lib/language')
@@ -62,38 +63,36 @@ const addDefenses = (dwelling) => {
  * }
  * @returns {object} dwelling
  */
-module.exports.build = (position, options) => {
-    return new Promise( async (resolve, reject) => {
-        // Values from options
-        try {
-            const d = copyObject(objects.dwelling)
-            d.id = generateID()
-            d.name = getDwellingName()
-            d.x = position.x
-            d.y = position.y
-            d.type = (options.type) ? options.type : ENUM_DWELLINGS.TOWN
-            d.size = (options.dwellingSize) ? options.dwellingSize : ENUM_DWELLING_SIZE.TOWN
-            if (options.army) { d.army = options.army }
-            //d.citizens = (options.citizens) ? d.citizens = options.citizens : copyObject(objects.citizens)
-            addCitizens(d)
-    
-            await bCourt.build(d, {
-                date: options.date
-            })
-    
-            // set ruler and stores
-            if (options.ruler) { d.ruler = options.ruler }
-            if (options.nobles) { d.nobles = options.nobles }
-            addStores(d)
-    
-            // set defenses
-            addDefenses(d)
-            resolve(d)
-            
-        } catch (e) {
-            reject(e.message)
-        }   
-        
-    })
-    
+module.exports.build = async (position, options) => {
+    try {
+        const d = copyObject(objects.dwelling)
+        d.id = generateID()
+        d.name = getDwellingName()
+        d.x = position.x
+        d.y = position.y
+        d.type = (options.type) ? options.type : ENUM_DWELLINGS.TOWN
+        d.size = (options.dwellingSize) ? options.dwellingSize : ENUM_DWELLING_SIZE.TOWN
+        if (options.army) { d.army = options.army }
+        //d.citizens = (options.citizens) ? d.citizens = options.citizens : copyObject(objects.citizens)
+        addCitizens(d)
+
+        await bCourt.build(d, {
+            date: options.date
+        })
+
+        // set ruler and stores
+        if (options.ruler) { d.ruler = options.ruler }
+        if (options.nobles) { d.nobles = options.nobles }
+        addStores(d)
+
+        // set defenses
+        addDefenses(d)
+        return d
+    } catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'build.dwelling'
+        err.message = e.message                                                                                                                      
+        logError(err)
+    }   
 }
