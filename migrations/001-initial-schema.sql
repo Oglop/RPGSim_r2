@@ -9,7 +9,8 @@ CREATE TABLE character
 (
     id              text,
     name            text,
-    description     text,
+    title           text,
+    [description]     text,
     gender          integer,
     marriedTo       text,
     mother          text,
@@ -32,12 +33,12 @@ CREATE TABLE character
     head            text,
     weaponHand      text,
     shieldHand      text,
-    body            text
-    str             integer,
+    body            text,
+    str           integer,
     vit             integer,
     agi             integer,
     wis             integer,
-    int             integer,
+    int           integer,
     cha             integer,
     luc             integer
 );
@@ -46,7 +47,15 @@ CREATE TABLE court
 (
     id          text,
     dwellingId  integer,
-    rulerId     text
+    rulerId     text,
+    coatOfArms  text
+);
+
+CREATE TABLE advisor
+(
+    id              text,
+    characterId     text,
+    courtId         text
 );
 
 CREATE TABLE dwelling 

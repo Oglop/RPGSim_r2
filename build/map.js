@@ -435,7 +435,7 @@ module.exports.setDwellings = (map) => {
     */
 }
 
-const generateDwellings = (map) => {
+const generateDwellings = async (map, options) => {
     const dwellingTypes = [
         ENUM_DWELLINGS.WOOD_ELF,
         ENUM_DWELLINGS.DWARF,
@@ -465,7 +465,11 @@ const generateDwellings = (map) => {
 
                 if (dwellingSize == ENUM_DWELLING_SIZE.CAPITAL) { capitalPlaced = true }
 
-                const d = dwellingsBuilder.build(dwellingPoints[i], { type, dwellingSize })
+                const d = await dwellingsBuilder.build(dwellingPoints[i], { 
+                    type, 
+                    dwellingSize ,
+                    date: options.date
+                })
                 map[d.x][d.y].dwellingId = d.id
                 allDwellings.push(d)
             } catch (e) {
@@ -527,7 +531,7 @@ module.exports.build = async (options) => {
         generateMountains(map)
         generateLakes(map)
         setBiome(map)
-        const dwellings = generateDwellings(map)
+        const dwellings = await generateDwellings(map, { date: options.date })
         generateFarmlands(map, dwellings)
         windsOfMagic(map)
         //setLandmarks(map, worldSize)

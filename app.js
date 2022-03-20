@@ -1,7 +1,7 @@
 const consoleType = require('./output/console')
 const htmlType = require('./output/html')
 const { migrate } = require('./database').infrastructure
-const { generateWorld } = require('./handlers/worldBuilder')
+const { generateWorld } = require('./handlers/worldBuildingHandler')
 const { createParties } = require('./handlers/partyHandler')
 const { next } = require('./models/turn')
 const { Output } = require('./output/output')

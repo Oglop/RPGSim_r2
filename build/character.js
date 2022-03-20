@@ -16,8 +16,9 @@ const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM, STAT_HEALTH_B
 const { getBirthDate } = require('../lib/time')
 const { logError } = require('../data/errorFile')
 const { getRandomReligion } = require('../generic/religions')
+const { getDescriptionByPersonality } = require('../models/personality')
 const { get } = require('../localization')
-
+const { getBirthDateDescription } = require('../lib/time')
 
 /**
  * edit character stats by race
@@ -166,6 +167,7 @@ const validateBuild = (c) => {
 }
 
 const getCharacterDescription = (name, race, gender, options = {}) => {
+    const religion = (options.religion) ? options.religion : undefined
     const pronoun = (gender == ENUM_GENDER.FEMALE) ? get('system-word-she') : get('system-word-he')
     let hair = ''
     let body = ''
@@ -199,10 +201,18 @@ const getCharacterDescription = (name, race, gender, options = {}) => {
         case 3: eyes = get('character-eyes-brown'); break;
         case 4: eyes = get('character-eyes-gray'); break;
     }
-    const bodyAnA = isVowel(body)
-    const desc1 = capitalizeFirstLetter(`${name} is ${bodyAnA} ${body} ${race}.`)
-    const desc2 = capitalizeFirstLetter(`${pronoun} has ${eyes} eyes and ${hair} hair.`)
-    return `${desc1} ${desc2}`
+    
+    const bodyAnA = isVowel(body) ? get('system-word-an') : get('system-word-a')
+    const descRaceAndBody = capitalizeFirstLetter(`${name} is ${bodyAnA} ${body} ${race}.`)
+    const descLooks = capitalizeFirstLetter(`${pronoun} has ${eyes} eyes and ${hair} hair.`)
+    let descReligion = ``
+    if (religion) {
+        descReligion = capitalizeFirstLetter(get('character-description-religion', [ pronoun, options.religion.name ]))
+    }
+    
+    const descPersonality = capitalizeFirstLetter(get('character-description-personality', [ pronoun, getDescriptionByPersonality(options.personality) ] ))
+    const descBirthDate = capitalizeFirstLetter(get('character-birthDate', [ name, getBirthDateDescription(options.birthDate) ]))
+    return `${descRaceAndBody} ${descLooks} ${descReligion} ${descPersonality} ${descBirthDate}`
 }
 
 /**
@@ -228,11 +238,8 @@ module.exports.build = (options = {}) => {
         c.gender = (options.gender) ? options.gender : (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
         c.religion = (options.religion) ? options.religion : getRandomReligion()
         c.name = getPersonName(c.gender)
-        
         c.age = (options.age ||options.age === 0) ? options.age : getRandomNumberInRange(15, 60)
         c.race = (options.race) ? options.race : getRandomRace()
-        c.description = getCharacterDescription(c.name, c.race, c.gender)
-
         c.job = (options.job) ? options.job : getRandomJob()
         c.father = options.father
         c.mother = options.mother
@@ -245,6 +252,11 @@ module.exports.build = (options = {}) => {
         c.languages = languageBuilder.build(c)
         c.birthDate = getBirthDate(options.date, c.age)
         personalityBuilder.build(c)
+        c.description = getCharacterDescription(c.name, c.race, c.gender, {
+            religion: c.religion,
+            personality: c.personality,
+            birthDate: c.birthDate
+        })
         validateBuild(c)
     } catch (e) {
         const err = objects.error

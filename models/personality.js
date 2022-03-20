@@ -8,6 +8,7 @@ const {
     MAX_RELATIONSHIP_VALUE, 
     MIN_RELATIONSHIP_VALUE 
 } = require('../generic/statics')
+const { get } = require('../localization')
 
 /*
 AMBITIOUS, // starts projects wants to be ruler
@@ -215,6 +216,21 @@ const partyDailyRelationShipRoll = (party, dailyStatus) =>  {
         }
     }
 }
+
+const getDescriptionByPersonality = (personality) => {
+    switch (personality) {
+        case ENUM_PERSONALITIES.AMBITIOUS: return get('personality-description-ambitious');
+        case ENUM_PERSONALITIES.CRUEL: return get('personality-description-cruel');
+        case ENUM_PERSONALITIES.GIFTED: return get('personality-description-gifted');
+        case ENUM_PERSONALITIES.GREEDY: return get('personality-description-greedy');
+        case ENUM_PERSONALITIES.INTELLIGENT: return get('personality-description-intelligent');
+        case ENUM_PERSONALITIES.KIND: return get('personality-description-kind');
+        case ENUM_PERSONALITIES.LAZY: return get('personality-description-lazy');
+        case ENUM_PERSONALITIES.NAIVE: return get('personality-description-naive');
+        case ENUM_PERSONALITIES.PARANOID: return get('personality-description-paranoid');
+        case ENUM_PERSONALITIES.RELIGIOUS: return get('personality-description-religious');
+    }
+}
 /**
  * 
  * @param {*} party 
@@ -232,5 +248,6 @@ module.exports = {
     compabilityCheck,
     personalityDealsWith,
     partyDailyRelationShipRoll,
-    partyExtraRelationshipRoll
+    partyExtraRelationshipRoll,
+    getDescriptionByPersonality
 }

@@ -107,10 +107,12 @@ module.exports.get = (id, args) => {
         case 'character-body-round': return 'round'
         case 'character-body-slim': return 'slim'
         case 'character-body-muscular': return 'muscular'
-        
+        case 'character-description-religion': return `${args[0]} worships ${args[1]}.`
+        case 'character-description-personality': return `${args[0]} often appears ${args[1]}.`
         case 'character-job-pesant-pessant': return 'pessant'
         case 'character-job-pesant-farmer': return 'farmer'
         
+        case 'character-birthDate': return `${args[0]} was born in the ${args[1]}.`
         case 'character-job-warrior-barbarian': return 'barbarian'
         case 'character-job-warrior-gladiator': return 'gladiator'
 
@@ -189,15 +191,10 @@ module.exports.get = (id, args) => {
         case 'event-rest-season-spring': return `A cold spring night. A cold wind is blowing from the ${args[0]}.`
         case 'event-rest-deepsleep-description': return `Is a beutiful ${args[0]} night.`
         case 'event-rest-deepsleep-resolve': return `${args[0]} wakes up feeling refreshed.`
-        
-        
         case 'event-rest-argument-description': return `At camp an argument breaks out between the members of ${args[0]}.`
         case 'event-rest-argument-success': return `${args[0]} stops the argument in time, everyone goes to sleep.`
         case 'event-rest-argument-resolved': return `A fight breaks out and ${args[0]} starts to misstrust the rest of the party.`
         //case 'event-rest--': return `${args[0]} .`
-
-
-
         case 'familyTree-build-1': return `- Year of ${args[0]} -`
         case 'familyTree-peopleDie-1': return `${args[0]} of ${args[1]} dies from old age.`
         case 'familyTree-moves-1': return `${args[0]} founded the town of ${args[1]}.`
@@ -205,6 +202,16 @@ module.exports.get = (id, args) => {
         case 'familyTree-newFamily-1': return `The house of ${args[0]} enters the nobility of ${args[1]}.`
         case 'party-name-template': return `${args[0]} and party`
         case 'party-is-in-dwelling': return `${args[0]} is in ${args[1]}.`
+        case 'personality-description-ambitious' : return `to be working hard`
+        case 'personality-description-cruel' : return `cold and calculating`
+        case 'personality-description-gifted' : return `to be one step ahead`
+        case 'personality-description-greedy' : return `wanting more`
+        case 'personality-description-intelligent' : return `to be in deep thoughts`
+        case 'personality-description-kind' : return `to be smiling`
+        case 'personality-description-lazy' : return `to be uninsterested`
+        case 'personality-description-naive' : return `take others at their word`
+        case 'personality-description-paranoid' : return `nervous`
+        case 'personality-description-religious' : return `to be praying`
 
         case 'system-word-a': return 'a'
         case 'system-word-an': return 'an'
@@ -216,6 +223,7 @@ module.exports.get = (id, args) => {
         case 'system-word-four': return 'four'
         case 'system-word-five': return 'five'
         case 'system-word-six': return 'six'
+        case 'time-birthDate': return `month of ${args[0]} in the year ${args[1]}`
     }
     return ''
 }

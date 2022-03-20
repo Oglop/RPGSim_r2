@@ -1,26 +1,33 @@
 const { migrate } = require('./infrastructure/migrate')
+
 const { insertRoom } = require('./commands/insertRoom')
 const { insertDwelling } = require('./commands/insertDwelling')
+const { insertCharacter } = require('./commands/insertCharacter')
+const { insertWorld } = require('./commands/insertWorld')
+const { insertCourt } = require('./commands/insertCourt')
+const { insertAdvisor } = require('./commands/insertAdvisor')
+
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
+const { updateCharacter } = require('./commands/updateCharacter')
+const { updateWorldDate } = require('./commands/updateWorldDate')
+
 const { getRoomByCoordinates } = require('./queries/getRoomByCoordinates')
 const { getDwellingByCoordinates } = require('./queries/getDwellingByCoordinates')
 const { getDwellingById } = require('./queries/getDwellingById')
-const { insertCharacter } = require('./commands/insertCharacter')
-const { updateCharacter } = require('./commands/updateCharacter')
-const { insertWorld } = require('./commands/insertWorld')
-const { updateWorldDate } = require('./commands/updateWorldDate')
 const { getWorldById } = require('./queries/getWorldById')
 
 module.exports = {
     commands: {
+        insertAdvisor: (advisor) => insertAdvisor(advisor),
         insertCharacter: (character) => insertCharacter(character),
-        insertRoom: (room) => insertRoom(room),
+        insertCourt: (court) => insertCourt(court),
         insertDwelling: (dwelling) => insertDwelling(dwelling),
+        insertRoom: (room) => insertRoom(room),
         insertWorld: (world) => insertWorld(world),
         updateCharacter: (character) => updateCharacter(character),
-        updateRoom: (room) => updateRoom(room),
         updateDwelling: (dwelling) => updateDwelling(dwelling),
+        updateRoom: (room) => updateRoom(room),
         updateWorldDate: (world) => updateWorldDate(world)
     },
     queries: {

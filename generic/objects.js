@@ -26,6 +26,7 @@ module.exports = {
     character: {
         id: undefined,
         name: undefined,
+        title: undefined,
         description: undefined,
         gender: undefined,
         marriedTo: undefined,
@@ -94,8 +95,15 @@ module.exports = {
     },
     court: {
         id: undefined,
-        ruler: undefined,
+        dwellingId: undefined,
+        rulerId: undefined,
+        coatOfArms: undefined,
         advisors: []
+    },
+    advisor: {
+        id: undefined,
+        characterId: undefined,
+        courtId: undefined
     },
     dwelling: {
         id: undefined,

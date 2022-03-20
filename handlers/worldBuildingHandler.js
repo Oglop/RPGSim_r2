@@ -15,7 +15,7 @@ const { insertWorld } = require('../database').commands
 
 const setWorldStartDate = (options) => {
     const date = copyObject(objects.date)
-    date.year = 0
+    date.year = 500
     date.month = 2
     date.day = 1
     return date
@@ -25,12 +25,16 @@ const generateWorld = async (options = {}) => {
     const world = copyObject(objects.world)
     const errors = []
     try {
-        const size = (options.size) ? options.size : worldSize
         world.id = generateID()
         world.name = 'Heria'
-        world.date = setWorldStartDate({})
+        
         try {
-            world.map = await mapBuilder.build( { size, worldId: world.id } )
+            world.date = setWorldStartDate({})
+            world.map = await mapBuilder.build( 
+                { 
+                    worldId: world.id,
+                    date: world.date,
+                })
         } catch (e) {
             const err = objects.error
             err.file = __filename
@@ -55,47 +59,6 @@ const generateWorld = async (options = {}) => {
         });
     }
     return world
-    
-    
-
-
-    
-    /* while (atempts > 0) {
-        try {
-            world.map = mapBuilder.build( { size: 30 } )
-            break
-        } catch (e) {
-            if (e instanceof WorldGenerationFailedError) {
-                atempts--
-                console.log(e.message)
-            }
-            const err = objects.error
-            err.file = __filename
-            err.function = 'generateWorld'
-            err.message = e.message
-            logError(err)
-        }
-    }
-    */
-    
-    /*
-    familyTreeBuilder.build(world, output, {
-        years: 200,
-        noOfStartFamilies: 4,
-        noOfStartDwellings: 3
-    })
-
-    mapBuilder.setDwellings(world.map, size)
-    mapBuilder.buildFarmlands(world.map, size)
-    mapBuilder.buildLandMarks(world.map, size)
-    //const dwellings = getDwellingsFromMap(world.map)
-    //world.families = familyBuilder.build({ dwellings, date: world.date })
-    
-    world.darkness = 10
-    if (saveVisualization) { writeMap(world.map, world.id) }
-    if (saveWorld) { save(world, { id: world.id, fileType: ENUM_FILE_TYPE.WORLD }) }
-    */
-    
 }
 
 module.exports = {

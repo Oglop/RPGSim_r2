@@ -2,13 +2,26 @@ const {
     copyObject,
     chance,
     generateID,
-    getRandomNumberInRange
+    getRandomNumberInRange,
+    getRandomElementFromArray,
 } = require('../lib/utils')
 const objects = require('../generic/objects')
-const { ENUM_RACE_NAME
+const { getRandomReligion } = require('../generic/religions')
+const { 
+    ENUM_JOB_NAMES,
+    ENUM_GENDER,
+    ENUM_RACE_NAME,
+    ENUM_DWELLINGS,
+    ENUM_DWELLING_SIZE
  } = require('../generic/enums')
 const familyBuilder = require('../build/families')
+const bCharacter = require('./character')
+const bCoatOfArms = require('./coatOfArms')
 const { getRaceFromDwellingType } = require('../models/dwelling')
+const { 
+    insertAdvisor, 
+    insertCharacter,
+    insertCourt } = require('../database').commands
 
 /**
  * build court
@@ -20,14 +33,62 @@ const { getRaceFromDwellingType } = require('../models/dwelling')
  * date: date object
  * }
  */
-module.export.build = (dwelling, options) => {
-
-    const dwellingId = dwelling.id
+module.exports.build = async (dwelling, options) => {
+    const court = copyObject(objects.court)
+    court.id = generateID()
+    court.dwellingId = dwelling.id
+    court.coatOfArms = bCoatOfArms.build()
     const race = getRaceFromDwellingType(dwelling)
-    const rulerFamily = createHistoricFamily({
-        dwellingId,
+    const randomReligion = (chance(50)) ? true : false
+    const religion = getRandomReligion()
+    let min = 1
+    let max = 2
+    switch (dwelling.size) {
+        case ENUM_DWELLING_SIZE.TOWN: min = 2; max = 3; break;
+        case ENUM_DWELLING_SIZE.CITY: min = 4; max = 7; break;
+        case ENUM_DWELLING_SIZE.CAPITAL: min = 6; max = 9; break;
+    }
+    
+    const ruler = bCharacter.build({
+        age: getRandomNumberInRange(18, 60),
+        gender: (chance(50)) ? ENUM_GENDER.FEMALE : ENUM_GENDER.MALE,
         race,
-        date
-    })
-    createHistoricFamily
+        job: ENUM_JOB_NAMES.noble,
+        father: '',
+        mother: '',
+        enforceMinimumSum: false,
+        date: options.date,
+        religion: (!randomReligion) ? religion : getRandomReligion()
+    });
+    try {
+        await insertCharacter(ruler)
+    } catch (e) {
+        console.log(e.message)
+    }
+    
+    court.rulerId = ruler.id
+
+    const noOfAdvisors = getRandomNumberInRange(min, max)
+    for (let i = 0; i < noOfAdvisors; i++) {
+        const character = bCharacter.build({
+            age: getRandomNumberInRange(18, 80),
+            gender: (chance(50)) ? ENUM_GENDER.FEMALE : ENUM_GENDER.MALE,
+            race,
+            job: ENUM_JOB_NAMES.noble,
+            father: '',
+            mother: '',
+            enforceMinimumSum: false,
+            date: options.date,
+            religion: (!randomReligion) ? religion : getRandomReligion()
+        });
+        const advisor = copyObject(objects.advisor)
+        advisor.id = generateID();
+        advisor.characterId = character.id
+        advisor.courtId = court.id
+        court.advisors.push(advisor)
+        
+        await insertAdvisor(advisor)
+        await insertCharacter(character)
+    }
+    await insertCourt(court)
 }

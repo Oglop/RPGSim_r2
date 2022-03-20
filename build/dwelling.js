@@ -7,6 +7,7 @@ const {
     ENUM_DWELLING_CONDITIONS,
     ENUM_DWELLINGS,
 } = require('../generic/enums')
+const bCourt = require('./court')
 
 
 
@@ -56,32 +57,43 @@ const addDefenses = (dwelling) => {
  * build dwelling
  * 
  * @param {ENUM_DWELLINGS} type 
- * @param {object} options 
+ * @param {object} options {
+ *  date: worldDate !
+ * }
  * @returns {object} dwelling
  */
-module.exports.build = (position, options = {}) => {
-    // Values from options
-    const d = copyObject(objects.dwelling)
-    d.id = generateID()
-    d.name = getDwellingName()
-    d.x = position.x
-    d.y = position.y
-    d.type = (options.type) ? options.type : ENUM_DWELLINGS.TOWN
-    d.size = (options.dwellingSize) ? options.dwellingSize : ENUM_DWELLING_SIZE.TOWN
-    if (options.army) { d.army = options.army }
-    d.citizens = (options.citizens) ? d.citizens = options.citizens : copyObject(objects.citizens)
-    addCitizens(d)
+module.exports.build = (position, options) => {
+    return new Promise( async (resolve, reject) => {
+        // Values from options
+        try {
+            const d = copyObject(objects.dwelling)
+            d.id = generateID()
+            d.name = getDwellingName()
+            d.x = position.x
+            d.y = position.y
+            d.type = (options.type) ? options.type : ENUM_DWELLINGS.TOWN
+            d.size = (options.dwellingSize) ? options.dwellingSize : ENUM_DWELLING_SIZE.TOWN
+            if (options.army) { d.army = options.army }
+            //d.citizens = (options.citizens) ? d.citizens = options.citizens : copyObject(objects.citizens)
+            addCitizens(d)
     
-    // set ruler and stores
-    if (options.ruler) { d.ruler = options.ruler }
-    if (options.nobles) { d.nobles = options.nobles }
-    addStores(d)
+            await bCourt.build(d, {
+                date: options.date
+            })
     
-    // set defenses
-    addDefenses(d)
-
-    if (d.ruler && d.nobles && d.citizens && d.army) {
-
-    }
-    return d
+            // set ruler and stores
+            if (options.ruler) { d.ruler = options.ruler }
+            if (options.nobles) { d.nobles = options.nobles }
+            addStores(d)
+    
+            // set defenses
+            addDefenses(d)
+            resolve(d)
+            
+        } catch (e) {
+            reject(e.message)
+        }   
+        
+    })
+    
 }

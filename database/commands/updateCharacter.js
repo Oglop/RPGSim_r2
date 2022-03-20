@@ -5,6 +5,7 @@ const { dateToText } = require('../../lib/time')
 module.exports.updateCharacter = async (character) => {
     const stmt = await DatabaseContext.db.prepare(`UPDATE charachter SET
             name = @name,
+            title = @title,
             description = @description,
             gender = @gender,
             marriedTo = @marriedTo,
@@ -40,6 +41,7 @@ module.exports.updateCharacter = async (character) => {
             id = @id;`)
     await stmt.bind({
         '@name': character.name,
+        '@title': character.title,
         '@description': character.description,
         '@gender': character.gender,
         '@marriedTo': character.marriedTo,
