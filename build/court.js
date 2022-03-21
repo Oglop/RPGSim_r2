@@ -16,12 +16,21 @@ const {
  } = require('../generic/enums')
 const familyBuilder = require('../build/families')
 const bCharacter = require('./character')
-const bCoatOfArms = require('./coatOfArms')
 const { getRaceFromDwellingType } = require('../models/dwelling')
+const { get } = require('../localization')
 const { 
     insertAdvisor, 
     insertCharacter,
     insertCourt } = require('../database').commands
+
+const getTitleByDwellingSize = (size) => {
+    switch (size) {
+        case ENUM_DWELLING_SIZE.VILLAGE: return get('character-ruler-title-village');
+        case ENUM_DWELLING_SIZE.TOWN: return get('character-ruler-title-town');
+        case ENUM_DWELLING_SIZE.CITY: return get('character-ruler-title-city');
+        case ENUM_DWELLING_SIZE.CAPITAL: return get('character-ruler-title-capital');
+    }
+}
 
 /**
  * build court
@@ -37,7 +46,7 @@ module.exports.build = async (dwelling, options) => {
     const court = copyObject(objects.court)
     court.id = generateID()
     court.dwellingId = dwelling.id
-    court.coatOfArms = bCoatOfArms.build()
+    
     const race = getRaceFromDwellingType(dwelling)
     const randomReligion = (chance(50)) ? true : false
     const religion = getRandomReligion()
@@ -58,7 +67,8 @@ module.exports.build = async (dwelling, options) => {
         mother: '',
         enforceMinimumSum: false,
         date: options.date,
-        religion: (!randomReligion) ? religion : getRandomReligion()
+        religion: (!randomReligion) ? religion : getRandomReligion(),
+        title: getTitleByDwellingSize(dwelling.size)
     });
     try {
         await insertCharacter(ruler)
@@ -79,7 +89,8 @@ module.exports.build = async (dwelling, options) => {
             mother: '',
             enforceMinimumSum: false,
             date: options.date,
-            religion: (!randomReligion) ? religion : getRandomReligion()
+            religion: (!randomReligion) ? religion : getRandomReligion(),
+            title: get('character-ruler-title-lord')
         });
         const advisor = copyObject(objects.advisor)
         advisor.id = generateID();

@@ -2,7 +2,6 @@ const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { getDwellingName } = require('../generic/names')
 const { generateID, copyObject, getRandomNumberInRange, chance } = require('../lib/utils')
-const { getDwarfWord } = require('../lib/language')
 const { 
     ENUM_DWELLING_SIZE,
     ENUM_DWELLING_CONDITIONS,
@@ -82,7 +81,6 @@ module.exports.build = async (position, options) => {
 
         // set ruler and stores
         if (options.ruler) { d.ruler = options.ruler }
-        if (options.nobles) { d.nobles = options.nobles }
         addStores(d)
 
         // set defenses

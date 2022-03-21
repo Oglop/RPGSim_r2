@@ -2,6 +2,8 @@ const objects = require('../generic/objects')
 const skillsBuilder = require('./skill')
 const languageBuilder = require('./languages')
 const personalityBuilder = require('./personality')
+const bCoatOfArms = require('./coatOfArms')
+const { getFamilyName } = require('../generic/names')
 const { 
     copyObject, 
     generateID, 
@@ -184,7 +186,7 @@ const getCharacterDescription = (name, race, gender, options = {}) => {
         case 7: hair = get('character-haircolor-white'); break;
         case 8: hair = get('character-haircolor-red'); break;
     }
-    i = getRandomNumberInRange(0, 5)
+    i = getRandomNumberInRange(0, 12)
     switch(i) {
         case 0: body = get('character-body-tall'); break;
         case 1: body = get('character-body-short'); break;
@@ -192,6 +194,13 @@ const getCharacterDescription = (name, race, gender, options = {}) => {
         case 3: body = get('character-body-round'); break;
         case 4: body = get('character-body-slim'); break;
         case 5: body = get('character-body-muscular'); break;
+        case 6: body = get('character-body-slender'); break;
+        case 7: body = get('character-body-tenuous'); break;
+        case 8: body = get('character-body-feeble'); break;
+        case 9: body = get('character-body-potent'); break;
+        case 10: body = get('character-body-sinewy'); break;
+        case 11: body = get('character-body-potent'); break;
+        case 12: body = get('character-body-vivid'); break;
     }
     i = getRandomNumberInRange(0, 4)
     switch(i) {
@@ -241,6 +250,11 @@ module.exports.build = (options = {}) => {
         c.age = (options.age ||options.age === 0) ? options.age : getRandomNumberInRange(15, 60)
         c.race = (options.race) ? options.race : getRandomRace()
         c.job = (options.job) ? options.job : getRandomJob()
+        if (c.job == ENUM_JOB_NAMES.noble) {
+            c.coatOfArms = bCoatOfArms.build()
+            c.family = getFamilyName()
+            if (options.title) { c.title = options.title }
+        }
         c.father = options.father
         c.mother = options.mother
         c.pregnant = false

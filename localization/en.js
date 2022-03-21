@@ -102,6 +102,13 @@ module.exports.get = (id, args) => {
         case 'character-eyes-brown': return 'brown'
         case 'character-eyes-gray': return 'gray'
         case 'character-body-tall': return 'tall'
+        case 'character-body-slender': return 'slender'
+        case 'character-body-tenuous': return 'tenuous'
+        case 'character-body-feeble': return 'feeble'
+        case 'character-body-potent': return 'potent'
+        case 'character-body-sinewy': return 'sinewy'
+        case 'character-body-potent': return 'potent'
+        case 'character-body-vivid': return 'vivid'
         case 'character-body-short': return 'short'
         case 'character-body-stocky': return 'stocky'
         case 'character-body-round': return 'round'
@@ -111,10 +118,14 @@ module.exports.get = (id, args) => {
         case 'character-description-personality': return `${args[0]} often appears ${args[1]}.`
         case 'character-job-pesant-pessant': return 'pessant'
         case 'character-job-pesant-farmer': return 'farmer'
-        
         case 'character-birthDate': return `${args[0]} was born in the ${args[1]}.`
         case 'character-job-warrior-barbarian': return 'barbarian'
         case 'character-job-warrior-gladiator': return 'gladiator'
+        case 'character-ruler-title-lord': return 'Lord'
+        case 'character-ruler-title-village': return 'Mayor'
+        case 'character-ruler-title-town': return 'Earl'
+        case 'character-ruler-title-city': return 'Baron'
+        case 'character-ruler-title-capital': return 'King'
 
         case 'dir-east': return 'east'
         case 'dir-north': return 'north'

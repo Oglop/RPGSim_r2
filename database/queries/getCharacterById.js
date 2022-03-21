@@ -9,6 +9,8 @@ module.exports.getCharacterById = () => {
         SELECT
             id,
             name,
+            family,
+            coatOfArms
             title,
             description,
             gender,

@@ -26,6 +26,8 @@ module.exports = {
     character: {
         id: undefined,
         name: undefined,
+        family: undefined,
+        coatOfArms: undefined,
         title: undefined,
         description: undefined,
         gender: undefined,
@@ -88,16 +90,10 @@ module.exports = {
         x: undefined,
         y: undefined
     },
-    ruler: {
-        id: undefined,
-        name: undefined,
-        family: undefined
-    },
     court: {
         id: undefined,
         dwellingId: undefined,
         rulerId: undefined,
-        coatOfArms: undefined,
         advisors: []
     },
     advisor: {
@@ -138,6 +134,7 @@ module.exports = {
         power: 0
     },
     language: {
+        characterId: undefined,
         language: undefined,
         mastery: 0
     },

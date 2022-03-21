@@ -5,6 +5,8 @@ module.exports.insertCharacter = async (character) => {
     const stmt = await DatabaseContext.db.prepare(`INSERT INTO character (
         id,
         name,
+        family,
+        coatOfArms,
         description,
         title,
         gender,
@@ -42,6 +44,8 @@ module.exports.insertCharacter = async (character) => {
     (
         @id,
         @name,
+        @family,
+        @coatOfArms,
         @description,
         @title,
         @gender,
@@ -78,6 +82,8 @@ module.exports.insertCharacter = async (character) => {
     await stmt.bind({
         '@id': character.id,
         '@name': character.name,
+        '@family': character.family,
+        '@coatOfArms': character.coatOfArms,
         '@description': character.description,
         '@title': character.title,
         '@gender': character.gender,

@@ -14,8 +14,8 @@ module.exports.insertAdvisor = async (advisor) => {
     );`)
     await stmt.bind({
         '@id': advisor.id,
-        '@characterId': advisor.dwellingId,
-        '@courtId': advisor.rulerId
+        '@characterId': advisor.characterId,
+        '@courtId': advisor.courtId
     })
     await stmt.run()
 }
