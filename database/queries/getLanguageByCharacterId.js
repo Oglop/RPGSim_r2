@@ -18,7 +18,7 @@ module.exports.getLanguageByCharacterId = async (id) => {
     })*/
     
     const tmp = await stmt.all({
-        '@characterId': language.characterId,
+        '@characterId': id,
     })
     //const language = copyObject(objects.language)
     return tmp //{ ...language, ...tmp }

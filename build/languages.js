@@ -136,7 +136,9 @@ module.exports.build = (c) => {
                 checkAndAddLanguage(ENUM_LANGUAGES.highElven, lang, ENUM_MASTERY_LEVELS.SKILLED)
             }
         }
-
+        lang.forEach(l => {
+            l.characterId = c.id
+        });
 
         return lang
     } catch (e) {

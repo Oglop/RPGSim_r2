@@ -276,4 +276,7 @@ module.exports.build = (c) => {
         }
     }
     setStartMasteryPoints(c)
+    c.skills.forEach(s => {
+        s.characterId = c.id
+    });
 }

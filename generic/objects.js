@@ -235,9 +235,11 @@ module.exports = {
         status: undefined
     },
     skill: {
+        characterId: undefined,
         name: undefined,
         statsBase: undefined,
-        luckTest: false
+        luckTest: false,
+        mastery: 0
     },
     date: {
         year: 0,

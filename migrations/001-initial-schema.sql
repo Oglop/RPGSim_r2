@@ -1,4 +1,11 @@
 -- Up
+CREATE TABLE advisor
+(
+    id              text,
+    characterId     text,
+    courtId         text
+);
+
 CREATE TABLE army
 (
     id          text,
@@ -52,12 +59,7 @@ CREATE TABLE court
     rulerId     text
 );
 
-CREATE TABLE advisor
-(
-    id              text,
-    characterId     text,
-    courtId         text
-);
+
 
 CREATE TABLE dwelling 
 (
@@ -111,8 +113,9 @@ CREATE TABLE skill
 (
     characterId     text,
     name            text,
-    statsBase       integer,
-    luckTest       integer
+    statsBase       text,
+    luckTest       integer,
+    mastery         integer
 );
 
 CREATE TABLE troop

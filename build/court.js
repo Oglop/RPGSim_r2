@@ -21,7 +21,10 @@ const { get } = require('../localization')
 const { 
     insertAdvisor, 
     insertCharacter,
-    insertCourt } = require('../database').commands
+    insertCourt,
+    insertLanguage,
+    insertSkill
+ } = require('../database').commands
 
 const getTitleByDwellingSize = (size) => {
     switch (size) {
@@ -71,6 +74,8 @@ module.exports.build = async (dwelling, options) => {
         title: getTitleByDwellingSize(dwelling.size)
     });
     try {
+        for (let l of ruler.languages) { await insertLanguage(l) }
+        for (let s of ruler.skills) { await insertSkill(s) }
         await insertCharacter(ruler)
     } catch (e) {
         console.log(e.message)
@@ -99,6 +104,8 @@ module.exports.build = async (dwelling, options) => {
         court.advisors.push(advisor)
         
         await insertAdvisor(advisor)
+        for (let l of character.languages) { await insertLanguage(l) }
+        for (let s of character.skills) { await insertSkill(s) }
         await insertCharacter(character)
     }
     await insertCourt(court)
