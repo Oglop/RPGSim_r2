@@ -70,7 +70,8 @@ module.exports = {
         luc: 0
     },
     relation: {
-        id: undefined,
+        characterId: undefined,
+        id: undefined,        
         points: 0
     },
     room: {
