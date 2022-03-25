@@ -2,7 +2,7 @@
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { restThreshold, restThresholdMultiplyer } = require('../config')
-const { getPercetage, getRandomNumberInRange, copyObject, getRandomElementFromArray } = require('../lib/utils')
+const { getPercetage, getRandomNumberInRange, copyObject, getRandomElementFromArray, point2d } = require('../lib/utils')
 const { 
     ENUM_QUEST_STATUS,
     ENUM_EXPLORE_STATUS
@@ -10,6 +10,7 @@ const {
 const { get } = require('../localization')
 const { WORLD_SIZE } = require('../generic/statics')
 const { party } = require('../generic/objects')
+const { getRoomByCoordinates } = require('../database').queries
 
 
 const checkForRest = (party) => {
@@ -26,12 +27,16 @@ const checkForRest = (party) => {
  * @param {object} output 
  * @returns {boolean}
  */
-const isInDwelling = (world, party, output) => {
+const isInDwelling = async (world, party, output) => {
     try {
-        if (world.map[party.position.x][party.position.y].dwelling != undefined) {
-            output.print(get('party-is-in-dwelling', [ party.name, world.map[party.position.x][party.position.y].dwelling.name ]))
+        const room = await getRoomByCoordinates(party.position.x, party.position.y)
+        if (room.dwellingId) {
             return true
         }
+        /*if (world.map[party.position.x][party.position.y].dwelling != undefined) {
+            output.print(get('party-is-in-dwelling', [ party.name, world.map[party.position.x][party.position.y].dwelling.name ]))
+            return true
+        }*/
         return false
     } catch(e) {
         const err = objects.error
@@ -66,17 +71,14 @@ const isOnQuestLocation = (party) => {
  * returns a position 
  * @param {object} world 
  */
-const getStartingPosition = (world) => {
+const getStartingPosition = (map) => {
     try {
         let validPosition = false
         while (!validPosition) {
             const x = getRandomNumberInRange(0, WORLD_SIZE)
             const y = getRandomNumberInRange(0, WORLD_SIZE)
-            if (world.map[x][y].exploreStatus != ENUM_EXPLORE_STATUS.obstacle) {
-                const p = copyObject(objects.point)
-                p.x = x 
-                p.y = y
-                return p
+            if (map[x][y].exploreStatus != ENUM_EXPLORE_STATUS.obstacle) {
+                return point2d(x, y)
             }
         }
     } catch(e) {

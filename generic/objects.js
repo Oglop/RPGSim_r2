@@ -313,10 +313,10 @@ module.exports = {
         members: [],
         path: [],
         state: ENUM_PARTY_STATE.SEEK_NEW_QUEST,
-        position: { x: 0, y: 0 },
+        position: { x: -1, y: -1 },
         quest: {},
         questStatus: ENUM_QUEST_STATUS.NONE,
-        questGoal: { x: 0, y: 0 },
+        questGoal: { x: -1, y: -1 },
         crowns:0,
         food:0
     }

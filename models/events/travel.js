@@ -1,4 +1,4 @@
-const { copyObject, chance, getRandomNumber, getRandomElementFromArray } = require('../../lib/utils')
+const { copyObject, chance, getRandomNumber, getRandomElementFromArray, getRandomNumberInRange } = require('../../lib/utils')
 const { get } = require('../../localization')
 const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH, 
     ENUM_ENEMY_TYPE, 
@@ -15,8 +15,8 @@ const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH,
 } = require('../../generic/enums')
 const { personalityDealsWith } = require('../../models/personality')
 const { getSeason } = require('../../lib/time')
-const monsterBuilder = require('../../build/monster')
-const charachterBuilder = require('../../build/character')
+const bMonster = require('../../build/monster')
+const bCharacter = require('../../build/character')
 const objects = require('../../generic/objects')
 
 const farm = (event, world, options) => {

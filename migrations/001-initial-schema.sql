@@ -96,17 +96,17 @@ CREATE TABLE relation
 
 CREATE TABLE room 
 (
-    id          integer primary key, 
-    worldId     text,
-    x           integer, 
-    y           integer,
-    magicWind   integer,
-    elevation   integer,
-    temprature  integer,
-    biome       integer,
-    dwelling    text,
-    description text,
-    exploreStatus integer
+    id              integer primary key, 
+    worldId         text,
+    x               integer, 
+    y               integer,
+    magicWind       integer,
+    elevation       integer,
+    temprature      integer,
+    biome           integer,
+    dwellingId      text,
+    description     text,
+    exploreStatus   integer
 );
 
 CREATE TABLE skill

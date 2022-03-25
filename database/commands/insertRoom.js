@@ -25,7 +25,7 @@ module.exports.insertRoom = async (room) => {
             elevation,
             temprature,
             biome,
-            dwelling,
+            dwellingId,
             description,
             exploreStatus
         ) 
@@ -38,7 +38,7 @@ module.exports.insertRoom = async (room) => {
             @elevation,
             @temprature,
             @biome,
-            @dwelling,
+            @dwellingId,
             @description,
             @exploreStatus
         );`)
@@ -50,7 +50,7 @@ module.exports.insertRoom = async (room) => {
         '@elevation': room.elevation,
         '@temprature': room.temprature,
         '@biome': room.biome,
-        '@dwelling': room.dwelling,
+        '@dwellingId': room.dwellingId,
         '@description': room.description,
         '@exploreStatus': room.exploreStatus
     })

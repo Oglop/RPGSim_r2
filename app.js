@@ -19,9 +19,9 @@ const main = async (args) => {
         if (!useExistingWorld) {
             world = await generateWorld()
         }
-        world.parties = createParties( {date: world.date, world} )
+        world.parties = createParties( {date: world.date, map: world.map} )
         for (let i=0;i<80;i++) {
-            next(world, output)
+            await next(world, output)
         }
         
     } catch (e) {

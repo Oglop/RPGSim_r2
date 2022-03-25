@@ -10,7 +10,7 @@ module.exports.getRoomByCoordinates = async (x, y) => {
             elevation,
             temprature,
             biome,
-            dwelling,
+            dwellingId,
             description,
             exploreStatus 
         FROM room 

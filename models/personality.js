@@ -3,7 +3,7 @@ const { tryToUnderstandEachOther } = require('./language')
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
 const { noOfAliveMembers } = require('../models/party')
-const { copyObject } = require('../lib/utils')
+const { copyObject, getRandomNumberInRange } = require('../lib/utils')
 const { 
     MAX_RELATIONSHIP_VALUE, 
     MIN_RELATIONSHIP_VALUE 
@@ -186,18 +186,41 @@ const personalityDealsWith = (personality, type) => {
 }
 
 const addOrUpdateRelations = (character1, character2, value) => {
-    const r1 = (character1.relationships.find(character2.id) != undefined) ? character1.relationships.find(character2.id) : copyObject(objects.relation)
-    const r2 = (character1.relationships.find(character1.id) != undefined) ? character1.relationships.find(character1.id) : copyObject(objects.relation)
+    let relation1 = {}
+    if (character1.relationships.find(c => c.id == character2.id) != undefined) {
+        relation1 = character1.relationships.find(c => c.id == character2.id)
+    }
+    else {
+        relation1 = copyObject(objects.relation)
+        relation1.characterId = character1.id
+        relation1.id = character2.id
+        character1.relationships.push(relation1)
+    }
+
+    let relation2 = {}
+    if (character2.relationships.find(c => c.id == character1.id) != undefined) {
+        relation2 = character2.relationships.find(c => c.id == character1.id)
+    }
+    else {
+        relation2 = copyObject(objects.relation)
+        relation2.characterId = character2.id
+        relation2.id = character1.id
+        character2.relationships.push(relation2)
+    }
+    /*
+    const r1 = (character1.relationships.find(c => c.id == character2.id) != undefined) ? character1.relationships.find(c => c.id == character2.id) : copyObject(objects.relation)
+    const r2 = (character1.relationships.find(c => c.id == character1.id) != undefined) ? character1.relationships.find(c => c.id == character1.id) : copyObject(objects.relation)
     if (!r1.id || r2.id) {
         r1.id = r2.id
         r2.id = r1.id
-    }
-    r1.points += value
-    r2.points += value
-    if (r1.points > MAX_RELATIONSHIP_VALUE) { r1.points = MAX_RELATIONSHIP_VALUE }
-    if (r2.points > MAX_RELATIONSHIP_VALUE) { r2.points = MAX_RELATIONSHIP_VALUE }
-    if (r1.points < MIN_RELATIONSHIP_VALUE) { r1.points = MIN_RELATIONSHIP_VALUE }
-    if (r2.points < MIN_RELATIONSHIP_VALUE) { r2.points = MIN_RELATIONSHIP_VALUE }
+    }*/
+
+    relation1.points += value
+    relation2.points += value
+    if (relation1.points > MAX_RELATIONSHIP_VALUE) { relation1.points = MAX_RELATIONSHIP_VALUE }
+    if (relation2.points > MAX_RELATIONSHIP_VALUE) { relation2.points = MAX_RELATIONSHIP_VALUE }
+    if (relation1.points < MIN_RELATIONSHIP_VALUE) { relation1.points = MIN_RELATIONSHIP_VALUE }
+    if (relation2.points < MIN_RELATIONSHIP_VALUE) { relation2.points = MIN_RELATIONSHIP_VALUE }
 } 
 
 /**

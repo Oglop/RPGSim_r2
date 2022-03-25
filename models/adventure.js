@@ -1,4 +1,4 @@
-const { getRandomNumberInRange, copyObject, chance } = require('../lib/utils')
+const { getRandomNumberInRange, copyObject, chance, point2d } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { WORLD_SIZE } = require('../generic/statics')
@@ -26,7 +26,7 @@ const {
 const { get } = require('../localization')
 const bEvent = require('../build/event')
 const mMap = require('../models/map')
-const { getDwellingsFromMap, getPointOfRandomDwelling } = require('../models/map')
+const { getDwellingsFromMap, getPointOfRandomDwelling, getClosestDwelling } = require('../models/map')
 const { findShortestPath } = require('../models/pathFinding')
 const { partyDailyRelationShipRoll } = require('./personality')
 const { checkPartySkill } = require('./skill')
@@ -39,17 +39,20 @@ const { checkPartySkill } = require('./skill')
  */
 const travel = (world, party, output) => {
     try {
+        if (!party.path.length) {
+            party.path = findShortestPath(party.position, world.map, party.questGoal)
+        }
         let travelDifficulty = 0
         switch (world.map[party.position.x][party.position.y].biome) {
             case ENUM_BIOMES.badlands: travelDifficulty = 10; break;
-            case ENUM_BIOMES.dessert: travelDifficulty = 20; break;
+            case ENUM_BIOMES.dessert: travelDifficulty = 5; break;
             case ENUM_BIOMES.farmlands: travelDifficulty = 5; break;
-            case ENUM_BIOMES.forest: travelDifficulty = 25; break;
-            case ENUM_BIOMES.hills: travelDifficulty = 30; break;
+            case ENUM_BIOMES.forest: travelDifficulty = 20; break;
+            case ENUM_BIOMES.hills: travelDifficulty = 10; break;
             case ENUM_BIOMES.lake: travelDifficulty = 0; break;
-            case ENUM_BIOMES.mountains: travelDifficulty = 40; break;
-            case ENUM_BIOMES.plains: travelDifficulty = 20; break;
-            case ENUM_BIOMES.swamp: travelDifficulty = 15; break;
+            case ENUM_BIOMES.mountains: travelDifficulty = 15; break;
+            case ENUM_BIOMES.plains: travelDifficulty = 5; break;
+            case ENUM_BIOMES.swamp: travelDifficulty = 10; break;
         }
         const i = getRandomNumberInRange(1, 100)
         if (i >= travelDifficulty) {
@@ -143,10 +146,10 @@ const travelInDirection = (party, output) => {
     }
 }
 
-const getAdventureDailyAction = (world, party) => {
+const getAdventureDailyAction = async (world, party) => {
     try {
         const rest = checkForRest(party)
-        const inTown = isInDwelling(world, party)
+        const inTown = await isInDwelling(world, party)
         const onQuestPosition = isOnQuestLocation(party)
         const isTraveling = party.path.length > 0
 
@@ -156,9 +159,10 @@ const getAdventureDailyAction = (world, party) => {
         }*/
 
         if (!isTraveling && !inTown && party.quest != ENUM_QUEST_STATUS.IN_PROGRESS) {
-            const townPoint = getPointOfRandomDwelling(world.map) 
-            party.path = findShortestPath(party.position, world.map, townPoint)
+            const townPoint = await getClosestDwelling(world.map, party.position) 
+            party.questGoal = point2d(townPoint.x, townPoint.y)
             party.state = ENUM_PARTY_STATE.TRAVEL
+            return ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP
         }if (onQuestPosition && party.quest == ENUM_QUEST_STATUS.IN_PROGRESS ) {
             return ENUM_ADVENTURE_DAILY_ACTION.ATEMPT_QUEST
         }
@@ -229,7 +233,8 @@ const restMap = (world, party, output) => {
         e.items[0].execute(party)
         output.print(e.items[0].resolutionText)
         const enumPersonalityResult = (e.items[0].resolution == ENUM_EVENT_ITEM_STATUS.SUCCESS) ? ENUM_PERSONALITY_DEALS_RESULT.GOOD : 
-            (e.items[0].resolution == ENUM_EVENT_ITEM_STATUS.RESOLVED) ? ENUM_PERSONALITY_DEALS_RESULT.NORMAL : ENUM_PERSONALITY_DEALS_RESULT.BAD
+            (e.items[0].resolution == ENUM_EVENT_ITEM_STATUS.RESOLVED) ? ENUM_PERSONALITY_DEALS_RESULT.NORMAL : 
+            ENUM_PERSONALITY_DEALS_RESULT.BAD
         restParty(party)
         partyDailyRelationShipRoll(party, enumPersonalityResult)
     } catch(e) {

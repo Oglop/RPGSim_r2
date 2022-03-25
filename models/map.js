@@ -3,15 +3,18 @@ const { WORLD_SIZE } = require('../generic/statics')
 const { copyObject, point2d, getRandomElementFromArray } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
-const { getRoomByCoordinates } = require('../database').queries
+const { 
+    getRoomByCoordinates, 
+    getDwellingIdsFromRoom 
+} = require('../database').queries
 /**
  * 
  * @param {Array[][]} map 
  * @returns {Array} dwelling
  */
-const getDwellingsFromMap = map => {
-    const dwellings = []
-    for (let y = 0; y < WORLD_SIZE; y++) {
+const getDwellingsFromMap = async (map) => {
+    const dwellings = await getDwellingIdsFromRoom()
+    /* for (let y = 0; y < WORLD_SIZE; y++) {
         for (let x = 0; x < WORLD_SIZE; x++) {
             if (map[x][y].dwelling) {
                 if (map[x][y].dwelling.type == ENUM_DWELLINGS.TOWN ||
@@ -24,7 +27,7 @@ const getDwellingsFromMap = map => {
                 
             }
         }
-    }
+    }*/
     return dwellings
 }
 
@@ -51,9 +54,30 @@ const getDwellingById = (map, dwellingId) => {
     }
 }
 
-const getPointOfRandomDwelling = (map) => {
+const getClosestDwelling = async (map, partyPosition) => {
+    let closest = {
+        x: 99999,
+        y: 99999,
+        id: ''
+    }
+
+    const partyPositionSum = partyPosition.x + partyPosition.y
+    for (let y = 0; y < WORLD_SIZE; y++) {
+        for (let x = 0; x < WORLD_SIZE; x++) {
+            if (map[x][y].dwellingId && Math.abs((x + y) - partyPositionSum) < Math.abs((closest.x + closest.y) - partyPositionSum )) {
+                closest.x = x
+                closest.y = y
+                closest.id = map[x][y].dwellingId
+            }
+        }
+    } 
+    return closest
+}
+
+const getPointOfRandomDwelling = async (map) => {
     try {
-        const dwellings = getDwellingsFromMap(map)
+        const dwellings = await getDwellingIdsFromRoom()
+        // const dwellings = getDwellingsFromMap(map)
         const dwelling = getRandomElementFromArray(dwellings)
         return getDwellingPositionById(map, dwelling.id)
     } catch (e) {
@@ -117,5 +141,6 @@ module.exports = {
     getDwellingById,
     getBiomeAtPoint,
     getMap,
-    getListOfPointsByBiome
+    getListOfPointsByBiome,
+    getClosestDwelling
 }

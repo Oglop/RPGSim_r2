@@ -9,12 +9,12 @@ const { progressHistory } = require('../handlers/historyHandler')
  * 
  * @param {Object} world 
  */
-const next = (world, output) => {
+const next = async (world, output) => {
     const pastTime = addDay(world.date)
 
     if (pastTime === 'd' || pastTime === 'm' || pastTime === 'y') {
         // events for adventureres
-        progressAdventure(world, output)
+        await progressAdventure(world, output)
 
         if (pastTime === 'm' || pastTime === 'y') {
             // events for families

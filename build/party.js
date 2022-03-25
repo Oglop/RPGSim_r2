@@ -80,7 +80,7 @@ module.exports.build = (options = {}) => {
         }
     }
     party.name = get('party-name-template', [ party.members[0].name ])
-    party.position = m.getStartingPosition(options.world)
+    party.position = m.getStartingPosition(options.map)
     return party
 }
 

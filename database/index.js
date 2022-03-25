@@ -19,6 +19,7 @@ const { updateRelationPoints } = require('./commands/updateRelationPoints')
 
 const { getRoomByCoordinates } = require('./queries/getRoomByCoordinates')
 const { getDwellingByCoordinates } = require('./queries/getDwellingByCoordinates')
+const { getDwellingIdsFromRoom } = require('./queries/getDwellingIdsFromRoom')
 const { getDwellingById } = require('./queries/getDwellingById')
 const { getLanguageByCharacterId } = require('./queries/getLanguageByCharacterId')
 const { getWorldById } = require('./queries/getWorldById')
@@ -26,6 +27,7 @@ const { getSkillByCharacterId } = require('./queries/getSkillByCharacterId')
 const { getAdvisorsByCourtId } = require('./queries/getAdvisorsByCourtId')
 const { getCourtByDwellingId } = require('./queries/getCourtByDwellingId')
 const { getRelationByCharacterId } = require('./queries/getRelationByCharacterId')
+
 
 module.exports = {
     commands: {
@@ -49,6 +51,7 @@ module.exports = {
         getAdvisorsByCourtId: (id) => getAdvisorsByCourtId(id),
         getCourtByDwellingId: (id) => getCourtByDwellingId(id),
         getDwellingByCoordinates: (x, y) => getDwellingByCoordinates(x, y),
+        getDwellingIdsFromRoom: () => getDwellingIdsFromRoom(),
         getDwellingById: (id) => getDwellingById(id),
         getLanguageByCharacterId: (id) => getLanguageByCharacterId(id),
         getRelationByCharacterId: (characterId) => getRelationByCharacterId(characterId),
@@ -60,3 +63,5 @@ module.exports = {
         migrate: () => migrate()
     }
 }
+
+getDwellingIdsFromRoom
