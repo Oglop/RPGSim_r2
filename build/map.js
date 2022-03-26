@@ -523,23 +523,23 @@ const visualizeMap = (map) => {
  * generate world map
  * @param {object} options 
  */
-module.exports.build = async (options) => {
+module.exports.build = async (world) => {
     try {
-        const map = generateBaseMap( options.worldId )
+        const map = generateBaseMap( world.id )
         generateTempratures(map)
         generateBaseElevation(map, {})
         generateMountains(map)
         generateLakes(map)
         setBiome(map)
-        const dwellings = await generateDwellings(map, { date: options.date })
-        generateFarmlands(map, dwellings)
+        world.dwellings = await generateDwellings(map, { date: world.date })
+        generateFarmlands(map, world.dwellings)
         windsOfMagic(map)
         //setLandmarks(map, worldSize)
-        
+        world.map = map
         // visualizeMap(map, worldSize)
-        await saveMap(map)
-        await saveDwellings(dwellings)
-        return map
+        await saveMap(world.map)
+        await saveDwellings(world.dwellings)
+        
     } catch (e) {
         throw new WorldGenerationFailedError(e.message)
     }

@@ -2,9 +2,8 @@ const { DatabaseContext } = require('../connections')
 const objects = require('../../generic/objects')
 const { copyObject } = require('../../lib/utils')
 const { textToDate } = require('../../lib/time')
-const { stats } = require('../../generic/objects')
 
-module.exports.getCharacterById = () => {
+module.exports.getCharacterById = (id) => {
     const stmt = await DatabaseContext.db.prepare(`
         SELECT
             id,
@@ -49,7 +48,7 @@ module.exports.getCharacterById = () => {
             id = @id;
     `)
     await stmt.bind({
-        '@id': dwelling.id
+        '@id': id
     })
     const tmp = await stmt.get()
     const character = copyObject(objects.character)

@@ -30,11 +30,7 @@ const generateWorld = async (options = {}) => {
         
         try {
             world.date = setWorldStartDate({})
-            world.map = await mapBuilder.build( 
-                { 
-                    worldId: world.id,
-                    date: world.date,
-                })
+            await mapBuilder.build(world)
         } catch (e) {
             const err = objects.error
             err.file = __filename

@@ -6,17 +6,44 @@ const {
     removeDead 
 } = require('../models/family')
 const { historyEvents } = require('./eventsHandler')
+
+
+
+const collectTaxes = () => {
+
+}
+
 /**
  * 
  * @param {Object} world 
  */
-module.exports.progressHistory = (world, output) => {
-    socialize(world.families)
-    checkMarriages(world.families)
-    checkPregnancies(world.families, world.date)
-    checkFamiliesForAge(world.families)
-    historyEvents(world, output)
+module.exports.progressHistory = async (world, output) => {
 
-    removeDead(world.families, world.dead, output)
+    
+    for (let dwelling of world.dwellings) { 
+        // Collect texes
+        
+        
+        // Spend Money check with advisors
+
+
+
+        // check events
+
+        // check ruler for old age
+
+
+    }
+
+    
+
+    
+    // socialize(world.families)
+    // checkMarriages(world.families)
+    // checkPregnancies(world.families, world.date)
+    // checkFamiliesForAge(world.families)
+    await historyEvents(world, output)
+
+    // removeDead(world.families, world.dead, output)
     
 }

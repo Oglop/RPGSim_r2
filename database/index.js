@@ -49,6 +49,7 @@ module.exports = {
     },
     queries: {
         getAdvisorsByCourtId: (id) => getAdvisorsByCourtId(id),
+        getCharacterById: (id) => getCharacterById(id),
         getCourtByDwellingId: (id) => getCourtByDwellingId(id),
         getDwellingByCoordinates: (x, y) => getDwellingByCoordinates(x, y),
         getDwellingIdsFromRoom: () => getDwellingIdsFromRoom(),

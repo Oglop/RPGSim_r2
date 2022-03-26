@@ -111,6 +111,7 @@ module.exports = {
         size: undefined,
         courtId: undefined,
         citizens: undefined,
+        citizenTaxable: 1.2,
         gold: 0,
         food: 0,
         taxRate: 0,
@@ -311,6 +312,7 @@ module.exports = {
         name: undefined,
         description: undefined,
         type: undefined,
+        personality: undefined,
         history: []
     },
     party: {

@@ -14,7 +14,7 @@ const next = async (world, output) => {
 
     if (pastTime === 'd' || pastTime === 'm' || pastTime === 'y') {
         // events for adventureres
-        await progressAdventure(world, output)
+        // await progressAdventure(world, output)
 
         if (pastTime === 'm' || pastTime === 'y') {
             // events for families

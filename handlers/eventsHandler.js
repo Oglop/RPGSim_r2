@@ -18,12 +18,15 @@ const travelEvents = (world, output) => {
  * @param {Object} world 
  * @param {Object} output 
  */
-const historyEvents = (world, output) => {
-    const e = eventBuilder.build(world, output, ENUM_EVENT_TYPE.HISTORY)
-    world.events.history.push(e)
-    for(let i = 0; i < world.events.history.length; i++) {
-        resolveEvent(world.events.history[i], output)
-    }   
+const historyEvents = async (world, output) => {
+    
+        const e = eventBuilder.build(world, output, ENUM_EVENT_TYPE.HISTORY, { dwelling })
+        world.events.history.push(e)
+        for(let i = 0; i < world.events.history.length; i++) {
+            resolveEvent(world.events.history[i], output)
+        } 
+    
+      
 }
 
 const dungeonEvents = (dungeonRoom, output) => {
