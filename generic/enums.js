@@ -386,6 +386,11 @@ module.exports = {
         ARCHERS: 2,
         MERCENARIES: 3,
         INFANTRY: 4
+    },
+    ENUM_NPC_TYPE: {
+        DWELLING: 0,
+        ADVENTURE: 1,
+        COURT: 2
     }
     
 }

@@ -306,6 +306,13 @@ module.exports = {
         value: 0,
         skillRequired: undefined
     },
+    npc: {
+        id: undefined,
+        name: undefined,
+        description: undefined,
+        type: undefined,
+        history: []
+    },
     party: {
         id: undefined,
         name: undefined,
