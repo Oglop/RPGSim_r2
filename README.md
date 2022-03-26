@@ -1,6 +1,6 @@
 # RPG Simulation m2
 
-// TODO
+// Ideas
 
 ## SYSTEM
 
@@ -24,14 +24,7 @@
 - family banners
 - items
 - famous people
+- npc and city locations
 
-## dungeons
-- 
-
-## bugs and exceptions
-```json
-
-
-```
 
 
