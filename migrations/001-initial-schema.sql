@@ -63,21 +63,30 @@ CREATE TABLE court
 
 CREATE TABLE dwelling 
 (
-    id          text, 
-    x           integer, 
-    y           integer,
-    name        text,
+    id              text, 
+    x               integer, 
+    y               integer,
+    name            text,
+    type            integer,
+    size            integer,
+    citizens        integer,
+    citizenTaxable  number,
+    gold            integer,
+    food            integer,
+    taxRate         integer,
+    happiness       number,
+    gate            integer,
+    walls           integer,
+    moats           integer,
+    guards          integer
+);
+
+CREATE TABLE production
+(
+    id	        text,
+    dwellingId  text,
     type        integer,
-    size        integer,
-    citizens    integer,
-    gold        integer,
-    food        integer,
-    taxRate     integer,
-    happiness   integer,
-    gate        integer,
-    walls       integer,
-    moats       integer,
-    guards      integer
+    production  integer
 );
 
 CREATE TABLE language 

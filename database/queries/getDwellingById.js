@@ -12,6 +12,7 @@ module.exports.getDwellingById = async (id) => {
             type,
             size,
             citizens,
+            citizenTaxable,
             gold,
             food,
             taxRate,

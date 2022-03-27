@@ -9,6 +9,7 @@ const { DatabaseContext } = require('../connections')
             type        integer,
             size        integer,
             citizens    integer,
+            citizenTaxable number
             gold:       integer,
             food:       integer,
             taxRate:    integer,
@@ -25,6 +26,7 @@ module.exports.updateDwelling = async (dwelling) => {
             type = @type,
             size = @citizens,
             citizens = @citizens,
+            citizenTaxable = @citizenTaxable,
             gold = @gold,
             food = @food,
             taxRate = @taxRate,
@@ -40,6 +42,7 @@ module.exports.updateDwelling = async (dwelling) => {
         '@type': dwelling.type,
         '@size': dwelling.size,
         '@citizens': dwelling.citizens,
+        '@citizenTaxable': dwelling.citizenTaxable,
         '@gold': dwelling.gold,
         '@food': dwelling.food,
         '@taxRate': dwelling.taxRate,
