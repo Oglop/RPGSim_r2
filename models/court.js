@@ -20,7 +20,8 @@ const { personalityDealsWith, compabilityCheck } = require('./personality')
 
 
 const taxesAndExpenses = (dwelling) => {
-    const collectedTax = Math.floor( dwelling.citizens * citizenTaxable )
+    const collectedTax = Math.floor( ( dwelling.citizens * citizenTaxable ) * (dwelling.taxRate * 0.01) )
+    
 }
 
 const consultAdvisor = async (dwelling) => {

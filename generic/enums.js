@@ -240,6 +240,22 @@ module.exports = {
         GOOD: 3,
         PERFECT: 4
     },
+    ENUM_DWELLING_PRODUCTION_TYPE: {
+        NONE: 0,
+        WHEAT: 1,
+        CATTLE: 2,
+        DEER: 3,
+        FISH: 4,
+        WOOD: 6,
+        MUSHROOMS: 7,
+        IRON: 8,
+        STONE: 9,
+        SALT: 10,
+        GOLD: 11,
+        CRYSTAL: 12,
+        GEMS: 13,
+        ADAMANTINE: 14
+    },
     ENUM_LOCATIONS: {
         NONE: 0,
         RUINS: 1,

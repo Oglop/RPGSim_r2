@@ -3,7 +3,8 @@ const {
     ENUM_DUNGEON_DOOR_STATUS,
     ENUM_QUEST_STATUS,
     ENUM_PARTY_STATE,
-    ENUM_DWELLING_CONDITIONS
+    ENUM_DWELLING_CONDITIONS,
+    ENUM_DWELLING_PRODUCTION_TYPE
 
 } = require('../generic/enums')
 module.exports = {
@@ -110,8 +111,9 @@ module.exports = {
         type: undefined,
         size: undefined,
         courtId: undefined,
+        production: [],
         citizens: undefined,
-        citizenTaxable: 1.2,
+        citizenTaxable: 1.0,
         gold: 0,
         food: 0,
         taxRate: 0,
@@ -120,6 +122,12 @@ module.exports = {
         walls: ENUM_DWELLING_CONDITIONS.NONE,
         moats: ENUM_DWELLING_CONDITIONS.NONE,
         guards: ENUM_DWELLING_CONDITIONS.NONE
+    },
+    dwellingProduction: {
+        id: undefined,
+        dwellingId: undefined,
+        type: ENUM_DWELLING_PRODUCTION_TYPE.NONE,
+        production: 0,
     },
     citizens: {
         id: undefined,

@@ -14,7 +14,7 @@ const { WORLD_SIZE } = require('../generic/statics')
 const { ENUM_BIOMES, ENUM_DWELLINGS, ENUM_DWELLING_SIZE, ENUM_EXPLORE_STATUS } = require('../generic/enums')
 const { getLandmarkName } = require('../generic/names')
 const { logError } = require('../data/errorFile')
-const { insertRoom, insertDwelling } = require('../database').commands
+const { insertRoom, insertDwelling, insertProduction } = require('../database').commands
 const { 
     getClosePoints,
     horizontalLine,
@@ -47,6 +47,9 @@ const saveDwellings = async (dwellings) => {
     for (let d of dwellings) {
         try {
             await insertDwelling(d)
+            for (p of d.production) {
+                await insertProduction(p)
+            }
         } catch (e) {
             const err = objects.error
             err.file = __filename

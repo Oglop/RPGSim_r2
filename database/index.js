@@ -9,6 +9,7 @@ const { insertAdvisor } = require('./commands/insertAdvisor')
 const { insertLanguage } = require('./commands/insertLanguage')
 const { insertSkill } = require('./commands/insertSkill')
 const { insertRelation } = require('./commands/insertRelation')
+const { insertProduction } = require('./commands/insertProduction')
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
@@ -16,6 +17,7 @@ const { updateCharacter } = require('./commands/updateCharacter')
 const { updateWorldDate } = require('./commands/updateWorldDate')
 const { updateLanguageMastery } = require('./commands/updateLanguageMastery')
 const { updateRelationPoints } = require('./commands/updateRelationPoints')
+const { updateProduction } = require('./commands/updateProduction')
 
 const { getRoomByCoordinates } = require('./queries/getRoomByCoordinates')
 const { getDwellingByCoordinates } = require('./queries/getDwellingByCoordinates')
@@ -27,6 +29,7 @@ const { getSkillByCharacterId } = require('./queries/getSkillByCharacterId')
 const { getAdvisorsByCourtId } = require('./queries/getAdvisorsByCourtId')
 const { getCourtByDwellingId } = require('./queries/getCourtByDwellingId')
 const { getRelationByCharacterId } = require('./queries/getRelationByCharacterId')
+const { getProductionsByDwellingId } = require('./queries/getProductionsByDwellingId')
 
 
 module.exports = {
@@ -35,6 +38,7 @@ module.exports = {
         insertCharacter: (character) => insertCharacter(character),
         insertCourt: (court) => insertCourt(court),
         insertDwelling: (dwelling) => insertDwelling(dwelling),
+        insertProduction: (production) => insertProduction(production),
         insertLanguage: (language) => insertLanguage(language),
         insertRelation: (relation) => insertRelation(relation),
         insertRoom: (room) => insertRoom(room),
@@ -42,6 +46,7 @@ module.exports = {
         insertWorld: (world) => insertWorld(world),
         updateCharacter: (character) => updateCharacter(character),
         updateDwelling: (dwelling) => updateDwelling(dwelling),
+        updateProduction: (dwelling) => updateProduction(dwelling),
         updateLanguageMastery: (language) => updateLanguageMastery(language),
         updateRelationPoints: (relation) => updateRelationPoints(relation),
         updateRoom: (room) => updateRoom(room),
@@ -54,6 +59,7 @@ module.exports = {
         getDwellingByCoordinates: (x, y) => getDwellingByCoordinates(x, y),
         getDwellingIdsFromRoom: () => getDwellingIdsFromRoom(),
         getDwellingById: (id) => getDwellingById(id),
+        getProductionsByDwellingId: (dwellingId) => getProductionsByDwellingId(dwellingId),
         getLanguageByCharacterId: (id) => getLanguageByCharacterId(id),
         getRelationByCharacterId: (characterId) => getRelationByCharacterId(characterId),
         getRoomByCoordinates: (x, y) => getRoomByCoordinates(x, y),
