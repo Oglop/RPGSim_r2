@@ -1,6 +1,5 @@
 const { DatabaseContext } = require('../connections')
 const objects = require('../../generic/objects')
-const { copyObject, intToBool } = require('../../lib/utils')
 
 module.exports.getCourtByDwellingId = async (id) => {
     const stmt = await DatabaseContext.db.prepare(`
@@ -9,9 +8,9 @@ module.exports.getCourtByDwellingId = async (id) => {
             dwellingId,
             rulerId
         FROM
-            advisor
+            court
         WHERE
-        dwellingId = @dwellingId;
+            dwellingId = @dwellingId;
     `)
 
     await stmt.prepare({

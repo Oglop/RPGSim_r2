@@ -122,6 +122,10 @@ const compabilityCheck = (charA, charB) => {
     return i
 }
 
+const getChanceOfDowngrade = (personality) => {
+    return 50
+}
+
 /**
  * returns how a character deals with situation
  * @param {ENUM_PERSONALITIES} personality 
@@ -272,5 +276,6 @@ module.exports = {
     personalityDealsWith,
     partyDailyRelationShipRoll,
     partyExtraRelationshipRoll,
-    getDescriptionByPersonality
+    getDescriptionByPersonality,
+    getChanceOfDowngrade
 }
