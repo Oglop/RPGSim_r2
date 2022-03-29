@@ -65,6 +65,7 @@ const dwellingQualityMultiplyer = (quality) => {
 }
 
 const taxesAndExpenses = async (dwelling) => {
+    
     const court = await getCourtByDwellingId(dwelling.id)
     const ruler = await getCharacterById(court.rulerId)
     const costBaseMaintenanceGuards = Math.floor(dwelling.citizens * GUARD_COST_MAINTENANCE)

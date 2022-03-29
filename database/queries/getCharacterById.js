@@ -3,7 +3,7 @@ const objects = require('../../generic/objects')
 const { copyObject } = require('../../lib/utils')
 const { textToDate } = require('../../lib/time')
 
-module.exports.getCharacterById = (id) => {
+module.exports.getCharacterById = async (id) => {
     const stmt = await DatabaseContext.db.prepare(`
         SELECT
             id,

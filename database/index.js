@@ -19,6 +19,7 @@ const { updateLanguageMastery } = require('./commands/updateLanguageMastery')
 const { updateRelationPoints } = require('./commands/updateRelationPoints')
 const { updateProduction } = require('./commands/updateProduction')
 
+const { getCharacterById } = require('./queries/getCharacterById')
 const { getRoomByCoordinates } = require('./queries/getRoomByCoordinates')
 const { getDwellingByCoordinates } = require('./queries/getDwellingByCoordinates')
 const { getDwellingIdsFromRoom } = require('./queries/getDwellingIdsFromRoom')
