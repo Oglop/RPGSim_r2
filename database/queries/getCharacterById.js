@@ -9,7 +9,7 @@ module.exports.getCharacterById = async (id) => {
             id,
             name,
             family,
-            coatOfArms
+            coatOfArms,
             title,
             description,
             gender,

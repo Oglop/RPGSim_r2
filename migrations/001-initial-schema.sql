@@ -29,7 +29,7 @@ CREATE TABLE character
     job             integer,
     race            integer,
     birthDate       text,
-    trait           text,
+    trait           integer,
     age             integer,
     health          integer,
     maxHealth       integer,
