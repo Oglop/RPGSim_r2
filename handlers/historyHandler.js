@@ -6,7 +6,7 @@ const {
     removeDead 
 } = require('../models/family')
 const { historyEvents } = require('./eventsHandler')
-const { taxesAndExpenses } = require('../models/court')
+const { taxesAndExpenses } = require('../handlers/courtHandler')
 
 
 /**
