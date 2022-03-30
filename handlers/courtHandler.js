@@ -82,6 +82,7 @@ const taxesAndExpenses = async (dwelling) => {
         }
     }
 
+    // army
     
     
     

@@ -9,6 +9,7 @@ CREATE TABLE advisor
 CREATE TABLE army
 (
     id          text,
+    name        text,
     dwellingId  text
 );
 
@@ -133,8 +134,8 @@ CREATE TABLE troop
     armyId      text,
     name        text,
     type        integer,
-    [power]       integer
-
+    power       number,
+    number      integer
 );
 
 CREATE TABLE world

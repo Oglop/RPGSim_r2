@@ -396,7 +396,7 @@ module.exports = {
         HIDDEN: 4,
         MAGIC_SEAL: 5
     },
-    ENUM_ARMY_PART_TYPE: {
+    ENUM_TROOP_TYPE: {
         KNIGHTS: 0,
         MEN_AT_ARMS: 1,
         ARCHERS: 2,

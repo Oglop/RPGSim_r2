@@ -135,13 +135,17 @@ module.exports = {
     },
     army: {
         id: undefined,
+        dwellingId: undefined,
+        name: undefined,
         troops: []
     },
     troop: {
         id: undefined,
+        armyId: undefined,
         name: undefined,
         type: undefined,
-        power: 0
+        power: 0,
+        number: 0,
     },
     language: {
         characterId: undefined,

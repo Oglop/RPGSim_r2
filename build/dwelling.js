@@ -11,7 +11,7 @@ const {
 
 const bProduction = require('./production')
 const bCourt = require('./court')
-
+const { getDwarfWord, getElfWord, getAncientWord } = require('../lib/language')
 
 const humanProduction = (dwelling) => {
     if ( dwelling.size == ENUM_DWELLING_SIZE.VILLAGE ) {
@@ -272,6 +272,16 @@ const addDefenses = (dwelling) => {
     }
 }
 
+const getDwellingNameByType = (type) => {
+    switch (type) {
+        case ENUM_DWELLINGS.DARK_ELF: return getAncientWord();
+        case ENUM_DWELLINGS.WOOD_ELF: return getElfWord();
+        case ENUM_DWELLINGS.HIGH_ELF: return getElfWord();
+        case ENUM_DWELLINGS.DWARF: return getDwarfWord();
+    }
+    return getDwellingName()
+}
+
 /**
  * build dwelling
  * 
@@ -285,10 +295,10 @@ module.exports.build = async (position, options) => {
     try {
         const d = copyObject(objects.dwelling)
         d.id = generateID()
-        d.name = getDwellingName()
         d.x = position.x
         d.y = position.y
-        d.type = (options.type) ? options.type : ENUM_DWELLINGS.TOWN
+        d.type = (options.type) ? options.type : ENUM_DWELLINGS.HUMAN
+        d.name = getDwellingNameByType(d.type)
         d.size = (options.dwellingSize) ? options.dwellingSize : ENUM_DWELLING_SIZE.TOWN
         if (options.army) { d.army = options.army }
         //d.citizens = (options.citizens) ? d.citizens = options.citizens : copyObject(objects.citizens)
