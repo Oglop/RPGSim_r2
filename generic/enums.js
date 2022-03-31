@@ -401,7 +401,8 @@ module.exports = {
         MEN_AT_ARMS: 1,
         ARCHERS: 2,
         MERCENARIES: 3,
-        INFANTRY: 4
+        INFANTRY: 4,
+        CATAPULTS: 5
     },
     ENUM_NPC_TYPE: {
         DWELLING: 0,
