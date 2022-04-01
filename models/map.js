@@ -6,7 +6,7 @@ const { logError } = require('../data/errorFile')
 const { 
     getRoomByCoordinates, 
     getDwellingIdsFromRoom 
-} = require('../database').queries
+} = require('../persistance').queries
 /**
  * 
  * @param {Array[][]} map 

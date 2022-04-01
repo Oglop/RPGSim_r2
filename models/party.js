@@ -10,7 +10,7 @@ const {
 const { get } = require('../localization')
 const { WORLD_SIZE } = require('../generic/statics')
 const { party } = require('../generic/objects')
-const { getRoomByCoordinates } = require('../database').queries
+const { getRoomByCoordinates } = require('../persistance').queries
 
 
 const checkForRest = (party) => {

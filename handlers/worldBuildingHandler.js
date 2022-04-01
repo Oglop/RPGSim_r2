@@ -11,7 +11,7 @@ const { logError } = require('../data/errorFile')
 const { writeMap } = require('../output/visualize')
 const { saveVisualization, saveWorld, worldSize } = require('../config')
 const { Output } = require('../output/output')
-const { insertWorld } = require('../database').commands
+const { insertWorld } = require('../persistance').commands
 
 const setWorldStartDate = (options) => {
     const date = copyObject(objects.date)

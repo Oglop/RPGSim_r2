@@ -29,7 +29,7 @@ const {
     CONDITION_PERFECT_MULTIPLYER
 } = require('../generic/statics')
 
-const { getCharacterById, getCourtByDwellingId } = require('../database').queries
+const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { tryToUnderstandEachOther } = require('../models/language')
 const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade } = require('../models/personality')
 const m = require('../models/court')

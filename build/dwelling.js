@@ -304,7 +304,7 @@ module.exports.build = async (position, options) => {
         //d.citizens = (options.citizens) ? d.citizens = options.citizens : copyObject(objects.citizens)
         addCitizens(d)
         addProduction(d)
-        await bCourt.build(d, {
+        d.court = await bCourt.build(d, {
             date: options.date
         })
 

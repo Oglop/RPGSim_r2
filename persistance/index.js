@@ -76,6 +76,9 @@ module.exports = {
         getTroopsByArmyId: (armyId) => getTroopsByArmyId(armyId),
         getWorldById: (id) => getWorldById(id)
     },
+    aggregates: {
+        
+    },
     infrastructure: {
         migrate: () => migrate()
     }

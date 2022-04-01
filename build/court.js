@@ -24,7 +24,7 @@ const {
     insertCourt,
     insertLanguage,
     insertSkill
- } = require('../database').commands
+ } = require('../persistance').commands
 
 const getTitleByDwellingSize = (size) => {
     switch (size) {
@@ -109,4 +109,5 @@ module.exports.build = async (dwelling, options) => {
         await insertCharacter(character)
     }
     await insertCourt(court)
+    return court
 }

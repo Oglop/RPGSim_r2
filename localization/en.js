@@ -223,7 +223,12 @@ module.exports.get = (id, args) => {
         case 'personality-description-naive' : return `take others at their word`
         case 'personality-description-paranoid' : return `nervous`
         case 'personality-description-religious' : return `to be praying`
-
+        case 'troop-archers': return 'archers'
+        case 'troop-men-at-arms': return 'men-at-arms'
+        case 'troop-knights': return 'knights'
+        case 'troop-infantry': return 'infantry'
+        case 'troop-mercenaries': return 'mercanaries'
+        case 'troop-catapults': return 'catapults'
         case 'system-word-a': return 'a'
         case 'system-word-an': return 'an'
         case 'system-word-he': return 'he'

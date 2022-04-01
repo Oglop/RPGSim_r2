@@ -23,7 +23,7 @@ const {
 
 // STANDARD IMPORTS
 
-const { getCharacterById, getCourtByDwellingId } = require('../database').queries
+const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { tryToUnderstandEachOther } = require('./language')
 const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade } = require('./personality')
 
