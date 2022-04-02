@@ -82,6 +82,15 @@ CREATE TABLE dwelling
     guards          integer
 );
 
+CREATE TABLE storyLog
+(
+    id              text,
+    type            text,
+    entry           text,
+    worldDate       text,
+    createdDate     text
+);
+
 CREATE TABLE production
 (
     id	        text,

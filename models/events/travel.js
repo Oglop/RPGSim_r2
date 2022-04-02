@@ -18,6 +18,8 @@ const { getSeason } = require('../../lib/time')
 const bMonster = require('../../build/monster')
 const bCharacter = require('../../build/character')
 const objects = require('../../generic/objects')
+const { Output } = require('../../output/output')
+
 
 const farm = (event, world, options) => {
     const i1 = copyObject(objects.eventItem)

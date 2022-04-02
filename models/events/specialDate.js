@@ -7,6 +7,8 @@ const {
 } = require('../../generic/enums')
 const mCharacter = require('../../models/character')
 const { get } = require('../../localization')
+const { Output } = require('../../output/output')
+
 
 const bloodMoon = (event, world, options) => { 
     const i1 = copyObject(objects.eventItem)

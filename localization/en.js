@@ -227,7 +227,7 @@ module.exports.get = (id, args) => {
         case 'troop-men-at-arms': return 'men-at-arms'
         case 'troop-knights': return 'knights'
         case 'troop-infantry': return 'infantry'
-        case 'troop-mercenaries': return 'mercanaries'
+        case 'troop-mercenaries': return 'mercenaries'
         case 'troop-catapults': return 'catapults'
         case 'system-word-a': return 'a'
         case 'system-word-an': return 'an'

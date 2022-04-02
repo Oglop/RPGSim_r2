@@ -18,7 +18,7 @@ const next = async (world, output) => {
 
         if (pastTime === 'm' || pastTime === 'y') {
             // events for families
-            await progressHistory(world, output)
+            await progressHistory(world)
             // world events
 
             if (pastTime === 'y') {

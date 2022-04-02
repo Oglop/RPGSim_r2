@@ -2,17 +2,17 @@
 
 class Output {
     static printer;
-    static setPrinter = (type) => {
+    static setPrinter (type) {
         this.printer = type
     }
-    static print = (x) => {
-        if (printer == undefined) {
+    static print (x) {
+        if (this.printer == undefined) {
             console.log(x)
         }
         if (x == undefined) {
             console.log('undefined')
         }
-        printer.print(x)
+        this.printer.print(x)
 
     }
 }

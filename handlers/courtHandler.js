@@ -29,13 +29,16 @@ const {
     CONDITION_PERFECT_MULTIPLYER
 } = require('../generic/statics')
 
+const { getArmyCost, dwonSizeArmy } = require('../models/army')
+
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
-const { tryToUnderstandEachOther } = require('../models/language')
 const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade } = require('../models/personality')
 const m = require('../models/court')
 
-const taxesAndExpenses = async (dwelling) => {
-    
+const handleIncomeExpenses = (dwelling) => {
+    dwelling.happiness = Math.round(((( 100 / dwelling.taxRate ) * m.getGuardHappinessModifyer(dwelling.guards)) * dwelling.citizenTaxable ) * 100) / 100 
+
+    let isOverSpending = false
     const court = await getCourtByDwellingId(dwelling.id)
     const ruler = await getCharacterById(court.rulerId)
     const costBaseMaintenanceGuards = Math.floor(dwelling.citizens * GUARD_COST_MAINTENANCE)
@@ -45,13 +48,18 @@ const taxesAndExpenses = async (dwelling) => {
     const costMoat = Math.floor((( dwelling.citizens * MOAT_COST_MULTIPLYER) + MAOT_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.moats))
 
     let collectedTax = Math.floor( ( dwelling.citizens * dwelling.citizenTaxable ) * (dwelling.taxRate * 0.01) )
+    const monthlyIncome = collectedTax // + trade
     // guards
     if (dwelling.guards != ENUM_DWELLING_CONDITIONS.NONE) {
         if (collectedTax >= costGuards) {
             collectedTax -= costGuards
         }
         else {
+            collectedTax = 0
             if (chance(getChanceOfDowngrade(ruler.personality))) { dwelling.guards = m.downgradeCondition(dwelling.guards) }
+            else {
+                isOverSpending = true
+            }
         }
     }
     // walls
@@ -60,7 +68,11 @@ const taxesAndExpenses = async (dwelling) => {
             collectedTax -= costWalls
         }
         else {
+            collectedTax = 0
             if (chance(getChanceOfDowngrade(ruler.personality))) { dwelling.walls = m.downgradeCondition(dwelling.walls) }
+            else {
+                isOverSpending = true
+            }
         }
     }
     // gate
@@ -69,7 +81,11 @@ const taxesAndExpenses = async (dwelling) => {
             collectedTax -= costGate
         }
         else {
+            collectedTax = 0
             if (chance(getChanceOfDowngrade(ruler.personality))) { dwelling.gate = m.downgradeCondition(dwelling.gate) }
+            else {
+                isOverSpending = true
+            }
         }
     }
     // moat
@@ -78,20 +94,39 @@ const taxesAndExpenses = async (dwelling) => {
             collectedTax -= costMoat
         }
         else {
+            collectedTax = 0
             if (chance(getChanceOfDowngrade(ruler.personality))) { dwelling.moats = m.downgradeCondition(dwelling.moats) }
+            else {
+                isOverSpending = true
+            }
         }
     }
 
     // army
+    const cost = getArmyCost(dwelling.army)
+    if (collectedTax > cost) {
+        collectedTax -= cost
+    } else {
+        collectedTax = 0
+        if (chance(getChanceOfDowngrade(ruler.personality))) 
+        { 
+            dwonSizeArmy(dwelling.army)
+        } else {
+            isOverSpending = true
+        }
+    }
     
-    
-    
+    if (isOverSpending) {
+
+    }
 
 
+    dwelling.gold += collectedTax
+    
 
 }
 
 
 module.exports = {
-    taxesAndExpenses
+    handleIncomeExpenses
 }

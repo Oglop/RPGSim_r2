@@ -31,7 +31,7 @@ const { getSeason } = require('../../lib/time')
 const { getPersonName } = require('../../generic/names')*/
 const { get } = require('../../localization')
 const { getSeason } = require('../../lib/time')
-
+const { Output } = require('../../output/output')
 
 const story = (event, world, options) => { 
     

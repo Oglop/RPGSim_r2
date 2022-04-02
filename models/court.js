@@ -18,7 +18,12 @@ const {
     CONDITION_RUINED_MULTIPLYER,
     CONDITION_POOR_MULTIPLYER,
     CONDITION_GOOD_MULTIPLYER,
-    CONDITION_PERFECT_MULTIPLYER
+    CONDITION_PERFECT_MULTIPLYER,
+    GUARD_HAPPINESS_MOD_NONE,
+    GUARD_HAPPINESS_MOD_RUINED,
+    GUARD_HAPPINESS_MOD_POOR,
+    GUARD_HAPPINESS_MOD_GOOD,
+    GUARD_HAPPINESS_MOD_PERFECT, 
 } = require('../generic/statics')
 
 // STANDARD IMPORTS
@@ -77,9 +82,24 @@ const consultAdvisor = async (dwelling) => {
     }
 }
 
+/**
+ * returns number value for multiplying citizen happiness
+ * @param {ENUM_DWELLING_CONDITIONS} guard 
+ */
+const getGuardHappinessModifyer = (guard) => {
+    switch (guard) {
+        case ENUM_DWELLING_CONDITIONS.NONE : return GUARD_HAPPINESS_MOD_NONE;
+        case ENUM_DWELLING_CONDITIONS.RUINED : return GUARD_HAPPINESS_MOD_RUINED;
+        case ENUM_DWELLING_CONDITIONS.POOR : return GUARD_HAPPINESS_MOD_POOR;
+        case ENUM_DWELLING_CONDITIONS.GOOD : return GUARD_HAPPINESS_MOD_GOOD;
+        case ENUM_DWELLING_CONDITIONS.PERFECT : return GUARD_HAPPINESS_MOD_PERFECT;
+    }
+}
+
 module.exports = {
     consultAdvisor,
     upgradeCondition,
     downgradeCondition,
-    dwellingQualityMultiplyer
+    dwellingQualityMultiplyer,
+    getGuardHappinessModifyer
 }

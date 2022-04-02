@@ -18,12 +18,14 @@ const { getSeason } = require('../../lib/time')
 const monsterBuilder = require('../../build/monster')
 const charachterBuilder = require('../../build/character')
 const objects = require('../../generic/objects')
+const { Output } = require('../../output/output')
 
 const flickeringLights = () => {
     const e = copyObject(objects.dungeonEventItem)
     e.status = ENUM_EVENT_ITEM_STATUS.UNRESOLVED
     e.description = get('dungeon-flickeringlights-description')
-    e.execute = (output, party) => {
+    e.execute = (party) => {
+        Output.print('')
         e.status = ENUM_EVENT_ITEM_STATUS.RESOLVED
     }
 

@@ -15,7 +15,7 @@ const main = async (args) => {
         await migrate()
         const output = (!args.outputType) ? consoleType : htmlType
         Output.setPrinter(output)
-        //Output.print('World is born')
+        Output.print('World is born')
         if (!useExistingWorld) {
             world = await generateWorld()
         }

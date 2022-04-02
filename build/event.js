@@ -86,9 +86,8 @@ const getTravelEvent = (event, world, options) => {
  * 
  * @returns {Object} event
  */
-module.exports.build = (world, output, eventType, options) => {
+module.exports.build = (world, eventType, options) => {
     const e = copyObject(objects.event)
-    e.output = output
     switch (eventType) {
         case ENUM_EVENT_TYPE.HISTORY: return getHistoryEvent(e, world)
         case ENUM_EVENT_TYPE.DUNGEON: return getDungeonEvent(options)

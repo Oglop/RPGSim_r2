@@ -11,6 +11,7 @@ const {
 
 const bProduction = require('./production')
 const bCourt = require('./court')
+const bArmy = require('../build/army')
 const { getDwarfWord, getElfWord, getAncientWord } = require('../lib/language')
 
 const humanProduction = (dwelling) => {
@@ -241,7 +242,7 @@ const addCitizens = (dwelling) => {
 }
 
 const addStores = (dwelling) => {
-    dwelling.food = getRandomNumberInRange(90, 110)
+    dwelling.food = Math.floor(dwelling.citizens.count * getRandomFloatInRange(0.8, 2.6))
     dwelling.gold = Math.floor(dwelling.citizens.count * 0.2)
     //dwelling.production = getRandomNumberInRange(90, 110)
     dwelling.taxRate = getRandomNumberInRange(5, 10)
@@ -311,6 +312,9 @@ module.exports.build = async (position, options) => {
         // set ruler and stores
         if (options.ruler) { d.ruler = options.ruler }
         addStores(d)
+
+        // army
+        d.army = bArmy.buildArmy(d)
 
         // set defenses
         addDefenses(d)
