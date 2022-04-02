@@ -26,42 +26,6 @@ const {
     raiseGround
 } = require('../build/mapBuilderUtility')
 
-const saveMap = async (map) => {
-    for (let y = 0; y < WORLD_SIZE; y++) {
-        for (let x = 0; x < WORLD_SIZE; x++) {
-            try {
-                await insertRoom(map[x][y])
-            } catch (e) {
-                const err = objects.error
-                err.file = __filename
-                err.function = 'saveMap'
-                err.step = `room:${JSON.stringify(map[x][y])}`
-                err.message = e.message
-                logError(err)
-            }
-        }
-    }
-}
-
-const saveDwellings = async (dwellings) => {
-    for (let d of dwellings) {
-        try {
-            await insertDwelling(d)
-            for (p of d.production) {
-                await insertProduction(p)
-            }
-        } catch (e) {
-            const err = objects.error
-            err.file = __filename
-            err.function = 'saveDwellings'
-            err.step = `dwelling: ${JSON.stringify(d)}`
-            err.message = e.message
-            logError(err)
-        }
-        
-    }
-}
-
 /**
  * 
  * @param {text} worldId 
@@ -520,7 +484,7 @@ const visualizeMap = (map) => {
         console.log(s)
     }
 }
- 
+
 
 /**
  * generate world map
@@ -540,9 +504,6 @@ module.exports.build = async (world) => {
         //setLandmarks(map, worldSize)
         world.map = map
         // visualizeMap(map, worldSize)
-        await saveMap(world.map)
-        await saveDwellings(world.dwellings)
-        
     } catch (e) {
         throw new WorldGenerationFailedError(e.message)
     }

@@ -1,7 +1,7 @@
 const { DatabaseContext } = require('../connections')
 
 module.exports.insertTroop = async (troop) => {
-    const stmt = await DatabaseContext.db.prepare(`INSERT INTO army (
+    const stmt = await DatabaseContext.db.prepare(`INSERT INTO troop (
         id,
         armyId,
         name,

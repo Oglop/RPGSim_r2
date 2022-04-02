@@ -73,14 +73,7 @@ module.exports.build = async (dwelling, options) => {
         religion: (!randomReligion) ? religion : getRandomReligion(),
         title: getTitleByDwellingSize(dwelling.size)
     });
-    try {
-        for (let l of ruler.languages) { await insertLanguage(l) }
-        for (let s of ruler.skills) { await insertSkill(s) }
-        await insertCharacter(ruler)
-    } catch (e) {
-        console.log(e.message)
-    }
-    
+    court.ruler = ruler
     court.rulerId = ruler.id
 
     const noOfAdvisors = getRandomNumberInRange(min, max)
@@ -100,14 +93,9 @@ module.exports.build = async (dwelling, options) => {
         const advisor = copyObject(objects.advisor)
         advisor.id = generateID();
         advisor.characterId = character.id
+        advisor.character = character
         advisor.courtId = court.id
         court.advisors.push(advisor)
-        
-        await insertAdvisor(advisor)
-        for (let l of character.languages) { await insertLanguage(l) }
-        for (let s of character.skills) { await insertSkill(s) }
-        await insertCharacter(character)
     }
-    await insertCourt(court)
     return court
 }

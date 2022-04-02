@@ -11,7 +11,7 @@ const { logError } = require('../data/errorFile')
 const { writeMap } = require('../output/visualize')
 const { saveVisualization, saveWorld, worldSize } = require('../config')
 const { Output } = require('../output/output')
-const { insertWorld } = require('../persistance').commands
+const { offLoadWorld } = require('../models/world')
 
 const setWorldStartDate = (options) => {
     const date = copyObject(objects.date)
@@ -39,8 +39,16 @@ const generateWorld = async (options = {}) => {
             err.message = e.message
             errors.push(err)
         }
-
-        await insertWorld(world)
+        try {
+            await offLoadWorld(world)
+        } catch (e) {
+            const err = objects.error
+            err.file = __filename
+            err.function = 'generateWorld'
+            err.step = 'offLoadWorld'
+            err.message = e.message
+            errors.push(err)
+        }
     }
     catch (e) {
         const err = objects.error

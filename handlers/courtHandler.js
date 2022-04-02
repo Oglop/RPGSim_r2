@@ -35,12 +35,10 @@ const { getCharacterById, getCourtByDwellingId } = require('../persistance').que
 const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade } = require('../models/personality')
 const m = require('../models/court')
 
-const handleIncomeExpenses = (dwelling) => {
+const handleIncomeExpenses = async (dwelling) => {
     dwelling.happiness = Math.round(((( 100 / dwelling.taxRate ) * m.getGuardHappinessModifyer(dwelling.guards)) * dwelling.citizenTaxable ) * 100) / 100 
 
     let isOverSpending = false
-    const court = await getCourtByDwellingId(dwelling.id)
-    const ruler = await getCharacterById(court.rulerId)
     const costBaseMaintenanceGuards = Math.floor(dwelling.citizens * GUARD_COST_MAINTENANCE)
     const costGuards = Math.floor(costBaseMaintenanceGuards * GUARD_COST_MULTIPLYER * m.dwellingQualityMultiplyer(dwelling.guards))
     const costWalls= Math.floor((( dwelling.citizens * WALLS_COST_MULTIPLYER) + WALLS_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.walls))
@@ -56,7 +54,7 @@ const handleIncomeExpenses = (dwelling) => {
         }
         else {
             collectedTax = 0
-            if (chance(getChanceOfDowngrade(ruler.personality))) { dwelling.guards = m.downgradeCondition(dwelling.guards) }
+            if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.guards = m.downgradeCondition(dwelling.guards) }
             else {
                 isOverSpending = true
             }
@@ -69,7 +67,7 @@ const handleIncomeExpenses = (dwelling) => {
         }
         else {
             collectedTax = 0
-            if (chance(getChanceOfDowngrade(ruler.personality))) { dwelling.walls = m.downgradeCondition(dwelling.walls) }
+            if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.walls = m.downgradeCondition(dwelling.walls) }
             else {
                 isOverSpending = true
             }
@@ -82,7 +80,7 @@ const handleIncomeExpenses = (dwelling) => {
         }
         else {
             collectedTax = 0
-            if (chance(getChanceOfDowngrade(ruler.personality))) { dwelling.gate = m.downgradeCondition(dwelling.gate) }
+            if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.gate = m.downgradeCondition(dwelling.gate) }
             else {
                 isOverSpending = true
             }
@@ -95,7 +93,7 @@ const handleIncomeExpenses = (dwelling) => {
         }
         else {
             collectedTax = 0
-            if (chance(getChanceOfDowngrade(ruler.personality))) { dwelling.moats = m.downgradeCondition(dwelling.moats) }
+            if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.moats = m.downgradeCondition(dwelling.moats) }
             else {
                 isOverSpending = true
             }
@@ -108,7 +106,7 @@ const handleIncomeExpenses = (dwelling) => {
         collectedTax -= cost
     } else {
         collectedTax = 0
-        if (chance(getChanceOfDowngrade(ruler.personality))) 
+        if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) 
         { 
             dwonSizeArmy(dwelling.army)
         } else {

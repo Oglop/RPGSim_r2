@@ -302,7 +302,6 @@ module.exports.build = async (position, options) => {
         d.name = getDwellingNameByType(d.type)
         d.size = (options.dwellingSize) ? options.dwellingSize : ENUM_DWELLING_SIZE.TOWN
         if (options.army) { d.army = options.army }
-        //d.citizens = (options.citizens) ? d.citizens = options.citizens : copyObject(objects.citizens)
         addCitizens(d)
         addProduction(d)
         d.court = await bCourt.build(d, {

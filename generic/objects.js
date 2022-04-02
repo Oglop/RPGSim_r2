@@ -96,11 +96,12 @@ module.exports = {
         id: undefined,
         dwellingId: undefined,
         rulerId: undefined,
+        ruler: undefined,
         advisors: []
     },
     advisor: {
         id: undefined,
-        characterId: undefined,
+        character: undefined,
         courtId: undefined
     },
     dwelling: {
@@ -112,6 +113,7 @@ module.exports = {
         size: undefined,
         courtId: undefined,
         production: [],
+        army: undefined,
         citizens: undefined,
         citizenTaxable: 1.0,
         gold: 0,

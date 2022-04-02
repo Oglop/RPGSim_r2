@@ -13,12 +13,6 @@ const {
     getRandomElementFromArray, 
     generateID} = require('../lib/utils')
 const {
-    TROOP_KIGHTS_COST,
-    TROOP_MEN_AT_ARMS_COST,
-    TROOP_ARCHERS_COST,
-    TROOP_MERCENARY_COST,
-    TROOP_INFANTRY_COST,
-    TROOP_CATAPULTS_COST,
     TROOP_KIGHTS_POWER_MIN,
     TROOP_MEN_AT_ARMS_POWER_MIN,
     TROOP_ARCHERS_POWER_MIN,
@@ -37,9 +31,10 @@ const { troop } = require('../generic/objects')
 // STANDARD IMPORTS
 
 
-const buildTroop = (type, number) => {
+const buildTroop = (armyId, type, number) => {
     const t = copyObject(troop)
     t.id = generateID();
+    t.armyId = armyId
     t.type = type
     t.number = number
     switch (type) {
@@ -63,10 +58,9 @@ const buildTroop = (type, number) => {
 
 const buildArmy = (dwelling) => {
     const a = copyObject(objects.army)
+    a.id = generateID()
     a.dwellingId = dwelling.id
     const disposable = Math.floor( dwelling.citizens * 0.05 )
-    const archersPurchaseCost = (100 * TROOP_ARCHERS_COST)
-
 
     let noOfArchers = 0
     let noOfInfantry = 0
@@ -77,33 +71,33 @@ const buildArmy = (dwelling) => {
 
     if (dwelling.size == ENUM_DWELLING_SIZE.VILLAGE) {
         noOfArchers = Math.floor(disposable * 0.4)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.ARCHERS, noOfArchers))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.ARCHERS, noOfArchers))
         noOfInfantry = Math.floor(disposable * 0.3)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.INFANTRY, noOfInfantry))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.INFANTRY, noOfInfantry))
     }
     if (dwelling.size == ENUM_DWELLING_SIZE.TOWN) {
         noOfArchers = Math.floor(disposable * 0.3)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.ARCHERS, noOfArchers))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.ARCHERS, noOfArchers))
         noOfInfantry = Math.floor(disposable * 0.5)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.INFANTRY, noOfInfantry))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.INFANTRY, noOfInfantry))
         noOfMenAtArms = Math.floor(disposable * 0.4)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.MEN_AT_ARMS, noOfMenAtArms))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.MEN_AT_ARMS, noOfMenAtArms))
         noOfKnights = Math.floor(disposable * 0.1)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.KNIGHTS, noOfKnights))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.KNIGHTS, noOfKnights))
     }
     if (dwelling.size == ENUM_DWELLING_SIZE.CITY || dwelling.size == ENUM_DWELLING_SIZE.CAPITAL) {
         noOfArchers = Math.floor(disposable * 0.5) 
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.ARCHERS, noOfArchers))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.ARCHERS, noOfArchers))
         noOfInfantry = Math.floor(disposable * 0.7)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.INFANTRY, noOfInfantry))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.INFANTRY, noOfInfantry))
         noOfMenAtArms = Math.floor(disposable * 0.6)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.MEN_AT_ARMS, noOfMenAtArms))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.MEN_AT_ARMS, noOfMenAtArms))
         noOfKnights = Math.floor(disposable * 0.4)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.KNIGHTS, noOfKnights))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.KNIGHTS, noOfKnights))
         noOfMercenaries = Math.floor(disposable * 0.6)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.MERCENARIES, noOfMercenaries))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.MERCENARIES, noOfMercenaries))
         noOfCatapults = Math.floor(disposable * 0.02)
-        a.troops.push(buildTroop(ENUM_TROOP_TYPE.CATAPULTS, noOfCatapults))
+        a.troops.push(buildTroop(a.id, ENUM_TROOP_TYPE.CATAPULTS, noOfCatapults))
     }
     return a
 }
