@@ -6,7 +6,7 @@ const {
     removeDead 
 } = require('../models/family')
 const { historyEvents } = require('./eventsHandler')
-const { handleIncomeExpenses } = require('../handlers/courtHandler')
+const { handleIncomeExpenses, handleFood } = require('../handlers/courtHandler')
 
 
 /**
@@ -19,7 +19,7 @@ module.exports.progressHistory = async (world) => {
     for (let dwelling of world.dwellings) { 
         // Collect texes
         await handleIncomeExpenses(dwelling)    
-        
+        await handleFood(dwelling)
         // Spend Money check with advisors
 
 

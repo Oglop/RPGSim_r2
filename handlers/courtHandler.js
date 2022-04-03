@@ -38,6 +38,7 @@ const { getArmyCost, downSizeArmy } = require('../models/army')
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade, dealWithOverSpending } = require('../models/personality')
 const m = require('../models/court')
+const { citizens } = require('../generic/objects')
 
 const takeLoan = (courtId, rulerId, from, dwelling) => {
     const l = copyObject(objects.loan)
@@ -81,14 +82,20 @@ const foodFromProduction = (dwelling) => {
             case ENUM_DWELLING_PRODUCTION_TYPE.DEER: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(5, 25); break;
             case ENUM_DWELLING_PRODUCTION_TYPE.FISH: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(15, 35); break;
             case ENUM_DWELLING_PRODUCTION_TYPE.MUSHROOMS: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(40, 60); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.WHEAT: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(70, 80); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.WHEAT: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(60, 70); break;
         }
     }
     return Math.floor(food)
 }
 
 const handleFood = async (dwelling) => {
-
+    const foodProduced = foodFromProduction(dwelling)
+    dwelling.food += foodProduced
+    dwelling.food -= dwelling.citizens
+    if (dwelling.food <= 0) {
+        dwelling.food = 0
+        dwelling.citizens -= ((dwelling.citizens * 0.01) * getRandomNumberInRange(1, 3))
+    }
 }
 
 
@@ -104,6 +111,10 @@ const handleIncomeExpenses = async (dwelling) => {
 
     let balance = Math.floor( ( dwelling.citizens * dwelling.citizenTaxable ) * (dwelling.taxRate * 0.01) )
     balance += incomeFromProduction(dwelling)
+    for (loan of dwelling.court.loans) {
+        balance -= payLoans(dwelling, loan)
+    }
+
     const monthlyIncome = balance // + trade
     // guards
     if (dwelling.guards != ENUM_DWELLING_CONDITIONS.NONE) {
@@ -203,12 +214,13 @@ const handleIncomeExpenses = async (dwelling) => {
         
     }
 
-
+    
     dwelling.gold += balance
 }
 
 
 module.exports = {
     handleIncomeExpenses,
+    handleFood,
     takeLoan
 }
