@@ -405,8 +405,8 @@ module.exports = {
         CATAPULTS: 5
     },
     ENUM_NPC_TYPE: {
-        DWELLING: 0,
-        ADVENTURE: 1,
+        ADMINISTRATOR: 0,
+        INN_KEEPER: 1,
         COURT: 2
     },
     ENUM_OVERSPENDING_ACTION: {

@@ -211,6 +211,10 @@ module.exports.get = (id, args) => {
         case 'familyTree-moves-1': return `${args[0]} founded the town of ${args[1]}.`
         case 'familyTree-removeDeadFamilies-1': return `The last of house ${args[0]} has died.`
         case 'familyTree-newFamily-1': return `The house of ${args[0]} enters the nobility of ${args[1]}.`
+
+        case 'npc-name-administrator': return `administrator`
+        case 'npc-name-inn-keeper': return `inn keeper`
+
         case 'party-name-template': return `${args[0]} and party`
         case 'party-is-in-dwelling': return `${args[0]} is in ${args[1]}.`
         case 'personality-description-ambitious' : return `to be working hard`

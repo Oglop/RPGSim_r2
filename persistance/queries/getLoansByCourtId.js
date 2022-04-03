@@ -1,6 +1,6 @@
 const { DatabaseContext } = require('../connections')
 
-module.exports.getLoansBtCourtId = async (courtId) => {
+module.exports.getLoansByCourtId = async (courtId) => {
     const stmt = await DatabaseContext.db.prepare(`
         SELECT
             id,

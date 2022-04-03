@@ -38,7 +38,7 @@ const { getRelationByCharacterId } = require('./queries/getRelationByCharacterId
 const { getProductionsByDwellingId } = require('./queries/getProductionsByDwellingId')
 const { getArmyByDwellingId } = require('./queries/getArmyByDwellingId')
 const { getTroopsByArmyId } = require('./queries/getTroopsByArmyId')
-const { getLoansBtCourtId } = require('./queries/getLoansBtCourtId')
+const { getLoansByCourtId } = require('./queries/getLoansByCourtId')
 
 module.exports = {
     commands: {
@@ -76,7 +76,7 @@ module.exports = {
         getDwellingById: (id) => getDwellingById(id),
         getProductionsByDwellingId: (dwellingId) => getProductionsByDwellingId(dwellingId),
         getLanguageByCharacterId: (id) => getLanguageByCharacterId(id),
-        getLoansBtCourtId: (courtId) => getLoansBtCourtId(courtId),
+        getLoansByCourtId: (courtId) => getLoansByCourtId(courtId),
         getRelationByCharacterId: (characterId) => getRelationByCharacterId(characterId),
         getRoomByCoordinates: (x, y) => getRoomByCoordinates(x, y),
         getSkillByCharacterId: (id) => getSkillByCharacterId(id),

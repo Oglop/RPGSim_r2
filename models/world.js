@@ -56,7 +56,7 @@ const saveCourts = async (dwellings) => {
     for (let d of dwellings) {
         try {
             await insertCourt(d.court)
-            for (let l of d.loans) { await insertLoan(l) }
+            //for (let l of d.loans) { await insertLoan(l) }
             for (let a of d.court.advisors) {
                 await insertAdvisor(a)
                 await insertCharacter(a.character)
