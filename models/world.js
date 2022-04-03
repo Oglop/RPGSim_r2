@@ -147,12 +147,12 @@ const offLoadWorld = async (world) => {
         const err = objects.error
         err.file = __filename
         err.function = 'offLoadWorld'
-        err.step = 'saveDwellings'
+        err.step = 'saveArmies'
         err.message = e.message                                                                                                                      
         errors.push(err)
     }
     
-    //logError(err)
+    errors.forEach(e => logError(e))
 } 
 
 

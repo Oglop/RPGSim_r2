@@ -103,7 +103,15 @@ module.exports = {
         dwellingId: undefined,
         rulerId: undefined,
         ruler: undefined,
-        advisors: []
+        advisors: [],
+        loans: []
+    },
+    loan: {
+        id: undefined,
+        courtId: undefined,
+        rulerId: undefined,
+        amount: 0,
+        from: undefined,
     },
     advisor: {
         id: undefined,
