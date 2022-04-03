@@ -9,7 +9,8 @@ const {
     insertCharacter,
     insertLanguage,
     insertProduction,
-    insertSkill
+    insertSkill,
+    insertLoan
 } = require('../persistance').commands
 const { WORLD_SIZE } = require('../generic/statics')
 const { insertArmy } = require('../persistance/commands/insertArmy')
@@ -55,11 +56,14 @@ const saveCourts = async (dwellings) => {
     for (let d of dwellings) {
         try {
             await insertCourt(d.court)
+            for (let l of d.loans) { await insertLoan(l) }
             for (let a of d.court.advisors) {
                 await insertAdvisor(a)
                 await insertCharacter(a.character)
                 for (let l of a.character.languages) { await insertLanguage(l) }
                 for (let s of a.character.skills) { await insertSkill(s) }
+                
+                
             }
         } catch (e) {
             const err = objects.error
