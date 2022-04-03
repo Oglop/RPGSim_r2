@@ -8,6 +8,12 @@ const {
 
 } = require('../generic/enums')
 module.exports = {
+    app: {
+        data:{
+            id: undefined
+        },
+        routes: []
+    },
     world: {
         id: undefined,
         name: undefined,

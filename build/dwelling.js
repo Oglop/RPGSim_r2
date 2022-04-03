@@ -242,17 +242,15 @@ const addCitizens = (dwelling) => {
 }
 
 const addStores = (dwelling) => {
-    dwelling.food = Math.floor(dwelling.citizens.count * getRandomFloatInRange(0.8, 2.6))
-    dwelling.gold = Math.floor(dwelling.citizens.count * 0.2)
-    //dwelling.production = getRandomNumberInRange(90, 110)
+    dwelling.food = Math.floor(dwelling.citizens * getRandomFloatInRange(0.8, 2.6))
+    dwelling.gold = Math.floor(dwelling.citizens * 0.2)
     dwelling.taxRate = getRandomNumberInRange(5, 10)
-    dwelling.happiness = getRandomNumberInRange(90, 100)
+    dwelling.happiness = Math.round((( 100 / dwelling.taxRate ) * dwelling.citizenTaxable ) * 100) / 100 
     dwelling.citizenTaxable = getRandomFloatInRange(1.1, 1.3)
 
 }
 
 const addDefenses = (dwelling) => {
-    //const taxIncome = dwelling.citizens.count * Math.floor(dwelling.stores.taxRate * 0.01)
     if (dwelling.size == ENUM_DWELLING_SIZE.VILLAGE) {
         dwelling.guards = (chance(50)) ? ENUM_DWELLING_CONDITIONS.GOOD : ENUM_DWELLING_CONDITIONS.POOR
     }
@@ -309,7 +307,7 @@ module.exports.build = async (position, options) => {
         })
 
         // set ruler and stores
-        if (options.ruler) { d.ruler = options.ruler }
+        //if (options.ruler) { d.ruler = options.ruler }
         addStores(d)
 
         // army

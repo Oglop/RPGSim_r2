@@ -7,7 +7,9 @@ const {
     ENUM_PERSONALITY_DEALS_RESULT, 
     ENUM_PERSONALITY_DEALS_TYPE, 
     ENUM_DWELLING_CONDITIONS,
-    ENUM_DWELLINGS} = require('../generic/enums')
+    ENUM_DWELLINGS,
+    ENUM_OVERSPENDING_ACTION
+} = require('../generic/enums')
 const { 
     chance,
     copyObject, 
@@ -29,10 +31,10 @@ const {
     CONDITION_PERFECT_MULTIPLYER
 } = require('../generic/statics')
 
-const { getArmyCost, dwonSizeArmy } = require('../models/army')
+const { getArmyCost, downSizeArmy } = require('../models/army')
 
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
-const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade } = require('../models/personality')
+const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade, dealWithOverSpending } = require('../models/personality')
 const m = require('../models/court')
 
 const handleIncomeExpenses = async (dwelling) => {
@@ -108,14 +110,20 @@ const handleIncomeExpenses = async (dwelling) => {
         collectedTax = 0
         if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) 
         { 
-            dwonSizeArmy(dwelling.army)
+            downSizeArmy(dwelling.army)
         } else {
             isOverSpending = true
         }
     }
     
     if (isOverSpending) {
-
+        const overspendingAction = dealWithOverSpending(dwelling.court.ruler.personality)
+        switch (overspendingAction) {
+            case ENUM_OVERSPENDING_ACTION.DOWNSIZE_ARMY: break;
+            case ENUM_OVERSPENDING_ACTION.INCREASE_TAX: break;
+            case ENUM_OVERSPENDING_ACTION.MERCHANTS_LOAN: break;
+            case ENUM_OVERSPENDING_ACTION.RELIGIOUS_FUNDS: break;
+        }
     }
 
 

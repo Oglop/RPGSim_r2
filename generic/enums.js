@@ -408,6 +408,13 @@ module.exports = {
         DWELLING: 0,
         ADVENTURE: 1,
         COURT: 2
+    },
+    ENUM_OVERSPENDING_ACTION: {
+        NONE: 0,
+        INCREASE_TAX: 1,
+        DOWNSIZE_ARMY: 2,
+        RELIGIOUS_FUNDS: 3,
+        MERCHANTS_LOAN: 4
     }
     
 }

@@ -30,11 +30,11 @@ const getArmyCost = (army) => {
     return cost
 }
 
-const dwonSizeArmy = (army) => {
+const downSizeArmy = (army) => {
 
 }
 
 module.exports = {
     getArmyCost,
-    dwonSizeArmy
+    downSizeArmy
 }

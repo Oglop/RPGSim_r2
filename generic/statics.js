@@ -48,39 +48,7 @@ module.exports = {
     TROOP_ARCHERS_POWER_MAX: 0.1,
     TROOP_MERCENARY_POWER_MAX: 0.3,
     TROOP_INFANTRY_POWER_MAX: 0.1,
-    TROOP_CATAPULTS_POWER_MAX: 6.0
+    TROOP_CATAPULTS_POWER_MAX: 6.0,
+    TAX_RATE_MIN: 3,
+    TAX_RATE_MAX: 20
 }
-
-/*
-        case ENUM_DWELLING_CONDITIONS.NONE : return 0.0;
-        case ENUM_DWELLING_CONDITIONS.RUINED : return 0.0;
-        case ENUM_DWELLING_CONDITIONS.POOR : return 0.0;
-        case ENUM_DWELLING_CONDITIONS.GOOD : return 0.0;
-        case ENUM_DWELLING_CONDITIONS.PERFECT : return 0.0;
-
-
-const costMultiplyerGuards = 1.2
-    const costMultiplyerGate = 0.3
-    const costMultiplyerWalls = 0.2
-    const costMultiplyerMaot = 0.1
-    const costBaseMaintenanceGuards = dwelling.citizens * 0.02
-    const costBaseMaintenanceGate = 60
-    const costBaseMaintenanceWalls = 20
-    const costBaseMaintenanceMaot = 40
-
-GUARD_COST_MULTIPLYER,
-    GATE_COST_MULTIPLYER,
-    WALLS_COST_MULTIPLYER,
-    MOAT_COST_MULTIPLYER,
-    GUARD_COST_MAINTENANCE,
-    GUARD_WALLS_MAINTENANCE,
-    GUARD_GATE_MAINTENANCE,
-    GUARD_MAOT_MAINTENANCE,
-    CONDITION_NONE_MULTIPLYER,
-    CONDITION_RUINED_MULTIPLYER,
-    CONDITION_POOR_MULTIPLYER,
-    CONDITION_GOOD_MULTIPLYER,
-    CONDITION_PERFECT_MULTIPLYER
-
-
-*/

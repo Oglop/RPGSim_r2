@@ -1,14 +1,21 @@
-const { ENUM_PERSONALITIES, ENUM_PERSONALITY_DEALS_RESULT, ENUM_PERSONALITY_DEALS_TYPE } = require('../generic/enums')
+const { 
+    ENUM_PERSONALITIES, 
+    ENUM_PERSONALITY_DEALS_RESULT, 
+    ENUM_PERSONALITY_DEALS_TYPE,
+    ENUM_OVERSPENDING_ACTION
+} = require('../generic/enums')
 const { tryToUnderstandEachOther } = require('./language')
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
 const { noOfAliveMembers } = require('../models/party')
-const { copyObject, getRandomNumberInRange } = require('../lib/utils')
+const { copyObject, getRandomNumberInRange, chance } = require('../lib/utils')
 const { 
     MAX_RELATIONSHIP_VALUE, 
-    MIN_RELATIONSHIP_VALUE 
+    MIN_RELATIONSHIP_VALUE,
+    TAX_RATE_MAX
 } = require('../generic/statics')
 const { get } = require('../localization')
+
 
 /*
 AMBITIOUS, // starts projects wants to be ruler
@@ -122,9 +129,141 @@ const compabilityCheck = (charA, charB) => {
     return i
 }
 
+/**
+ * returns integer chance based on personality
+ * @param {ENUM_PERSONALITIES} personality 
+ * @returns integer
+ */
 const getChanceOfDowngrade = (personality) => {
-    return 50
+    switch (personality) {
+        case ENUM_PERSONALITIES.AMBITIOUS : return 30;
+        case ENUM_PERSONALITIES.CRUEL : return 40;
+        case ENUM_PERSONALITIES.GIFTED : return 30;
+        case ENUM_PERSONALITIES.GREEDY : return 80;
+        case ENUM_PERSONALITIES.INTELLIGENT : return 60;
+        case ENUM_PERSONALITIES.KIND : return 50;
+        case ENUM_PERSONALITIES.LAZY : return 90;
+        case ENUM_PERSONALITIES.NAIVE : return 50;
+        case ENUM_PERSONALITIES.PARANOID : return 30;
+        case ENUM_PERSONALITIES.RELIGIOUS : return 80;
+    }
+    return 100
 }
+
+
+const dealWithOverSpending = (personality, taxRate) => {
+    if (personality == ENUM_PERSONALITIES.AMBITIOUS) {
+        if (chance(30)) {
+            return ENUM_OVERSPENDING_ACTION.MERCHANTS_LOAN;
+        }
+        if (chance(100 - getChanceOfDowngrade(personality)) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        return ENUM_OVERSPENDING_ACTION.NONE;
+    }
+
+    if (personality == ENUM_PERSONALITIES.CRUEL) {
+        if (chance(100 - getChanceOfDowngrade(personality)) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        return ENUM_OVERSPENDING_ACTION.NONE;
+    }
+
+    if (personality == ENUM_PERSONALITIES.GIFTED) {
+        if (chance(100 - getChanceOfDowngrade(personality))) {
+            return ENUM_OVERSPENDING_ACTION.DOWNSIZE_ARMY;
+        }
+        if (chance(100 - getChanceOfDowngrade(personality)) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        return ENUM_OVERSPENDING_ACTION.NONE;
+    }
+
+    if (personality == ENUM_PERSONALITIES.GREEDY) {
+        if (chance(70)) {
+            return ENUM_OVERSPENDING_ACTION.MERCHANTS_LOAN;
+        }
+        if (chance(100 - getChanceOfDowngrade(personality)) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        if (chance(70)) {
+            return ENUM_OVERSPENDING_ACTION.DOWNSIZE_ARMY;
+        }
+        return ENUM_OVERSPENDING_ACTION.NONE;
+    }
+
+    if (personality == ENUM_PERSONALITIES.INTELLIGENT) {
+        if (chance(40)) {
+            return ENUM_OVERSPENDING_ACTION.MERCHANTS_LOAN;
+        }
+        if (chance(100 - getChanceOfDowngrade(personality)) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        if (chance(80)) {
+            return ENUM_OVERSPENDING_ACTION.DOWNSIZE_ARMY;
+        }
+        return ENUM_OVERSPENDING_ACTION.NONE;
+    }
+
+    if (personality == ENUM_PERSONALITIES.KIND) {
+        if (chance(80)) {
+            return ENUM_OVERSPENDING_ACTION.DOWNSIZE_ARMY;
+        }
+        if (chance(50)) {
+            return ENUM_OVERSPENDING_ACTION.RELIGIOUS_FUNDS;
+        }
+        if (chance(100 - getChanceOfDowngrade(personality)) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        return ENUM_OVERSPENDING_ACTION.NONE;
+    }
+
+    if (personality == ENUM_PERSONALITIES.LAZY) {
+        
+        if (chance(100 - getChanceOfDowngrade(personality)) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        if (chance(20)) {
+            return ENUM_OVERSPENDING_ACTION.DOWNSIZE_ARMY;
+        }
+        return ENUM_OVERSPENDING_ACTION.NONE;
+    }
+
+    if (personality == ENUM_PERSONALITIES.NAIVE) {
+        if (chance(70)) {
+            return ENUM_OVERSPENDING_ACTION.MERCHANTS_LOAN;
+        }
+        if (chance(60)) {
+            return ENUM_OVERSPENDING_ACTION.RELIGIOUS_FUNDS;
+        }
+        if (chance(100 - getChanceOfDowngrade(personality)) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        if (chance(60)) {
+            return ENUM_OVERSPENDING_ACTION.DOWNSIZE_ARMY;
+        }
+        return ENUM_OVERSPENDING_ACTION.NONE;
+    }
+
+    if (personality == ENUM_PERSONALITIES.PARANOID) {
+        
+        if (chance(100 - getChanceOfDowngrade(personality)) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        return ENUM_OVERSPENDING_ACTION.NONE;
+    }
+
+    if (personality == ENUM_PERSONALITIES.RELIGIOUS) {
+        if (chance(80)) {
+            return ENUM_OVERSPENDING_ACTION.RELIGIOUS_FUNDS;
+        }
+        if (chance(100 - getChanceOfDowngrade(personality)) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        return ENUM_OVERSPENDING_ACTION.NONE;
+    }
+}
+
 
 /**
  * returns how a character deals with situation
@@ -189,6 +328,12 @@ const personalityDealsWith = (personality, type) => {
     return ENUM_PERSONALITY_DEALS_RESULT.NORMAL
 }
 
+/**
+ * 
+ * @param {object} character1 
+ * @param {object} character2 
+ * @param {number} value 
+ */
 const addOrUpdateRelations = (character1, character2, value) => {
     let relation1 = {}
     if (character1.relationships.find(c => c.id == character2.id) != undefined) {
@@ -211,13 +356,6 @@ const addOrUpdateRelations = (character1, character2, value) => {
         relation2.id = character1.id
         character2.relationships.push(relation2)
     }
-    /*
-    const r1 = (character1.relationships.find(c => c.id == character2.id) != undefined) ? character1.relationships.find(c => c.id == character2.id) : copyObject(objects.relation)
-    const r2 = (character1.relationships.find(c => c.id == character1.id) != undefined) ? character1.relationships.find(c => c.id == character1.id) : copyObject(objects.relation)
-    if (!r1.id || r2.id) {
-        r1.id = r2.id
-        r2.id = r1.id
-    }*/
 
     relation1.points += value
     relation2.points += value
@@ -277,5 +415,6 @@ module.exports = {
     partyDailyRelationShipRoll,
     partyExtraRelationshipRoll,
     getDescriptionByPersonality,
-    getChanceOfDowngrade
+    getChanceOfDowngrade,
+    dealWithOverSpending
 }
