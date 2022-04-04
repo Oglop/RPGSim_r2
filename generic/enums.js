@@ -416,5 +416,4 @@ module.exports = {
         RELIGIOUS_FUNDS: 3,
         MERCHANTS_LOAN: 4
     }
-    
 }

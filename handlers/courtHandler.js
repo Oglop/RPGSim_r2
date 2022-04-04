@@ -34,11 +34,11 @@ const {
 } = require('../generic/statics')
 
 const { getArmyCost, downSizeArmy } = require('../models/army')
-
+const { checkOldAgeHealth } = require('../models/character')
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade, dealWithOverSpending } = require('../models/personality')
 const m = require('../models/court')
-const { citizens } = require('../generic/objects')
+const { citizens, character } = require('../generic/objects')
 
 const takeLoan = (courtId, rulerId, from, dwelling) => {
     const l = copyObject(objects.loan)
@@ -218,8 +218,15 @@ const handleIncomeExpenses = async (dwelling) => {
     dwelling.gold += balance
 }
 
+const handleRulerAge = async (character, currentDate) => {
+    const died = checkOldAgeHealth(character, currentDate)
+
+    return
+}
+
 
 module.exports = {
+    handleRulerAge,
     handleIncomeExpenses,
     handleFood,
     takeLoan

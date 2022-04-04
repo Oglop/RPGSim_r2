@@ -1,6 +1,6 @@
 const { point, traits } = require('../generic/objects')
 const objects = require('../generic/objects')
-const { copyObject, chance, getRandomElementFromArray } = require('../lib/utils')
+const { copyObject, chance, getRandomElementFromArray, getRandomNumberInRange } = require('../lib/utils')
 const { MAX_MARRIAGE_AGE_GAP, 
     MIN_MARRIAGE_AGE,
     MAX_RELATIONS_POINTS,
@@ -9,6 +9,7 @@ const { MAX_MARRIAGE_AGE_GAP,
 const { get } = require('../localization')
 const { logError } = require('../data/errorFile')
 const { ENUM_CHARACTER_TRAITS } = require('../generic/enums')
+const { getAgeSimple } = require('../lib/time')
 
 /**
  * Check if characters are valid for marriage
@@ -145,10 +146,32 @@ const restCharacter = (character) => {
         character.stamina + val : character.maxStamina
 }
 
+/**
+ * 
+ * @param {object} character 
+ * @param {object} currentDate 
+ * @returns 
+ */
+const checkOldAgeHealth = (character, currentDate) => {
+    const age = getAgeSimple(currentDate, character.birthDate)
+    const healthDecreaseInterval = Math.floor(age * 0.1)
+    const healthDecreaseChance = Math.floor((age - 40) * 2)
+    if (healthDecreaseChance <= 0) { return false }
+    if (chance(healthDecreaseChance)) {
+        character.maxHealth -= getRandomNumberInRange(0, healthDecreaseInterval)
+        if (character.health > character.maxHealth) { character.health = character.maxHealth }
+    }
+    if (character.maxHealth < 10) {
+        const diedChance = (10 - character.maxHealth) * 10
+        character.isAlive = !chance(diedChance)
+    }
+    return character.isAlive
+}
+
 module.exports = {
     validateCharacterCompabilityForMarige,
     setRelation,
-    checkForOldAge,
+    checkOldAgeHealth,
     getTraitDescription,
     getCharacterWithTrait,
     restCharacter
