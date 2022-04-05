@@ -47,6 +47,7 @@ module.exports = {
         race: undefined,
         languages: [],
         skills: [],
+        statuses: [],
         birthDate: undefined,
         trait: undefined,
         age: 0,

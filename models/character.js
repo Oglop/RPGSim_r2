@@ -158,14 +158,15 @@ const checkOldAgeHealth = (character, currentDate) => {
     const healthDecreaseChance = Math.floor((age - 40) * 2)
     if (healthDecreaseChance <= 0) { return false }
     if (chance(healthDecreaseChance)) {
-        character.maxHealth -= getRandomNumberInRange(0, healthDecreaseInterval)
+        character.maxHealth -= Math.floor( etRandomNumberInRange(0, healthDecreaseInterval) * 0.5) 
         if (character.health > character.maxHealth) { character.health = character.maxHealth }
     }
     if (character.maxHealth < 10) {
         const diedChance = (10 - character.maxHealth) * 10
         character.isAlive = !chance(diedChance)
+        if (!character.isAlive) { character.diedFrom = get('character-died-from-age') }
     }
-    return character.isAlive
+    return !character.isAlive
 }
 
 module.exports = {

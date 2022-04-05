@@ -218,15 +218,24 @@ const handleIncomeExpenses = async (dwelling) => {
     dwelling.gold += balance
 }
 
-const handleRulerAge = async (character, currentDate) => {
-    const died = checkOldAgeHealth(character, currentDate)
 
-    return
+const replaceRuler = async (court) => {
+    
+}
+
+
+const handleCourtOldAges = async (court, currentDate) => {
+    const deceased = []
+    const leaderDied = checkOldAgeHealth(court.ruler, currentDate)
+    
+    for (let a of court.advisors) {
+        const advisorDied = checkOldAgeHealth(a.character, currentDate)
+    }
 }
 
 
 module.exports = {
-    handleRulerAge,
+    handleCourtOldAges,
     handleIncomeExpenses,
     handleFood,
     takeLoan

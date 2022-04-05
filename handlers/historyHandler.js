@@ -6,7 +6,11 @@ const {
     removeDead 
 } = require('../models/family')
 const { historyEvents } = require('./eventsHandler')
-const { handleIncomeExpenses, handleFood } = require('../handlers/courtHandler')
+const { 
+    handleIncomeExpenses, 
+    handleFood, 
+    handleCourtOldAges 
+} = require('../handlers/courtHandler')
 
 
 /**
@@ -27,7 +31,8 @@ module.exports.progressHistory = async (world) => {
         // check events
 
         // check ruler for old age
-        await handleRulerAge(dwelling.court.ruler, world.date)
+        await handleCourtOldAges(dwelling.court, world.date)
+
 
     }
 

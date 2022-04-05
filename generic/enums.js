@@ -415,5 +415,15 @@ module.exports = {
         DOWNSIZE_ARMY: 2,
         RELIGIOUS_FUNDS: 3,
         MERCHANTS_LOAN: 4
+    },
+    ENUM_CHARACTER_HEALTH_STATUS: {
+        BAD_HEARING: 0,
+        BAD_EYESIGHT: 1,
+        BACK_PAIN: 2,
+        NECK_PAIN: 3,
+        DIABETES: 4,
+        DEMENTIA: 5,
+        OSTEOARTHRISTIS: 6,
+        DEPRESSION: 7
     }
 }
