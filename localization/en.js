@@ -127,6 +127,15 @@ module.exports.get = (id, args) => {
         case 'character-ruler-title-city': return 'Baron'
         case 'character-ruler-title-capital': return 'King'
 
+        case 'character-status-bad-hearing': return 'bad hearing'
+        case 'character-status-bad-eyesight': return 'bad-eyesight'
+        case 'character-status-back-pain': return 'back-pain'
+        case 'character-status-neck-pain': return 'neck-pain'
+        case 'character-status-diabetes': return 'diabetes'
+        case 'character-status-dementia': return 'dementia'
+        case 'character-status-osteoarthistis': return 'osteoarthistis'
+        case 'character-status-depression': return 'depression'
+
         case 'dir-east': return 'east'
         case 'dir-north': return 'north'
         case 'dir-west': return 'west'
