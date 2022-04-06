@@ -31,7 +31,7 @@ module.exports.progressHistory = async (world) => {
         // check events
 
         // check ruler for old age
-        await handleCourtOldAges(dwelling.court, world.date)
+        await handleCourtOldAges(dwelling, world.date)
 
 
     }

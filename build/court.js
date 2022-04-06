@@ -24,16 +24,13 @@ const {
     insertCourt,
     insertLanguage,
     insertSkill
- } = require('../persistance').commands
+} = require('../persistance').commands
+const {
+    getTitleByDwellingSize,
+    replaceAdvisors,
+    replaceRuler
+} = require('../models/court')
 
-const getTitleByDwellingSize = (size) => {
-    switch (size) {
-        case ENUM_DWELLING_SIZE.VILLAGE: return get('character-ruler-title-village');
-        case ENUM_DWELLING_SIZE.TOWN: return get('character-ruler-title-town');
-        case ENUM_DWELLING_SIZE.CITY: return get('character-ruler-title-city');
-        case ENUM_DWELLING_SIZE.CAPITAL: return get('character-ruler-title-capital');
-    }
-}
 
 /**
  * build court

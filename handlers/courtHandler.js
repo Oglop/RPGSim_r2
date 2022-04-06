@@ -38,8 +38,18 @@ const { checkOldAgeHealth } = require('../models/character')
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade, dealWithOverSpending } = require('../models/personality')
 const m = require('../models/court')
+const bCharacter = require('../build/character')
 const { citizens, character } = require('../generic/objects')
+const { getRandomReligion } = require('../generic/religions')
 
+/**
+ * take a loan
+ * @param {string} courtId 
+ * @param {string} rulerId 
+ * @param {string} from 
+ * @param {object} dwelling 
+ * @returns 
+ */
 const takeLoan = (courtId, rulerId, from, dwelling) => {
     const l = copyObject(objects.loan)
     l.id = generateID()
@@ -47,15 +57,21 @@ const takeLoan = (courtId, rulerId, from, dwelling) => {
     l.rulerId = rulerId
     l.amount = Math.floor( (dwelling.citizens * 0.01) * 10 )
     l.from = from
-
     return l
 }
 
+/**
+ * pay off loan
+ * @param {object} dwelling 
+ * @param {object} loan 
+ * @returns {integer}
+ */
 const payLoans = (dwelling, loan) => {
     const interest = Math.floor(loan.amount * 0.01) + 1
     const toBePayed = Math.floor(loan.amount * 0.2) + interest
     return toBePayed
 }
+
 
 const incomeFromProduction = (dwelling) => {
     let income = 0
@@ -219,17 +235,28 @@ const handleIncomeExpenses = async (dwelling) => {
 }
 
 
-const replaceRuler = async (court) => {
-    
-}
 
 
-const handleCourtOldAges = async (court, currentDate) => {
+const handleCourtOldAges = async (dwelling, currentDate) => {
     const deceased = []
-    const leaderDied = checkOldAgeHealth(court.ruler, currentDate)
-    
-    for (let a of court.advisors) {
-        const advisorDied = checkOldAgeHealth(a.character, currentDate)
+    const leaderDied = checkOldAgeHealth(dwelling.court.ruler, currentDate)
+    for (let a of dwelling.court.advisors) {
+        if (checkOldAgeHealth(a.character, currentDate)) {
+            deceased.push(a.character.id)
+        }
+    }
+
+    if (leaderDied) {
+        await replaceRuler(dwelling, currentDate)
+    }
+    if (deceased.count > 0) {
+        
+        const alive = dwelling.court.advisors.filter(a => a.isAlive == true)
+        const died = dwelling.court.advisors.filter(a => a.isAlive == false)
+        for (let a of died) {
+            await m.replaceAdvisors(dwelling, deceased, alive, currentDate)
+        }
+        dwelling.court.advisors = alive
     }
 }
 

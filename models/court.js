@@ -3,11 +3,14 @@ const { get } = require('../localization')
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
 const { 
+    ENUM_GENDER,
     ENUM_PERSONALITIES, 
     ENUM_PERSONALITY_DEALS_RESULT, 
     ENUM_PERSONALITY_DEALS_TYPE, 
     ENUM_DWELLING_CONDITIONS,
-    ENUM_DWELLINGS} = require('../generic/enums')
+    ENUM_DWELLINGS,
+    ENUM_DWELLING_SIZE
+} = require('../generic/enums')
 const { 
     chance,
     copyObject, 
@@ -31,6 +34,9 @@ const {
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { tryToUnderstandEachOther } = require('./language')
 const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade } = require('./personality')
+const m = require('../models/court')
+const { getRandomReligion } = require('../generic/religions')
+const { getAgeSimple } = require('../lib/time')
 
 const upgradeCondition = (condition) => {
     switch (condition) {
@@ -96,7 +102,82 @@ const getGuardHappinessModifyer = (guard) => {
     }
 }
 
+
+const getTitleByDwellingSize = (size) => {
+    switch (size) {
+        case ENUM_DWELLING_SIZE.VILLAGE: return get('character-ruler-title-village');
+        case ENUM_DWELLING_SIZE.TOWN: return get('character-ruler-title-town');
+        case ENUM_DWELLING_SIZE.CITY: return get('character-ruler-title-city');
+        case ENUM_DWELLING_SIZE.CAPITAL: return get('character-ruler-title-capital');
+    }
+}
+
+
+const replaceAdvisors = async (dwelling, deceased, advisors, currentDate) => {
+    let age = 0
+    let family
+    let coatOfArms
+    let religion
+    if (chance(50) && getAgeSimple(currentDate, deceased.birthDate) > 50 ) {
+        age = getRandomNumberInRange(16, 30)
+        family = deceased.family
+        religion = deceased.religion
+    } else {
+        age = getRandomNumberInRange(16, 30)
+        family = deceased.family
+        religion = getRandomReligion()
+    }
+
+    const newAdvisor = bCharacter.build({
+        age,
+        gender: (chance(50)) ? ENUM_GENDER.FEMALE : ENUM_GENDER.MALE,
+        race,
+        job: ENUM_JOB_NAMES.noble,
+        father: '',
+        mother: '',
+        enforceMinimumSum: false,
+        date: currentDate,
+        religion,
+        title: get('character-ruler-title-lord'),
+        family,
+        coatOfArms
+    })
+    advisors.push(newAdvisor)
+}
+
+
+const replaceRuler = async (dwelling, currentDate) => {
+    const advisors = dwelling.court.advisors.filter(a => a.isAlive == true)
+    let newRuler;
+    if (advisors.length) {
+        newRuler = getRandomElementFromArray(advisors)
+    }
+    else {
+        newRuler = bCharacter.build({
+            age: getRandomNumberInRange(18, 60),
+            gender: (chance(50)) ? ENUM_GENDER.FEMALE : ENUM_GENDER.MALE,
+            race,
+            job: ENUM_JOB_NAMES.noble,
+            father: '',
+            mother: '',
+            enforceMinimumSum: false,
+            date: currentDate,
+            religion: (!randomReligion) ? religion : getRandomReligion(),
+            title: m.getTitleByDwellingSize(dwelling.size)
+        })
+    }
+
+    court.rulerId = newRuler.id
+    court.ruler = newRuler
+}
+
+
+
+
 module.exports = {
+    getTitleByDwellingSize,
+    replaceAdvisors,
+    replaceRuler,
     consultAdvisor,
     upgradeCondition,
     downgradeCondition,

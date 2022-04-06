@@ -59,6 +59,7 @@ module.exports = {
         religion: undefined,
         personality: undefined,
         relationships: [],
+        history: [],
         isAlive: true,
         diedFrom:undefined,
         equipment: {

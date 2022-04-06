@@ -158,7 +158,7 @@ const checkOldAgeHealth = (character, currentDate) => {
     const healthDecreaseChance = Math.floor((age - 40) * 2)
     if (healthDecreaseChance <= 0) { return false }
     if (chance(healthDecreaseChance)) {
-        character.maxHealth -= Math.floor( etRandomNumberInRange(0, healthDecreaseInterval) * 0.5) 
+        character.maxHealth -= Math.floor( getRandomNumberInRange(0, healthDecreaseInterval) * 0.5) 
         if (character.health > character.maxHealth) { character.health = character.maxHealth }
     }
     if (character.maxHealth < 10) {

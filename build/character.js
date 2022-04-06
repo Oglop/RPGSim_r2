@@ -251,8 +251,8 @@ module.exports.build = (options = {}) => {
         c.race = (options.race) ? options.race : getRandomRace()
         c.job = (options.job) ? options.job : getRandomJob()
         if (c.job == ENUM_JOB_NAMES.noble) {
-            c.coatOfArms = bCoatOfArms.build()
-            c.family = getFamilyName()
+            c.coatOfArms = (options.coatOfArms) ? options.coatOfArms : bCoatOfArms.build()
+            c.family = (options.family) ? options.family : getFamilyName()
             if (options.title) { c.title = options.title }
         }
         c.father = options.father
