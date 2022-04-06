@@ -238,26 +238,35 @@ const handleIncomeExpenses = async (dwelling) => {
 
 
 const handleCourtOldAges = async (dwelling, currentDate) => {
-    const deceased = []
-    const leaderDied = checkOldAgeHealth(dwelling.court.ruler, currentDate)
-    for (let a of dwelling.court.advisors) {
-        if (checkOldAgeHealth(a.character, currentDate)) {
-            deceased.push(a.character.id)
+    try {
+        const deceased = []
+        const leaderDied = checkOldAgeHealth(dwelling.court.ruler, currentDate)
+        for (let a of dwelling.court.advisors) {
+            if (checkOldAgeHealth(a.character, currentDate)) {
+                deceased.push(a.character.id)
+            }
         }
-    }
-
-    if (leaderDied) {
-        await replaceRuler(dwelling, currentDate)
-    }
-    if (deceased.count > 0) {
-        
-        const alive = dwelling.court.advisors.filter(a => a.isAlive == true)
-        const died = dwelling.court.advisors.filter(a => a.isAlive == false)
-        for (let a of died) {
-            await m.replaceAdvisors(dwelling, deceased, alive, currentDate)
+    
+        if (leaderDied) {
+            await replaceRuler(dwelling, currentDate)
         }
-        dwelling.court.advisors = alive
+        if (deceased.count > 0) {
+            
+            const alive = dwelling.court.advisors.filter(a => a.isAlive == true)
+            const died = dwelling.court.advisors.filter(a => a.isAlive == false)
+            for (let a of died) {
+                await m.replaceAdvisors(dwelling, deceased, alive, currentDate)
+            }
+            dwelling.court.advisors = alive
+        }
+    } catch(e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'handleCourtOldAges'
+        err.message = e.message                                                                                                                      
+        logError(err)
     }
+    
 }
 
 

@@ -15,7 +15,8 @@ const {
     chance,
     copyObject, 
     getRandomNumberInRange, 
-    getRandomElementFromArray } = require('../lib/utils')
+    getRandomElementFromArray, 
+    generateID} = require('../lib/utils')
 const {
     CONDITION_NONE_MULTIPLYER,
     CONDITION_RUINED_MULTIPLYER,
@@ -142,6 +143,11 @@ const replaceAdvisors = async (dwelling, deceased, advisors, currentDate) => {
         family,
         coatOfArms
     })
+
+    const advisor = copyObject(objects.advisor)
+    advisor.id = generateID()
+    advisor.character = newAdvisor
+    advisor.courtId = dwelling.court.id
     advisors.push(newAdvisor)
 }
 

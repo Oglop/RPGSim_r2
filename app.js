@@ -9,6 +9,7 @@ const { Output } = require('./output/output')
 
 const main = async (args) => {
     try {
+        console.log('START')
         const useExistingWorld = (args.worldId) ? true : false
         let world = {}
 
@@ -22,7 +23,7 @@ const main = async (args) => {
         for (let i=0;i<80;i++) {
             await next(world, output)
         }
-        
+        console.log('STOP')
     } catch (e) {
         console.log(JSON.stringify(e))
     }

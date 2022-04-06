@@ -104,8 +104,16 @@ const setBiome = (map) => {
                 map[x][y].biome = ENUM_BIOMES.lake 
                 map[x][y].exploreStatus = ENUM_EXPLORE_STATUS.blocked
             }
-            else if (map[x][y].elevation == 4) { map[x][y].biome = ENUM_BIOMES.hills }
-            else if (map[x][y].elevation >= 5) { map[x][y].biome = ENUM_BIOMES.mountains }
+            else if (map[x][y].elevation == 4) 
+            { 
+                map[x][y].biome = ENUM_BIOMES.hills 
+                map[x][y].exploreStatus = ENUM_EXPLORE_STATUS.empty
+            }
+            else if (map[x][y].elevation >= 5) 
+            { 
+                map[x][y].biome = ENUM_BIOMES.mountains 
+                map[x][y].exploreStatus = ENUM_EXPLORE_STATUS.empty
+            }
             else {
                 if (map[x][y].elevation == 0) { 
                     if (map[x][y].temprature <= 0) {

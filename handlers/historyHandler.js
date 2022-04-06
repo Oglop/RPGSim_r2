@@ -43,7 +43,7 @@ module.exports.progressHistory = async (world) => {
     // checkMarriages(world.families)
     // checkPregnancies(world.families, world.date)
     // checkFamiliesForAge(world.families)
-    await historyEvents(world)
+    //await historyEvents(world)
 
     // removeDead(world.families, world.dead, output)
     
