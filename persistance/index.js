@@ -1,5 +1,9 @@
 const { migrate } = require('./infrastructure/migrate')
 
+
+const { deleteAdvisor } = require('./commands/deleteAdvisor')
+const { deleteCharacter } = require('./commands/deleteCharacter')
+
 const { insertRoom } = require('./commands/insertRoom')
 const { insertDwelling } = require('./commands/insertDwelling')
 const { insertCharacter } = require('./commands/insertCharacter')
@@ -23,6 +27,7 @@ const { updateRelationPoints } = require('./commands/updateRelationPoints')
 const { updateProduction } = require('./commands/updateProduction')
 const { updateTroop } = require('./commands/updateTroop')
 const { updateLoan } = require('./commands/updateLoan')
+const { updateRulerInCourt } = require('./commands/updateRulerInCourt')
 
 const { getCharacterById } = require('./queries/getCharacterById')
 const { getRoomByCoordinates } = require('./queries/getRoomByCoordinates')
@@ -42,6 +47,9 @@ const { getLoansByCourtId } = require('./queries/getLoansByCourtId')
 
 module.exports = {
     commands: {
+        deleteAdvisor: (id) => deleteAdvisor(id),
+        deleteCharacter: (id) => deleteCharacter(id),
+
         insertArmy: (army) => insertArmy(army),
         insertAdvisor: (advisor) => insertAdvisor(advisor),
         insertCharacter: (character) => insertCharacter(character),
@@ -63,6 +71,7 @@ module.exports = {
         updateLoan: (loan) => updateLoan(loan),
         updateRelationPoints: (relation) => updateRelationPoints(relation),
         updateRoom: (room) => updateRoom(room),
+        updateRulerInCourt: (court) => updateRulerInCourt(court),
         updateTroop: (troop) => updateTroop(troop),
         updateWorldDate: (world) => updateWorldDate(world)
     },

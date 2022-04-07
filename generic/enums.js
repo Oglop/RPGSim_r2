@@ -425,5 +425,34 @@ module.exports = {
         DEMENTIA: 5,
         OSTEOARTHRISTIS: 6,
         DEPRESSION: 7
+    },
+    ENUM_COMMANDS: {
+        DELETEADVISOR: 'deleteAdvisor',
+        DELETECHARACTER: 'deleteCharacter',
+
+        INSERTROOM: 'insertRoom',
+        INSERTDWELLING: 'insertDwelling',
+        INSERTCHARACTER: 'insertCharacter',
+        INSERTWORLD: 'insertWorld',
+        INSERTCOURT: 'insertCourt',
+        INSERTADVISOR: 'insertAdvisor',
+        INSERTLANGUAGE: 'insertLanguage',
+        INSERTSKILL: 'insertSkill',
+        INSERTRELATION: 'insertRelation',
+        INSERTPRODUCTION: 'insertProduction',
+        INSERTARMY: 'insertArmy',
+        INSERTTROOP: 'insertTroop',
+        INSERTLOAN: 'insertLoan',
+
+        UPDATEROOM: 'updateRoom',
+        UPDATEDWELLING: 'updateDwelling',
+        UPDATECHARACTER: 'updateCharacter',
+        UPDATEWORLDDATE: 'updateWorldDate',
+        UPDATELANGUAGEMASTERY: 'updateLanguageMastery',
+        UPDATERELATIONPOINTS: 'updateRelationPoints',
+        UPDATEPRODUCTION: 'updateProduction',
+        UPDATETROOP: 'updateTroop',
+        UPDATELOAN: 'updateLoan',
+        UPDATERULERINCOURT: 'updateRulerInCourt'
     }
 }

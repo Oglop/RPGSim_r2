@@ -3,6 +3,7 @@ const { get } = require('../localization')
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
 const { 
+    ENUM_COMMANDS,
     ENUM_GENDER,
     ENUM_PERSONALITIES, 
     ENUM_PERSONALITY_DEALS_RESULT, 
@@ -31,6 +32,11 @@ const {
 } = require('../generic/statics')
 
 // STANDARD IMPORTS
+
+const {
+    executeCommands
+} = require('../persistance/aggregates/sequences')
+
 
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { tryToUnderstandEachOther } = require('./language')
@@ -129,7 +135,7 @@ const replaceAdvisors = async (dwelling, deceased, advisors, currentDate) => {
         religion = getRandomReligion()
     }
 
-    const newAdvisor = bCharacter.build({
+    const character = bCharacter.build({
         age,
         gender: (chance(50)) ? ENUM_GENDER.FEMALE : ENUM_GENDER.MALE,
         race,
@@ -148,7 +154,16 @@ const replaceAdvisors = async (dwelling, deceased, advisors, currentDate) => {
     advisor.id = generateID()
     advisor.character = newAdvisor
     advisor.courtId = dwelling.court.id
-    advisors.push(newAdvisor)
+
+    //insertAdvisor(advisor)
+    //insertCharacter(character)
+    executeCommands([
+        { command: ENUM_COMMANDS.INSERTADVISOR, data: advisor },
+        { command: ENUM_COMMANDS.INSERTCHARACTER, data: character }
+    ])
+
+
+    advisors.push(character)
 }
 
 
@@ -175,6 +190,14 @@ const replaceRuler = async (dwelling, currentDate) => {
 
     court.rulerId = newRuler.id
     court.ruler = newRuler
+
+    
+    executeCommands([
+        { command: ENUM_COMMANDS.INSERTADVISOR, data: advisor },
+        { command: ENUM_COMMANDS.INSERTCHARACTER, data: character },
+        { command: ENUM_COMMANDS.UPDATERULERINCOURT, data: court },
+    ])
+
 }
 
 

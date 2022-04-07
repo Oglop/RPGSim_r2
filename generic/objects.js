@@ -358,5 +358,9 @@ module.exports = {
         questGoal: { x: -1, y: -1 },
         crowns:0,
         food:0
+    },
+    queueItem: {
+        command: undefined,
+        data: undefined
     }
 }
