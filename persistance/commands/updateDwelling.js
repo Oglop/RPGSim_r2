@@ -24,7 +24,7 @@ module.exports.updateDwelling = async (dwelling) => {
     try {
         const stmt = await DatabaseContext.db.prepare(`
         UPDATE dwelling SET
-            size = @citizens,
+            size = @size,
             citizens = @citizens,
             citizenTaxable = @citizenTaxable,
             gold = @gold,
