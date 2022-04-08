@@ -38,7 +38,7 @@ const executeCommands = async (queue) => {
         } catch (e) {
             const err = objects.error
             err.file = __filename
-            err.function = 'execute'
+            err.function = 'executeCommands'
             err.message = e.message
             logError(err)
         }

@@ -21,9 +21,9 @@ const { DatabaseContext } = require('../connections')
     } dwelling  
  */
 module.exports.updateDwelling = async (dwelling) => {
-    const stmt = await DatabaseContext.db.prepare(`UPDATE dwelling SET
-            name = @name,
-            type = @type,
+    try {
+        const stmt = await DatabaseContext.db.prepare(`
+        UPDATE dwelling SET
             size = @citizens,
             citizens = @citizens,
             citizenTaxable = @citizenTaxable,
@@ -37,21 +37,23 @@ module.exports.updateDwelling = async (dwelling) => {
             guards = @guards
         WHERE
             id = @id;`)
-    await stmt.bind({
-        '@name': dwelling.name,
-        '@type': dwelling.type,
-        '@size': dwelling.size,
-        '@citizens': dwelling.citizens,
-        '@citizenTaxable': dwelling.citizenTaxable,
-        '@gold': dwelling.gold,
-        '@food': dwelling.food,
-        '@taxRate': dwelling.taxRate,
-        '@happiness': dwelling.happiness,
-        '@gate': dwelling.gate,
-        '@walls': dwelling.walls,
-        '@moats': dwelling.moats,
-        '@guards': dwelling.guards,
-        '@id': dwelling.id
-    })
-    await stmt.run()
+        await stmt.bind({
+            '@size': dwelling.size,
+            '@citizens': dwelling.citizens,
+            '@citizenTaxable': dwelling.citizenTaxable,
+            '@gold': dwelling.gold,
+            '@food': dwelling.food,
+            '@taxRate': dwelling.taxRate,
+            '@happiness': dwelling.happiness,
+            '@gate': dwelling.gate,
+            '@walls': dwelling.walls,
+            '@moats': dwelling.moats,
+            '@guards': dwelling.guards,
+            '@id': dwelling.id
+        })
+        await stmt.run()
+    } catch (e) {
+        console.log(e)
+    }
+    
 }

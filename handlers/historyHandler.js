@@ -11,6 +11,9 @@ const {
     handleFood, 
     handleCourtOldAges 
 } = require('../handlers/courtHandler')
+const { ENUM_COMMANDS } = require('../generic/enums')
+const { executeCommands } = require('../persistance/aggregates/sequences')
+const { updateDwelling } = require('../persistance/commands/updateDwelling')
 
 
 /**
@@ -33,7 +36,9 @@ module.exports.progressHistory = async (world) => {
         // check ruler for old age
         await handleCourtOldAges(dwelling, world.date)
 
-
+        executeCommands([
+            { command: ENUM_COMMANDS.UPDATEDWELLING, data: dwelling }
+        ])
     }
 
     

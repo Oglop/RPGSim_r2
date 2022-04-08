@@ -170,11 +170,15 @@ const replaceAdvisors = async (dwelling, deceased, advisors, currentDate) => {
 const replaceRuler = async (dwelling, currentDate) => {
     const advisors = dwelling.court.advisors.filter(a => a.isAlive == true)
     let newRuler;
+    const oldRulerId = dwelling.court.rulerId
     if (advisors.length) {
-        newRuler = getRandomElementFromArray(advisors)
+        character = getRandomElementFromArray(advisors)
+        executeCommands([
+            { command: ENUM_COMMANDS.DELETEADVISOR, data: newRuler.id }
+        ])
     }
     else {
-        newRuler = bCharacter.build({
+        character = bCharacter.build({
             age: getRandomNumberInRange(18, 60),
             gender: (chance(50)) ? ENUM_GENDER.FEMALE : ENUM_GENDER.MALE,
             race,
@@ -188,16 +192,16 @@ const replaceRuler = async (dwelling, currentDate) => {
         })
     }
 
-    court.rulerId = newRuler.id
-    court.ruler = newRuler
+    dwelling.court.rulerId = character.id
+    dwelling.court.ruler = character
 
     
     executeCommands([
-        { command: ENUM_COMMANDS.INSERTADVISOR, data: advisor },
+        { command: ENUM_COMMANDS.DELETECHARACTER, data: oldRulerId },
+        //{ command: ENUM_COMMANDS.INSERTADVISOR, data: advisor },
         { command: ENUM_COMMANDS.INSERTCHARACTER, data: character },
         { command: ENUM_COMMANDS.UPDATERULERINCOURT, data: court },
     ])
-
 }
 
 
