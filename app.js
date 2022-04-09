@@ -4,12 +4,14 @@ const { migrate } = require('./persistance').infrastructure
 const { generateWorld } = require('./handlers/worldBuildingHandler')
 const { createParties } = require('./handlers/partyHandler')
 const { next } = require('./models/turn')
+const { loadSettings } = require('./config/settingsLoader')
 const { Output } = require('./output/output')
 
 
 const main = async (args) => {
     try {
         console.log('START')
+        loadSettings()
         const useExistingWorld = (args.worldId) ? true : false
         let world = {}
 

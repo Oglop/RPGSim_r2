@@ -5,7 +5,10 @@ const { logError } = require('../../data/errorFile')
 const objects = require('../../generic/objects')
 
 const executeCommands = async (queue) => {
-
+    if (typeof queue === 'object') {
+        const o = JSON.parse(JSON.stringify(queue))
+        queue = [o]
+    }
     for (let item of queue) {
         try {
             switch (item.command) {
@@ -13,6 +16,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.DELETECHARACTER: await commands.deleteCharacter(item.data); break;
                 case ENUM_COMMANDS.INSERTROOM: await commands.insertRoom(item.data); break;
                 case ENUM_COMMANDS.INSERTDWELLING: await commands.insertDwelling(item.data); break;
+                case ENUM_COMMANDS.INSERT_DWELLING_LOCATION: await commands.insertDwellingLocation(item.data); break;
                 case ENUM_COMMANDS.INSERTCHARACTER: await commands.insertCharacter(item.data); break;
                 case ENUM_COMMANDS.INSERTWORLD: await commands.insertWorld(item.data); break;
                 case ENUM_COMMANDS.INSERTCOURT: await commands.insertCourt(item.data); break;
@@ -26,6 +30,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.INSERTLOAN: await commands.insertLoan(item.data); break;
                 case ENUM_COMMANDS.UPDATEROOM: await commands.updateRoom(item.data); break;
                 case ENUM_COMMANDS.UPDATEDWELLING: await commands.updateDwelling(item.data); break;
+                case ENUM_COMMANDS.UPDATE_DWELLING_LOCATION: await commands.updateDwellingLocationStatus(item.data); break;
                 case ENUM_COMMANDS.UPDATECHARACTER: await commands.updateCharacter(item.data); break;
                 case ENUM_COMMANDS.UPDATEWORLDDATE: await commands.updateWorldDate(item.data); break;
                 case ENUM_COMMANDS.UPDATELANGUAGEMASTERY: await commands.updateLanguageMastery(item.data); break;

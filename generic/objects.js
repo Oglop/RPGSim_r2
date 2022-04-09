@@ -106,7 +106,8 @@ module.exports = {
         rulerId: undefined,
         ruler: undefined,
         advisors: [],
-        loans: []
+        loans: [],
+        projects: []
     },
     loan: {
         id: undefined,
@@ -129,6 +130,7 @@ module.exports = {
         size: undefined,
         courtId: undefined,
         production: [],
+        locations: [],
         army: undefined,
         citizens: undefined,
         citizenTaxable: 1.0,
@@ -146,6 +148,18 @@ module.exports = {
         dwellingId: undefined,
         type: ENUM_DWELLING_PRODUCTION_TYPE.NONE,
         production: 0,
+    },
+    dwellingLocation: {
+        id: undefined,
+        dwellingId: undefined,
+        name: undefined,
+        type: undefined,
+        status: undefined
+    },
+    dwellingProject: {
+        id: undefined,
+        type: undefined,
+        name: undefined
     },
     citizens: {
         id: undefined,

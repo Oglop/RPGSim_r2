@@ -3,6 +3,7 @@ const { get } = require('../localization')
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
 const { 
+    ENUM_COMMANDS,
     ENUM_PERSONALITIES, 
     ENUM_PERSONALITY_DEALS_RESULT, 
     ENUM_PERSONALITY_DEALS_TYPE, 
@@ -25,23 +26,20 @@ const {
     GUARD_COST_MAINTENANCE,
     WALLS_COST_MAINTENANCE,
     GATE_COST_MAINTENANCE,
-    MAOT_COST_MAINTENANCE,
-    CONDITION_NONE_MULTIPLYER,
-    CONDITION_RUINED_MULTIPLYER,
-    CONDITION_POOR_MULTIPLYER,
-    CONDITION_GOOD_MULTIPLYER,
-    CONDITION_PERFECT_MULTIPLYER
+    MAOT_COST_MAINTENANCE
 } = require('../generic/statics')
 
 const { getArmyCost, downSizeArmy } = require('../models/army')
 const { checkOldAgeHealth } = require('../models/character')
-const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade, dealWithOverSpending } = require('../models/personality')
 const m = require('../models/court')
 const bCharacter = require('../build/character')
 const { citizens, character } = require('../generic/objects')
 const { getRandomReligion } = require('../generic/religions')
-
+const {
+    executeCommands
+} = require('../persistance/aggregates/sequences')
+const { isWithinBudget } = require('../models/ruler')
 /**
  * take a loan
  * @param {string} courtId 
@@ -234,31 +232,31 @@ const handleIncomeExpenses = async (dwelling) => {
     dwelling.gold += balance
 }
 
-
-
-
 const handleCourtOldAges = async (dwelling, currentDate) => {
+    const commands = []
     try {
         const deceased = []
         const leaderDied = checkOldAgeHealth(dwelling.court.ruler, currentDate)
         for (let a of dwelling.court.advisors) {
             if (checkOldAgeHealth(a.character, currentDate)) {
                 deceased.push(a.character.id)
+                commands.push({ command: ENUM_COMMANDS.DELETECHARACTER, data: a.character.id })
             }
         }
     
         if (leaderDied) {
-            await replaceRuler(dwelling, currentDate)
+            commands.push({ command: ENUM_COMMANDS.DELETECHARACTER, data: dwelling.court.ruler.id })
+            await m.replaceRuler(dwelling, currentDate)
         }
         if (deceased.count > 0) {
-            
             const alive = dwelling.court.advisors.filter(a => a.isAlive == true)
             const died = dwelling.court.advisors.filter(a => a.isAlive == false)
-            for (let a of died) {
-                await m.replaceAdvisors(dwelling, deceased, alive, currentDate)
+            for (let deceacedAdvisor of died) {
+                await m.replaceAdvisors(dwelling, deceacedAdvisor, alive, currentDate)
             }
             dwelling.court.advisors = alive
         }
+        await executeCommands(commands)
     } catch(e) {
         const err = objects.error
         err.file = __filename
@@ -269,8 +267,22 @@ const handleCourtOldAges = async (dwelling, currentDate) => {
     
 }
 
+const handleSpendings = (dwelling) => {
+
+    if (isWithinBudget(dwelling)) {
+        m.getOverBudgetAction(dwelling)
+    }
+    else {
+        m.getUnderBudgetAction(dwelling)
+    }
+
+    
+
+}
+
 
 module.exports = {
+    handleSpendings,
     handleCourtOldAges,
     handleIncomeExpenses,
     handleFood,

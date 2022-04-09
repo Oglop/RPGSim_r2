@@ -256,6 +256,19 @@ module.exports = {
         GEMS: 13,
         ADAMANTINE: 14
     },
+    ENUM_DWELLING_LOCATION_TYPE: {
+        INN: 0,
+        TAVERN: 1,
+        SMITH: 2,
+        TRAINING_GROUNDS: 3,
+        GUARDS_HOUSE: 4
+    },
+    ENUM_DWELLING_LOCATION_STATUS: {
+        UNDER_CONSTRUCTION: 0,
+        ACTIVE: 1,
+        CLOSED: 2,
+        DESTROYED: 3
+    },
     ENUM_LOCATIONS: {
         NONE: 0,
         RUINS: 1,
@@ -407,7 +420,8 @@ module.exports = {
     ENUM_NPC_TYPE: {
         ADMINISTRATOR: 0,
         INN_KEEPER: 1,
-        COURT: 2
+        COURT: 2,
+        MASTER: 3
     },
     ENUM_OVERSPENDING_ACTION: {
         NONE: 0,
@@ -432,6 +446,7 @@ module.exports = {
 
         INSERTROOM: 'insertRoom',
         INSERTDWELLING: 'insertDwelling',
+        INSERT_DWELLING_LOCATION: 'insertDwellingLocation',
         INSERTCHARACTER: 'insertCharacter',
         INSERTWORLD: 'insertWorld',
         INSERTCOURT: 'insertCourt',
@@ -446,6 +461,7 @@ module.exports = {
 
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',
+        UPDATE_DWELLING_LOCATION: 'updateDwellingLocation',
         UPDATECHARACTER: 'updateCharacter',
         UPDATEWORLDDATE: 'updateWorldDate',
         UPDATELANGUAGEMASTERY: 'updateLanguageMastery',

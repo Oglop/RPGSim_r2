@@ -140,6 +140,10 @@ module.exports.get = (id, args) => {
         case 'dir-north': return 'north'
         case 'dir-west': return 'west'
         case 'dir-south': return 'south'
+
+        case 'dwelling-location-name-tavern-base': return `The ${args[0]} ${args[1]}.`
+        
+
         case 'dungeon-by-elfs': return `elves known for their ${args[0]}`
         case 'dungeon-by-dwarves': return `dwarves known for their ${args[0]}`
         case 'dungeon-by-wizard': return `wizard known for his ${args[0]}`

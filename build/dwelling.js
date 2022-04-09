@@ -6,12 +6,15 @@ const {
     ENUM_DWELLING_SIZE,
     ENUM_DWELLING_CONDITIONS,
     ENUM_DWELLINGS,
-    ENUM_DWELLING_PRODUCTION_TYPE
+    ENUM_DWELLING_PRODUCTION_TYPE,
+    ENUM_DWELLING_LOCATION_STATUS,
+    ENUM_DWELLING_LOCATION_TYPE
 } = require('../generic/enums')
 
 const bProduction = require('./production')
 const bCourt = require('./court')
-const bArmy = require('../build/army')
+const bArmy = require('../build/army') 
+const bLocations = require('./dwellingLocation')
 const { getDwarfWord, getElfWord, getAncientWord } = require('../lib/language')
 
 const humanProduction = (dwelling) => {
@@ -44,6 +47,17 @@ const humanProduction = (dwelling) => {
         if (chance(40)) {
             dwelling.production.push(bProduction.build(ENUM_DWELLING_PRODUCTION_TYPE.IRON, dwelling.id))
         }
+    }
+}
+
+const getDwellingLocations = (dwelling) => {
+    dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.TAVERN, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
+    dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.INN, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
+    dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.SMITH, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
+    dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
+    dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.TRAINING_GROUNDS, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
+    if ( dwelling.size == ENUM_DWELLING_SIZE.TOWN ) {
+         bLocations
     }
 }
 
@@ -312,7 +326,7 @@ module.exports.build = async (position, options) => {
 
         // army
         d.army = bArmy.buildArmy(d)
-
+        getDwellingLocations(d)
         // set defenses
         addDefenses(d)
         return d

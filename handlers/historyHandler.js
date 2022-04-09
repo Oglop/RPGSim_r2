@@ -1,19 +1,14 @@
 const { 
-    socialize, 
-    checkMarriages, 
-    checkPregnancies, 
-    checkFamiliesForAge, 
-    removeDead 
 } = require('../models/family')
 const { historyEvents } = require('./eventsHandler')
 const { 
+    handleSpendings,
     handleIncomeExpenses, 
     handleFood, 
     handleCourtOldAges 
 } = require('../handlers/courtHandler')
 const { ENUM_COMMANDS } = require('../generic/enums')
 const { executeCommands } = require('../persistance/aggregates/sequences')
-const { updateDwelling } = require('../persistance/commands/updateDwelling')
 
 
 /**
@@ -28,7 +23,7 @@ module.exports.progressHistory = async (world) => {
         await handleIncomeExpenses(dwelling)    
         await handleFood(dwelling)
         // Spend Money check with advisors
-
+        await handleSpendings(dwelling)
 
 
         // check events
@@ -36,20 +31,6 @@ module.exports.progressHistory = async (world) => {
         // check ruler for old age
         await handleCourtOldAges(dwelling, world.date)
 
-        executeCommands([
-            { command: ENUM_COMMANDS.UPDATEDWELLING, data: dwelling }
-        ])
+        await executeCommands({ command: ENUM_COMMANDS.UPDATEDWELLING, data: dwelling })
     }
-
-    
-
-    
-    // socialize(world.families)
-    // checkMarriages(world.families)
-    // checkPregnancies(world.families, world.date)
-    // checkFamiliesForAge(world.families)
-    //await historyEvents(world)
-
-    // removeDead(world.families, world.dead, output)
-    
 }

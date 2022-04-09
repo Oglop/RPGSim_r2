@@ -82,6 +82,15 @@ CREATE TABLE dwelling
     guards          integer
 );
 
+CREATE TABLE dwellingLocation
+(
+    id              text, 
+    dwellingId      text,
+    name            text,
+    type            int,
+    status          int
+);
+
 CREATE TABLE storyLog
 (
     id              text,
@@ -157,6 +166,7 @@ CREATE TABLE world
 -- Down
 DROP TABLE room;
 DROP TABLE dwelling;
+DROP TABLE dwellingLocation;
 DROP TABLE army;
 DROP TABLE troop;
 DROP TABLE court;

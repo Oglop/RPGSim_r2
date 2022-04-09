@@ -6,6 +6,9 @@ const { deleteCharacter } = require('./commands/deleteCharacter')
 
 const { insertRoom } = require('./commands/insertRoom')
 const { insertDwelling } = require('./commands/insertDwelling')
+const { insertDwellingLocation } = require('./commands/insertDwellingLocation')
+
+
 const { insertCharacter } = require('./commands/insertCharacter')
 const { insertWorld } = require('./commands/insertWorld')
 const { insertCourt } = require('./commands/insertCourt')
@@ -20,6 +23,7 @@ const { insertLoan } = require('./commands/insertLoan')
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
+const { updateDwellingLocationStatus } = require('./commands/updateDwellingLocationStatus')
 const { updateCharacter } = require('./commands/updateCharacter')
 const { updateWorldDate } = require('./commands/updateWorldDate')
 const { updateLanguageMastery } = require('./commands/updateLanguageMastery')
@@ -30,6 +34,7 @@ const { updateLoan } = require('./commands/updateLoan')
 const { updateRulerInCourt } = require('./commands/updateRulerInCourt')
 
 const { getCharacterById } = require('./queries/getCharacterById')
+const { getDwellingLocationsByDwellingId } = require('./queries/getDwellingLocationsByDwellingId')
 const { getRoomByCoordinates } = require('./queries/getRoomByCoordinates')
 const { getDwellingByCoordinates } = require('./queries/getDwellingByCoordinates')
 const { getDwellingIdsFromRoom } = require('./queries/getDwellingIdsFromRoom')
@@ -55,6 +60,7 @@ module.exports = {
         insertCharacter: (character) => insertCharacter(character),
         insertCourt: (court) => insertCourt(court),
         insertDwelling: (dwelling) => insertDwelling(dwelling),
+        insertDwellingLocation: (dwelling) => insertDwellingLocation(dwelling),
         insertProduction: (production) => insertProduction(production),
         insertLanguage: (language) => insertLanguage(language),
         insertLoan: (loan) => insertLoan(loan),
@@ -66,6 +72,7 @@ module.exports = {
         
         updateCharacter: (character) => updateCharacter(character),
         updateDwelling: (dwelling) => updateDwelling(dwelling),
+        updateDwellingLocationStatus: (dwelling) => updateDwellingLocationStatus(dwelling),
         updateProduction: (dwelling) => updateProduction(dwelling),
         updateLanguageMastery: (language) => updateLanguageMastery(language),
         updateLoan: (loan) => updateLoan(loan),
@@ -77,6 +84,7 @@ module.exports = {
     },
     queries: {
         getArmyByDwellingId: (dwellingId) => getArmyByDwellingId(dwellingId),
+        getDwellingLocationsByDwellingId: (dwellingId) => getDwellingLocationsByDwellingId(dwellingId),
         getAdvisorsByCourtId: (id) => getAdvisorsByCourtId(id),
         getCharacterById: (id) => getCharacterById(id),
         getCourtByDwellingId: (id) => getCourtByDwellingId(id),

@@ -77,10 +77,8 @@ const dwellingQualityMultiplyer = (quality) => {
 
 const consultAdvisor = async (dwelling) => {
     try {
-        const advisorId = getRandomElementFromArray(dwelling.advisors)
-        const ruler = await getCharacterById(dwelling.ruler.id)
-        const advisor = await getCharacterById(advisorId)
-        const advisoryResult = compabilityCheck( ruler, advisor )
+        const advisor = getRandomElementFromArray(dwelling.court.advisors)
+        const advisoryResult = compabilityCheck(dwelling.court.ruler, advisor)
         const result = (advisoryResult <= 0) ? ENUM_PERSONALITY_DEALS_RESULT.BAD : 
                         (advisoryResult >= 3) ? ENUM_PERSONALITY_DEALS_RESULT.GOOD : 
                                                 ENUM_PERSONALITY_DEALS_RESULT.NORMAL
@@ -119,19 +117,25 @@ const getTitleByDwellingSize = (size) => {
     }
 }
 
-
-const replaceAdvisors = async (dwelling, deceased, advisors, currentDate) => {
+/**
+ * 
+ * @param {text} dwelling 
+ * @param {array} deceased 
+ * @param {array} advisors 
+ * @param {object} currentDate 
+ */
+const replaceAdvisors = async (dwelling, deceacedAdvisor, advisors, currentDate) => {
     let age = 0
     let family
     let coatOfArms
     let religion
-    if (chance(50) && getAgeSimple(currentDate, deceased.birthDate) > 50 ) {
+    if (chance(50) && getAgeSimple(currentDate, deceacedAdvisor.birthDate) > 50 ) {
         age = getRandomNumberInRange(16, 30)
-        family = deceased.family
-        religion = deceased.religion
+        family = deceacedAdvisor.family
+        religion = deceacedAdvisor.religion
     } else {
         age = getRandomNumberInRange(16, 30)
-        family = deceased.family
+        family = deceacedAdvisor.family
         religion = getRandomReligion()
     }
 
@@ -152,30 +156,29 @@ const replaceAdvisors = async (dwelling, deceased, advisors, currentDate) => {
 
     const advisor = copyObject(objects.advisor)
     advisor.id = generateID()
-    advisor.character = newAdvisor
+    advisor.character = character
     advisor.courtId = dwelling.court.id
+    advisors.push(character)
 
-    //insertAdvisor(advisor)
-    //insertCharacter(character)
-    executeCommands([
+    await executeCommands([
         { command: ENUM_COMMANDS.INSERTADVISOR, data: advisor },
         { command: ENUM_COMMANDS.INSERTCHARACTER, data: character }
     ])
-
-
-    advisors.push(character)
 }
 
-
+/**
+ * Find new ruler from advisors or just a new one
+ * update court
+ * @param {*} dwelling 
+ * @param {*} currentDate 
+ */
 const replaceRuler = async (dwelling, currentDate) => {
+    const commands = []
     const advisors = dwelling.court.advisors.filter(a => a.isAlive == true)
-    let newRuler;
-    const oldRulerId = dwelling.court.rulerId
+    let character;
     if (advisors.length) {
         character = getRandomElementFromArray(advisors)
-        executeCommands([
-            { command: ENUM_COMMANDS.DELETEADVISOR, data: newRuler.id }
-        ])
+        commands.push({ command: ENUM_COMMANDS.DELETEADVISOR, data: character.id })
     }
     else {
         character = bCharacter.build({
@@ -190,22 +193,26 @@ const replaceRuler = async (dwelling, currentDate) => {
             religion: (!randomReligion) ? religion : getRandomReligion(),
             title: m.getTitleByDwellingSize(dwelling.size)
         })
+        commands.push({ command: ENUM_COMMANDS.INSERTCHARACTER, data: character })
     }
-
+    commands.push({ command: ENUM_COMMANDS.UPDATERULERINCOURT, data: court })
     dwelling.court.rulerId = character.id
     dwelling.court.ruler = character
 
-    
-    executeCommands([
-        { command: ENUM_COMMANDS.DELETECHARACTER, data: oldRulerId },
-        //{ command: ENUM_COMMANDS.INSERTADVISOR, data: advisor },
-        { command: ENUM_COMMANDS.INSERTCHARACTER, data: character },
-        { command: ENUM_COMMANDS.UPDATERULERINCOURT, data: court },
-    ])
+    await executeCommands(commands)
 }
 
 
+const getUnderBudgetAction = (dwelling) => {
+    const advisor = getRandomElementFromArray(dwelling.court.advisors)
+    //const res = m.consultAdvisor( dwelling.court.ruler, advisor )
+}
 
+const getOverBudgetAction = (dwelling) => {
+    const advisor = getRandomElementFromArray(dwelling.court.advisors)
+    //const res = m.consultAdvisor( dwelling.court.ruler, advisor )
+    
+}
 
 module.exports = {
     getTitleByDwellingSize,
@@ -215,5 +222,7 @@ module.exports = {
     upgradeCondition,
     downgradeCondition,
     dwellingQualityMultiplyer,
-    getGuardHappinessModifyer
+    getGuardHappinessModifyer,
+    getUnderBudgetAction,
+    getOverBudgetAction
 }
