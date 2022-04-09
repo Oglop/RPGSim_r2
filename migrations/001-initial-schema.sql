@@ -91,6 +91,15 @@ CREATE TABLE dwellingLocation
     status          int
 );
 
+CREATE TABLE npc
+(
+    id                  text,
+    dwellingLocationId  text,
+    name                text,
+    description         text,
+    type                int
+);
+
 CREATE TABLE storyLog
 (
     id              text,
@@ -173,3 +182,4 @@ DROP TABLE court;
 DROP TABLE world;
 DROP TABLE language;
 DROP TABLE skill;
+DROP TABLE npc;
