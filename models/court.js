@@ -35,7 +35,7 @@ const {
 
 const {
     executeCommands
-} = require('../persistance/aggregates/sequences')
+} = require('../persistance/commandQueue')
 
 
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries

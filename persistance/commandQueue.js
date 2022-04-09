@@ -1,8 +1,8 @@
 
-const { ENUM_COMMANDS } = require('../../generic/enums')
-const commands = require('../index').commands
-const { logError } = require('../../data/errorFile')
-const objects = require('../../generic/objects')
+const { ENUM_COMMANDS } = require('../generic/enums')
+const commands = require('./index').commands
+const { logError } = require('../data/errorFile')
+const objects = require('../generic/objects')
 
 const executeCommands = async (queue) => {
     if (typeof queue === 'object') {
@@ -28,6 +28,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.INSERTARMY: await commands.insertArmy(item.data); break;
                 case ENUM_COMMANDS.INSERTTROOP: await commands.insertTroop(item.data); break;
                 case ENUM_COMMANDS.INSERTLOAN: await commands.insertLoan(item.data); break;
+                case ENUM_COMMANDS.INSERT_NPC: await commands.insertNpc(item.data); break;
                 case ENUM_COMMANDS.UPDATEROOM: await commands.updateRoom(item.data); break;
                 case ENUM_COMMANDS.UPDATEDWELLING: await commands.updateDwelling(item.data); break;
                 case ENUM_COMMANDS.UPDATE_DWELLING_LOCATION: await commands.updateDwellingLocationStatus(item.data); break;

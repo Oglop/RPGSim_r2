@@ -8,7 +8,7 @@ const {
     handleCourtOldAges 
 } = require('../handlers/courtHandler')
 const { ENUM_COMMANDS } = require('../generic/enums')
-const { executeCommands } = require('../persistance/aggregates/sequences')
+const { executeCommands } = require('../persistance/commandQueue')
 
 
 /**

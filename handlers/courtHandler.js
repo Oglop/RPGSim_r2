@@ -38,7 +38,7 @@ const { citizens, character } = require('../generic/objects')
 const { getRandomReligion } = require('../generic/religions')
 const {
     executeCommands
-} = require('../persistance/aggregates/sequences')
+} = require('../persistance/commandQueue')
 const { isWithinBudget } = require('../models/ruler')
 /**
  * take a loan

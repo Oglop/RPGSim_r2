@@ -261,7 +261,8 @@ module.exports = {
         TAVERN: 1,
         SMITH: 2,
         TRAINING_GROUNDS: 3,
-        GUARDS_HOUSE: 4
+        GUARDS_HOUSE: 4,
+        TEMPLE: 5
     },
     ENUM_DWELLING_LOCATION_STATUS: {
         UNDER_CONSTRUCTION: 0,
@@ -420,8 +421,25 @@ module.exports = {
     ENUM_NPC_TYPE: {
         ADMINISTRATOR: 0,
         INN_KEEPER: 1,
-        COURT: 2,
-        MASTER: 3
+        NOBLE: 2,
+        MASTER: 3,
+        BAR_KEEPER: 4,
+        DWARF: 5,
+        ELF: 6,
+        HALFLING: 7,
+        WIZARD: 8,
+        BOUNCER: 9,
+        ADVENTURER: 10,
+        BOY: 11,
+        TEEN: 12,
+        SMITH: 13,
+        GIRL: 14,
+        GUARD: 15,
+        KNIGHT: 16,
+        FIGHTER: 17,
+        APRENTICE: 18,
+        PRIEST: 19
+
     },
     ENUM_OVERSPENDING_ACTION: {
         NONE: 0,
@@ -458,6 +476,7 @@ module.exports = {
         INSERTARMY: 'insertArmy',
         INSERTTROOP: 'insertTroop',
         INSERTLOAN: 'insertLoan',
+        INSERT_NPC: 'insertNPC',
 
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',

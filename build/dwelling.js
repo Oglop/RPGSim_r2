@@ -57,7 +57,7 @@ const getDwellingLocations = (dwelling) => {
     dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
     dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.TRAINING_GROUNDS, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
     if ( dwelling.size == ENUM_DWELLING_SIZE.TOWN ) {
-         bLocations
+        dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.TEMPLE, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
     }
 }
 

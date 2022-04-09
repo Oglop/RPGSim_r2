@@ -68,6 +68,13 @@ module.exports.get = (id, args) => {
         case 'coat-of-arms-figure-bridge': return 'bridge'
         case 'coat-of-arms-figure-feather': return 'feather'
         case 'coat-of-arms-figure-skull': return 'skull'
+        case 'character-expression-smirks': return `${args[0]} smirks.`
+        case 'character-expression-angry': return `${args[0]} is looking angry.`
+        case 'character-expression-smiles': return `${args[0]} smiles.`
+        case 'character-expression-frowns': return `${args[0]} frowns.`
+        case 'character-expression-worried': return `${args[0]} is looking worried.`
+        case 'character-expression-thankful': return `${args[0]} is thankful.`
+
         case 'character-trait-abomination': return `During full moon nights ${args[0]} turn into an blood thirsty abomination.`
         case 'character-trait-dark-past': return `${args[0]} grew up in the slums working for the local gang.`
         case 'character-trait-escaped-slave': return `${args[0]} is a former slave and is on the run from the slavers guild.`
@@ -225,8 +232,30 @@ module.exports.get = (id, args) => {
         case 'familyTree-removeDeadFamilies-1': return `The last of house ${args[0]} has died.`
         case 'familyTree-newFamily-1': return `The house of ${args[0]} enters the nobility of ${args[1]}.`
 
-        case 'npc-name-administrator': return `administrator`
-        case 'npc-name-inn-keeper': return `inn keeper`
+        case 'npc-description-administrator': return `administrator ${args[0]}`
+        case 'npc-description-inn-keeper': return `${args[0]} the inn keeper`
+        case 'npc-description-bar-keeper': return `${args[0]} the bar keeper`
+        case 'npc-description-noble': return `the noble ${args[0]} `
+        case 'npc-description-master': return `master ${args[0]} `
+        case 'npc-description-dwarf': return `${args[0]} the dwarf`
+        case 'npc-description-elf': return `${args[0]} the elf`
+        case 'npc-description-halfling': return `${args[0]} the halfling`
+        case 'npc-description-wizard': return `${args[0]} the wizaard`
+        case 'npc-description-bouncer': return `${args[0]} the bouncer`
+        case 'npc-description-adventurer': return `${args[0]} the adventurer`
+        case 'npc-description-boy': return `the young boy ${args[0]}`
+        case 'npc-description-teen': return `the teen ${args[0]}`
+        case 'npc-description-smith': return `the young girl ${args[0]}`
+        case 'npc-description-girl': return `the young girl ${args[0]}`
+        case 'npc-description-guard': return `${args[0]} the guard`
+        case 'npc-description-knight': return `${args[0]} the knight`
+        case 'npc-description-fighter': return `${args[0]} the fighter`
+        case 'npc-description-priest': return `${args[0]} the priest`
+        case 'npc-description-aprentice': return `the aprentice ${args[0]}`
+        // case 'npc-description-': return `${args[0]} `
+
+        case 'npc-approaches-party': return `${args[0]} is approaching ${args[1]}.`
+        case 'npc-greets-party': return `${args[0]} greets ${args[1]}.`
 
         case 'party-name-template': return `${args[0]} and party`
         case 'party-is-in-dwelling': return `${args[0]} is in ${args[1]}.`

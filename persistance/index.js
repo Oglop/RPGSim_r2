@@ -20,6 +20,7 @@ const { insertProduction } = require('./commands/insertProduction')
 const { insertArmy } = require('./commands/insertArmy')
 const { insertTroop } = require('./commands/insertTroop')
 const { insertLoan } = require('./commands/insertLoan')
+const { insertNpc } = require('./commands/insertNpc')
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
@@ -49,6 +50,7 @@ const { getProductionsByDwellingId } = require('./queries/getProductionsByDwelli
 const { getArmyByDwellingId } = require('./queries/getArmyByDwellingId')
 const { getTroopsByArmyId } = require('./queries/getTroopsByArmyId')
 const { getLoansByCourtId } = require('./queries/getLoansByCourtId')
+const { getNpcsByDwellingLocationId } = require('./queries/getNpcsByDwellingLocationId')
 
 module.exports = {
     commands: {
@@ -64,6 +66,7 @@ module.exports = {
         insertProduction: (production) => insertProduction(production),
         insertLanguage: (language) => insertLanguage(language),
         insertLoan: (loan) => insertLoan(loan),
+        insertNpc: (npc) => insertNpc(npc),
         insertRelation: (relation) => insertRelation(relation),
         insertRoom: (room) => insertRoom(room),
         insertSkill: (skill) => insertSkill(skill),
@@ -94,6 +97,7 @@ module.exports = {
         getProductionsByDwellingId: (dwellingId) => getProductionsByDwellingId(dwellingId),
         getLanguageByCharacterId: (id) => getLanguageByCharacterId(id),
         getLoansByCourtId: (courtId) => getLoansByCourtId(courtId),
+        getNpcsByDwellingLocationId: (dwellingLocationId) => getNpcsByDwellingLocationId(dwellingLocationId),
         getRelationByCharacterId: (characterId) => getRelationByCharacterId(characterId),
         getRoomByCoordinates: (x, y) => getRoomByCoordinates(x, y),
         getSkillByCharacterId: (id) => getSkillByCharacterId(id),

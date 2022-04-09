@@ -153,6 +153,7 @@ module.exports = {
         id: undefined,
         dwellingId: undefined,
         name: undefined,
+        npcs: [],
         type: undefined,
         status: undefined
     },
@@ -353,6 +354,7 @@ module.exports = {
     },
     npc: {
         id: undefined,
+        dwellingLocationId: undefined,
         name: undefined,
         description: undefined,
         type: undefined,
