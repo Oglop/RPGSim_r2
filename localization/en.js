@@ -12,6 +12,71 @@ module.exports.get = (id, args) => {
         case 'adventure-travel-north': return `${args[0]} travels north.`
         case 'adventure-travel-west': return `${args[0]} travels west.`
         case 'adventure-travel-south': return `${args[0]} travels south.`
+
+        case 'dwelling-location-name-guardhouse': return `${args[0]} guard house.`
+        case 'dwelling-location-name-traininggrounds': return `${args[0]} training grounds.`
+        case 'dwelling-location-name-smith': return `${args[0]}´s black smith.`
+        case 'dwelling-location-name-inn-tavern': return `The ${args[0]} ${args[1]}.`
+        case 'dwelling-location-name-first-running': return `running`
+        case 'dwelling-location-name-first-green': return `green`
+        case 'dwelling-location-name-first-iron': return `iron`
+        case 'dwelling-location-name-first-standing': return `standing`
+        case 'dwelling-location-name-first-crimson': return `crimson`
+        case 'dwelling-location-name-first-polite': return `polite`
+        case 'dwelling-location-name-first-lucky': return `lucky`
+        case 'dwelling-location-name-first-secret': return `secret`
+        case 'dwelling-location-name-first-olde': return `olde`
+        case 'dwelling-location-name-first-poor': return `poor`
+        case 'dwelling-location-name-first-queen´s': return `queens`
+        case 'dwelling-location-name-first-shattered': return `shattered`
+        case 'dwelling-location-name-first-wandering': return `wandering`
+        case 'dwelling-location-name-first-red': return `red`
+        case 'dwelling-location-name-first-bard´s': return `bards`
+        case 'dwelling-location-name-first-dancing': return `dancing`
+        case 'dwelling-location-name-first-drunken': return `drunken`
+        case 'dwelling-location-name-first-barking': return `barking`
+        case 'dwelling-location-name-first-golden': return `golden`
+
+        case 'dwelling-location-name-second-hamster': return `hamster`
+        case 'dwelling-location-name-second-hound': return `hound`
+        case 'dwelling-location-name-second-arms': return `arms`
+        case 'dwelling-location-name-second-axe': return `axe`
+        case 'dwelling-location-name-second-fox': return `fox`
+        case 'dwelling-location-name-second-pony': return `pony`
+        case 'dwelling-location-name-second-hen': return `hen`
+        case 'dwelling-location-name-second-dragon': return `dragon`
+        case 'dwelling-location-name-second-goblin': return `goblin`
+        case 'dwelling-location-name-second-miner': return `miner`
+        case 'dwelling-location-name-second-grotto': return `grotto`
+        case 'dwelling-location-name-second-glory': return `glory`
+        case 'dwelling-location-name-second-anvil': return `anvil`
+        case 'dwelling-location-name-second-barrel': return `barrel`
+        case 'dwelling-location-name-second-flagon': return `flagon`
+        case 'dwelling-location-name-second-ogre': return `ogre`
+        case 'dwelling-location-name-second-haven': return `haven`
+        case 'dwelling-location-name-second-house': return `house`
+        case 'dwelling-location-name-second-gate': return `gate`
+        case 'dwelling-location-name-second-rest': return `rest`
+        case 'dwelling-location-name-second-lantern': return `lantern`
+        case 'dwelling-location-name-second-cup': return `cup`
+        case 'dwelling-location-name-second-horn': return `horn`
+        case 'dwelling-location-name-second-crow': return `crow`
+        case 'dwelling-location-name-second-sleep': return `sleep`
+        case 'dwelling-location-name': return `The ${args[0]} ${args[1]}`
+
+        case 'dwelling-location-temple': return 'temple'
+        case 'dwelling-location-church': return 'church'
+        case 'dwelling-location-cathedral': return 'cathedral'
+        case 'dwelling-location-chapel': return 'chapel'
+        case 'dwelling-location-temple-description-high': return 'high'
+        case 'dwelling-location-temple-description-grand': return 'grand'
+        case 'dwelling-location-temple-description-secret': return 'secret'
+        case 'dwelling-location-temple-description-first': return 'first'
+        case 'dwelling-location-temple-description-great': return 'great'
+        case 'dwelling-location-temple-description-elated': return 'elated'
+        case 'dwelling-location-temple-description-exalted': return 'exalted'
+        case 'dwelling-location-temple-name': return `The ${args[0]} ${args[1]} of ${args[2]}`
+
         case 'combat-fight-turn': return `${args[0]} ${args[1]} ${args[2]} for ${args[3]} damage.`
         case 'combat-defeated': return `${args[0]} fell to the ground.`
         case 'character-died-from-age': return 'age'
