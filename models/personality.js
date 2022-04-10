@@ -150,8 +150,12 @@ const getChanceOfDowngrade = (personality) => {
     return 100
 }
 
+const dealWithUnderSpending = (personality, advisorResult, ongoingProjects) => {
 
-const dealWithOverSpending = (personality, taxRate) => {
+}
+
+
+const dealWithOverSpending = (personality, taxRate, advisorResult, ongoingProjects) => {
     if (personality == ENUM_PERSONALITIES.AMBITIOUS) {
         if (chance(30)) {
             return ENUM_OVERSPENDING_ACTION.MERCHANTS_LOAN;
@@ -416,5 +420,6 @@ module.exports = {
     partyExtraRelationshipRoll,
     getDescriptionByPersonality,
     getChanceOfDowngrade,
-    dealWithOverSpending
+    dealWithOverSpending,
+    dealWithUnderSpending
 }

@@ -28,7 +28,9 @@ const getRulerProject = (dwelling) => {
  * @returns 
  */
 const isWithinBudget = (dwelling) => {
-    const percentage = Math.floor( ( dwelling.citizens * dwelling.citizenTaxable ) * (dwelling.taxRate * 0.01) / dwelling.gold )
+
+    const percentage = 100 - Math.floor( (dwelling.court.monthlyExpense / dwelling.court.monthlyIncome) * 100 )
+    //const percentage = Math.floor( (( dwelling.citizens * dwelling.citizenTaxable )) * (dwelling.taxRate * 0.01) / dwelling.gold )
     let rulerWhishedPercentage = 10
     switch (dwelling.court.ruler.personality) {
         case ENUM_PERSONALITIES.AMBITIOUS: rulerWhishedPercentage = 6; break;

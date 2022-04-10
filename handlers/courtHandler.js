@@ -51,122 +51,47 @@ const handleFood = async (dwelling) => {
 
 const handleIncome = async (dwelling) => {
     let income = 0
-    dwelling.happiness = Math.round(((( 100 / dwelling.taxRate ) * m.getGuardHappinessModifyer(dwelling.guards)) * dwelling.citizenTaxable ) * 100) / 100 
     income = Math.floor( ( dwelling.citizens * dwelling.citizenTaxable ) * (dwelling.taxRate * 0.01) )
     income += m.incomeFromProduction(dwelling)
+    dwelling.court.monthlyIncome = income
     dwelling.gold += income
 }
 
 
 const handleExpenses = async (dwelling) => {
-    let isOverSpending = false
     let expense = 0
-    const costBaseMaintenanceGuards = Math.floor(dwelling.citizens * GUARD_COST_MAINTENANCE)
-    const costGuards = Math.floor(costBaseMaintenanceGuards * GUARD_COST_MULTIPLYER * m.dwellingQualityMultiplyer(dwelling.guards))
-    const costWalls= Math.floor((( dwelling.citizens * WALLS_COST_MULTIPLYER) + WALLS_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.walls))
-    const costGate = Math.floor((( dwelling.citizens * GATE_COST_MULTIPLYER) + GATE_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.gate))
-    const costMoat = Math.floor((( dwelling.citizens * MOAT_COST_MULTIPLYER) + MAOT_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.moats))
+    
     for (loan of dwelling.court.loans) {
-        expense -= m.payLoans(dwelling, loan)
+        expense += m.payLoans(dwelling, loan)
     }
+
     // guards
     if (dwelling.guards != ENUM_DWELLING_CONDITIONS.NONE) {
-        if (expense >= costGuards) {
-            expense -= costGuards
-        }
-        else {
-            expense = 0
-            if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.guards = m.downgradeCondition(dwelling.guards) }
-            else {
-                isOverSpending = true
-            }
-        }
+        const costBaseMaintenanceGuards = Math.floor(dwelling.citizens * GUARD_COST_MAINTENANCE)
+        const costGuards = Math.floor(costBaseMaintenanceGuards * GUARD_COST_MULTIPLYER * m.dwellingQualityMultiplyer(dwelling.guards))
+        expense += costGuards
     }
     // walls
     if (dwelling.walls != ENUM_DWELLING_CONDITIONS.NONE) {
-        if (expense >= costWalls) {
-            expense -= costWalls
-        }
-        else {
-            expense = 0
-            if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.walls = m.downgradeCondition(dwelling.walls) }
-            else {
-                isOverSpending = true
-            }
-        }
+        const costWalls= Math.floor((( dwelling.citizens * WALLS_COST_MULTIPLYER) + WALLS_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.walls))
+        expense += costWalls
     }
     // gate
     if (dwelling.gate != ENUM_DWELLING_CONDITIONS.NONE) {
-        if (expense >= costGate) {
-            expense -= costGate
-        }
-        else {
-            expense = 0
-            if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.gate = m.downgradeCondition(dwelling.gate) }
-            else {
-                isOverSpending = true
-            }
-        }
+        const costGate = Math.floor((( dwelling.citizens * GATE_COST_MULTIPLYER) + GATE_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.gate))
+        expense += costGate
     }
     // moat
     if (dwelling.moats != ENUM_DWELLING_CONDITIONS.NONE) {
-        if (expense >= costMoat) {
-            expense -= costMoat
-        }
-        else {
-            expense = 0
-            if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.moats = m.downgradeCondition(dwelling.moats) }
-            else {
-                isOverSpending = true
-            }
-        }
+        const costMoat = Math.floor((( dwelling.citizens * MOAT_COST_MULTIPLYER) + MAOT_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.moats))
+        expense += costMoat
     }
 
     // army
     const cost = getArmyCost(dwelling.army)
-    if (expense > cost) {
-        expense -= cost
-    } else {
-        expense = 0
-        if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) 
-        { 
-            downSizeArmy(dwelling.army)
-        } else {
-            isOverSpending = true
-        }
-    }
+    expense += cost
 
-    // overspending action
-    if (isOverSpending) {
-        const overspendingAction = dealWithOverSpending(dwelling.court.ruler.personality)
-        if (overspendingAction == ENUM_OVERSPENDING_ACTION.DOWNSIZE_ARMY) { 
-
-        }
-        if (overspendingAction == ENUM_OVERSPENDING_ACTION.INCREASE_TAX) { 
-            dwelling.taxRate += getRandomNumberInRange(1,3)
-        }
-        if (overspendingAction == ENUM_OVERSPENDING_ACTION.MERCHANTS_LOAN) { 
-            const loan = m.takeLoan(
-                dwelling.court.id,
-                dwelling.court.rulerId,
-                'MERCHANTS',
-                dwelling
-            )
-            dwelling.court.loans.push(loan)
-            dwelling.gold += loan.amount
-        }
-        if (overspendingAction == ENUM_OVERSPENDING_ACTION.RELIGIOUS_FUNDS) { 
-            const loan = m.takeLoan(
-                dwelling.court.id,
-                dwelling.court.rulerId,
-                'CHURCH',
-                dwelling
-            )
-            dwelling.court.loans.push(loan)
-            dwelling.gold += loan.amount
-        }
-        
-    }
+    dwelling.court.monthlyExpense = expense
     dwelling.gold -= expense
 }
 
@@ -206,16 +131,27 @@ const handleCourtOldAges = async (dwelling, currentDate) => {
     
 }
 
-const handleBudget = (dwelling) => {
+const handleConstructionStatus = (dwelling) => {
+    const finishedAConstruction = m.testFinishConstruction(dwelling)
+    // could be used for something
+}
+
+const handleBudget = async (dwelling, world) => {
 
     if (isWithinBudget(dwelling)) {
-        m.getOverBudgetAction(dwelling)
+        await m.getOverBudgetAction(dwelling, world)
     }
     else {
-        m.getUnderBudgetAction(dwelling)
+        await m.getUnderBudgetAction(dwelling, world)
     }
 
     
+
+}
+
+const handlePublicHappinessLevel = (dwelling) => {
+    const previousMonth = dwelling.happiness
+    dwelling.happiness = Math.round(((( 100 / dwelling.taxRate ) * m.getGuardHappinessModifyer(dwelling.guards)) * dwelling.citizenTaxable ) * 100) / 100 
 
 }
 
@@ -225,5 +161,7 @@ module.exports = {
     handleCourtOldAges,
     handleIncome,
     handleExpenses,
-    handleFood
+    handleFood,
+    handleConstructionStatus,
+    handlePublicHappinessLevel
 }

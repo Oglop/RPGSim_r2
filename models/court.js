@@ -8,10 +8,13 @@ const {
     ENUM_PERSONALITIES, 
     ENUM_PERSONALITY_DEALS_RESULT, 
     ENUM_PERSONALITY_DEALS_TYPE, 
+    ENUM_DWELLING_LOCATION_STATUS,
     ENUM_DWELLING_CONDITIONS,
     ENUM_DWELLINGS,
     ENUM_DWELLING_SIZE,
-    ENUM_DWELLING_PRODUCTION_TYPE
+    ENUM_DWELLING_PRODUCTION_TYPE,
+    ENUM_UNDERSPANDING_ACTION,
+    ENUM_OVERSPENDING_ACTION
 } = require('../generic/enums')
 const { 
     chance,
@@ -41,10 +44,11 @@ const {
 
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { tryToUnderstandEachOther } = require('./language')
-const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade } = require('./personality')
+const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade, dealWithUnderSpending, dealWithOverSpending } = require('./personality')
 const m = require('../models/court')
 const { getRandomReligion } = require('../generic/religions')
 const { getAgeSimple } = require('../lib/time')
+const { hasOngoingProject } = require('./dwelling')
 
 const upgradeCondition = (condition) => {
     switch (condition) {
@@ -75,11 +79,14 @@ const dwellingQualityMultiplyer = (quality) => {
     }
 }
 
-
-const consultAdvisor = async (dwelling) => {
+/**
+ * return good bad or normal based on personality compability check
+ * @param {object} dwelling 
+ * @returns {ENUM_PERSONALITY_DEALS_RESULT}
+ */
+const consultAdvisor = async (ruler, advisor) => {
     try {
-        const advisor = getRandomElementFromArray(dwelling.court.advisors)
-        const advisoryResult = compabilityCheck(dwelling.court.ruler, advisor)
+        const advisoryResult = compabilityCheck(ruler, advisor.character)
         const result = (advisoryResult <= 0) ? ENUM_PERSONALITY_DEALS_RESULT.BAD : 
                         (advisoryResult >= 3) ? ENUM_PERSONALITY_DEALS_RESULT.GOOD : 
                                                 ENUM_PERSONALITY_DEALS_RESULT.NORMAL
@@ -204,15 +211,210 @@ const replaceRuler = async (dwelling, currentDate) => {
 }
 
 
-const getUnderBudgetAction = (dwelling) => {
+/**
+ * executes action based on court balance under budget
+ * @param {object} dwelling 
+ * @param {object} world 
+ */
+const getUnderBudgetAction = async (dwelling, world) => {
+
+    const personality = dwelling.court.ruler.personality
     const advisor = getRandomElementFromArray(dwelling.court.advisors)
-    //const res = m.consultAdvisor( dwelling.court.ruler, advisor )
+    const ongoingProjects = hasOngoingProject(dwelling)
+    const advisorResult = consultAdvisor( dwelling.court.ruler, advisor )
+
+    const action = dealWithUnderSpending(personality, advisorResult, dwelling, ongoingProjects)
+    switch (action) {
+        case ENUM_UNDERSPANDING_ACTION.DECREASE_TAX: await decreaseTaxrate(dwelling); break;
+        case ENUM_UNDERSPANDING_ACTION.INCREASE_DEFENCES: await increaseDefenses(dwelling); break;
+        case ENUM_UNDERSPANDING_ACTION.INCREASE_MILITARY: await upSizeArmy(dwelling); break;
+        case ENUM_UNDERSPANDING_ACTION.INCREASE_PRODUCTION: await increaseProduction(dwelling); break;
+        case ENUM_UNDERSPANDING_ACTION.INCREASE_TREASURY: await putMoneyOnPile(dwelling); break;
+        case ENUM_UNDERSPANDING_ACTION.NONE: break;
+        case ENUM_UNDERSPANDING_ACTION.SEEK_TRADE: await seekTradePartnership(dwelling, world); break;
+        case ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION: await startConstruction(dwelling); break;
+        case ENUM_UNDERSPANDING_ACTION.TOURNEY: await tourney(dwelling, world); break;
+    }
+
 }
 
-const getOverBudgetAction = (dwelling) => {
+/**
+ * executes action based on court over spending
+ * @param {object} dwelling 
+ * @param {object} world 
+ */
+const getOverBudgetAction = async (dwelling, world) => {
+
+    const personality = dwelling.court.ruler.personality
     const advisor = getRandomElementFromArray(dwelling.court.advisors)
-    //const res = m.consultAdvisor( dwelling.court.ruler, advisor )
+    const ongoingProjects = hasOngoingProject(dwelling)
+    const advisorResult = consultAdvisor( dwelling.court.ruler, advisor )
+
+    const action = dealWithOverSpending(personality, advisorResult, dwelling, ongoingProjects)
+    switch (action) {
+        case ENUM_OVERSPENDING_ACTION.ABANDON_CONSTRUCTION: await abandonConstruction(dwelling); break;
+        case ENUM_OVERSPENDING_ACTION.DECREASE_DEFENCES: await decreaseDefenses(dwelling); break;
+        case ENUM_OVERSPENDING_ACTION.DOWNSIZE_ARMY: await downSizeArmy(dwelling); break;
+        case ENUM_OVERSPENDING_ACTION.GO_PLUNDER: await goPlunder(dwelling, world); break;
+        case ENUM_OVERSPENDING_ACTION.INCREASE_PRODUCTION: await increaseProduction(dwelling); break;
+        case ENUM_OVERSPENDING_ACTION.INCREASE_TAX: await increaseTaxrate(dwelling); break;
+        case ENUM_OVERSPENDING_ACTION.MERCHANTS_LOAN: await merchantsLoan(dwelling); break;
+        case ENUM_OVERSPENDING_ACTION.NONE: break;
+        case ENUM_OVERSPENDING_ACTION.RELIGIOUS_FUNDS: await seekReligiousFunds(dwelling); break;
+        case ENUM_OVERSPENDING_ACTION.SEEK_TRADE: await seekTradePartnership(dwelling, world); break;
+    }
+
+
+}
+
+/**
+ * SEEK_TRADE action
+ * @param {object} dwelling 
+ * @param {object} world 
+ */
+const seekTradePartnership = async (dwelling, world) => {
+
+}
+
+/**
+ * INCREASE_TAX action
+ * @param {object} dwelling 
+ */
+const increaseTaxrate = async (dwelling) => {
+    dwelling.taxRate += getRandomNumberInRange(1,3)
+}
+
+/**
+ * DECREASE_TAX action
+ * @param {object} dwelling 
+ */
+const decreaseTaxrate = async (dwelling) => {
+    dwelling.taxRate -= getRandomNumberInRange(1,3)
+}
+
+/**
+ * DOWNSIZE_ARMY action
+ * @param {object} dwelling 
+ */
+const downSizeArmy = async (dwelling) => {
     
+}
+
+/**
+ * INCREASE_MILITARY action
+ * @param {object} dwelling 
+ */
+const upSizeArmy = async (dwelling) => {
+
+}
+
+/**
+ * creates new nobles from dwellings
+ * TOURNEY action
+ * @param {object} dwelling 
+ * @param {object} world 
+ */
+const tourney = async (dwelling, world) => {
+
+}
+
+/**
+ * RELIGIOUS_FUNDS action
+ * @param {object} dwelling 
+ */
+const seekReligiousFunds = async (dwelling) => {
+    const loan = takeLoan(
+        dwelling.court.id,
+        dwelling.court.rulerId,
+        'CHURCH',
+        dwelling
+    )
+    dwelling.court.loans.push(loan)
+}
+
+/**
+ * MERCHANTS_LOAN action
+ * @param {object} dwelling 
+ */
+const merchantsLoan = async (dwelling) => {
+    const loan = takeLoan(
+        dwelling.court.id,
+        dwelling.court.rulerId,
+        'MERCHANTS',
+        dwelling
+    )
+    dwelling.court.loans.push(loan)
+}
+
+/**
+ * ABANDON_CONSTRUCTION action
+ * @param {object} dwelling 
+ */
+const abandonConstruction = async (dwelling) => {
+
+}
+
+/**
+ * START_CONSTRUCTION action
+ * @param {object} dwelling 
+ */
+const startConstruction = async (dwelling) => {
+
+}
+
+/**
+ * GO_PLUNDER action
+ * @param {object} dwelling 
+ * @param {object} world 
+ */
+const goPlunder = async (dwelling, world) => {
+
+}
+
+/**
+ * DECREASE_DEFENCES action
+ * @param {object} dwelling 
+ */
+const decreaseDefenses = async (dwelling) => {
+    
+}
+
+/**
+ * INCREASE_DEFENCES action
+ * @param {object} dwelling 
+ */
+const increaseDefenses = async (dwelling) => {
+
+}
+
+/**
+ * INCREASE_TREASURY action
+ * @param {object} dwelling 
+ */
+const putMoneyOnPile = async (dwelling) => {
+
+}
+
+/**
+ * INCREASE_PRODUCTION action
+ * @param {object} dwelling 
+ * @param {object} world
+ */
+const increaseProduction = async (dwelling, world) => {
+
+}
+
+const testFinishConstruction = (dwelling) => {
+    let finishedConstruction = false
+    for (let location of dwelling.locations) {
+        if (location.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION) {
+            if (chance(getRandomNumberInRange(10, 40))) { 
+                location.status = ENUM_DWELLING_LOCATION_STATUS.ACTIVE 
+                finishedConstruction = true
+            }
+        }
+    }
+    return finishedConstruction
 }
 
 /**
@@ -259,7 +461,7 @@ const incomeFromProduction = (dwelling) => {
             case ENUM_DWELLING_PRODUCTION_TYPE.WOOD: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(2, 4); break;
         }
     }
-
+    return income
 }
 
 const foodFromProduction = (dwelling) => {
@@ -290,5 +492,6 @@ module.exports = {
     dwellingQualityMultiplyer,
     getGuardHappinessModifyer,
     getUnderBudgetAction,
-    getOverBudgetAction
+    getOverBudgetAction,
+    testFinishConstruction
 }

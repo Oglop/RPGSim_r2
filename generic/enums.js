@@ -446,7 +446,23 @@ module.exports = {
         INCREASE_TAX: 1,
         DOWNSIZE_ARMY: 2,
         RELIGIOUS_FUNDS: 3,
-        MERCHANTS_LOAN: 4
+        MERCHANTS_LOAN: 4,
+        ABANDON_CONSTRUCTION: 5,
+        SEEK_TRADE: 6,
+        GO_PLUNDER: 7,
+        DECREASE_DEFENCES: 8,
+        INCREASE_PRODUCTION: 9
+    },
+    ENUM_UNDERSPANDING_ACTION: {
+        NONE: 0,
+        DECREASE_TAX: 1,
+        TOURNEY: 2,
+        INCREASE_MILITARY: 3,
+        INCREASE_DEFENCES: 4,
+        INCREASE_TREASURY: 5,
+        START_CONSTRUCTION: 6,
+        SEEK_TRADE: 7,
+        INCREASE_PRODUCTION: 8
     },
     ENUM_CHARACTER_HEALTH_STATUS: {
         BAD_HEARING: 0,

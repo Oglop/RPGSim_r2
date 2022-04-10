@@ -105,6 +105,8 @@ module.exports = {
         dwellingId: undefined,
         rulerId: undefined,
         ruler: undefined,
+        monthlyIncome: 0,
+        monthlyExpense: 0,
         advisors: [],
         loans: [],
         projects: []
@@ -131,6 +133,7 @@ module.exports = {
         courtId: undefined,
         production: [],
         locations: [],
+        trade: [],
         army: undefined,
         citizens: undefined,
         citizenTaxable: 1.0,
