@@ -135,6 +135,7 @@ const firstFemaleNames = [
     'Deana',
     'Deimi',
     'Enni',
+    'Elda',
     'Fargi',
     'Fionaciosi',
     'Giovania',

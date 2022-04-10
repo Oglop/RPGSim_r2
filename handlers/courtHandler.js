@@ -31,79 +31,16 @@ const {
 
 const { getArmyCost, downSizeArmy } = require('../models/army')
 const { checkOldAgeHealth } = require('../models/character')
-const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade, dealWithOverSpending } = require('../models/personality')
+const { getChanceOfDowngrade, dealWithOverSpending } = require('../models/personality')
 const m = require('../models/court')
-const bCharacter = require('../build/character')
-const { citizens, character } = require('../generic/objects')
-const { getRandomReligion } = require('../generic/religions')
+
 const {
     executeCommands
 } = require('../persistance/commandQueue')
 const { isWithinBudget } = require('../models/ruler')
-/**
- * take a loan
- * @param {string} courtId 
- * @param {string} rulerId 
- * @param {string} from 
- * @param {object} dwelling 
- * @returns 
- */
-const takeLoan = (courtId, rulerId, from, dwelling) => {
-    const l = copyObject(objects.loan)
-    l.id = generateID()
-    l.courtId = courtId
-    l.rulerId = rulerId
-    l.amount = Math.floor( (dwelling.citizens * 0.01) * 10 )
-    l.from = from
-    return l
-}
-
-/**
- * pay off loan
- * @param {object} dwelling 
- * @param {object} loan 
- * @returns {integer}
- */
-const payLoans = (dwelling, loan) => {
-    const interest = Math.floor(loan.amount * 0.01) + 1
-    const toBePayed = Math.floor(loan.amount * 0.2) + interest
-    return toBePayed
-}
-
-
-const incomeFromProduction = (dwelling) => {
-    let income = 0
-    for (let p of dwelling.production) {
-        switch (p.type) {
-            case ENUM_DWELLING_PRODUCTION_TYPE.ADAMANTINE: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(46, 68); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.CRYSTAL: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(8, 16); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.GEMS: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(24, 35); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.GOLD: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(16, 27); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.IRON: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(6, 10); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.SALT: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(13, 17); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.STONE: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(3, 5); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.WOOD: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(2, 4); break;
-        }
-    }
-
-}
-
-const foodFromProduction = (dwelling) => {
-    let food = 0
-    for (let p of dwelling.production) {
-        switch (p.type) {
-            case ENUM_DWELLING_PRODUCTION_TYPE.CATTLE: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(15, 40); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.DEER: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(5, 25); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.FISH: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(15, 35); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.MUSHROOMS: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(40, 60); break;
-            case ENUM_DWELLING_PRODUCTION_TYPE.WHEAT: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(60, 70); break;
-        }
-    }
-    return Math.floor(food)
-}
 
 const handleFood = async (dwelling) => {
-    const foodProduced = foodFromProduction(dwelling)
+    const foodProduced = m.foodFromProduction(dwelling)
     dwelling.food += foodProduced
     dwelling.food -= dwelling.citizens
     if (dwelling.food <= 0) {
@@ -112,31 +49,33 @@ const handleFood = async (dwelling) => {
     }
 }
 
-
-const handleIncomeExpenses = async (dwelling) => {
+const handleIncome = async (dwelling) => {
+    let income = 0
     dwelling.happiness = Math.round(((( 100 / dwelling.taxRate ) * m.getGuardHappinessModifyer(dwelling.guards)) * dwelling.citizenTaxable ) * 100) / 100 
+    income = Math.floor( ( dwelling.citizens * dwelling.citizenTaxable ) * (dwelling.taxRate * 0.01) )
+    income += m.incomeFromProduction(dwelling)
+    dwelling.gold += income
+}
 
+
+const handleExpenses = async (dwelling) => {
     let isOverSpending = false
+    let expense = 0
     const costBaseMaintenanceGuards = Math.floor(dwelling.citizens * GUARD_COST_MAINTENANCE)
     const costGuards = Math.floor(costBaseMaintenanceGuards * GUARD_COST_MULTIPLYER * m.dwellingQualityMultiplyer(dwelling.guards))
     const costWalls= Math.floor((( dwelling.citizens * WALLS_COST_MULTIPLYER) + WALLS_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.walls))
     const costGate = Math.floor((( dwelling.citizens * GATE_COST_MULTIPLYER) + GATE_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.gate))
     const costMoat = Math.floor((( dwelling.citizens * MOAT_COST_MULTIPLYER) + MAOT_COST_MAINTENANCE ) * m.dwellingQualityMultiplyer(dwelling.moats))
-
-    let balance = Math.floor( ( dwelling.citizens * dwelling.citizenTaxable ) * (dwelling.taxRate * 0.01) )
-    balance += incomeFromProduction(dwelling)
     for (loan of dwelling.court.loans) {
-        balance -= payLoans(dwelling, loan)
+        expense -= m.payLoans(dwelling, loan)
     }
-
-    const monthlyIncome = balance // + trade
     // guards
     if (dwelling.guards != ENUM_DWELLING_CONDITIONS.NONE) {
-        if (balance >= costGuards) {
-            balance -= costGuards
+        if (expense >= costGuards) {
+            expense -= costGuards
         }
         else {
-            balance = 0
+            expense = 0
             if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.guards = m.downgradeCondition(dwelling.guards) }
             else {
                 isOverSpending = true
@@ -145,11 +84,11 @@ const handleIncomeExpenses = async (dwelling) => {
     }
     // walls
     if (dwelling.walls != ENUM_DWELLING_CONDITIONS.NONE) {
-        if (balance >= costWalls) {
-            balance -= costWalls
+        if (expense >= costWalls) {
+            expense -= costWalls
         }
         else {
-            balance = 0
+            expense = 0
             if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.walls = m.downgradeCondition(dwelling.walls) }
             else {
                 isOverSpending = true
@@ -158,11 +97,11 @@ const handleIncomeExpenses = async (dwelling) => {
     }
     // gate
     if (dwelling.gate != ENUM_DWELLING_CONDITIONS.NONE) {
-        if (balance >= costGate) {
-            balance -= costGate
+        if (expense >= costGate) {
+            expense -= costGate
         }
         else {
-            balance = 0
+            expense = 0
             if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.gate = m.downgradeCondition(dwelling.gate) }
             else {
                 isOverSpending = true
@@ -171,11 +110,11 @@ const handleIncomeExpenses = async (dwelling) => {
     }
     // moat
     if (dwelling.moats != ENUM_DWELLING_CONDITIONS.NONE) {
-        if (balance >= costMoat) {
-            balance -= costMoat
+        if (expense >= costMoat) {
+            expense -= costMoat
         }
         else {
-            balance = 0
+            expense = 0
             if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) { dwelling.moats = m.downgradeCondition(dwelling.moats) }
             else {
                 isOverSpending = true
@@ -185,10 +124,10 @@ const handleIncomeExpenses = async (dwelling) => {
 
     // army
     const cost = getArmyCost(dwelling.army)
-    if (balance > cost) {
-        balance -= cost
+    if (expense > cost) {
+        expense -= cost
     } else {
-        balance = 0
+        expense = 0
         if (chance(getChanceOfDowngrade(dwelling.court.ruler.personality))) 
         { 
             downSizeArmy(dwelling.army)
@@ -196,7 +135,8 @@ const handleIncomeExpenses = async (dwelling) => {
             isOverSpending = true
         }
     }
-    
+
+    // overspending action
     if (isOverSpending) {
         const overspendingAction = dealWithOverSpending(dwelling.court.ruler.personality)
         if (overspendingAction == ENUM_OVERSPENDING_ACTION.DOWNSIZE_ARMY) { 
@@ -206,7 +146,7 @@ const handleIncomeExpenses = async (dwelling) => {
             dwelling.taxRate += getRandomNumberInRange(1,3)
         }
         if (overspendingAction == ENUM_OVERSPENDING_ACTION.MERCHANTS_LOAN) { 
-            const loan = takeLoan(
+            const loan = m.takeLoan(
                 dwelling.court.id,
                 dwelling.court.rulerId,
                 'MERCHANTS',
@@ -216,7 +156,7 @@ const handleIncomeExpenses = async (dwelling) => {
             dwelling.gold += loan.amount
         }
         if (overspendingAction == ENUM_OVERSPENDING_ACTION.RELIGIOUS_FUNDS) { 
-            const loan = takeLoan(
+            const loan = m.takeLoan(
                 dwelling.court.id,
                 dwelling.court.rulerId,
                 'CHURCH',
@@ -227,10 +167,9 @@ const handleIncomeExpenses = async (dwelling) => {
         }
         
     }
-
-    
-    dwelling.gold += balance
+    dwelling.gold -= expense
 }
+
 
 const handleCourtOldAges = async (dwelling, currentDate) => {
     const commands = []
@@ -267,7 +206,7 @@ const handleCourtOldAges = async (dwelling, currentDate) => {
     
 }
 
-const handleSpendings = (dwelling) => {
+const handleBudget = (dwelling) => {
 
     if (isWithinBudget(dwelling)) {
         m.getOverBudgetAction(dwelling)
@@ -282,9 +221,9 @@ const handleSpendings = (dwelling) => {
 
 
 module.exports = {
-    handleSpendings,
+    handleBudget,
     handleCourtOldAges,
-    handleIncomeExpenses,
-    handleFood,
-    takeLoan
+    handleIncome,
+    handleExpenses,
+    handleFood
 }

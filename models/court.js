@@ -10,7 +10,8 @@ const {
     ENUM_PERSONALITY_DEALS_TYPE, 
     ENUM_DWELLING_CONDITIONS,
     ENUM_DWELLINGS,
-    ENUM_DWELLING_SIZE
+    ENUM_DWELLING_SIZE,
+    ENUM_DWELLING_PRODUCTION_TYPE
 } = require('../generic/enums')
 const { 
     chance,
@@ -214,7 +215,72 @@ const getOverBudgetAction = (dwelling) => {
     
 }
 
+/**
+ * take a loan
+ * @param {string} courtId 
+ * @param {string} rulerId 
+ * @param {string} from 
+ * @param {object} dwelling 
+ * @returns 
+ */
+ const takeLoan = (courtId, rulerId, from, dwelling) => {
+    const l = copyObject(objects.loan)
+    l.id = generateID()
+    l.courtId = courtId
+    l.rulerId = rulerId
+    l.amount = Math.floor( (dwelling.citizens * 0.01) * 10 )
+    l.from = from
+    return l
+}
+
+/**
+ * pay off loan
+ * @param {object} dwelling 
+ * @param {object} loan 
+ * @returns {integer}
+ */
+ const payLoans = (dwelling, loan) => {
+    const interest = Math.floor(loan.amount * 0.01) + 1
+    const toBePayed = Math.floor(loan.amount * 0.2) + interest
+    return toBePayed
+}
+
+const incomeFromProduction = (dwelling) => {
+    let income = 0
+    for (let p of dwelling.production) {
+        switch (p.type) {
+            case ENUM_DWELLING_PRODUCTION_TYPE.ADAMANTINE: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(46, 68); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.CRYSTAL: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(8, 16); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.GEMS: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(24, 35); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.GOLD: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(16, 27); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.IRON: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(6, 10); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.SALT: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(13, 17); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.STONE: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(3, 5); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.WOOD: income += (dwelling.citizens * 0.01) * getRandomNumberInRange(2, 4); break;
+        }
+    }
+
+}
+
+const foodFromProduction = (dwelling) => {
+    let food = 0
+    for (let p of dwelling.production) {
+        switch (p.type) {
+            case ENUM_DWELLING_PRODUCTION_TYPE.CATTLE: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(15, 40); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.DEER: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(5, 25); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.FISH: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(15, 35); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.MUSHROOMS: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(40, 60); break;
+            case ENUM_DWELLING_PRODUCTION_TYPE.WHEAT: food += (dwelling.citizens * 0.01) * getRandomNumberInRange(60, 70); break;
+        }
+    }
+    return Math.floor(food)
+}
+
 module.exports = {
+    incomeFromProduction,
+    foodFromProduction,
+    takeLoan,
+    payLoans,
     getTitleByDwellingSize,
     replaceAdvisors,
     replaceRuler,

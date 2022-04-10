@@ -2,8 +2,9 @@ const {
 } = require('../models/family')
 const { historyEvents } = require('./eventsHandler')
 const { 
-    handleSpendings,
-    handleIncomeExpenses, 
+    handleBudget,
+    handleIncome,
+    handleExpenses, 
     handleFood, 
     handleCourtOldAges 
 } = require('../handlers/courtHandler')
@@ -20,10 +21,14 @@ module.exports.progressHistory = async (world) => {
     
     for (let dwelling of world.dwellings) { 
         // Collect texes
-        await handleIncomeExpenses(dwelling)    
+        await handleIncome(dwelling)
+        await handleExpenses(dwelling)
         await handleFood(dwelling)
+        
+        // search for new projects
+        
         // Spend Money check with advisors
-        await handleSpendings(dwelling)
+        await handleBudget(dwelling)
 
 
         // check events

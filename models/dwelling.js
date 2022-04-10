@@ -1,6 +1,7 @@
 const { 
     ENUM_DWELLINGS,
-    ENUM_RACE_NAMES
+    ENUM_RACE_NAMES,
+    ENUM_DWELLING_LOCATION_STATUS
 } = require('../generic/enums')
 
 const getRaceFromDwellingType = (dwelling) => {
@@ -14,6 +15,16 @@ const getRaceFromDwellingType = (dwelling) => {
     }
 }
 
+/**
+ * returns number of ungoing projects
+ * @param {object} dwelling 
+ * @returns {integer}
+ */
+const hasOngoingProject = (dwelling) => {
+    return dwelling.locations.filter(l => l.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION)
+}
+
 module.exports = {
-    getRaceFromDwellingType
+    getRaceFromDwellingType,
+    hasOngoingProject
 }
