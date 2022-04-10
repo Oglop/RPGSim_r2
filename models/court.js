@@ -351,7 +351,16 @@ const merchantsLoan = async (dwelling) => {
  * @param {object} dwelling 
  */
 const abandonConstruction = async (dwelling) => {
-
+    
+    for (let location of dwelling.locations) {
+        if (location.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION) {
+            location.status = ENUM_DWELLING_LOCATION_STATUS.ABANDONED 
+            await executeCommands([
+                { command: ENUM_COMMANDS.UPDATE_DWELLING_LOCATION, data: location }
+            ])
+            return
+        }
+    }
 }
 
 /**
