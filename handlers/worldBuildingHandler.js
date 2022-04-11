@@ -9,7 +9,7 @@ const { ENUM_FILE_TYPE } = require('../generic/enums')
 const { save } = require('../data/fileStorage')
 const { logError } = require('../data/errorFile')
 const { writeMap } = require('../output/visualize')
-const { saveVisualization, saveWorld, worldSize } = require('../config')
+const { saveVisualization } = require('../config')
 const { Output } = require('../output/output')
 const { offLoadWorld } = require('../models/world')
 
@@ -31,6 +31,8 @@ const generateWorld = async (options = {}) => {
         try {
             world.date = setWorldStartDate({})
             await mapBuilder.build(world)
+
+            
         } catch (e) {
             const err = objects.error
             err.file = __filename
@@ -39,6 +41,20 @@ const generateWorld = async (options = {}) => {
             err.message = e.message
             errors.push(err)
         }
+
+        if (saveVisualization) {
+            try {
+                writeMap(world.map, world.id)
+            } catch (e) {
+                const err = objects.error
+                err.file = __filename
+                err.function = 'generateWorld'
+                err.step = 'write visualization'
+                err.message = e.message
+                errors.push(err)
+            }
+        }
+
         try {
             await offLoadWorld(world)
         } catch (e) {
