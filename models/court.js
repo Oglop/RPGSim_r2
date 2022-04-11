@@ -219,7 +219,7 @@ const replaceRuler = async (dwelling, currentDate) => {
  * @param {object} dwelling 
  * @param {object} world 
  */
-const getUnderBudgetAction = async (dwelling, world) => {
+const underBudgetAction = async (dwelling, world) => {
 
     const personality = dwelling.court.ruler.personality
     const advisor = getRandomElementFromArray(dwelling.court.advisors)
@@ -246,7 +246,7 @@ const getUnderBudgetAction = async (dwelling, world) => {
  * @param {object} dwelling 
  * @param {object} world 
  */
-const getOverBudgetAction = async (dwelling, world) => {
+const overBudgetAction = async (dwelling, world) => {
 
     const personality = dwelling.court.ruler.personality
     const advisor = getRandomElementFromArray(dwelling.court.advisors)
@@ -546,7 +546,7 @@ module.exports = {
     downgradeCondition,
     dwellingQualityMultiplyer,
     getGuardHappinessModifyer,
-    getUnderBudgetAction,
-    getOverBudgetAction,
+    underBudgetAction,
+    overBudgetAction,
     testFinishConstruction
 }

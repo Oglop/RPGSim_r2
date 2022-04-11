@@ -139,10 +139,10 @@ const handleConstructionStatus = (dwelling) => {
 const handleBudget = async (dwelling, world) => {
 
     if (isWithinBudget(dwelling)) {
-        await m.getOverBudgetAction(dwelling, world)
+        await m.overBudgetAction(dwelling, world)
     }
     else {
-        await m.getUnderBudgetAction(dwelling, world)
+        await m.underBudgetAction(dwelling, world)
     }
 
     

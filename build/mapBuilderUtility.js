@@ -172,7 +172,8 @@ const trueNoice = (map, options = {}) => {
         const y = getRandomNumberInRange(0, WORLD_SIZE - 1)
         if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
             let h = getRandomNumberInRange(0, 1)
-            if(chance(20)) { h = -1 }
+            h += getRandomNumberInRange(0, 1)
+            // if(chance(20)) { h = -1 }
             map[x][y].elevation += h
             totalDistributed += h
         }
@@ -265,20 +266,58 @@ const verticalLine = (map, startx, starty, options = {}) => {
 
     while(chance(stepChance)) {
         const i = getRandomNumberInRange(1,10)
-            switch (i) {
-                case 1: x += 1; break;
-                case 2: x -= 1; break;
-                case 3: x += 1; x = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
-                case 4: x -= 1; x = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
-                default: y = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
-            }
+        switch (i) {
+            case 1: x += 1; break;
+            case 2: x -= 1; break;
+            case 3: x += 1; x = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
+            case 4: x -= 1; x = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
+            default: y = (dir == ENUM_EXPLORE_DIR.east) ? y + 1 : y - 1; break;
+        }
         if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
-            map[x][y].elevation = (!negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
+            const height = getRandomNumberInRange(1,2)
+            map[x][y].elevation = (!negative) ? map[x][y].elevation += height : map[x][y].elevation -= height
         }
         else {
             stepChance = 0
         }
         stepChance -= getRandomNumberInRange(8 , 16)
+    }
+}
+
+
+const snake = (map, startx, starty, steps) => {
+    let x = startx
+    let y = starty
+    for (let i = 0; i < steps; i++) {
+        const i = getRandomNumberInRange(0,3)
+        switch (i) {
+            case 0: x += 1; break;
+            case 1: y -= 1; break;
+            case 2: x -= 1; break;
+            case 3: y += 1; break;
+        }
+
+        if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
+            map[x][y].elevation += 1
+        }
+    }
+}
+
+const lakeSnake = (map, startx, starty, steps) => {
+    let x = startx
+    let y = starty
+    for (let i = 0; i < steps; i++) {
+        const i = getRandomNumberInRange(0,3)
+        switch (i) {
+            case 0: x += 1; break;
+            case 1: y -= 1; break;
+            case 2: x -= 1; break;
+            case 3: y += 1; break;
+        }
+
+        if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE && map[x][y].elevation < 3) {
+            map[x][y].elevation = -1
+        }
     }
 }
 
@@ -299,15 +338,17 @@ const horizontalLine = (map, startx, starty, options) => {
 
     while(chance(stepChance)) {
         const i = getRandomNumberInRange(1,10)
-            switch (i) {
-                case 1: y += 1; break;
-                case 2: y -= 1; break;
-                case 3: y += 1; x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
-                case 4: y -= 1; x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
-                default: x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
-            }
+        
+        switch (i) {
+            case 1: y += 1; break;
+            case 2: y -= 1; break;
+            case 3: y += 1; x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
+            case 4: y -= 1; x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
+            default: x = (dir == ENUM_EXPLORE_DIR.east) ? x + 1 : x - 1; break;
+        }
         if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
-            map[x][y].elevation = (!negative) ? map[x][y].elevation += 1 : map[x][y].elevation -= 1
+            const height = getRandomNumberInRange(1,2)
+            map[x][y].elevation = (!negative) ? map[x][y].elevation += height : map[x][y].elevation -= height
         }
         else {
             stepChance = 0
@@ -406,7 +447,9 @@ module.exports = {
     getClosePoints,
     noiceFilterMedium,
     trueNoice,
-    raiseGround
+    raiseGround,
+    snake,
+    lakeSnake
 }
 
 

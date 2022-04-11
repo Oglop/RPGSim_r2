@@ -23,7 +23,9 @@ const {
     spikeFilter,
     windsOfMagic,
     trueNoice,
-    raiseGround
+    raiseGround,
+    snake,
+    lakeSnake
 } = require('../build/mapBuilderUtility')
 
 /**
@@ -227,7 +229,7 @@ const generateBaseElevation = (map, options) => {
     try {
         const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 3, Math.floor( WORLD_SIZE * 0.1 ) )
         for (let i = 0; i < iterations; i++) {
-            const type = getRandomNumberInRange( 0, 3 )
+            const type = getRandomNumberInRange( 0, 4 )
             const x = getRandomNumberInRange( 0, WORLD_SIZE - 1 )
             const y = getRandomNumberInRange( 0, WORLD_SIZE - 1 )
             switch (type) {
@@ -235,6 +237,7 @@ const generateBaseElevation = (map, options) => {
                 case 1: horizontalLine(map, x, y, { negative: true }); break;
                 case 2: verticalLine(map, x, y, { negative: false }); break;
                 case 3: verticalLine(map, x, y, { negative: true }); break;
+                case 4: snake(map, x, y, getRandomNumberInRange(20, 30))
             }
         }
     } catch (e) {
@@ -254,13 +257,15 @@ const generateBaseElevation = (map, options) => {
  */
 const generateMountains = (map) => {
     try {
-        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 2, Math.floor( WORLD_SIZE * 0.1 ) + 2 )
+
+
+        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 1, Math.floor( WORLD_SIZE * 0.1 ) + 3 )
         for (let i = 0; i < iterations; i++) {
             const x = getRandomNumberInRange( 0, WORLD_SIZE - 1 )
             const y = getRandomNumberInRange( 0, WORLD_SIZE - 1 )
             const positions = getClosePoints(map, { x, y }, { noOfPositions: getRandomNumberInRange(2,4) })
             for (let i = 0; i < positions.length; i++) {
-                spikeFilter(map, positions[i].x, positions[i].y, { iterations: getRandomNumberInRange(3, 6) })
+                spikeFilter(map, positions[i].x, positions[i].y, { iterations: getRandomNumberInRange(4, 6) })
             }
         }
     } catch (e) {
@@ -279,7 +284,7 @@ const generateMountains = (map) => {
                 map, 
                 getRandomNumberInRange( 0, WORLD_SIZE - 1 ),
                 getRandomNumberInRange( 0, WORLD_SIZE - 1 ),
-                getRandomElementFromArray(filters),
+                getRandomElementFromArray(clouds),
                 true
             )
         }
@@ -292,6 +297,28 @@ const generateMountains = (map) => {
         err.message = e.message
         logError(err)
     }
+
+    try {
+        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ), Math.floor( WORLD_SIZE * 0.1 ) + 5 )
+        for (let i = 0; i < iterations; i++) {
+            const points = getClosePoints(map)
+            for (point of points)
+            snake(
+                map, 
+                point.x,
+                point.y,
+                getRandomNumberInRange( 15, 30 )
+            )
+        }
+    }
+    catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'generateMountains'
+        err.step = 'snake'
+        err.message = e.message
+        logError(err)
+    }
 }
 /**
  * draw negative elevation
@@ -300,7 +327,7 @@ const generateMountains = (map) => {
  */
 const generateLakes = (map) => {
     try {
-        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 2, Math.floor( WORLD_SIZE * 0.1 ) + 2 )
+        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ), Math.floor( WORLD_SIZE * 0.1 ) + 5 )
         for (let i = 0; i < iterations; i++) {
             drawElevation(
                 map, 
@@ -319,6 +346,31 @@ const generateLakes = (map) => {
         err.message = e.message
         logError(err)
     }
+
+    try {
+        const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ), Math.floor( WORLD_SIZE * 0.1 ) + 5 )
+        for (let i = 0; i < iterations; i++) {
+            const points = getClosePoints(map)
+            for (point of points)
+            lakeSnake(
+                map, 
+                point.x,
+                point.y,
+                getRandomNumberInRange( 15, 30 )
+            )
+        }
+    }
+    catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'generateLakes'
+        err.step = 'by filter'
+        err.message = e.message
+        logError(err)
+    }
+
+
+    
     
 }
 
