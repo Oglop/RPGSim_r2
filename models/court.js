@@ -21,7 +21,9 @@ const {
     copyObject, 
     getRandomNumberInRange, 
     getRandomElementFromArray, 
-    generateID} = require('../lib/utils')
+    generateID,
+    isEmptyObject
+} = require('../lib/utils')
 const {
     CONDITION_NONE_MULTIPLYER,
     CONDITION_RUINED_MULTIPLYER,
@@ -49,6 +51,7 @@ const m = require('../models/court')
 const { getRandomReligion } = require('../generic/religions')
 const { getAgeSimple } = require('../lib/time')
 const { hasOngoingProject } = require('./dwelling')
+const { noOfAdventuringParties } = require('../config')
 
 const upgradeCondition = (condition) => {
     switch (condition) {
@@ -263,8 +266,6 @@ const getOverBudgetAction = async (dwelling, world) => {
         case ENUM_OVERSPENDING_ACTION.RELIGIOUS_FUNDS: await seekReligiousFunds(dwelling); break;
         case ENUM_OVERSPENDING_ACTION.SEEK_TRADE: await seekTradePartnership(dwelling, world); break;
     }
-
-
 }
 
 /**
@@ -273,7 +274,52 @@ const getOverBudgetAction = async (dwelling, world) => {
  * @param {object} world 
  */
 const seekTradePartnership = async (dwelling, world) => {
+    let possibleDwelling = {}
+    const NoOfAtempts = getRandomNumberInRange(2, 6)
+    for (let i = 0; i < NoOfAtempts; i++) {
+        const partner = getRandomElementFromArray(world.dwellings)
+        if (partner.id != dwelling.id) {
+            if (isEmptyObject(possibleDwelling)) {
+                possibleDwelling = partner
+            } else {
+                const oldDist = Math.abs(dwelling.x - possibleDwelling.x) + Math.abs(dwelling.y - possibleDwelling.y)
+                const newDist = Math.abs(dwelling.x - partner.x) + Math.abs(dwelling.y - partner.y)
+                if (newDist < oldDist) {
+                    possibleDwelling = partner
+                }
+            }
+        }
+    }
+    if (!isEmptyObject(possibleDwelling)) {
+        for (let production of dwelling.production) {
+            if (!possibleDwelling.production.some(p => p.type == production.type)) {
+                const negotiation = consultAdvisor(dwelling.court.ruler, possibleDwelling.court.ruler)
+                if (negotiation != ENUM_PERSONALITY_DEALS_RESULT.BAD) {
+                    const dealDwelling = copyObject(objects.dwellingTrade)
+                    const dealPartner = copyObject(objects.dwellingTrade)
+                    dealDwelling.id = generateID()
+                    dealPartner.id = generateID()
+                    dealDwelling.dwellingId = dwelling.id
+                    dealPartner.dwellingId = possibleDwelling.id
+                    dealDwelling.partnerId = possibleDwelling.id
+                    dealPartner.partnerId = dwelling.id
 
+                    const tradeValue = getRandomNumberInRange(40, 200) // get tradevalue
+                    dealDwelling.value = tradeValue
+                    dealPartner.value = tradeValue
+
+                    dwelling.trade.push(dealDwelling)
+                    dwelling.trade.push(dealPartner)
+
+                    await executeCommands([
+                        { command: ENUM_COMMANDS.INSERT_TRADE, data: dealDwelling },
+                        { command: ENUM_COMMANDS.INSERT_TRADE, data: dealPartner  }
+                    ])
+
+                }
+            }
+        }
+    }
 }
 
 /**

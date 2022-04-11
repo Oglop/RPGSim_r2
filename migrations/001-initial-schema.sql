@@ -151,8 +151,16 @@ CREATE TABLE skill
     characterId     text,
     name            text,
     statsBase       text,
-    luckTest       integer,
+    luckTest        integer,
     mastery         integer
+);
+
+CREATE TABLE trade
+(
+    id              text,
+    dwellingId      text,
+    partnerId       text,
+    value           integer
 );
 
 CREATE TABLE troop
@@ -183,3 +191,4 @@ DROP TABLE world;
 DROP TABLE language;
 DROP TABLE skill;
 DROP TABLE npc;
+DROP TABLE trade;

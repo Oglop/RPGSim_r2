@@ -3,6 +3,7 @@ const { migrate } = require('./infrastructure/migrate')
 
 const { deleteAdvisor } = require('./commands/deleteAdvisor')
 const { deleteCharacter } = require('./commands/deleteCharacter')
+const { deleteTrade } = require('./commands/deleteTrade')
 
 const { insertRoom } = require('./commands/insertRoom')
 const { insertDwelling } = require('./commands/insertDwelling')
@@ -21,6 +22,7 @@ const { insertArmy } = require('./commands/insertArmy')
 const { insertTroop } = require('./commands/insertTroop')
 const { insertLoan } = require('./commands/insertLoan')
 const { insertNpc } = require('./commands/insertNpc')
+const { insertTrade } = require('./commands/insertTrade')
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
@@ -33,6 +35,7 @@ const { updateProduction } = require('./commands/updateProduction')
 const { updateTroop } = require('./commands/updateTroop')
 const { updateLoan } = require('./commands/updateLoan')
 const { updateRulerInCourt } = require('./commands/updateRulerInCourt')
+const { updateTrade } = require('./commands/updateTrade')
 
 const { getCharacterById } = require('./queries/getCharacterById')
 const { getDwellingLocationsByDwellingId } = require('./queries/getDwellingLocationsByDwellingId')
@@ -51,6 +54,7 @@ const { getArmyByDwellingId } = require('./queries/getArmyByDwellingId')
 const { getTroopsByArmyId } = require('./queries/getTroopsByArmyId')
 const { getLoansByCourtId } = require('./queries/getLoansByCourtId')
 const { getNpcsByDwellingLocationId } = require('./queries/getNpcsByDwellingLocationId')
+const { getTradeByDwellingId } = require('./queries/getTradeByDwellingId')
 
 module.exports = {
     commands: {
@@ -71,6 +75,7 @@ module.exports = {
         insertRoom: (room) => insertRoom(room),
         insertSkill: (skill) => insertSkill(skill),
         insertWorld: (world) => insertWorld(world),
+        insertTrade: (trade) => insertTrade(trade),
         insertTroop: (troop) => insertTroop(troop),
         
         updateCharacter: (character) => updateCharacter(character),
@@ -82,6 +87,7 @@ module.exports = {
         updateRelationPoints: (relation) => updateRelationPoints(relation),
         updateRoom: (room) => updateRoom(room),
         updateRulerInCourt: (court) => updateRulerInCourt(court),
+        updateTrade: (trade) => updateTrade(trade),
         updateTroop: (troop) => updateTroop(troop),
         updateWorldDate: (world) => updateWorldDate(world)
     },
@@ -101,6 +107,7 @@ module.exports = {
         getRelationByCharacterId: (characterId) => getRelationByCharacterId(characterId),
         getRoomByCoordinates: (x, y) => getRoomByCoordinates(x, y),
         getSkillByCharacterId: (id) => getSkillByCharacterId(id),
+        getTradeByDwellingId: (id) => getTradeByDwellingId(id),
         getTroopsByArmyId: (armyId) => getTroopsByArmyId(armyId),
         getWorldById: (id) => getWorldById(id)
     },

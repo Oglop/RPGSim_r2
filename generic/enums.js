@@ -267,7 +267,7 @@ module.exports = {
     ENUM_DWELLING_LOCATION_STATUS: {
         UNDER_CONSTRUCTION: 0,
         ACTIVE: 1,
-        CLOSED: 2,
+        ABANDONED: 2,
         DESTROYED: 3
     },
     ENUM_LOCATIONS: {
@@ -477,6 +477,7 @@ module.exports = {
     ENUM_COMMANDS: {
         DELETEADVISOR: 'deleteAdvisor',
         DELETECHARACTER: 'deleteCharacter',
+        DELETE_TRADE: 'deleteTrade',
 
         INSERTROOM: 'insertRoom',
         INSERTDWELLING: 'insertDwelling',
@@ -493,6 +494,7 @@ module.exports = {
         INSERTTROOP: 'insertTroop',
         INSERTLOAN: 'insertLoan',
         INSERT_NPC: 'insertNPC',
+        INSERT_TRADE: 'insertTrade',
 
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',
@@ -504,6 +506,7 @@ module.exports = {
         UPDATEPRODUCTION: 'updateProduction',
         UPDATETROOP: 'updateTroop',
         UPDATELOAN: 'updateLoan',
-        UPDATERULERINCOURT: 'updateRulerInCourt'
+        UPDATERULERINCOURT: 'updateRulerInCourt',
+        UPDATE_TRADE: 'updateTrade'
     }
 }

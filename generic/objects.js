@@ -146,6 +146,12 @@ module.exports = {
         moats: ENUM_DWELLING_CONDITIONS.NONE,
         guards: ENUM_DWELLING_CONDITIONS.NONE
     },
+    dwellingTrade: {
+        id: undefined,
+        dwellingId: undefined,
+        partnerId: undefined,
+        value: undefined
+    },
     dwellingProduction: {
         id: undefined,
         dwellingId: undefined,
