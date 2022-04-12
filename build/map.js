@@ -484,7 +484,10 @@ const generateDwellings = async (map, options) => {
         const minPositions = (type == ENUM_DWELLINGS.DARK_ELF) ? 1 : (type == ENUM_DWELLINGS.HUMAN) ? 4 : 3
         const maxPositions = (type == ENUM_DWELLINGS.DARK_ELF) ? 2 : (type == ENUM_DWELLINGS.HUMAN) ? 7 : 4
 
-        const dwellingPoints = getClosePoints(map, startPosition, { noOfPositions: getRandomNumberInRange(minPositions, maxPositions)})
+        const dwellingPoints = getClosePoints(map, startPosition, { 
+            noOfPositions: getRandomNumberInRange(minPositions, maxPositions),
+            allowBlockedRoom: false
+        })
         for (let i = 0; i < dwellingPoints.length; i++) {
             try {
                 const dwellingSize = (i == 0 && type == ENUM_DWELLINGS.HUMAN && !capitalPlaced) ? ENUM_DWELLING_SIZE.CAPITAL : 

@@ -30,7 +30,10 @@ const htmlPage = (data) => {
                             temprate: '#05eb68',
                             warm: '#ebe705',
                             hot: '#ff3014',
-                            black: '#000000'
+                            black: '#000000',
+                            lowMagic: '#140078',
+                            medMagic: '#9000c4',
+                            highMagic: '#ff00fb'
                         }
                         const canvas = document.getElementById('map');
                         const context = canvas.getContext('2d');
@@ -87,6 +90,14 @@ const htmlPage = (data) => {
                                     } else if ( data.map[x][y].temprature >= 5 ) {
                                         context.fillStyle = colors.hot;
                                     }
+                                }  else if ( type == 'magicWinds' ) {
+                                    if ( data.map[x][y].magicWind == 0 ) {
+                                        context.fillStyle = colors.lowMagic;
+                                    } else if ( data.map[x][y].magicWind == 1 ) {
+                                        context.fillStyle = colors.medMagic;
+                                    } else if ( data.map[x][y].magicWind >= 2 ) {
+                                        context.fillStyle = colors.highMagic;
+                                    }
                                 }
                                 context.fillRect(x * squareSize, y * squareSize, x * squareSize + squareSize, y * squareSize + squareSize);
                             }
@@ -102,7 +113,8 @@ const htmlPage = (data) => {
                     <button onclick="drawMap('biome')">Biome</button></br>
                     <button onclick="drawMap('biomeWithDwelling')">Biome+</button></br>
                     <button onclick="drawMap('elevation')">Elevation</button></br>
-                    <button onclick="drawMap('temprature')">Temprature</button>
+                    <button onclick="drawMap('temprature')">Temprature</button></br>
+                    <button onclick="drawMap('magicWinds')">Winds of magic</button>
                 </div>
                 <canvas id="map" width="800" height="800"></canvas>
             </body>

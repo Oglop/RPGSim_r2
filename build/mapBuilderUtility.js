@@ -1,5 +1,5 @@
 const { getRandomNumberInRange, chance } = require('../lib/utils')
-const { ENUM_EXPLORE_DIR } = require('../generic/enums')
+const { ENUM_EXPLORE_DIR, ENUM_EXPLORE_STATUS } = require('../generic/enums')
 const objects = require('../generic/objects')
 const { point2d, isPoint2dInArray,isEmptyObject } = require('../lib/utils')
 const { WORLD_SIZE } = require('../generic/statics')
@@ -381,6 +381,11 @@ const getClosePoints = (map, startPosition = {}, options = {}) => {
             const x = getRandomNumberInRange(startPosition.x - 5, startPosition.x + 5)
             const y = getRandomNumberInRange(startPosition.y - 5, startPosition.y + 5)
             if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
+                if(!options.allowBlockedRoom) {
+                    if (map[x][y].exploreStatus == ENUM_EXPLORE_STATUS.blocked) {
+                        continue; // jumps to next iteration?
+                    }
+                }
                 const p = point2d(x, y)
                 if(!isPoint2dInArray(positions, p)) {
                     positions.push(p)
@@ -429,7 +434,7 @@ const windsOfMagic = (map) => {
                 map[x][y].magicWind += addMagic
                 worldMagicLevel += addMagic
             }
-            stepChance -= getRandomNumberInRange(8 , 16)
+            stepChance -= getRandomNumberInRange(2 , 6)
         }
     }
 }
