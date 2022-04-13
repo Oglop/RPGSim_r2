@@ -383,7 +383,7 @@ const getClosePoints = (map, startPosition = {}, options = {}) => {
             if (x >= 0 && x < WORLD_SIZE && y >= 0 && y < WORLD_SIZE) {
                 if(!options.allowBlockedRoom) {
                     if (map[x][y].exploreStatus == ENUM_EXPLORE_STATUS.blocked) {
-                        continue; // jumps to next iteration?
+                        continue;
                     }
                 }
                 const p = point2d(x, y)

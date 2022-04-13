@@ -414,7 +414,7 @@ const abandonConstruction = async (dwelling) => {
  * @param {object} dwelling 
  */
 const startConstruction = async (dwelling) => {
-
+    
 }
 
 /**

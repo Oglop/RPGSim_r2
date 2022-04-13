@@ -2,7 +2,9 @@ const {
     ENUM_PERSONALITIES, 
     ENUM_PERSONALITY_DEALS_RESULT, 
     ENUM_PERSONALITY_DEALS_TYPE,
-    ENUM_OVERSPENDING_ACTION
+    ENUM_OVERSPENDING_ACTION,
+    ENUM_DWELLING_LOCATION_STATUS,
+    ENUM_DWELLING_LOCATION_TYPE
 } = require('../generic/enums')
 const { tryToUnderstandEachOther } = require('./language')
 const { logError } = require('../data/errorFile')
@@ -12,7 +14,7 @@ const { copyObject, getRandomNumberInRange, chance } = require('../lib/utils')
 const { 
     MAX_RELATIONSHIP_VALUE, 
     MIN_RELATIONSHIP_VALUE,
-    TAX_RATE_MAX
+    TAX_RATE_MAX,
 } = require('../generic/statics')
 const { get } = require('../localization')
 
@@ -332,6 +334,53 @@ const personalityDealsWith = (personality, type) => {
     return ENUM_PERSONALITY_DEALS_RESULT.NORMAL
 }
 
+const getConstructionPreference = (character, dwelling) => {
+    const locationUnderProduction = dwelling.location.filter(l => l.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION)
+    const locationsActive = dwelling.location.filter(l => l.status == ENUM_DWELLING_LOCATION_STATUS.ACTIVE)
+    const locationsAbandoned = dwelling.location.filter(l => l.status == ENUM_DWELLING_LOCATION_STATUS.ABANDONED)
+    const locationsDestroyed = dwelling.location.filter(l => l.status == ENUM_DWELLING_LOCATION_STATUS.DESTROYED)
+
+    if (character.personality == ENUM_PERSONALITIES.AMBITIOUS) {
+
+    }
+    if (character.personality == ENUM_PERSONALITIES.CRUEL) {
+        
+    }
+    if (character.personality == ENUM_PERSONALITIES.GIFTED) {
+        
+    }
+    if (character.personality == ENUM_PERSONALITIES.GREEDY) {
+        
+    }
+    if (character.personality == ENUM_PERSONALITIES.INTELLIGENT) {
+        
+    }
+    if (character.personality == ENUM_PERSONALITIES.KIND) {
+        
+    }
+    if (character.personality == ENUM_PERSONALITIES.LAZY) {
+        
+    }
+    if (character.personality == ENUM_PERSONALITIES.NAIVE) {
+        
+    }
+    if (character.personality == ENUM_PERSONALITIES.PARANOID) {
+        
+    }
+    if (character.personality == ENUM_PERSONALITIES.RELIGIOUS) {
+        if (locationUnderProduction.filter(l => l.status == ENUM_DWELLING_LOCATION_TYPE.TEMPLE) == 0) {
+            return { type: ENUM_DWELLING_LOCATION_TYPE.TEMPLE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+        }
+        if (locationsDestroyedlength > 0) {
+            return { type: locationsDestroyedlength[0].type, status: ENUM_DWELLING_LOCATION_STATUS.DESTROYED }
+        }
+        if (locationsDestroyedlength > 0) {
+            return { type: locationsDestroyedlength[0].type, status: ENUM_DWELLING_LOCATION_STATUS.DESTROYED }
+        }
+    }
+}
+
+
 /**
  * 
  * @param {object} character1 
@@ -421,5 +470,6 @@ module.exports = {
     getDescriptionByPersonality,
     getChanceOfDowngrade,
     dealWithOverSpending,
-    dealWithUnderSpending
+    dealWithUnderSpending,
+    getConstructionPreference
 }
