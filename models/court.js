@@ -42,16 +42,17 @@ const {
 const {
     executeCommands
 } = require('../persistance/commandQueue')
+const bLocation = require('../build/dwellingLocation')
+
 
 
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { tryToUnderstandEachOther } = require('./language')
-const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade, dealWithUnderSpending, dealWithOverSpending } = require('./personality')
+const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade, dealWithUnderSpending, dealWithOverSpending, getConstructionPreference } = require('./personality')
 const m = require('../models/court')
 const { getRandomReligion } = require('../generic/religions')
 const { getAgeSimple } = require('../lib/time')
 const { hasOngoingProject } = require('./dwelling')
-const { noOfAdventuringParties } = require('../config')
 
 const upgradeCondition = (condition) => {
     switch (condition) {
@@ -322,6 +323,23 @@ const seekTradePartnership = async (dwelling, world) => {
     }
 }
 
+const constructionPreferenceToLocation = async (dwelling, preference) => {
+    const commands = []
+    if (preference.status == ENUM_DWELLING_LOCATION_STATUS.DESTROYED) {
+        const location = dwelling.locations.find(l => l.status = preference.status && l.type == preference.type)
+        location.status = ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION
+        commands.push({ command: ENUM_COMMANDS.UPDATE_DWELLING_LOCATION, data: location })
+    }
+    if (preference.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION) {
+        const location =  bLocation.build(dwelling, { type: preference.type, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION })
+        dwelling.locations.push(location)
+        commands.push({ command: ENUM_COMMANDS.INSERT_DWELLING_LOCATION, data: location })
+    }
+
+    await executeCommands(commands)
+
+}
+
 /**
  * INCREASE_TAX action
  * @param {object} dwelling 
@@ -414,6 +432,8 @@ const abandonConstruction = async (dwelling) => {
  * @param {object} dwelling 
  */
 const startConstruction = async (dwelling) => {
+    const preference = getConstructionPreference(dwelling.court.ruler.personality)
+    await constructionPreferenceToLocation(dwelling, preference)
     
 }
 

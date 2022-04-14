@@ -287,7 +287,8 @@ module.exports = {
         ARENA: 27,
         CATACOMBS: 28,
         BAKER: 29,
-        STABLES: 30
+        STABLES: 30,
+        SEWERS: 31
         
     },
     ENUM_DWELLING_LOCATION_STATUS: {
