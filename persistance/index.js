@@ -23,7 +23,9 @@ const { insertArmy } = require('./commands/insertArmy')
 const { insertTroop } = require('./commands/insertTroop')
 const { insertLoan } = require('./commands/insertLoan')
 const { insertNpc } = require('./commands/insertNpc')
+const { insertStory } = require('./commands/insertStory')
 const { insertTrade } = require('./commands/insertTrade')
+
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
@@ -55,6 +57,7 @@ const { getArmyByDwellingId } = require('./queries/getArmyByDwellingId')
 const { getTroopsByArmyId } = require('./queries/getTroopsByArmyId')
 const { getLoansByCourtId } = require('./queries/getLoansByCourtId')
 const { getNpcsByDwellingLocationId } = require('./queries/getNpcsByDwellingLocationId')
+const { getStory } = require('./queries/getStory')
 const { getTradeByDwellingId } = require('./queries/getTradeByDwellingId')
 
 module.exports = {
@@ -77,6 +80,7 @@ module.exports = {
         insertRelation: (relation) => insertRelation(relation),
         insertRoom: (room) => insertRoom(room),
         insertSkill: (skill) => insertSkill(skill),
+        insertStory: (story) => insertStory(story),
         insertWorld: (world) => insertWorld(world),
         insertTrade: (trade) => insertTrade(trade),
         insertTroop: (troop) => insertTroop(troop),
@@ -110,6 +114,7 @@ module.exports = {
         getRelationByCharacterId: (characterId) => getRelationByCharacterId(characterId),
         getRoomByCoordinates: (x, y) => getRoomByCoordinates(x, y),
         getSkillByCharacterId: (id) => getSkillByCharacterId(id),
+        getStory: () => getStory(),
         getTradeByDwellingId: (id) => getTradeByDwellingId(id),
         getTroopsByArmyId: (armyId) => getTroopsByArmyId(armyId),
         getWorldById: (id) => getWorldById(id)

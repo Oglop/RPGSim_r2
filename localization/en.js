@@ -340,6 +340,11 @@ module.exports.get = (id, args) => {
         case 'troop-infantry': return 'infantry'
         case 'troop-mercenaries': return 'mercenaries'
         case 'troop-catapults': return 'catapults'
+
+        case 'story-history-dwelling-construction-finished': return `In ${args[0]}, construction of a ${args[1]} was finished.`
+        case 'story-history-dwelling-construction-begin': return `By the command of ${args[0]}, construction has begun on ${args[1]} in ${args[2]}.`
+        case 'story-history-dwelling-construction-repair': return `By the command of ${args[0]}, repair has begun on ${args[1]} in ${args[2]}.`
+        
         case 'system-word-a': return 'a'
         case 'system-word-an': return 'an'
         case 'system-word-he': return 'he'

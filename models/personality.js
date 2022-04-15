@@ -21,6 +21,7 @@ const {
 const { get } = require('../localization')
 const { locationExists } = require('../models/dwellingLocation')
 
+
 /*
 AMBITIOUS, // starts projects wants to be ruler
 INTELLIGENT, // reasons
@@ -517,188 +518,198 @@ const getNonExisitinghCityFunction = (dwelling) => {
     
 }
 
-const getConstructionPreference = (character, dwelling) => {
-    const locationUnderProduction = dwelling.location.filter(l => l.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION)
-    const locationsDestroyed = dwelling.location.filter(l => l.status == ENUM_DWELLING_LOCATION_STATUS.DESTROYED)
-
-    if (character.personality == ENUM_PERSONALITIES.AMBITIOUS) {
-        
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.BANK)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.BANK, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+const getConstructionPreference = (personality, dwelling) => {
+    try {
+        const locationUnderProduction = dwelling.locations.filter(l => l.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION)
+        const locationsDestroyed = dwelling.locations.filter(l => l.status == ENUM_DWELLING_LOCATION_STATUS.DESTROYED)
+    
+        if (personality == ENUM_PERSONALITIES.AMBITIOUS) {
+            
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.BANK)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.BANK, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.COURT)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.COURT, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.GUILD)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.GUILD, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TREASAURY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.TREASAURY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.SEWERS)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.SEWERS, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            return getNonExisitinghCityFunction(dwelling)
         }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.COURT)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.COURT, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+        if (personality == ENUM_PERSONALITIES.CRUEL) {
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.JAIL)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.JAIL, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.COURT)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.COURT, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.ARENA)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.ARENA, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TREASAURY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.TREASAURY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TOURNAMENT_FIELD)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.TOURNAMENT_FIELD, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            return getNonExisitinghCityFunction(dwelling)
         }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.GUILD)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.GUILD, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+        if (personality == ENUM_PERSONALITIES.GIFTED) {
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.PALACE)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.PALACE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.LIBRARY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.LIBRARY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.UNIVERSITY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.UNIVERSITY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TOWN_HALL)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.TOWN_HALL, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.WIZARDS_TOWER)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.WIZARDS_TOWER, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            return getNonExisitinghCityFunction(dwelling)
         }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+        if (personality == ENUM_PERSONALITIES.GREEDY) {
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.BANK)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.BANK, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.GUILD)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.GUILD, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.MARKET)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.MARKET, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            return getNonExisitinghCityFunction(dwelling)
         }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TREASAURY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.TREASAURY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+        if (personality == ENUM_PERSONALITIES.INTELLIGENT) {
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.UNIVERSITY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.UNIVERSITY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.LIBRARY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.LIBRARY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TOWN_HALL)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.TOWN_HALL, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            return getNonExisitinghCityFunction(dwelling)
         }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.SEWERS)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.SEWERS, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+        if (personality == ENUM_PERSONALITIES.KIND) {
+            if (locationsDestroyed.length > 0) {
+                return { type: locationsDestroyedlength[0].type, status: ENUM_DWELLING_LOCATION_STATUS.DESTROYED }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.SEWERS)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.SEWERS, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.LIBRARY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.LIBRARY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.PARK)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.PARK, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.LIBRARY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.LIBRARY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.BATHS)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.BATHS, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            return getNonExisitinghCityFunction(dwelling)
+    
         }
-        return getNonExisitinghCityFunction(dwelling)
+        if (personality == ENUM_PERSONALITIES.LAZY) {
+            if (chance(60)) { return getNonExisitinghCityFunction(dwelling) }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.PARK)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.PARK, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.PALACE)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.PALACE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.ARENA)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.ARENA, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            return getNonExisitinghCityFunction(dwelling)
+        }
+        if (personality == ENUM_PERSONALITIES.NAIVE) {
+            if (chance(60)) { return getNonExisitinghCityFunction(dwelling) }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.BANK)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.BANK, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.GUILD)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.GUILD, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.WIZARDS_TOWER)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.WIZARDS_TOWER, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.CATACOMBS)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.CATACOMBS, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (locationsDestroyed.length > 0) {
+                return { type: locationsDestroyedlength[0].type, status: ENUM_DWELLING_LOCATION_STATUS.DESTROYED }
+            }
+            return getNonExisitinghCityFunction(dwelling)
+        }
+        if (personality == ENUM_PERSONALITIES.PARANOID) {
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TREASAURY)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.TREASAURY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.JAIL)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.JAIL, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.JAIL)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.JAIL, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            return getNonExisitinghCityFunction(dwelling)
+        }
+        if (personality == ENUM_PERSONALITIES.RELIGIOUS) {
+            if (locationUnderProduction.filter(l => l.status == ENUM_DWELLING_LOCATION_TYPE.TEMPLE) == 0) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.TEMPLE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (locationsDestroyed.length > 0) {
+                return { type: locationsDestroyedlength[0].type, status: ENUM_DWELLING_LOCATION_STATUS.DESTROYED }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.CATACOMBS)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.CATACOMBS, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.SHRINE)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.SHRINE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.SEWERS)) {
+                return { type: ENUM_DWELLING_LOCATION_TYPE.SHRINE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
+            }
+            return getNonExisitinghCityFunction(dwelling)
+        }
     }
-    if (character.personality == ENUM_PERSONALITIES.CRUEL) {
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.JAIL)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.JAIL, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.COURT)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.COURT, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.ARENA)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.ARENA, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TREASAURY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.TREASAURY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TOURNAMENT_FIELD)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.TOURNAMENT_FIELD, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        return getNonExisitinghCityFunction(dwelling)
+    catch(e) {
+        const err = copyObject(objects.error)
+        err.file = __filename
+        err.function = 'getConstructionPreference'
+        err.message = e.message
+        logError(err)
     }
-    if (character.personality == ENUM_PERSONALITIES.GIFTED) {
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.PALACE)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.PALACE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.LIBRARY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.LIBRARY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.UNIVERSITY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.UNIVERSITY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TOWN_HALL)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.TOWN_HALL, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.WIZARDS_TOWER)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.WIZARDS_TOWER, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        return getNonExisitinghCityFunction(dwelling)
-    }
-    if (character.personality == ENUM_PERSONALITIES.GREEDY) {
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.BANK)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.BANK, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.GUILD)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.GUILD, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.MARKET)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.MARKET, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        return getNonExisitinghCityFunction(dwelling)
-    }
-    if (character.personality == ENUM_PERSONALITIES.INTELLIGENT) {
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.UNIVERSITY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.UNIVERSITY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.LIBRARY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.LIBRARY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TOWN_HALL)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.TOWN_HALL, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.MAGIC_ACADEMY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        return getNonExisitinghCityFunction(dwelling)
-    }
-    if (character.personality == ENUM_PERSONALITIES.KIND) {
-        if (locationsDestroyed.length > 0) {
-            return { type: locationsDestroyedlength[0].type, status: ENUM_DWELLING_LOCATION_STATUS.DESTROYED }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.SEWERS)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.SEWERS, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.LIBRARY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.LIBRARY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.PARK)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.PARK, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.LIBRARY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.LIBRARY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.BATHS)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.BATHS, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        return getNonExisitinghCityFunction(dwelling)
-
-    }
-    if (character.personality == ENUM_PERSONALITIES.LAZY) {
-        if (chance(60)) { return getNonExisitinghCityFunction(dwelling) }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.PARK)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.PARK, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.PALACE)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.PALACE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.ARENA)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.ARENA, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        return getNonExisitinghCityFunction(dwelling)
-    }
-    if (character.personality == ENUM_PERSONALITIES.NAIVE) {
-        if (chance(60)) { return getNonExisitinghCityFunction(dwelling) }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.BANK)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.BANK, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.GUILD)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.GUILD, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.WIZARDS_TOWER)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.WIZARDS_TOWER, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.CATACOMBS)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.CATACOMBS, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (locationsDestroyed.length > 0) {
-            return { type: locationsDestroyedlength[0].type, status: ENUM_DWELLING_LOCATION_STATUS.DESTROYED }
-        }
-        return getNonExisitinghCityFunction(dwelling)
-    }
-    if (character.personality == ENUM_PERSONALITIES.PARANOID) {
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.TREASAURY)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.TREASAURY, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.JAIL)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.JAIL, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.JAIL)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.JAIL, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        return getNonExisitinghCityFunction(dwelling)
-    }
-    if (character.personality == ENUM_PERSONALITIES.RELIGIOUS) {
-        if (locationUnderProduction.filter(l => l.status == ENUM_DWELLING_LOCATION_TYPE.TEMPLE) == 0) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.TEMPLE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (locationsDestroyed.length > 0) {
-            return { type: locationsDestroyedlength[0].type, status: ENUM_DWELLING_LOCATION_STATUS.DESTROYED }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.CATACOMBS)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.CATACOMBS, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.SHRINE)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.SHRINE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        if (!locationExists(dwelling, ENUM_DWELLING_LOCATION_TYPE.SEWERS)) {
-            return { type: ENUM_DWELLING_LOCATION_TYPE.SHRINE, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION }
-        }
-        return getNonExisitinghCityFunction(dwelling)
-    }
+    
 }
 
 

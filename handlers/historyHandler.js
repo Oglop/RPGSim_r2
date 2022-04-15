@@ -23,7 +23,7 @@ module.exports.progressHistory = async (world) => {
     
     for (let dwelling of world.dwellings) { 
         // finished constructions
-        handleConstructionStatus(dwelling)
+        await handleConstructionStatus(dwelling)
         // Collect texes
         await handleIncome(dwelling)
         await handleExpenses(dwelling)

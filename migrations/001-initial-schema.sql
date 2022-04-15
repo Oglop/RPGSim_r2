@@ -133,7 +133,7 @@ CREATE TABLE relation
 
 CREATE TABLE room 
 (
-    id              integer primary key, 
+    id              text, 
     worldId         text,
     x               integer, 
     y               integer,
@@ -153,6 +153,18 @@ CREATE TABLE skill
     statsBase       text,
     luckTest        integer,
     mastery         integer
+);
+
+CREATE TABLE story
+(
+    id              text,
+    aboutId         text,
+    type            integer,
+    subType         integer,
+    date            text,
+    message     text,
+    tag             text,
+    created         DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE trade
@@ -192,3 +204,5 @@ DROP TABLE language;
 DROP TABLE skill;
 DROP TABLE npc;
 DROP TABLE trade;
+DROP TABLE story;
+DROP TABLE world;

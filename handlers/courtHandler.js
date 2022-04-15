@@ -131,14 +131,15 @@ const handleCourtOldAges = async (dwelling, currentDate) => {
     
 }
 
-const handleConstructionStatus = (dwelling) => {
-    const finishedAConstruction = m.testFinishConstruction(dwelling)
+const handleConstructionStatus = async (dwelling) => {
+    const finishedAConstruction = await m.testFinishConstruction(dwelling)
     // could be used for something
 }
 
 const handleBudget = async (dwelling, world) => {
 
     if (isWithinBudget(dwelling)) {
+
         await m.overBudgetAction(dwelling, world)
     }
     else {

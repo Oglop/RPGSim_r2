@@ -5,6 +5,7 @@ const { generateWorld } = require('./handlers/worldBuildingHandler')
 const { createParties } = require('./handlers/partyHandler')
 const { next } = require('./models/turn')
 const { Output } = require('./output/output')
+const { tellWholeStory } = require('./handlers/storyHandler')
 
 const main = async (args) => {
     try {
@@ -24,6 +25,7 @@ const main = async (args) => {
         for (let i=0;i<80;i++) {
             await next(world, output)
         }
+        await tellWholeStory()
         console.log('STOP')
     } catch (e) {
         console.log(JSON.stringify(e))

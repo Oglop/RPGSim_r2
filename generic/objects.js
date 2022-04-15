@@ -4,7 +4,9 @@ const {
     ENUM_QUEST_STATUS,
     ENUM_PARTY_STATE,
     ENUM_DWELLING_CONDITIONS,
-    ENUM_DWELLING_PRODUCTION_TYPE
+    ENUM_DWELLING_PRODUCTION_TYPE,
+    ENUM_STORY_TYPE,
+    ENUM_STORY_SUB_TYPE
 
 } = require('../generic/enums')
 module.exports = {
@@ -387,5 +389,15 @@ module.exports = {
     queueItem: {
         command: undefined,
         data: undefined
+    },
+    story: {
+        id: undefined,
+        aboutId: undefined,
+        type: ENUM_STORY_TYPE.WORLD,
+        subType: ENUM_STORY_SUB_TYPE.NONE,
+        date: undefined,
+        message: undefined,
+        tag: undefined
     }
+    
 }

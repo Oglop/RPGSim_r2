@@ -15,7 +15,9 @@ const {
     ENUM_DWELLING_PRODUCTION_TYPE,
     ENUM_UNDERSPANDING_ACTION,
     ENUM_OVERSPENDING_ACTION,
-    ENUM_TROOP_TYPE
+    ENUM_TROOP_TYPE,
+    ENUM_STORY_TYPE,
+    ENUM_STORY_TAGS
 } = require('../generic/enums')
 const { 
     removeElementFromArrayById,
@@ -38,7 +40,7 @@ const {
     GUARD_HAPPINESS_MOD_GOOD,
     GUARD_HAPPINESS_MOD_PERFECT, 
 } = require('../generic/statics')
-
+const { getStoryEntry } = require('../build/story')
 // STANDARD IMPORTS
 
 const {
@@ -50,7 +52,12 @@ const bLocation = require('../build/dwellingLocation')
 
 const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
 const { tryToUnderstandEachOther } = require('./language')
-const { personalityDealsWith, compabilityCheck, getChanceOfDowngrade, dealWithUnderSpending, dealWithOverSpending, getConstructionPreference } = require('./personality')
+const { personalityDealsWith, 
+    compabilityCheck, 
+    getChanceOfDowngrade, 
+    dealWithUnderSpending, 
+    dealWithOverSpending, 
+    getConstructionPreference } = require('./personality')
 const m = require('../models/court')
 const { getRandomReligion } = require('../generic/religions')
 const { getAgeSimple } = require('../lib/time')
@@ -100,7 +107,7 @@ const consultAdvisor = async (ruler, advisor) => {
         return result
     }
     catch(e) {
-        const err = objects.error
+        const err = copyObject(objects.error)
         err.file = __filename
         err.function = 'consultAdvisor'
         err.message = e.message
@@ -332,11 +339,13 @@ const constructionPreferenceToLocation = async (dwelling, preference) => {
         const location = dwelling.locations.find(l => l.status = preference.status && l.type == preference.type)
         location.status = ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION
         commands.push({ command: ENUM_COMMANDS.UPDATE_DWELLING_LOCATION, data: location })
+        commands.push({ command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('story-history-dwelling-construction-repair', [ dwelling.court.ruler.name, location.name, dwelling.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, { tag: ENUM_STORY_TAGS.PARAGRAPH})})
     }
     if (preference.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION) {
         const location =  bLocation.build(dwelling, { type: preference.type, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION })
         dwelling.locations.push(location)
         commands.push({ command: ENUM_COMMANDS.INSERT_DWELLING_LOCATION, data: location })
+        commands.push({ command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('story-history-dwelling-construction-begin', [ dwelling.court.ruler.name, location.name, dwelling.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, { tag: ENUM_STORY_TAGS.PARAGRAPH})})
     }
 
     await executeCommands(commands)
@@ -364,71 +373,82 @@ const decreaseTaxrate = async (dwelling) => {
  * @param {object} dwelling 
  */
 const downSizeArmy = async (dwelling) => {
-    commands = []
-    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.MERCENARIES) != undefined) {
-        const mercenaries = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.MERCENARIES)
-        if (mercenaries.number < 100) {
-            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: mercenaries.id })
-            dwelling.army = removeElementFromArrayById(mercenaries.id, dwelling.army)
+    const commands = []
+    try {
+        if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.MERCENARIES) != undefined) {
+            const mercenaries = dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.MERCENARIES)
+            if (mercenaries.number < 100) {
+                commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: mercenaries.id })
+                dwelling.army.troops = removeElementFromArrayById(mercenaries.id, dwelling.army.troops)
+            } else {
+                mercenaries.number -= Math.floor((mercenaries.number * 0.01) * 10)
+                commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
+            }
         } else {
-            mercenaries.number -= Math.floor((mercenaries.number * 0.01) * 10)
-            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
+            if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.CATAPULTS) != undefined) {
+                const catapults = dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.CATAPULTS)
+                if (catapults.number < 5) {
+                    commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: catapults.id })
+                    dwelling.army.troops = removeElementFromArrayById(catapults.id, dwelling.army.troops)
+                } else {
+                    catapults.number -= Math.floor((catapults.number * 0.01) * 50)
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, catapults })
+                }
+            }
+        
+            if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.KNIGHTS) != undefined && dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.KNIGHTS).length > 4) {
+                const knights = dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.KNIGHTS)
+                if (knights.number < 4) {
+                    commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: knights.id })
+                    dwelling.army.troops = removeElementFromArrayById(knights.id, dwelling.army.troops)
+                } else {
+                    knights.number -= Math.floor((knights.number * 0.01) * 40)
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, knights })
+                }
+            }
+        
+            if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS) != undefined && dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS).length > 40) {
+                const menAtArms = dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS)
+                if (menAtArms.number < 20) {
+                    commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: menAtArms.id })
+                    dwelling.army.troops = removeElementFromArrayById(menAtArms.id, dwelling.army.troops)
+                } else {
+                    menAtArms.number -= Math.floor((menAtArms.number * 0.01) * 20)
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, menAtArms })
+                }
+            }
+        
+            if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.ARCHERS) != undefined) {
+                const archers = dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.ARCHERS)
+                if (archers.number < 20) {
+                    commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: archers.id })
+                    dwelling.army.troops = removeElementFromArrayById(archers.id, dwelling.army.troops)
+                } else {
+                    archers.number -= Math.floor((archers.number * 0.01) * 30)
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, archers })
+                }
+            }
+        
+            if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.INFANTRY) != undefined) {
+                const infantry = dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.INFANTRY)
+                if (infantry.number < 10) {
+                    commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: infantry.id })
+                    dwelling.army.troops = removeElementFromArrayById(infantry.id, dwelling.army.troops)
+                } else {
+                    infantry.number -= Math.floor((infantry.number * 0.01) * 10)
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, infantry })
+                }
+            }
         }
     }
-    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.CATAPULTS) != undefined) {
-        const catapults = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.CATAPULTS)
-        if (catapults.number < 5) {
-            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: catapults.id })
-            dwelling.army = removeElementFromArrayById(catapults.id, dwelling.army)
-        } else {
-            catapults.number -= Math.floor((catapults.number * 0.01) * 50)
-            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
-        }
+    catch(e) {
+        const err = copyObject(objects.error)
+        err.file = __filename
+        err.function = 'downSizeArmy'
+        err.message = e.message
+        logError(err)
     }
-
-    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.KNIGHTS) != undefined && dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.KNIGHTS).length > 4) {
-        const knights = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.KNIGHTS)
-        if (knights.number < 4) {
-            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: knights.id })
-            dwelling.army = removeElementFromArrayById(knights.id, dwelling.army)
-        } else {
-            knights.number -= Math.floor((knights.number * 0.01) * 40)
-            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
-        }
-    }
-
-    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS) != undefined && dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS).length > 40) {
-        const menAtArms = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS)
-        if (menAtArms.number < 20) {
-            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: menAtArms.id })
-            dwelling.army = removeElementFromArrayById(menAtArms.id, dwelling.army)
-        } else {
-            menAtArms.number -= Math.floor((menAtArms.number * 0.01) * 20)
-            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
-        }
-    }
-
-    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.ARCHERS) != undefined && dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.ARCHERS).length > 30) {
-        const archers = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.ARCHERS)
-        if (archers.number < 20) {
-            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: archers.id })
-            dwelling.army = removeElementFromArrayById(archers.id, dwelling.army)
-        } else {
-            archers.number -= Math.floor((archers.number * 0.01) * 30)
-            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
-        }
-    }
-
-    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.INFANTRY) != undefined && dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.INFANTRY).length > 20) {
-        const infantry = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.INFANTRY)
-        if (infantry.number < 10) {
-            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, data: infantry.id })
-            dwelling.army = removeElementFromArrayById(infantry.id, dwelling.army)
-        } else {
-            infantry.number -= Math.floor((infantry.number * 0.01) * 10)
-            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
-        }
-    }
+    
     await executeCommands(commands)
 
 }
@@ -501,7 +521,7 @@ const abandonConstruction = async (dwelling) => {
  * @param {object} dwelling 
  */
 const startConstruction = async (dwelling) => {
-    const preference = getConstructionPreference(dwelling.court.ruler.personality)
+    const preference = getConstructionPreference(dwelling.court.ruler.personality, dwelling)
     await constructionPreferenceToLocation(dwelling, preference)
     
 }
@@ -548,16 +568,21 @@ const increaseProduction = async (dwelling, world) => {
 
 }
 
-const testFinishConstruction = (dwelling) => {
+const testFinishConstruction = async (dwelling) => {
+    const commands = []
     let finishedConstruction = false
     for (let location of dwelling.locations) {
         if (location.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION) {
             if (chance(getRandomNumberInRange(10, 40))) { 
                 location.status = ENUM_DWELLING_LOCATION_STATUS.ACTIVE 
                 finishedConstruction = true
+                commands.push({ command: ENUM_COMMANDS.UPDATE_DWELLING_LOCATION, data: copyObject(location) })
+                commands.push({ command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('story-history-dwelling-construction-finished', [ dwelling.name, location.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, {}) })
+
             }
         }
     }
+    await executeCommands(commands)
     return finishedConstruction
 }
 

@@ -522,6 +522,7 @@ module.exports = {
         INSERTLOAN: 'insertLoan',
         INSERT_NPC: 'insertNPC',
         INSERT_TRADE: 'insertTrade',
+        INSERT_STORY: 'insertStory',
 
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',
@@ -535,5 +536,21 @@ module.exports = {
         UPDATELOAN: 'updateLoan',
         UPDATERULERINCOURT: 'updateRulerInCourt',
         UPDATE_TRADE: 'updateTrade'
+    },
+    ENUM_STORY_TYPE: {
+        WORLD: 0,
+        ADVENTURE: 1,
+        HISTORY: 2
+    },
+    ENUM_STORY_SUB_TYPE: {
+        NONE: 0
+    },
+    ENUM_STORY_TAGS: {
+        HEADER_1: 'h1',
+        HEADER_2: 'h2',
+        HEADER_3: 'h3',
+        PARAGRAPH: 'p',
+        ITALIC: 'i',
+        BOLD: 'b'
     }
 }

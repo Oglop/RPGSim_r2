@@ -439,7 +439,7 @@ const drawDwelling = (map, count, biome, dwelling) => {
  * Add dwellings to map
  * @param {array} map 
  * @param {int} size 
-*/
+
 module.exports.setDwellings = (map) => {
     const allDwellings = []
     // wood elf dwellings
@@ -450,17 +450,7 @@ module.exports.setDwellings = (map) => {
         const size = (i == 0) ? ENUM_DWELLING_SIZE.CITY : ENUM_DWELLING_SIZE.TOWN
         dwellingsBuilder.build(woodElfDwellingPoints[i], { type: ENUM_DWELLINGS.WOOD_ELF, size })
     }
-
-
-    /*
-    drawDwelling(map, size, 2 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.forest, ENUM_DWELLINGS.ELF_TOWN)
-    drawDwelling(map, size, 1 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.hills, ENUM_DWELLINGS.DWARVEN_MINE)
-    // drawDwelling(map, size, 2 + getRandomNumber( Math.floor(size / 10) ), undefined, ENUM_DWELLINGS.TOWN)
-    // drawDwelling(map, size, 1 + getRandomNumber( Math.floor(size / 20) ), ENUM_BIOMES.plains, ENUM_DWELLINGS.CITY)
-    drawDwelling(map, size, 4 + getRandomNumber( Math.floor(size / 10) ), undefined, ENUM_DWELLINGS.TOWER)
-    drawDwelling(map, size, 3 + getRandomNumber( Math.floor(size / 10) ), ENUM_BIOMES.hills, ENUM_DWELLINGS.RUINS)
-    */
-}
+}*/
 
 const generateDwellings = async (map, options) => {
     const dwellingTypes = [
