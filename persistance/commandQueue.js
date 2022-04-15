@@ -14,6 +14,7 @@ const executeCommands = async (queue) => {
             switch (item.command) {
                 case ENUM_COMMANDS.DELETEADVISOR: await commands.deleteAdvisor(item.data); break;
                 case ENUM_COMMANDS.DELETECHARACTER: await commands.deleteCharacter(item.data); break;
+                case ENUM_COMMANDS.DELETE_TROOP : await commands.deleteTroop(item.data); break;
                 case ENUM_COMMANDS.INSERTROOM: await commands.insertRoom(item.data); break;
                 case ENUM_COMMANDS.INSERTDWELLING: await commands.insertDwelling(item.data); break;
                 case ENUM_COMMANDS.INSERT_DWELLING_LOCATION: await commands.insertDwellingLocation(item.data); break;

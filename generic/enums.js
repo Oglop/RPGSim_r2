@@ -505,7 +505,7 @@ module.exports = {
         DELETEADVISOR: 'deleteAdvisor',
         DELETECHARACTER: 'deleteCharacter',
         DELETE_TRADE: 'deleteTrade',
-
+        DELETE_TROOP: 'deleteTroop',
         INSERTROOM: 'insertRoom',
         INSERTDWELLING: 'insertDwelling',
         INSERT_DWELLING_LOCATION: 'insertDwellingLocation',

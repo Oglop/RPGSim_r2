@@ -4,6 +4,7 @@ const { migrate } = require('./infrastructure/migrate')
 const { deleteAdvisor } = require('./commands/deleteAdvisor')
 const { deleteCharacter } = require('./commands/deleteCharacter')
 const { deleteTrade } = require('./commands/deleteTrade')
+const { deleteTroop } = require('./commands/deleteTroop')
 
 const { insertRoom } = require('./commands/insertRoom')
 const { insertDwelling } = require('./commands/insertDwelling')
@@ -60,6 +61,8 @@ module.exports = {
     commands: {
         deleteAdvisor: (id) => deleteAdvisor(id),
         deleteCharacter: (id) => deleteCharacter(id),
+        deleteTrade: (id) => deleteTrade(id),
+        deleteTroop: (id) => deleteTroop(id),
 
         insertArmy: (army) => insertArmy(army),
         insertAdvisor: (advisor) => insertAdvisor(advisor),
