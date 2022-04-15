@@ -14,7 +14,8 @@ const {
     ENUM_DWELLING_SIZE,
     ENUM_DWELLING_PRODUCTION_TYPE,
     ENUM_UNDERSPANDING_ACTION,
-    ENUM_OVERSPENDING_ACTION
+    ENUM_OVERSPENDING_ACTION,
+    ENUM_TROOP_TYPE
 } = require('../generic/enums')
 const { 
     chance,
@@ -53,6 +54,7 @@ const m = require('../models/court')
 const { getRandomReligion } = require('../generic/religions')
 const { getAgeSimple } = require('../lib/time')
 const { hasOngoingProject } = require('./dwelling')
+const { commands } = require('../persistance')
 
 const upgradeCondition = (condition) => {
     switch (condition) {
@@ -361,7 +363,67 @@ const decreaseTaxrate = async (dwelling) => {
  * @param {object} dwelling 
  */
 const downSizeArmy = async (dwelling) => {
-    
+    commands = []
+    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.MERCENARIES) != undefined) {
+        const mercenaries = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.MERCENARIES)
+        if (mercenaries.number < 100) {
+            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, mercenaries })
+        } else {
+            mercenaries.number -= Math.floor((mercenaries.number * 0.01) * 10)
+            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
+        }
+    }
+    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.CATAPULTS) != undefined) {
+        const catapults = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.CATAPULTS)
+        if (catapults.number < 5) {
+            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, catapults })
+        } else {
+            catapults.number -= Math.floor((catapults.number * 0.01) * 50)
+            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
+        }
+    }
+
+    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.KNIGHTS) != undefined && dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.KNIGHTS).length > 4) {
+        const knights = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.KNIGHTS)
+        if (knights.number < 4) {
+            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, knights })
+        } else {
+            knights.number -= Math.floor((knights.number * 0.01) * 40)
+            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
+        }
+    }
+
+    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS) != undefined && dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS).length > 40) {
+        const menAtArms = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS)
+        if (menAtArms.number < 20) {
+            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, menAtArms })
+        } else {
+            menAtArms.number -= Math.floor((menAtArms.number * 0.01) * 20)
+            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
+        }
+    }
+
+    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.ARCHERS) != undefined && dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.ARCHERS).length > 30) {
+        const archers = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.ARCHERS)
+        if (archers.number < 20) {
+            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, archers })
+        } else {
+            archers.number -= Math.floor((archers.number * 0.01) * 30)
+            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
+        }
+    }
+
+    if (dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.INFANTRY) != undefined && dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.INFANTRY).length > 20) {
+        const infantry = dwelling.army.find(t => t.type == ENUM_TROOP_TYPE.INFANTRY)
+        if (infantry.number < 10) {
+            commands.push({ command: ENUM_COMMANDS.DELETE_TROOP, infantry })
+        } else {
+            infantry.number -= Math.floor((infantry.number * 0.01) * 10)
+            commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
+        }
+    }
+    await executeCommands(commands)
+
 }
 
 /**

@@ -4,7 +4,8 @@ const {
     ENUM_PERSONALITY_DEALS_TYPE,
     ENUM_OVERSPENDING_ACTION,
     ENUM_DWELLING_LOCATION_STATUS,
-    ENUM_DWELLING_LOCATION_TYPE
+    ENUM_DWELLING_LOCATION_TYPE,
+    ENUM_UNDERSPANDING_ACTION
 } = require('../generic/enums')
 const { tryToUnderstandEachOther } = require('./language')
 const { logError } = require('../data/errorFile')
@@ -15,6 +16,7 @@ const {
     MAX_RELATIONSHIP_VALUE, 
     MIN_RELATIONSHIP_VALUE,
     TAX_RATE_MAX,
+    TAX_RATE_MIN,
 } = require('../generic/statics')
 const { get } = require('../localization')
 const { locationExists } = require('../models/dwellingLocation')
@@ -152,8 +154,155 @@ const getChanceOfDowngrade = (personality) => {
     return 100
 }
 
-const dealWithUnderSpending = (personality, advisorResult, ongoingProjects) => {
+const dealWithUnderSpending = (personality, taxRate, advisorResult, ongoingProjects) => {
+    if (personality == ENUM_PERSONALITIES.AMBITIOUS) {
+        if(ongoingProjects.length < 4) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION
+        }
+        if(advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD && chance(40)) {
+            return ENUM_UNDERSPANDING_ACTION.SEEK_TRADE
+        }
+        if(advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL  && chance(40)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_MILITARY
+        }
+    }
 
+    if (personality == ENUM_PERSONALITIES.CRUEL) {
+        if (chance(50) && taxRate < TAX_RATE_MAX) {
+            return ENUM_OVERSPENDING_ACTION.INCREASE_TAX;
+        }
+        if (chance(50) && advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_MILITARY;
+        }
+        if (chance(70) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL) && ongoingProjects.length <= 1) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION;
+        }
+        if (chance(30) && advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD && ongoingProjects.length <= 1) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION;
+        }
+    }
+
+    if (personality == ENUM_PERSONALITIES.GIFTED) {
+        if((advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL) && ongoingProjects.length < 3) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION
+        }
+        if (chance(40) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_DEFENCES;
+        }
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_PRODUCTION;
+        }
+        if(taxRate > TAX_RATE_MIN && chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.DECREASE_TAX;
+        }
+    }
+
+    if (personality == ENUM_PERSONALITIES.GREEDY) {
+        if (chance(70) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_TREASURY;
+        }
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_PRODUCTION;
+        }
+        if (chance(70) && ongoingProjects.length <= 1) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION;
+        }
+    }
+
+    if (personality == ENUM_PERSONALITIES.INTELLIGENT) {
+        if (chance(40) && ongoingProjects.length <= 1 && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION;
+        }
+        if (chance(40) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.SEEK_TRADE;
+        }
+        if (chance(40) && taxRate > TAX_RATE_MIN && advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD) {
+            return ENUM_UNDERSPANDING_ACTION.DECREASE_TAX;
+        }
+        if (chance(20)) {
+            return ENUM_UNDERSPANDING_ACTION.TOURNEY;
+        }
+
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_PRODUCTION;
+        }
+        
+    }
+
+    if (personality == ENUM_PERSONALITIES.KIND) {
+        if (chance(80) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.DECREASE_TAX;
+        }
+        if (chance(50)&& (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD)) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION;
+        }
+        if (taxRate > TAX_RATE_MIN && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_PRODUCTION;
+        }
+    }
+
+    if (personality == ENUM_PERSONALITIES.LAZY) {
+        
+        if (chance(10) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD)) {
+            return ENUM_UNDERSPANDING_ACTION.TOURNEY;
+        }
+        if (chance(20)) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION;
+        }
+    }
+
+    if (personality == ENUM_PERSONALITIES.NAIVE) {
+        if (taxRate > TAX_RATE_MIN && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.DECREASE_TAX;
+        }
+        if (chance(60) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_PRODUCTION;
+        }
+        if (chance(40) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION;
+        }
+        if (chance(60)) {
+            return ENUM_UNDERSPANDING_ACTION.SEEK_TRADE;
+        }
+    }
+
+    if (personality == ENUM_PERSONALITIES.PARANOID) {
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_DEFENCES;
+        }
+
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_MILITARY;
+        }
+
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_PRODUCTION;
+        }
+
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION;
+        }
+    }
+
+    if (personality == ENUM_PERSONALITIES.RELIGIOUS) {
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_TREASURY;
+        }
+
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.START_CONSTRUCTION;
+        }
+
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            return ENUM_UNDERSPANDING_ACTION.INCREASE_PRODUCTION;
+        }
+
+        if(chance(50) && (advisorResult == ENUM_PERSONALITY_DEALS_RESULT.GOOD || advisorResult == ENUM_PERSONALITY_DEALS_RESULT.NORMAL)) {
+            
+        }
+        
+    }
+    return ENUM_UNDERSPANDING_ACTION.NONE;
 }
 
 
