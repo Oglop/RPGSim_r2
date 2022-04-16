@@ -375,10 +375,19 @@ module.exports.get = (id, args) => {
         case 'troop-mercenaries': return 'mercenaries'
         case 'troop-catapults': return 'catapults'
 
+        case 'story-adventure-party-formed': return `${args[0]} was formed.`
+        case 'story-adventure-part-member': return `${args[0]} the ${args[1]} ${args[2]}. ${args[3]}`
         case 'story-history-dwelling-construction-finished': return `In ${args[0]}, construction of ${args[1]} was finished.`
         case 'story-history-dwelling-construction-begin': return `In ${args[0]}, ${args[1]} ${args[2]} ordered the construction of ${args[3]}.`
         case 'story-history-dwelling-construction-repair': return `By the command of ${args[0]}, repair has begun on ${args[1]} in ${args[2]}.`
+        case 'story-history-dwelling-construction-abandoned': return `In ${args[0]}, construction of ${args[1]} was abandoned.`
+        case 'story-history-dwelling-loan-religion': return `${args[0]} ${args[1]} seeks financial help from the church in ${args[2]}.`
+        case 'story-history-dwelling-loan-merchants': return `${args[0]} ${args[1]} seeks financial help from the merchants guild of ${args[2]}.`
+        case 'story-history-dwelling-trade-partnership-formed': return `${args[0]} and ${args[1]} has agreed upon a trade partnership between ${args[2]} and ${args[3]}.`
         case 'story-history-progress-month': return `- ${args[0]}.`
+
+
+
         case 'system-word-a': return 'a'
         case 'system-word-an': return 'an'
         case 'system-word-he': return 'he'

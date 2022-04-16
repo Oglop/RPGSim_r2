@@ -8,6 +8,11 @@ const { get } = require('../localization')
 const { partySize } = require('../config')
 const m = require('../models/party')
 
+const { executeCommands } = require('../persistance/commandQueue')
+const { getStoryEntry } = require('../build/story')
+const { ENUM_COMMANDS, ENUM_STORY_TYPE, ENUM_STORY_TAGS } = require('../generic/enums')
+
+
 /**
  * Builds party object
  * 
@@ -17,7 +22,8 @@ const m = require('../models/party')
  * }
  * @returns {object} party
  */
-module.exports.build = (options = {}) => {
+module.exports.build = async (options = {}) => {
+    const commands = []
     const noOfMembers = (options.partySize) ? options.partySize : partySize
     if (noOfMembers == 0) { noOfMembers = 1 } 
     const party = copyObject(objects.party)
@@ -81,6 +87,19 @@ module.exports.build = (options = {}) => {
     }
     party.name = get('party-name-template', [ party.members[0].name ])
     party.position = m.getStartingPosition(options.map)
+
+    commands.push({
+        command: ENUM_COMMANDS.INSERT_STORY,
+        data: getStoryEntry(get('story-adventure-party-formed', [ party.name ]), party.id, ENUM_STORY_TYPE.ADVENTURE, { tag: ENUM_STORY_TAGS.HEADER_3 })
+    })
+
+    for (let i = 0; i < party.members.length; i++) {
+        commands.push({
+            command: ENUM_COMMANDS.INSERT_STORY,
+            data: getStoryEntry(get('story-adventure-part-member', [ party.members[i].name, party.members[i].race, party.members[i].job, party.members[i].description ]), party.id, ENUM_STORY_TYPE.ADVENTURE, { tag: ENUM_STORY_TAGS.PARAGRAPH })
+        })
+    }
+    await executeCommands(commands)
     return party
 }
 

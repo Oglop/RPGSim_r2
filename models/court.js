@@ -285,6 +285,7 @@ const overBudgetAction = async (dwelling, world) => {
  * @param {object} world 
  */
 const seekTradePartnership = async (dwelling, world) => {
+    const commands = []
     let possibleDwelling = {}
     const NoOfAtempts = getRandomNumberInRange(2, 6)
     for (let i = 0; i < NoOfAtempts; i++) {
@@ -298,6 +299,7 @@ const seekTradePartnership = async (dwelling, world) => {
                 if (newDist < oldDist) {
                     possibleDwelling = partner
                 }
+
             }
         }
     }
@@ -320,17 +322,26 @@ const seekTradePartnership = async (dwelling, world) => {
                     dealPartner.value = tradeValue
 
                     dwelling.trade.push(dealDwelling)
-                    dwelling.trade.push(dealPartner)
+                    possibleDwelling.trade.push(dealPartner)
 
-                    await executeCommands([
-                        { command: ENUM_COMMANDS.INSERT_TRADE, data: dealDwelling },
-                        { command: ENUM_COMMANDS.INSERT_TRADE, data: dealPartner  }
-                    ])
-
+                    commands.push({ command: ENUM_COMMANDS.INSERT_TRADE, data: dealDwelling })
+                    commands.push({ command: ENUM_COMMANDS.INSERT_TRADE, data: dealPartner  })
+                    commands.push({ 
+                        command: ENUM_COMMANDS.INSERT_STORY, 
+                        data: getStoryEntry(get('story-history-dwelling-trade-partnership-formed', 
+                        [ 
+                            dwelling.court.ruler.name, 
+                            possibleDwelling.court.ruler.name, 
+                            dwelling.name, 
+                            possibleDwelling.name 
+                        ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, { tag: ENUM_STORY_TAGS.PARAGRAPH }) 
+                    })
+                    break;
                 }
             }
         }
     }
+    await executeCommands(commands)
 }
 
 const constructionPreferenceToLocation = async (dwelling, preference) => {
@@ -347,9 +358,6 @@ const constructionPreferenceToLocation = async (dwelling, preference) => {
         commands.push({ command: ENUM_COMMANDS.INSERT_DWELLING_LOCATION, data: location })
         commands.push({ command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('story-history-dwelling-construction-begin', [ dwelling.name, dwelling.court.ruler.title, dwelling.court.ruler.name, location.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, { tag: ENUM_STORY_TAGS.PARAGRAPH})})
     }
-
-    await executeCommands(commands)
-
 }
 
 /**
@@ -357,7 +365,12 @@ const constructionPreferenceToLocation = async (dwelling, preference) => {
  * @param {object} dwelling 
  */
 const increaseTaxrate = async (dwelling) => {
+    const commands = []
     dwelling.taxRate += getRandomNumberInRange(1,3)
+
+    await executeCommands([{
+        
+    }])
 }
 
 /**
@@ -366,6 +379,10 @@ const increaseTaxrate = async (dwelling) => {
  */
 const decreaseTaxrate = async (dwelling) => {
     dwelling.taxRate -= getRandomNumberInRange(1,3)
+
+    await executeCommands([{
+        
+    }])
 }
 
 /**
@@ -483,6 +500,12 @@ const seekReligiousFunds = async (dwelling) => {
         dwelling
     )
     dwelling.court.loans.push(loan)
+    await executeCommands([
+        { 
+            command: ENUM_COMMANDS.INSERT_STORY, 
+            data: getStoryEntry(get('story-history-dwelling-loan-religion', [ dwelling.court.ruler.title, dwelling.court.ruler.name, dwelling.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, {tag: ENUM_STORY_TAGS.PARAGRAPH}) 
+        }
+    ])
 }
 
 /**
@@ -497,6 +520,12 @@ const merchantsLoan = async (dwelling) => {
         dwelling
     )
     dwelling.court.loans.push(loan)
+    await executeCommands([
+        { 
+            command: ENUM_COMMANDS.INSERT_STORY, 
+            data: getStoryEntry(get('story-history-dwelling-loan-merchants', [ dwelling.court.ruler.title, dwelling.court.ruler.name, dwelling.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, {tag: ENUM_STORY_TAGS.PARAGRAPH}) 
+        }
+    ])
 }
 
 /**
@@ -509,7 +538,8 @@ const abandonConstruction = async (dwelling) => {
         if (location.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION) {
             location.status = ENUM_DWELLING_LOCATION_STATUS.ABANDONED 
             await executeCommands([
-                { command: ENUM_COMMANDS.UPDATE_DWELLING_LOCATION, data: location }
+                { command: ENUM_COMMANDS.UPDATE_DWELLING_LOCATION, data: location },
+                { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('story-history-dwelling-construction-abandoned', [ dwelling.name, location.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
             ])
             return
         }
