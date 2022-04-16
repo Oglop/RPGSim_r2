@@ -206,7 +206,7 @@ const getLocationName = (dwellingName, location) => {
     if (location.type === ENUM_DWELLING_LOCATION_TYPE.STABLES) {
         return get('dwelling-location-name-stable', [ dwellingName ] )
     }
-    if (location.type === ENUM_DWELLING_LOCATION_TYPE.STABLES) {
+    if (location.type === ENUM_DWELLING_LOCATION_TYPE.SEWERS) {
         return get('dwelling-location-name-sewers', [ dwellingName ] )
     }
     if (location.type === ENUM_DWELLING_LOCATION_TYPE.COURT) {
