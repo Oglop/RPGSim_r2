@@ -1,5 +1,5 @@
 const { DatabaseContext } = require('../connections')
-const {  } = require('../../lib/utils')
+const { dateToText } = require('../../lib/time')
 
 module.exports.insertStory = async (story) => {
     const stmt = await DatabaseContext.db.prepare(`
@@ -29,7 +29,7 @@ module.exports.insertStory = async (story) => {
         '@aboutId': story.aboutId,
         '@type': story.type,
         '@subType': story.subType,
-        '@date': story.date,
+        '@date': dateToText(story.date),
         '@message': story.message,
         '@tag': story.tag
     })

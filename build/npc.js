@@ -26,6 +26,13 @@ const getNpcDescription = (npc) => {
         case ENUM_NPC_TYPE.WIZARD: return get('npc-description-wizard',  [ npc.name ] ) 
         case ENUM_NPC_TYPE.APRENTICE: return get('npc-description-aprentice',  [ npc.name ] ) 
         case ENUM_NPC_TYPE.PRIEST: return get('npc-description-priest',  [ npc.name ] ) 
+        case ENUM_NPC_TYPE.LIBRARIAN: return get('npc-description-librarian',  [ npc.name ] ) 
+        case ENUM_NPC_TYPE.OLD_MAN: return get('npc-description-old-man',  [ npc.name ] ) 
+        case ENUM_NPC_TYPE.SAILOR: return get('npc-description-sailor',  [ npc.name ] ) 
+        case ENUM_NPC_TYPE.MERCHANT: return get('npc-description-merchant',  [ npc.name ] ) 
+        case ENUM_NPC_TYPE.GRAVE_KEEPER: return get('npc-description-grave-keeper',  [ npc.name ] ) 
+        case ENUM_NPC_TYPE.CARPENTER: return get('npc-description-carpenter',  [ npc.name ] )
+        case ENUM_NPC_TYPE.BAKER: return get('npc-description-baker',  [ npc.name ] ) 
     }
     return npc.name
 }

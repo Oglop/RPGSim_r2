@@ -304,7 +304,7 @@ const seekTradePartnership = async (dwelling, world) => {
     if (!isEmptyObject(possibleDwelling)) {
         for (let production of dwelling.production) {
             if (!possibleDwelling.production.some(p => p.type == production.type)) {
-                const negotiation = consultAdvisor(dwelling.court.ruler, possibleDwelling.court.ruler)
+                const negotiation = consultAdvisor(dwelling.court.ruler, { character: possibleDwelling.court.ruler })
                 if (negotiation != ENUM_PERSONALITY_DEALS_RESULT.BAD) {
                     const dealDwelling = copyObject(objects.dwellingTrade)
                     const dealPartner = copyObject(objects.dwellingTrade)
@@ -345,7 +345,7 @@ const constructionPreferenceToLocation = async (dwelling, preference) => {
         const location =  bLocation.build(dwelling, { type: preference.type, status: ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION })
         dwelling.locations.push(location)
         commands.push({ command: ENUM_COMMANDS.INSERT_DWELLING_LOCATION, data: location })
-        commands.push({ command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('story-history-dwelling-construction-begin', [ dwelling.court.ruler.name, location.name, dwelling.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, { tag: ENUM_STORY_TAGS.PARAGRAPH})})
+        commands.push({ command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('story-history-dwelling-construction-begin', [ dwelling.name, dwelling.court.ruler.title, dwelling.court.ruler.name, location.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, { tag: ENUM_STORY_TAGS.PARAGRAPH})})
     }
 
     await executeCommands(commands)
@@ -382,7 +382,7 @@ const downSizeArmy = async (dwelling) => {
                 dwelling.army.troops = removeElementFromArrayById(mercenaries.id, dwelling.army.troops)
             } else {
                 mercenaries.number -= Math.floor((mercenaries.number * 0.01) * 10)
-                commands.push({ command: ENUM_COMMANDS.UPDATETROOP, mercenaries })
+                commands.push({ command: ENUM_COMMANDS.UPDATETROOP, data: mercenaries })
             }
         } else {
             if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.CATAPULTS) != undefined) {
@@ -392,7 +392,7 @@ const downSizeArmy = async (dwelling) => {
                     dwelling.army.troops = removeElementFromArrayById(catapults.id, dwelling.army.troops)
                 } else {
                     catapults.number -= Math.floor((catapults.number * 0.01) * 50)
-                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, catapults })
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, data: catapults })
                 }
             }
         
@@ -403,7 +403,7 @@ const downSizeArmy = async (dwelling) => {
                     dwelling.army.troops = removeElementFromArrayById(knights.id, dwelling.army.troops)
                 } else {
                     knights.number -= Math.floor((knights.number * 0.01) * 40)
-                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, knights })
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, data: knights })
                 }
             }
         
@@ -414,7 +414,7 @@ const downSizeArmy = async (dwelling) => {
                     dwelling.army.troops = removeElementFromArrayById(menAtArms.id, dwelling.army.troops)
                 } else {
                     menAtArms.number -= Math.floor((menAtArms.number * 0.01) * 20)
-                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, menAtArms })
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, data: menAtArms })
                 }
             }
         
@@ -425,7 +425,7 @@ const downSizeArmy = async (dwelling) => {
                     dwelling.army.troops = removeElementFromArrayById(archers.id, dwelling.army.troops)
                 } else {
                     archers.number -= Math.floor((archers.number * 0.01) * 30)
-                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, archers })
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, data: archers })
                 }
             }
         
@@ -436,7 +436,7 @@ const downSizeArmy = async (dwelling) => {
                     dwelling.army.troops = removeElementFromArrayById(infantry.id, dwelling.army.troops)
                 } else {
                     infantry.number -= Math.floor((infantry.number * 0.01) * 10)
-                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, infantry })
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, data: infantry })
                 }
             }
         }

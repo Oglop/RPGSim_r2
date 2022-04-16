@@ -5,7 +5,7 @@ const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
 
 const executeCommands = async (queue) => {
-    if (typeof queue === 'object') {
+    if (!(queue instanceof Array)) {
         const o = JSON.parse(JSON.stringify(queue))
         queue = [o]
     }
@@ -24,12 +24,14 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.INSERTADVISOR: await commands.insertAdvisor(item.data); break;
                 case ENUM_COMMANDS.INSERTLANGUAGE: await commands.insertLanguage(item.data); break;
                 case ENUM_COMMANDS.INSERTSKILL: await commands.insertSkill(item.data); break;
+                case ENUM_COMMANDS.INSERT_STORY: await commands.insertStory(item.data); break;
                 case ENUM_COMMANDS.INSERTRELATION: await commands.insertRelation(item.data); break;
-                case ENUM_COMMANDS.INSERTPRODUCTION: await commands.insertProduction(item.data); break;
+                case ENUM_COMMANDS.INSERTPRODUCTION: await commands.insertProduction(item.data); break;(!(queue instanceof Array))(!(queue instanceof Array))
                 case ENUM_COMMANDS.INSERTARMY: await commands.insertArmy(item.data); break;
                 case ENUM_COMMANDS.INSERTTROOP: await commands.insertTroop(item.data); break;
                 case ENUM_COMMANDS.INSERTLOAN: await commands.insertLoan(item.data); break;
                 case ENUM_COMMANDS.INSERT_NPC: await commands.insertNpc(item.data); break;
+                case ENUM_COMMANDS.INSERT_TRADE: await commands.insertTrade(item.data); break;
                 case ENUM_COMMANDS.UPDATEROOM: await commands.updateRoom(item.data); break;
                 case ENUM_COMMANDS.UPDATEDWELLING: await commands.updateDwelling(item.data); break;
                 case ENUM_COMMANDS.UPDATE_DWELLING_LOCATION: await commands.updateDwellingLocationStatus(item.data); break;
@@ -41,6 +43,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.UPDATETROOP: await commands.updateTroop(item.data); break;
                 case ENUM_COMMANDS.UPDATELOAN: await commands.updateLoan(item.data); break;
                 case ENUM_COMMANDS.UPDATERULERINCOURT: await commands.updateRulerInCourt(item.data); break;
+                default: console.log(`command ${item.command} was not found.`)
             }
         } catch (e) {
             const err = objects.error

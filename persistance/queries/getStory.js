@@ -1,8 +1,9 @@
 const { DatabaseContext } = require('../connections')
 
 module.exports.getStory = async () => {
-    const stmt = await DatabaseContext.db.prepare(`
-        SELECT
+
+    const tmp = await DatabaseContext.db.all(`
+    SELECT
             id,
             aboutId,
             type,
@@ -16,6 +17,5 @@ module.exports.getStory = async () => {
         ORDER BY
             created;
     `)
-    const tmp = await stmt.all()
     return tmp
 }

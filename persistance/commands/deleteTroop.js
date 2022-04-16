@@ -5,8 +5,8 @@ module.exports.deleteTroop = async (id) => {
     DELETE FROM 
         troop 
     WHERE
-        id = @id
-    );`)
+        id = @id;
+    `)
     await stmt.bind({
         '@id': id,
     })

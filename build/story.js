@@ -15,7 +15,7 @@ const {
 
 // STANDARD IMPORTS
 
-module.exports.getStoryEntry = (message, aboutId, type, options) => {
+module.exports.getStoryEntry = (message, aboutId, type, options = {}) => {
     const s = copyObject(objects.story)
     s.id = generateID()
     s.message = message

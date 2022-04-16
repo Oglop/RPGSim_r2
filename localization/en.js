@@ -13,10 +13,37 @@ module.exports.get = (id, args) => {
         case 'adventure-travel-west': return `${args[0]} travels west.`
         case 'adventure-travel-south': return `${args[0]} travels south.`
 
-        case 'dwelling-location-name-guardhouse': return `${args[0]} guard house.`
-        case 'dwelling-location-name-traininggrounds': return `${args[0]} training grounds.`
-        case 'dwelling-location-name-smith': return `${args[0]}´s black smith.`
-        case 'dwelling-location-name-inn-tavern': return `The ${args[0]} ${args[1]}.`
+        case 'dwelling-location-name-library': return `${args[0]} library`
+        case 'dwelling-location-name-tournament-field': return `Tournament field`
+        case 'dwelling-location-name-arena': return `Arena`
+        case 'dwelling-location-name-park': return `park`
+        case 'dwelling-location-name-shrine': return `Shrine of ${args[0]}`
+        case 'dwelling-location-name-catacombs': return `${args[0]} catacombs`
+        case 'dwelling-location-name-cemetary': return `${args[0]} cemetary`
+        case 'dwelling-location-name-sewers': return `${args[0]} sewers`
+        case 'dwelling-location-name-university': return `${args[0]} university`
+        case 'dwelling-location-name-baths': return `${args[0]} baths`
+        case 'dwelling-location-name-court': return `${args[0]} court`
+        case 'dwelling-location-name-wizards-tower': return `${args[0]}´s tower`
+        case 'dwelling-location-name-jail': return `${args[0]} jail`
+        case 'dwelling-location-name-treasury': return `${args[0]} treasury`
+        case 'dwelling-location-name-bank': return `${args[0]} bank`
+        case 'dwelling-location-name-town-hall': return `${args[0]} town hall`
+        case 'dwelling-location-name-carpenter': return `${args[0]}´s carpentry`
+        case 'dwelling-location-name-baker': return `${args[0]}´s bakery`
+        case 'dwelling-location-name-palace': return `${args[0]} palace`
+        case 'dwelling-location-name-palace': return `${args[0]} stables`
+        case 'dwelling-location-name-square': return `${args[0]} square`
+        case 'dwelling-location-name-guild': return `Guild of ${args[0]}`
+        case 'dwelling-location-name-court': return `${args[0]} court house`
+        case 'dwelling-location-name-magic-academy': return `${args[0]}´s acaddemy`
+        case 'dwelling-location-name-harbour': return `harbour`
+        case 'dwelling-location-name-market': return `market`
+        case 'dwelling-location-name-street': return `${args[0]} street`
+        case 'dwelling-location-name-guardhouse': return `${args[0]} guard house`
+        case 'dwelling-location-name-traininggrounds': return `${args[0]} training grounds`
+        case 'dwelling-location-name-smith': return `${args[0]}´s black smith`
+        case 'dwelling-location-name-inn-tavern': return `The ${args[0]} ${args[1]}`
         case 'dwelling-location-name-first-running': return `running`
         case 'dwelling-location-name-first-green': return `green`
         case 'dwelling-location-name-first-iron': return `iron`
@@ -317,6 +344,13 @@ module.exports.get = (id, args) => {
         case 'npc-description-fighter': return `${args[0]} the fighter`
         case 'npc-description-priest': return `${args[0]} the priest`
         case 'npc-description-aprentice': return `the aprentice ${args[0]}`
+        case 'npc-description-librarian': return `Librarian ${args[0]}`
+        case 'npc-description-old-man': return `Old man ${args[0]}`
+        case 'npc-description-sailor': return `Sailor ${args[0]}`
+        case 'npc-description-merchant': return `Merchant ${args[0]}`
+        case 'npc-description-grave-keeper': return `Grave keeper ${args[0]}`
+        case 'npc-description-carpenter': return `${args[0]} the carpenter`
+        case 'npc-description-baker': return `${args[0]} the baker`
         // case 'npc-description-': return `${args[0]} `
 
         case 'npc-approaches-party': return `${args[0]} is approaching ${args[1]}.`
@@ -342,9 +376,9 @@ module.exports.get = (id, args) => {
         case 'troop-catapults': return 'catapults'
 
         case 'story-history-dwelling-construction-finished': return `In ${args[0]}, construction of a ${args[1]} was finished.`
-        case 'story-history-dwelling-construction-begin': return `By the command of ${args[0]}, construction has begun on ${args[1]} in ${args[2]}.`
+        case 'story-history-dwelling-construction-begin': return `In ${args[0]}, ${args[1]} ${args[2]} ordered the construction of ${args[3]}.`
         case 'story-history-dwelling-construction-repair': return `By the command of ${args[0]}, repair has begun on ${args[1]} in ${args[2]}.`
-        
+        case 'story-history-progress-month': return `- ${args[0]}.`
         case 'system-word-a': return 'a'
         case 'system-word-an': return 'an'
         case 'system-word-he': return 'he'

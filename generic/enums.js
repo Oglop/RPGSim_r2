@@ -465,7 +465,14 @@ module.exports = {
         KNIGHT: 16,
         FIGHTER: 17,
         APRENTICE: 18,
-        PRIEST: 19
+        PRIEST: 19,
+        LIBRARIAN: 20,
+        OLD_MAN: 21,
+        SAILOR: 22,
+        MERCHANT: 23,
+        GRAVE_KEEPER: 24,
+        CARPENTER: 25,
+        BAKER: 26
 
     },
     ENUM_OVERSPENDING_ACTION: {
