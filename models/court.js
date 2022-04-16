@@ -570,7 +570,30 @@ const goPlunder = async (dwelling, world) => {
  * @param {object} dwelling 
  */
 const decreaseDefenses = async (dwelling) => {
-    
+    let hasDegenerated = false
+    if (dwelling.moats != ENUM_DWELLING_CONDITIONS.NONE && ENUM_DWELLING_CONDITIONS.RUINED) {
+        dwelling.moats = downgradeCondition(dwelling.moats)
+        hasDegenerated = true
+    }
+    else if (!hasDegenerated && (dwelling.gate != ENUM_DWELLING_CONDITIONS.NONE && ENUM_DWELLING_CONDITIONS.RUINED)){
+        dwelling.gate = downgradeCondition(dwelling.gate)
+        hasDegenerated = true
+    }
+    else if (!hasDegenerated && (dwelling.walls != ENUM_DWELLING_CONDITIONS.NONE && ENUM_DWELLING_CONDITIONS.RUINED)){
+        dwelling.walls = downgradeCondition(dwelling.walls)
+        hasDegenerated = true
+    }
+    else if (!hasDegenerated && (dwelling.guards != ENUM_DWELLING_CONDITIONS.NONE && ENUM_DWELLING_CONDITIONS.RUINED)){
+        dwelling.guards = downgradeCondition(dwelling.guards)
+        hasDegenerated = true
+    }
+    if (hasDegenerated) {
+        await executeCommands([{ 
+            command: ENUM_COMMANDS.INSERT_STORY, 
+            data: getStoryEntry(get('story-history-dwelling-decrease-defences', [ dwelling.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, {tag: ENUM_STORY_TAGS.PARAGRAPH}) 
+        }])
+    }
+
 }
 
 /**
@@ -578,7 +601,30 @@ const decreaseDefenses = async (dwelling) => {
  * @param {object} dwelling 
  */
 const increaseDefenses = async (dwelling) => {
-
+    let hasStregnthened = false
+    if (!hasStregnthened && (dwelling.guards != ENUM_DWELLING_CONDITIONS.PERFECT)){
+        dwelling.guards = upgradeCondition(dwelling.guards)
+        hasStregnthened = true
+    }
+    if (!hasStregnthened && (dwelling.walls != ENUM_DWELLING_CONDITIONS.PERFECT)){
+        dwelling.walls = upgradeCondition(dwelling.walls)
+        hasStregnthened = true
+    }
+    if (!hasStregnthened && (dwelling.gate != ENUM_DWELLING_CONDITIONS.PERFECT)){
+        dwelling.gate = upgradeCondition(dwelling.gate)
+        hasStregnthened = true
+    }
+    if (!hasStregnthened && (dwelling.moats != ENUM_DWELLING_CONDITIONS.PERFECT)){
+        dwelling.moats = upgradeCondition(dwelling.moats)
+        hasStregnthened = true
+    }
+    if(hasStregnthened) {
+        await executeCommands([{ 
+            command: ENUM_COMMANDS.INSERT_STORY, 
+            data: getStoryEntry(get('story-history-dwelling-increase-defences', [ dwelling.court.ruler.title, dwelling.court.ruler.name, dwelling.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, {tag: ENUM_STORY_TAGS.PARAGRAPH}) 
+        }])
+    }
+    }
 }
 
 /**
@@ -586,7 +632,11 @@ const increaseDefenses = async (dwelling) => {
  * @param {object} dwelling 
  */
 const putMoneyOnPile = async (dwelling) => {
-
+    dwelling.gold += Math.floor(((dwelling.gold * 0.01) * getRandomNumberInRange(1, 3)))
+    await executeCommands([{ 
+        command: ENUM_COMMANDS.INSERT_STORY, 
+        data: getStoryEntry(get('story-history-dwelling-increase-treasury', [ dwelling.court.ruler.title, dwelling.court.ruler.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, {tag: ENUM_STORY_TAGS.PARAGRAPH}) 
+    }])
 }
 
 /**
