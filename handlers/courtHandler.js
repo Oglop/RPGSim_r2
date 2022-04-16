@@ -4,20 +4,11 @@ const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
 const { 
     ENUM_COMMANDS,
-    ENUM_PERSONALITIES, 
-    ENUM_PERSONALITY_DEALS_RESULT, 
-    ENUM_PERSONALITY_DEALS_TYPE, 
     ENUM_DWELLING_CONDITIONS,
-    ENUM_DWELLINGS,
-    ENUM_OVERSPENDING_ACTION,
-    ENUM_DWELLING_PRODUCTION_TYPE
 } = require('../generic/enums')
 const { 
-    chance,
-    copyObject, 
-    getRandomNumberInRange, 
-    getRandomElementFromArray, 
-    generateID} = require('../lib/utils')
+    getRandomNumberInRange,
+} = require('../lib/utils')
 const {
     GUARD_COST_MULTIPLYER,
     GATE_COST_MULTIPLYER,
@@ -29,9 +20,8 @@ const {
     MAOT_COST_MAINTENANCE
 } = require('../generic/statics')
 
-const { getArmyCost, downSizeArmy } = require('../models/army')
+const { getArmyCost } = require('../models/army')
 const { checkOldAgeHealth } = require('../models/character')
-const { getChanceOfDowngrade, dealWithOverSpending } = require('../models/personality')
 const m = require('../models/court')
 
 const {
@@ -51,7 +41,8 @@ const handleFood = async (dwelling) => {
 
 const handleIncome = async (dwelling) => {
     let income = 0
-    income = Math.floor( ( dwelling.citizens * dwelling.citizenTaxable ) * (dwelling.taxRate * 0.01) )
+    income += m.locationIncomeFromLocation(dwelling)
+    income += Math.floor( ( dwelling.citizens * dwelling.citizenTaxable ) * (dwelling.taxRate * 0.01) )
     income += m.incomeFromProduction(dwelling)
     dwelling.court.monthlyIncome = income
     dwelling.gold += income
@@ -60,7 +51,7 @@ const handleIncome = async (dwelling) => {
 
 const handleExpenses = async (dwelling) => {
     let expense = 0
-    
+    expense += m.locationCostFromCorruption(dwelling)
     for (loan of dwelling.court.loans) {
         expense += m.payLoans(dwelling, loan)
     }
@@ -92,7 +83,7 @@ const handleExpenses = async (dwelling) => {
     expense += cost
 
     dwelling.court.monthlyExpense = expense
-    dwelling.gold -= expense
+    dwelling.gold -= Math.floor(expense)
 }
 
 

@@ -53,11 +53,19 @@ const humanProduction = (dwelling) => {
 const getDwellingLocations = (dwelling) => {
     dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.TAVERN, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
     dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.INN, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
-    dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.SMITH, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
+    dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.BLACKSMITH, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
     dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
     dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.TRAINING_GROUNDS, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
-    if ( dwelling.size == ENUM_DWELLING_SIZE.TOWN ) {
+    dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.STREET, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
+    dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.MARKET, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
+    if ( dwelling.size == ENUM_DWELLING_SIZE.TOWN || dwelling.size == ENUM_DWELLING_SIZE.CITY || dwelling.size == ENUM_DWELLING_SIZE.CAPITAL) {
         dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.TEMPLE, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
+    }
+    if ( dwelling.size == ENUM_DWELLING_SIZE.CAPITAL || dwelling.size == ENUM_DWELLING_SIZE.CITY) {
+        dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.TOWN_HALL, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
+    }
+    if ( dwelling.size == ENUM_DWELLING_SIZE.CAPITAL) {
+        dwelling.locations.push(bLocations.build(dwelling, { type: ENUM_DWELLING_LOCATION_TYPE.PALACE, status: ENUM_DWELLING_LOCATION_STATUS.ACTIVE }))
     }
 }
 

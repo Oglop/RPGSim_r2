@@ -17,7 +17,8 @@ const {
     ENUM_OVERSPENDING_ACTION,
     ENUM_TROOP_TYPE,
     ENUM_STORY_TYPE,
-    ENUM_STORY_TAGS
+    ENUM_STORY_TAGS,
+    ENUM_DWELLING_LOCATION_TYPE
 } = require('../generic/enums')
 const { 
     removeElementFromArrayById,
@@ -48,13 +49,8 @@ const {
 } = require('../persistance/commandQueue')
 const bLocation = require('../build/dwellingLocation')
 
-
-
-const { getCharacterById, getCourtByDwellingId } = require('../persistance').queries
-const { tryToUnderstandEachOther } = require('./language')
-const { personalityDealsWith, 
+const { 
     compabilityCheck, 
-    getChanceOfDowngrade, 
     dealWithUnderSpending, 
     dealWithOverSpending, 
     getConstructionPreference } = require('./personality')
@@ -113,6 +109,51 @@ const consultAdvisor = async (ruler, advisor) => {
         err.message = e.message
         logError(err)
     }
+}
+
+/**
+ * return gold from income
+ * @param {object} dwelling 
+ * @returns {integer}
+ */
+const locationIncomeFromLocation = (dwelling) => {
+    let income = 0
+    if (dwelling.locations.find(l => l.type == ENUM_DWELLING_LOCATION_TYPE.MARKET) != undefined) {
+        income += Math.floor((dwelling.citizens * 0.01) * getRandomNumberInRange(1,3))
+    }
+    if (dwelling.locations.find(l => l.type == ENUM_DWELLING_LOCATION_TYPE.BANK) != undefined) {
+        income += Math.floor((dwelling.citizens * 0.01) * getRandomNumberInRange(3,6))
+    }
+    if (dwelling.locations.find(l => l.type == ENUM_DWELLING_LOCATION_TYPE.ARENA) != undefined) {
+        income += Math.floor((dwelling.citizens * 0.01) * getRandomNumberInRange(1,2))
+    }
+    if (dwelling.locations.find(l => l.type == ENUM_DWELLING_LOCATION_TYPE.HARBOUR) != undefined) {
+        income += Math.floor((dwelling.citizens * 0.01) * getRandomNumberInRange(2,4))
+    }
+    return income
+}
+
+/**
+ * 
+ * @param {object} dwelling 
+ * @returns {ionteger}
+ */
+const locationCostFromCorruption = (dwelling) => {
+    const percetage = dwelling.citizens * 0.01
+    let cost = Math.floor(percetage * getRandomNumberInRange(2,4))
+    if (dwelling.locations.find(l => l.type == ENUM_DWELLING_LOCATION_TYPE.GUARDS_HOUSE) != undefined) {
+        cost -= Math.floor(cost * 0.2)
+    }
+    if (dwelling.locations.find(l => l.type == ENUM_DWELLING_LOCATION_TYPE.COURT) != undefined) {
+        cost -= Math.floor(cost * 0.3)
+    }
+    if (dwelling.locations.find(l => l.type == ENUM_DWELLING_LOCATION_TYPE.JAIL) != undefined) {
+        cost -= Math.floor(cost * 0.3)
+    }
+    if (dwelling.locations.find(l => l.type == ENUM_DWELLING_LOCATION_TYPE.TOWN_HALL) != undefined) {
+        cost -= Math.floor(cost * 0.2)
+    }
+    return cost
 }
 
 /**
@@ -624,7 +665,6 @@ const increaseDefenses = async (dwelling) => {
             data: getStoryEntry(get('story-history-dwelling-increase-defences', [ dwelling.court.ruler.title, dwelling.court.ruler.name, dwelling.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, {tag: ENUM_STORY_TAGS.PARAGRAPH}) 
         }])
     }
-    }
 }
 
 /**
@@ -742,5 +782,7 @@ module.exports = {
     getGuardHappinessModifyer,
     underBudgetAction,
     overBudgetAction,
-    testFinishConstruction
+    testFinishConstruction,
+    locationIncomeFromLocation,
+    locationCostFromCorruption
 }
