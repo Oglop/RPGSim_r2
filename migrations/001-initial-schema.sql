@@ -74,6 +74,7 @@ CREATE TABLE dwelling
     citizenTaxable  number,
     gold            integer,
     food            integer,
+    growth          number,
     taxRate         integer,
     happiness       number,
     happinessModifyer number,

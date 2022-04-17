@@ -14,7 +14,6 @@ const {
     ENUM_DWELLINGS,
     ENUM_DWELLING_SIZE
  } = require('../generic/enums')
-const familyBuilder = require('../build/families')
 const bCharacter = require('./character')
 const { getRaceFromDwellingType } = require('../models/dwelling')
 const { get } = require('../localization')

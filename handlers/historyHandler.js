@@ -8,7 +8,8 @@ const {
     handleFood, 
     handleCourtOldAges,
     handleConstructionStatus,
-    handlePublicHappinessLevel
+    handlePublicHappinessLevel,
+    handleCitizensGrowth
 } = require('../handlers/courtHandler')
 const { ENUM_COMMANDS } = require('../generic/enums')
 const { executeCommands } = require('../persistance/commandQueue')
@@ -24,6 +25,7 @@ module.exports.progressHistory = async (world) => {
     for (let dwelling of world.dwellings) { 
         // finished constructions
         await handleConstructionStatus(dwelling)
+        handleCitizensGrowth(dwelling)
         // Collect texes
         await handleIncome(dwelling)
         await handleExpenses(dwelling)

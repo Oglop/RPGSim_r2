@@ -7,7 +7,7 @@ const {
     ENUM_DWELLING_CONDITIONS,
 } = require('../generic/enums')
 const { 
-    getRandomNumberInRange,
+    getRandomNumberInRange, getRandomFloatInRange,
 } = require('../lib/utils')
 const {
     GUARD_COST_MULTIPLYER,
@@ -29,6 +29,10 @@ const {
 } = require('../persistance/commandQueue')
 const { isWithinBudget } = require('../models/ruler')
 
+/**
+ * Add food and set growth
+ * @param {object} dwelling 
+ */
 const handleFood = async (dwelling) => {
     const foodProduced = m.foodFromProduction(dwelling)
     dwelling.food += foodProduced
@@ -36,9 +40,18 @@ const handleFood = async (dwelling) => {
     if (dwelling.food <= 0) {
         dwelling.food = 0
         dwelling.citizens -= ((dwelling.citizens * 0.01) * getRandomNumberInRange(1, 3))
+        dwelling.growth -= getRandomFloatInRange(0.1, 0.2)
+    } else {
+        dwelling.growth += getRandomFloatInRange(0.1, 0.2)
     }
+    dwelling.growth = (dwelling.growth > 1.0) ? 1.0 : dwelling.growth
+    dwelling.growth = (dwelling.growth < -1.0) ? -1.0 : dwelling.growth
 }
 
+/**
+ * Add income
+ * @param {object} dwelling 
+ */
 const handleIncome = async (dwelling) => {
     let income = 0
     income += m.locationIncomeFromLocation(dwelling)
@@ -147,6 +160,10 @@ const handlePublicHappinessLevel = (dwelling) => {
     dwelling.happiness += + dwelling.happinessModifyer
 }
 
+const handleCitizensGrowth = (dwelling) => {
+    dwelling.citizens += Math.floor((dwelling.citizens * 0.01) * dwelling.growth)
+}
+
 
 module.exports = {
     handleBudget,
@@ -155,5 +172,6 @@ module.exports = {
     handleExpenses,
     handleFood,
     handleConstructionStatus,
-    handlePublicHappinessLevel
+    handlePublicHappinessLevel,
+    handleCitizensGrowth
 }

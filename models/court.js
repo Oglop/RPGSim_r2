@@ -20,7 +20,8 @@ const {
     ENUM_STORY_TAGS,
     ENUM_DWELLING_LOCATION_TYPE,
     ENUM_NPC_TYPE,
-    ENUM_JOB_NAMES
+    ENUM_JOB_NAMES,
+    ENUM_BIOMES
 } = require('../generic/enums')
 const { 
     removeElementFromArrayById,
@@ -30,7 +31,8 @@ const {
     getRandomFloatInRange,
     getRandomElementFromArray, 
     generateID,
-    isEmptyObject
+    isEmptyObject,
+    point2d
 } = require('../lib/utils')
 const {
     CONDITION_NONE_MULTIPLYER,
@@ -55,6 +57,7 @@ const {
 const bLocation = require('../build/dwellingLocation')
 const bNPC = require('../build/npc')
 const bCharacter = require('../build/character')
+const bProduction = require('../build/production')
 const { 
     compabilityCheck, 
     dealWithUnderSpending, 
@@ -64,6 +67,7 @@ const m = require('../models/court')
 const { getRandomReligion } = require('../generic/religions')
 const { getAgeSimple } = require('../lib/time')
 const { hasOngoingProject, getRaceFromDwellingType, getDifferentDwelling } = require('./dwelling')
+const { isPointOnMap, getBiomeAtPoint, isBiome } = require('../models/map')
 
 const upgradeCondition = (condition) => {
     switch (condition) {
@@ -864,7 +868,94 @@ const putMoneyOnPile = async (dwelling) => {
  * @param {object} world
  */
 const increaseProduction = async (dwelling, world) => {
+    const commands = []
+    let hasIncreasedProduction = false
+    const boardersWater = false
+    const boardersMountains = false
+    const boardersSwamps = false
+    const boardersDessert = false
+    const boardersForest = false
 
+    // EAST
+    if (isPointOnMap(dwelling.x + 1, dwelling.y)) {
+        const biome = getBiomeAtPoint(world.map, point2d(dwelling.x + 1, dwelling.y))
+        if (isBiome( ENUM_BIOMES.lake, biome )) { boardersWater = true }
+        if (isBiome( ENUM_BIOMES.mountains, biome )) { boardersMountains = true }
+        if (isBiome( ENUM_BIOMES.swamp, biome )) { boardersSwamps = true }
+        if (isBiome( ENUM_BIOMES.dessert, biome )) { boardersDessert = true }
+        if (isBiome( ENUM_BIOMES.forest, biome )) { boardersDessert = true }
+    }
+
+    // NORTH
+    if (isPointOnMap(dwelling.x, dwelling.y - 1)) {
+        const biome = getBiomeAtPoint(world.map, point2d(dwelling.x, dwelling.y - 1))
+        if (isBiome( ENUM_BIOMES.lake, biome )) { boardersWater = true }
+        if (isBiome( ENUM_BIOMES.mountains, biome )) { boardersMountains = true }
+        if (isBiome( ENUM_BIOMES.swamp, biome )) { boardersSwamps = true }
+        if (isBiome( ENUM_BIOMES.dessert, biome )) { boardersDessert = true }
+        if (isBiome( ENUM_BIOMES.forest, biome )) { boardersDessert = true }
+    }
+    // WEST
+    if (isPointOnMap(dwelling.x - 1, dwelling.y)) {
+        const biome = getBiomeAtPoint(world.map, point2d(dwelling.x - 1, dwelling.y))
+        if (isBiome( ENUM_BIOMES.lake, biome )) { boardersWater = true }
+        if (isBiome( ENUM_BIOMES.mountains, biome )) { boardersMountains = true }
+        if (isBiome( ENUM_BIOMES.swamp, biome )) { boardersSwamps = true }
+        if (isBiome( ENUM_BIOMES.dessert, biome )) { boardersDessert = true }
+        if (isBiome( ENUM_BIOMES.forest, biome )) { boardersDessert = true }
+    }
+
+    // SOUTH
+    if (isPointOnMap(dwelling.x, dwelling.y + 1)) {
+        const biome = getBiomeAtPoint(world.map, point2d(dwelling.x, dwelling.y + 1))
+        if (isBiome( ENUM_BIOMES.lake, biome )) { boardersWater = true }
+        if (isBiome( ENUM_BIOMES.mountains, biome )) { boardersMountains = true }
+        if (isBiome( ENUM_BIOMES.swamp, biome )) { boardersSwamps = true }
+        if (isBiome( ENUM_BIOMES.dessert, biome )) { boardersDessert = true }
+        if (isBiome( ENUM_BIOMES.forest, biome )) { boardersDessert = true }
+    }
+    let newProduction = {}
+    if (!hasIncreasedProduction && boardersWater && dwelling.production.find(p => p.type == ENUM_DWELLING_PRODUCTION_TYPE.FISH) == undefined) {
+        newProduction = bProduction.build(ENUM_DWELLING_PRODUCTION_TYPE.FISH, dwelling.id)
+        hasIncreasedProduction = true
+    }
+    if (!hasIncreasedProduction && boardersMountains && dwelling.production.find(p => p.type == ENUM_DWELLING_PRODUCTION_TYPE.STONE) == undefined) {
+        newProduction = bProduction.build(ENUM_DWELLING_PRODUCTION_TYPE.STONE, dwelling.id)
+        hasIncreasedProduction = true
+    }
+    if (!hasIncreasedProduction && boardersMountains && dwelling.production.find(p => p.type == ENUM_DWELLING_PRODUCTION_TYPE.IRON) == undefined) {
+        newProduction = bProduction.build(ENUM_DWELLING_PRODUCTION_TYPE.IRON, dwelling.id)
+        hasIncreasedProduction = true
+    }
+    if (!hasIncreasedProduction && boardersSwamps && dwelling.production.find(p => p.type == ENUM_DWELLING_PRODUCTION_TYPE.MUSHROOMS) == undefined) {
+        newProduction = bProduction.build(ENUM_DWELLING_PRODUCTION_TYPE.MUSHROOMS, dwelling.id)
+        hasIncreasedProduction = true
+    }
+    if (!hasIncreasedProduction && boardersDessert && dwelling.production.find(p => p.type == ENUM_DWELLING_PRODUCTION_TYPE.SALT) == undefined) {
+        newProduction = bProduction.build(ENUM_DWELLING_PRODUCTION_TYPE.SALT, dwelling.id)
+        hasIncreasedProduction = true
+    }
+    if (!hasIncreasedProduction && boardersForest && dwelling.production.find(p => p.type == ENUM_DWELLING_PRODUCTION_TYPE.DEER) == undefined) {
+        newProduction = bProduction.build(ENUM_DWELLING_PRODUCTION_TYPE.DEER, dwelling.id)
+        hasIncreasedProduction = true
+    }
+    if (!hasIncreasedProduction) {
+        const production = getRandomElementFromArray(dwelling.production)
+        newProduction = bProduction.build(production.type, dwelling.id)
+    }
+    if (hasIncreasedProduction) {
+        dwelling.production.push(newProduction)
+        commands.push({
+            command: ENUM_COMMANDS.INSERTPRODUCTION,
+            data: newProduction
+        },
+        {
+            command: ENUM_COMMANDS.INSERT_STORY,
+            data: getStoryEntry(get('story-history-dwelling-production-increase', [ dwelling.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, { tag: ENUM_STORY_TAGS.PARAGRAPH })
+        })
+    }
+
+    await executeCommands(commands)
 }
 
 const testFinishConstruction = async (dwelling) => {

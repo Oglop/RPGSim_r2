@@ -141,6 +141,7 @@ module.exports = {
         citizenTaxable: 1.0,
         gold: 0,
         food: 0,
+        growth: 0,
         taxRate: 0,
         happiness: 0,
         happinessModifyer: 0,

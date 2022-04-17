@@ -324,6 +324,7 @@ module.exports.build = async (position, options) => {
         if (options.army) { d.army = options.army }
         addCitizens(d)
         addProduction(d)
+        d.growth = 0
         d.court = await bCourt.build(d, {
             date: options.date
         })

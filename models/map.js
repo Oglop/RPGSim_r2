@@ -34,6 +34,19 @@ const getDwellingPositionById = (map, dwellingId) => {
     }
 }
 
+/**
+ * returns true if point is on map
+ * @param {integer} x 
+ * @param {integer} y 
+ * @returns {bool}
+ */
+const isPointOnMap = (x, y) => {
+    if (x < 0 || y < 0 || x >= WORLD_SIZE || y >= WORLD_SIZE) {
+        return false
+    }
+    return true
+}
+
 const getDwellingById = (map, dwellingId) => {
     try {
         const p = map.find(r => r.dwelling.id == dwellingId)
@@ -127,6 +140,11 @@ const getMap = async (worldId, size) => {
     return map
 }
 
+const isBiome = (biome, value) => {
+    if (biome == value) { return true }
+    return false
+}
+
 module.exports = {
     getDwellingsFromMap,
     getDwellingPositionById,
@@ -135,5 +153,7 @@ module.exports = {
     getBiomeAtPoint,
     getMap,
     getListOfPointsByBiome,
-    getClosestDwelling
+    getClosestDwelling,
+    isPointOnMap,
+    isBiome
 }
