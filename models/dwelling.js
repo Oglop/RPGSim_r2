@@ -2,7 +2,8 @@ const {
     ENUM_DWELLINGS,
     ENUM_RACE_NAMES,
     ENUM_DWELLING_LOCATION_STATUS
-} = require('../generic/enums')
+} = require('../generic/enums');
+const { getRandomElementFromArray } = require('../lib/utils');
 
 const getRaceFromDwellingType = (dwelling) => {
     switch( dwelling.type ) {
@@ -24,7 +25,22 @@ const hasOngoingProject = (dwelling) => {
     return dwelling.locations.filter(l => l.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION)
 }
 
+/**
+ * returns a
+ * @param {array} dwellings 
+ * @param {string} id 
+ * @returns 
+ */
+const getDifferentDwelling = (dwellings, id) => {
+    let dwelling = { id }
+    while (dwelling.id == id) {
+        dwelling = getRandomElementFromArray(dwellings)
+    }
+    return dwelling
+}
+
 module.exports = {
     getRaceFromDwellingType,
-    hasOngoingProject
+    hasOngoingProject,
+    getDifferentDwelling
 }

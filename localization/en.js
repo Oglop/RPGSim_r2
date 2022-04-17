@@ -387,6 +387,9 @@ module.exports.get = (id, args) => {
         case 'story-history-dwelling-increase-treasury': return `${args[0]} ${args[1]} is keeping this months gold.`
         case 'story-history-dwelling-loan-religion': return `${args[0]} ${args[1]} seeks financial help from the church in ${args[2]}.`
         case 'story-history-dwelling-loan-merchants': return `${args[0]} ${args[1]} seeks financial help from the merchants guild of ${args[2]}.`
+        case 'story-history-dwelling-raid-do': return `${args[0]} ${args[1]} of ${args[2]} raids ${args[3]}.`
+        case 'story-history-dwelling-raid-by': return `${args[0]} was raided by ${args[1]}.`
+
         case 'story-history-dwelling-trade-partnership-formed': return `${args[0]} and ${args[1]} has agreed upon a trade partnership between ${args[2]} and ${args[3]}.`
         case 'story-history-dwelling-tourney-participants': return `In ${args[0]} a tournament is held. ${args[1]} joins.`
         case 'story-history-dwelling-tourney-battle': return `${args[0]} and ${args[1]} meets in battle over the tournaments honour.`

@@ -6,11 +6,8 @@ const {
     ENUM_TROOP_TYPE, ENUM_DWELLING_SIZE
 } = require('../generic/enums')
 const { 
-    chance,
     copyObject, 
-    getRandomNumberInRange, 
     getRandomFloatInRange,
-    getRandomElementFromArray, 
     generateID} = require('../lib/utils')
 const {
     TROOP_KIGHTS_POWER_MIN,

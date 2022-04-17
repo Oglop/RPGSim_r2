@@ -47,6 +47,8 @@ const {
 const { getStoryEntry } = require('../build/story')
 // STANDARD IMPORTS
 
+const { getTroopCost } = require('../models/army')
+const { buildTroop } = require('../build/army')
 const {
     executeCommands
 } = require('../persistance/commandQueue')
@@ -61,7 +63,7 @@ const {
 const m = require('../models/court')
 const { getRandomReligion } = require('../generic/religions')
 const { getAgeSimple } = require('../lib/time')
-const { hasOngoingProject, getRaceFromDwellingType } = require('./dwelling')
+const { hasOngoingProject, getRaceFromDwellingType, getDifferentDwelling } = require('./dwelling')
 
 const upgradeCondition = (condition) => {
     switch (condition) {
@@ -530,7 +532,86 @@ const downSizeArmy = async (dwelling) => {
  * @param {object} dwelling 
  */
 const upSizeArmy = async (dwelling) => {
+    const commands = []
+    let hasUpscaled = false
+    const disposable = Math.floor( dwelling.citizens * 0.01 )
 
+    try {
+        if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.MERCENARIES) != undefined) {
+            const mercenaries = dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.MERCENARIES)
+            if (disposable < getTroopCost(mercenaries)) {
+                mercenaries.number += Math.floor(disposable * 0.1)
+                commands.push({ command: ENUM_COMMANDS.UPDATETROOP, data: mercenaries })
+                hasUpscaled = true
+            }
+        } else {
+            const noOftroop = Math.floor(disposable * 0.2)
+            const troop = buildTroop(a.id, ENUM_TROOP_TYPE.MERCENARIES, noOftroop)
+            dwelling.army.troops.push(troop)
+            commands.push({ command: ENUM_COMMANDS.INSERTTROOP, data: troop })
+            hasUpscaled = true
+        }
+        if (!hasUpscaled) {
+            if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.INFANTRY) != undefined) {
+                const troop = dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.INFANTRY)
+                if (disposable < getTroopCost(troop)) {
+                    troop.number += Math.floor(disposable * 0.1)
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, data: troop })
+                    hasUpscaled = true
+                }
+            } else {
+                const noOftroop = Math.floor(disposable * 0.3)
+                const troop = buildTroop(a.id, ENUM_TROOP_TYPE.INFANTRY, noOftroop)
+                dwelling.army.troops.push(troop)
+                commands.push({ command: ENUM_COMMANDS.INSERTTROOP, data: troop })
+                hasUpscaled = true
+            }
+        }
+
+        if (!hasUpscaled) {
+            if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.ARCHERS) != undefined) {
+                const troop = dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.ARCHERS)
+                if (disposable < getTroopCost(troop)) {
+                    troop.number += Math.floor(disposable * 0.1)
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, data: troop })
+                    hasUpscaled = true
+                }
+            } else {
+                const noOftroop = Math.floor(disposable * 0.2)
+                const troop = buildTroop(a.id, ENUM_TROOP_TYPE.ARCHERS, noOftroop)
+                dwelling.army.troops.push(troop)
+                commands.push({ command: ENUM_COMMANDS.INSERTTROOP, data: troop })
+                hasUpscaled = true
+            }
+        }
+
+        if (!hasUpscaled) {
+            if (dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS) != undefined) {
+                const troop = dwelling.army.troops.find(t => t.type == ENUM_TROOP_TYPE.MEN_AT_ARMS)
+                if (disposable < getTroopCost(troop)) {
+                    troop.number += Math.floor(disposable * 0.1)
+                    commands.push({ command: ENUM_COMMANDS.UPDATETROOP, data: troop })
+                    hasUpscaled = true
+                }
+            } else {
+                const noOftroop = Math.floor(disposable * 0.2)
+                const troop = buildTroop(a.id, ENUM_TROOP_TYPE.MEN_AT_ARMS, noOftroop)
+                dwelling.army.troops.push(troop)
+                commands.push({ command: ENUM_COMMANDS.INSERTTROOP, data: troop })
+                hasUpscaled = true
+            }
+        }
+
+        if (hasUpscaled) {
+            await executeCommands(commands)
+        }
+    } catch (e) {
+        const err = copyObject(objects.error)
+        err.file = __filename
+        err.function = 'upSizeArmy'
+        err.message = e.message
+        logError(err)
+    }
 }
 
 /**
@@ -641,7 +722,6 @@ const merchantsLoan = async (dwelling) => {
  * @param {object} dwelling 
  */
 const abandonConstruction = async (dwelling) => {
-    
     for (let location of dwelling.locations) {
         if (location.status == ENUM_DWELLING_LOCATION_STATUS.UNDER_CONSTRUCTION) {
             location.status = ENUM_DWELLING_LOCATION_STATUS.ABANDONED 
@@ -670,7 +750,38 @@ const startConstruction = async (dwelling) => {
  * @param {object} world 
  */
 const goPlunder = async (dwelling, world) => {
+    const commands = []
+    const target = getDifferentDwelling(world.dwellings)
+    const targetPercentage = Math.floor(target.citizens * 0.01)
 
+    let gold = getRandomNumberInRange(targetPercentage * 1, targetPercentage * 3)
+    let food = getRandomNumberInRange(targetPercentage * 2, targetPercentage * 6)
+
+    if (target.gold + gold > 0) {
+        target.gold -= gold
+        dwelling.gold += gold
+    } 
+
+    if (target.food + food > 0) {
+        target.food -= food
+        dwelling.food += food
+    }
+
+    commands.push({
+        command: ENUM_COMMANDS.INSERT_STORY,
+        data: getStoryEntry(get('story-history-dwelling-raid-do', [
+            dwelling.court.ruler.title, dwelling.court.ruler.name, dwelling.name, target.name
+        ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, {tag: ENUM_STORY_TAGS.PARAGRAPH })
+    })
+
+    commands.push({
+        command: ENUM_COMMANDS.INSERT_STORY,
+        data: getStoryEntry(get('story-history-dwelling-raid-by', [
+            target.name, dwelling.name
+        ]), target.id, ENUM_STORY_TYPE.HISTORY, {tag: ENUM_STORY_TAGS.PARAGRAPH })
+    })
+    commands.push({ command: ENUM_COMMANDS.UPDATEDWELLING, data: target })
+    await executeCommands(commands)
 }
 
 /**
@@ -740,6 +851,7 @@ const increaseDefenses = async (dwelling) => {
  */
 const putMoneyOnPile = async (dwelling) => {
     dwelling.gold += Math.floor(((dwelling.gold * 0.01) * getRandomNumberInRange(1, 3)))
+    dwelling.happinessModifyer -= getRandomFloatInRange(0.1, 0.3)
     await executeCommands([{ 
         command: ENUM_COMMANDS.INSERT_STORY, 
         data: getStoryEntry(get('story-history-dwelling-increase-treasury', [ dwelling.court.ruler.title, dwelling.court.ruler.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, {tag: ENUM_STORY_TAGS.PARAGRAPH}) 
