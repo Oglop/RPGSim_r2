@@ -103,7 +103,7 @@ const handleCourtOldAges = async (dwelling, currentDate) => {
             commands.push({ command: ENUM_COMMANDS.DELETECHARACTER, data: dwelling.court.ruler.id })
             await m.replaceRuler(dwelling, currentDate)
         }
-        if (deceased.count > 0) {
+        if (deceased.length > 0) {
             const alive = dwelling.court.advisors.filter(a => a.isAlive == true)
             const died = dwelling.court.advisors.filter(a => a.isAlive == false)
             for (let deceacedAdvisor of died) {
@@ -127,24 +127,24 @@ const handleConstructionStatus = async (dwelling) => {
     // could be used for something
 }
 
+/**
+ * handle action for welling based on if 
+ * @param {object} dwelling 
+ * @param {object} world 
+ */
 const handleBudget = async (dwelling, world) => {
-
     if (isWithinBudget(dwelling)) {
-
         await m.overBudgetAction(dwelling, world)
     }
     else {
         await m.underBudgetAction(dwelling, world)
     }
-
-    
-
 }
 
 const handlePublicHappinessLevel = (dwelling) => {
     const previousMonth = dwelling.happiness
-    dwelling.happiness = Math.round(((( 100 / dwelling.taxRate ) * m.getGuardHappinessModifyer(dwelling.guards)) * dwelling.citizenTaxable ) * 100) / 100 
-
+    dwelling.happiness = Math.round(((( 100 / dwelling.taxRate ) * m.getGuardHappinessModifyer(dwelling.guards)) * dwelling.citizenTaxable ) * 100) / 100
+    dwelling.happiness += + dwelling.happinessModifyer
 }
 
 

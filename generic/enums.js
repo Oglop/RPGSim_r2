@@ -473,7 +473,6 @@ module.exports = {
         GRAVE_KEEPER: 24,
         CARPENTER: 25,
         BAKER: 26
-
     },
     ENUM_OVERSPENDING_ACTION: {
         NONE: 0,

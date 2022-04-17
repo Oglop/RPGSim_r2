@@ -246,7 +246,7 @@ module.exports.build = (options = {}) => {
         c.id = generateID()
         c.gender = (options.gender) ? options.gender : (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
         c.religion = (options.religion) ? options.religion : getRandomReligion()
-        c.name = getPersonName(c.gender)
+        c.name = (options.name) ? options.name : getPersonName(c.gender)
         c.age = (options.age ||options.age === 0) ? options.age : getRandomNumberInRange(15, 60)
         c.race = (options.race) ? options.race : getRandomRace()
         c.job = (options.job) ? options.job : getRandomJob()
@@ -272,6 +272,16 @@ module.exports.build = (options = {}) => {
             birthDate: c.birthDate
         })
         validateBuild(c)
+
+        // yuk
+        if (options.asAdvisor && options.courtId) {
+            const advisor = copyObject(objects.advisor)
+            advisor.id = generateID();
+            advisor.characterId = c.id
+            advisor.character = c
+            advisor.courtId = options.courtId
+            return advisor
+        }
     } catch (e) {
         const err = objects.error
         err.file = __filename

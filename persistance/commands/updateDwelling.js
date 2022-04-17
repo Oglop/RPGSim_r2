@@ -1,25 +1,5 @@
 const { DatabaseContext } = require('../connections')
-/**
- * 
- * @param {Object} {
-            id          text, 
-            x           integer, 
-            y           integer,
-            name        text,
-            type        integer,
-            size        integer,
-            citizens    integer,
-            citizenTaxable number
-            gold:       integer,
-            food:       integer,
-            taxRate:    integer,
-            happiness:  integer,
-            gate:       integer,
-            walls:      integer,
-            moats:      integer,
-            guards:     integer
-    } dwelling  
- */
+
 module.exports.updateDwelling = async (dwelling) => {
     try {
         const stmt = await DatabaseContext.db.prepare(`
@@ -31,6 +11,7 @@ module.exports.updateDwelling = async (dwelling) => {
             food = @food,
             taxRate = @taxRate,
             happiness = @happiness,
+            happinessModifyer = @happinessModifyer,
             gate = @gate,
             walls = @walls,
             moats = @moats,
@@ -45,6 +26,7 @@ module.exports.updateDwelling = async (dwelling) => {
             '@food': dwelling.food,
             '@taxRate': dwelling.taxRate,
             '@happiness': dwelling.happiness,
+            '@happinessModifyer': dwelling.happinessModifyer,
             '@gate': dwelling.gate,
             '@walls': dwelling.walls,
             '@moats': dwelling.moats,

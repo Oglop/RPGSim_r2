@@ -143,6 +143,7 @@ module.exports = {
         food: 0,
         taxRate: 0,
         happiness: 0,
+        happinessModifyer: 0,
         gate: ENUM_DWELLING_CONDITIONS.NONE,
         walls: ENUM_DWELLING_CONDITIONS.NONE,
         moats: ENUM_DWELLING_CONDITIONS.NONE,

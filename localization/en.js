@@ -361,11 +361,11 @@ module.exports.get = (id, args) => {
         case 'personality-description-ambitious' : return `to be working hard`
         case 'personality-description-cruel' : return `cold and calculating`
         case 'personality-description-gifted' : return `to be one step ahead`
-        case 'personality-description-greedy' : return `wanting more`
+        case 'personality-description-greedy' : return `to be lacking something`
         case 'personality-description-intelligent' : return `to be in deep thoughts`
-        case 'personality-description-kind' : return `to be smiling`
-        case 'personality-description-lazy' : return `to be uninsterested`
-        case 'personality-description-naive' : return `take others at their word`
+        case 'personality-description-kind' : return `happy`
+        case 'personality-description-lazy' : return `uninsterested`
+        case 'personality-description-naive' : return `to be going along`
         case 'personality-description-paranoid' : return `nervous`
         case 'personality-description-religious' : return `to be praying`
         case 'troop-archers': return 'archers'
@@ -377,6 +377,7 @@ module.exports.get = (id, args) => {
 
         case 'story-adventure-party-formed': return `${args[0]} was formed.`
         case 'story-adventure-part-member': return `${args[0]} the ${args[1]} ${args[2]}. ${args[3]}`
+        case 'story-history-dwelling-army-decrease': return `In ${args[0]} ${args[1]} ${args[2]} cuts army spending. `
         case 'story-history-dwelling-construction-finished': return `In ${args[0]}, construction of ${args[1]} was finished.`
         case 'story-history-dwelling-construction-begin': return `In ${args[0]}, ${args[1]} ${args[2]} ordered the construction of ${args[3]}.`
         case 'story-history-dwelling-construction-repair': return `By the command of ${args[0]}, repair has begun on ${args[1]} in ${args[2]}.`
@@ -387,8 +388,13 @@ module.exports.get = (id, args) => {
         case 'story-history-dwelling-loan-religion': return `${args[0]} ${args[1]} seeks financial help from the church in ${args[2]}.`
         case 'story-history-dwelling-loan-merchants': return `${args[0]} ${args[1]} seeks financial help from the merchants guild of ${args[2]}.`
         case 'story-history-dwelling-trade-partnership-formed': return `${args[0]} and ${args[1]} has agreed upon a trade partnership between ${args[2]} and ${args[3]}.`
-        case 'story-history-progress-month': return `- ${args[0]}.`
+        case 'story-history-dwelling-tourney-participants': return `In ${args[0]} a tournament is held. ${args[1]} joins.`
+        case 'story-history-dwelling-tourney-battle': return `${args[0]} and ${args[1]} meets in battle over the tournaments honour.`
+        case 'story-history-dwelling-tourney-winner': return `${args[0]} stands the victor joining the ranks of ${args[1]} nobles.`
 
+        case 'story-history-progress-month': return `- ${args[0]}.`
+        case 'story-history-dwelling-tax-increase': return `${args[0]} ${args[1]} increases the tax rate of ${args[2]}.`
+        case 'story-history-dwelling-tax-decrease': return `${args[0]} ${args[1]} decreases the tax rate of ${args[2]}.`
 
 
         case 'system-word-a': return 'a'

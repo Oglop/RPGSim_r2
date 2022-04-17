@@ -18,13 +18,16 @@ const {
     ENUM_TROOP_TYPE,
     ENUM_STORY_TYPE,
     ENUM_STORY_TAGS,
-    ENUM_DWELLING_LOCATION_TYPE
+    ENUM_DWELLING_LOCATION_TYPE,
+    ENUM_NPC_TYPE,
+    ENUM_JOB_NAMES
 } = require('../generic/enums')
 const { 
     removeElementFromArrayById,
     chance,
     copyObject, 
     getRandomNumberInRange, 
+    getRandomFloatInRange,
     getRandomElementFromArray, 
     generateID,
     isEmptyObject
@@ -48,7 +51,8 @@ const {
     executeCommands
 } = require('../persistance/commandQueue')
 const bLocation = require('../build/dwellingLocation')
-
+const bNPC = require('../build/npc')
+const bCharacter = require('../build/character')
 const { 
     compabilityCheck, 
     dealWithUnderSpending, 
@@ -57,8 +61,7 @@ const {
 const m = require('../models/court')
 const { getRandomReligion } = require('../generic/religions')
 const { getAgeSimple } = require('../lib/time')
-const { hasOngoingProject } = require('./dwelling')
-const { commands } = require('../persistance')
+const { hasOngoingProject, getRaceFromDwellingType } = require('./dwelling')
 
 const upgradeCondition = (condition) => {
     switch (condition) {
@@ -406,11 +409,13 @@ const constructionPreferenceToLocation = async (dwelling, preference) => {
  * @param {object} dwelling 
  */
 const increaseTaxrate = async (dwelling) => {
-    const commands = []
-    dwelling.taxRate += getRandomNumberInRange(1,3)
-
+    dwelling.taxRate -= getRandomNumberInRange(1,3)
+    dwelling.happinessModifyer += getRandomFloatInRange(0.1, 0.3)
     await executeCommands([{
-        
+        command: ENUM_COMMANDS.INSERT_STORY,
+        data: getStoryEntry(get('story-history-dwelling-tax-increase', [ dwelling.court.ruler.title, dwelling.court.ruler.name, dwelling.name ]), 
+        dwelling.id, ENUM_STORY_TYPE.HISTORY, 
+        { tag: ENUM_STORY_TAGS.PARAGRAPH })
     }])
 }
 
@@ -420,9 +425,12 @@ const increaseTaxrate = async (dwelling) => {
  */
 const decreaseTaxrate = async (dwelling) => {
     dwelling.taxRate -= getRandomNumberInRange(1,3)
-
+    dwelling.happinessModifyer += getRandomFloatInRange(0.1, 0.3)
     await executeCommands([{
-        
+        command: ENUM_COMMANDS.INSERT_STORY,
+        data: getStoryEntry(get('story-history-dwelling-tax-decrease', [ dwelling.court.ruler.title, dwelling.court.ruler.name, dwelling.name ]), 
+        dwelling.id, ENUM_STORY_TYPE.HISTORY, 
+        { tag: ENUM_STORY_TAGS.PARAGRAPH })
     }])
 }
 
@@ -498,6 +506,12 @@ const downSizeArmy = async (dwelling) => {
                 }
             }
         }
+        await executeCommands([{
+            command: ENUM_COMMANDS.INSERT_STORY,
+            data: getStoryEntry(get('story-history-dwelling-army-decrease', [ dwelling.name, dwelling.court.ruler.title, dwelling.court.ruler.name ]), 
+            dwelling.id, ENUM_STORY_TYPE.HISTORY, 
+            { tag: ENUM_STORY_TAGS.PARAGRAPH })
+        }])
     }
     catch(e) {
         const err = copyObject(objects.error)
@@ -526,7 +540,60 @@ const upSizeArmy = async (dwelling) => {
  * @param {object} world 
  */
 const tourney = async (dwelling, world) => {
+    const commands = []
+    const participants = [{ 
+        npc: bNPC.build(ENUM_NPC_TYPE.KNIGHT),
+        dwelling
+    }]
+    for (let i = 0; i < getRandomNumberInRange(2,5); i++) {
+        const participant = { 
+            npc: bNPC.build(ENUM_NPC_TYPE.KNIGHT),
+            dwelling: getRandomElementFromArray(world.dwellings)
+        }
+        participants.push( participant )
+    }
+    let strParticipants = ''
+    participants.forEach(e => {
+        strParticipants += `${e.npc.name} of ${e.dwelling.name}, `
+    });
+    commands.push({
+        command: ENUM_COMMANDS.INSERT_STORY,
+        data: getStoryEntry(get('story-history-dwelling-tourney-participants', [ dwelling.name, strParticipants ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, { tag: ENUM_STORY_TAGS.PARAGRAPH })
+    })
+    const champion1 = getRandomElementFromArray(participants)
+    let champion2 = { npc: { id: champion1.npc.id }}
+    while (champion1.npc.id == champion2.npc.id) {
+        champion2 = getRandomElementFromArray(participants)
+    }
 
+    commands.push({
+        command: ENUM_COMMANDS.INSERT_STORY,
+        data: getStoryEntry(get('story-history-dwelling-tourney-battle', [ `${champion1.npc.name} of ${champion1.dwelling.name}`
+        , `${champion2.npc.name} of ${champion2.dwelling.name}` ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, { tag: ENUM_STORY_TAGS.PARAGRAPH })
+    })
+    const winner = (chance(50)) ? champion1 : champion2
+    commands.push({
+        command: ENUM_COMMANDS.INSERT_STORY,
+        data: getStoryEntry(get('story-history-dwelling-tourney-winner', [ winner.npc.name, winner.dwelling.name ]), dwelling.id, ENUM_STORY_TYPE.HISTORY, { tag: ENUM_STORY_TAGS.PARAGRAPH })
+    })
+    const advisor = bCharacter.build({
+        name: winner.npc.name,
+        job: ENUM_JOB_NAMES.noble,
+        race: getRaceFromDwellingType(winner.dwelling),
+        date: world.date,
+        asAdvisor: true,
+        courtId: winner.dwelling.court.id
+    })
+    winner.dwelling.court.advisors.push(advisor)
+    commands.push({
+        command: ENUM_COMMANDS.INSERTCHARACTER,
+        data: advisor.character
+    },
+    {
+        command: ENUM_COMMANDS.INSERTADVISOR,
+        data: advisor
+    })
+    await executeCommands(commands)
 }
 
 /**

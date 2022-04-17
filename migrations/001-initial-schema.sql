@@ -76,6 +76,7 @@ CREATE TABLE dwelling
     food            integer,
     taxRate         integer,
     happiness       number,
+    happinessModifyer number,
     gate            integer,
     walls           integer,
     moats           integer,
