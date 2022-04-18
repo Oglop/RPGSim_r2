@@ -168,25 +168,104 @@ const validateBuild = (c) => {
 
 }
 
+
+const getHaircolor = (race) => {
+    let i = getRandomNumberInRange(0, 4)
+
+    if (race == ENUM_RACE_NAMES.darkElf) {
+        switch(i) {
+            case 0: return get('character-haircolor-purple');
+            case 1: return get('character-haircolor-blue');
+            case 2: return get('character-haircolor-black');
+            case 3: return get('character-haircolor-gray');
+            case 4: return get('character-haircolor-white');
+        }
+    } else if (race == ENUM_RACE_NAMES.dwarf) {
+        switch(i) {
+            case 0: return get('character-haircolor-gray');
+            case 1: return get('character-haircolor-orange');
+            case 2: return get('character-haircolor-red');
+            case 3: return get('character-haircolor-auburn');
+            case 4: return get('character-haircolor-light-brown');
+        }
+    } else if (race == ENUM_RACE_NAMES.halfElf) {
+        switch(i) {
+            case 0: return get('character-haircolor-blonde');
+            case 1: return get('character-haircolor-light-brown');
+            case 2: return get('character-haircolor-auburn');
+            case 3: return get('character-haircolor-brunette');
+            case 4: return get('character-haircolor-white');
+        }
+    } else if (race == ENUM_RACE_NAMES.halfling) {
+        switch(i) {
+            case 0: return get('character-haircolor-blonde');
+            case 1: return get('character-haircolor-auburn');
+            case 2: return get('character-haircolor-brunette');
+            case 3: return get('character-haircolor-black');
+            case 4: return get('character-haircolor-dark');
+        }
+    } else if (race == ENUM_RACE_NAMES.highElf) {
+        switch(i) {
+            case 0: return get('character-haircolor-blue');
+            case 1: return get('character-haircolor-blonde');
+            case 2: return get('character-haircolor-gray');
+            case 3: return get('character-haircolor-white');
+            case 4: return get('character-haircolor-auburn');
+        }
+    } else if (race == ENUM_RACE_NAMES.human) {
+        switch(i) {
+            case 0: return get('character-haircolor-auburn');
+            case 1: return get('character-haircolor-brunette');
+            case 2: return get('character-haircolor-blonde');
+            case 3: return get('character-haircolor-red');
+            case 4: return get('character-haircolor-black');
+        }
+    } else if (race == ENUM_RACE_NAMES.woodElf) {
+        switch(i) {
+            case 0: return get('character-haircolor-gray');
+            case 1: return get('character-haircolor-white');
+            case 2: return get('character-haircolor-green');
+            case 3: return get('character-haircolor-red');
+            case 4: return get('character-haircolor-light-brown');
+        }
+    }
+}
+
+const getRaceTraits = (race, gender) => {
+    if (race == ENUM_RACE_NAMES.dwarf && gender == ENUM_GENDER.MALE) {
+        let i = getRandomNumberInRange(0, 2)
+        switch(i) {
+            case 0: return get('character-trait-beard-short');
+            case 1: return get('character-trait-beard-long');
+            case 2: return get('character-trait-beard-braided');
+        }
+    }
+    if (race == ENUM_RACE_NAMES.darkElf || race == ENUM_RACE_NAMES.halfElf || race == ENUM_RACE_NAMES.highElf || race == ENUM_RACE_NAMES.woodElf) {
+        let i = getRandomNumberInRange(0, 2)
+        switch(i) {
+            case 0: return get('character-trait-ears-pointy-long');
+            case 1: return get('character-trait-ears-pointy-short');
+            case 2: return get('character-trait-ears-pointy-thin');
+        }
+    }
+    return ''
+}
+
 const getCharacterDescription = (name, race, gender, options = {}) => {
     const religion = (options.religion) ? options.religion : undefined
     const pronoun = (gender == ENUM_GENDER.FEMALE) ? get('system-word-she') : get('system-word-he')
-    let hair = ''
+    let hair = getHaircolor(race)
     let body = ''
     let eyes = ''
-    let i = getRandomNumberInRange(0, 8)
-    switch(i) {
-        case 0: hair = get('character-haircolor-auburn'); break;
-        case 1: hair = get('character-haircolor-brunette'); break;
-        case 2: hair = get('character-haircolor-light-brown'); break;
-        case 3: hair = get('character-haircolor-dark'); break;
-        case 4: hair = get('character-haircolor-blonde'); break;
-        case 5: hair = get('character-haircolor-gray'); break;
-        case 6: hair = get('character-haircolor-black'); break;
-        case 7: hair = get('character-haircolor-white'); break;
-        case 8: hair = get('character-haircolor-red'); break;
+
+    let extraDescription = ''
+    const raceTraits = getRaceTraits(race, gender)
+    if (raceTraits != '') {
+        extraDescription = capitalizeFirstLetter( get('character-trait-has', [ pronoun, raceTraits ]))
     }
-    i = getRandomNumberInRange(0, 12)
+
+
+    let i = getRandomNumberInRange(0, 12)
     switch(i) {
         case 0: body = get('character-body-tall'); break;
         case 1: body = get('character-body-short'); break;
@@ -221,7 +300,7 @@ const getCharacterDescription = (name, race, gender, options = {}) => {
     
     const descPersonality = capitalizeFirstLetter(get('character-description-personality', [ pronoun, getDescriptionByPersonality(options.personality) ] ))
     const descBirthDate = capitalizeFirstLetter(get('character-birthDate', [ name, getBirthDateDescription(options.birthDate) ]))
-    return `${descRaceAndBody} ${descLooks} ${descReligion} ${descPersonality} ${descBirthDate}`
+    return `${descRaceAndBody} ${descLooks} ${extraDescription} ${descReligion} ${descPersonality} ${descBirthDate}`
 }
 
 /**
