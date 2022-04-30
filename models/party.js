@@ -27,16 +27,12 @@ const checkForRest = (party) => {
  * @param {object} output 
  * @returns {boolean}
  */
-const isInDwelling = async (world, party, output) => {
+const isInDwelling = async (world, party) => {
     try {
-        const room = await getRoomByCoordinates(party.position.x, party.position.y)
-        if (room.dwellingId) {
-            return true
-        }
-        /*if (world.map[party.position.x][party.position.y].dwelling != undefined) {
+        if (world.map[party.position.x][party.position.y].dwellingId != undefined) {
             output.print(get('party-is-in-dwelling', [ party.name, world.map[party.position.x][party.position.y].dwelling.name ]))
             return true
-        }*/
+        }
         return false
     } catch(e) {
         const err = objects.error

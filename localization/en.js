@@ -364,14 +364,14 @@ module.exports.get = (id, args) => {
 
         case 'party-name-template': return `${args[0]} and party`
         case 'party-is-in-dwelling': return `${args[0]} is in ${args[1]}.`
-        case 'personality-description-ambitious' : return `to be working hard`
+        case 'personality-description-ambitious' : return `hard working`
         case 'personality-description-cruel' : return `cold and calculating`
         case 'personality-description-gifted' : return `to be one step ahead`
         case 'personality-description-greedy' : return `to be lacking something`
         case 'personality-description-intelligent' : return `to be in deep thoughts`
         case 'personality-description-kind' : return `happy`
         case 'personality-description-lazy' : return `uninsterested`
-        case 'personality-description-naive' : return `to be going along`
+        case 'personality-description-naive' : return `unsuspecting`
         case 'personality-description-paranoid' : return `nervous`
         case 'personality-description-religious' : return `to be praying`
         case 'troop-archers': return 'archers'

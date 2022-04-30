@@ -2,7 +2,11 @@ const { getRandomNumberInRange, copyObject, chance, point2d } = require('../lib/
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { WORLD_SIZE } = require('../generic/statics')
+const { getStoryEntry } = require('../build/story')
 const { 
+    ENUM_COMMANDS,
+    ENUM_STORY_TYPE,
+    ENUM_STORY_TAGS,
     ENUM_EXPLORE_STATUS,
     ENUM_EXPLORE_DIR,
     ENUM_QUEST_STATUS,
@@ -30,6 +34,8 @@ const { getDwellingsFromMap, getPointOfRandomDwelling, getClosestDwelling } = re
 const { findShortestPath } = require('../models/pathFinding')
 const { partyDailyRelationShipRoll } = require('./personality')
 const { checkPartySkill } = require('./skill')
+const { executeCommands } = require('../persistance/commandQueue')
+
 /**
  * Check if party is able to travel to new ppositon based io biome
  * after move execute travel event
@@ -56,7 +62,7 @@ const travel = (world, party, output) => {
         }
         const i = getRandomNumberInRange(1, 100)
         if (i >= travelDifficulty) {
-            travelInDirection(party, output)
+            travelInDirection(party)
         } else {
             output.print(get('adventure-travel-failed', [ party.name ]))
         }
@@ -119,21 +125,29 @@ const getQuestLocation = (world, party) => {
  * @param {object} world 
  * @param {object} party 
  */
-const travelInDirection = (party, output) => {
+const travelInDirection = (party) => {
     try {
         if (party.path.length) {
             if (party.path[0] === ENUM_EXPLORE_DIR.east) {
                 party.position.x = (party.position.x + 1 < WORLD_SIZE) ? party.position.x + 1 : party.position.x
-                output.print(get('adventure-travel-east', [ party.name ]))
+                executeCommands([
+                    { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('adventure-travel-east', [ party.name ]),party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
+                ])
             } else if (party.path[0] === ENUM_EXPLORE_DIR.north) {
                 party.position.y = (party.position.y - 1 >= 0) ? party.position.y - 1 : party.position.y
-                output.print(get('adventure-travel-north', [ party.name ]))
+                executeCommands([
+                    { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('adventure-travel-north', [ party.name ]),party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
+                ])
             } else if (party.path[0] === ENUM_EXPLORE_DIR.west) { 
                 party.position.x = (party.position.x - 1 >= 0) ? party.position.x - 1 : party.position.x
-                output.print(get('adventure-travel-west', [ party.name ]))
+                executeCommands([
+                    { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('adventure-travel-west', [ party.name ]),party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
+                ])
             } else if (party.path[0] === ENUM_EXPLORE_DIR.south) {
                 party.position.y = (party.position.y + 1 < WORLD_SIZE) ? party.position.y + 1 : party.position.y
-                output.print(get('adventure-travel-south', [ party.name ]))
+                executeCommands([
+                    { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('adventure-travel-south', [ party.name ]),party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
+                ])
             }
             party.path.shift()
         }

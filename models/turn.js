@@ -19,7 +19,7 @@ const next = async (world, output) => {
 
     if (pastTime === 'd' || pastTime === 'm' || pastTime === 'y') {
         // events for adventureres
-
+        progressAdventure(world)
         
         if (pastTime === 'm' || pastTime === 'y') {
             // events for families
