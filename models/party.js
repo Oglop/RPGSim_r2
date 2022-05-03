@@ -4,6 +4,9 @@ const { logError } = require('../data/errorFile')
 const { restThreshold, restThresholdMultiplyer } = require('../config')
 const { getPercetage, getRandomNumberInRange, copyObject, getRandomElementFromArray, point2d } = require('../lib/utils')
 const { 
+    ENUM_COMMANDS,
+    ENUM_STORY_TYPE,
+    ENUM_STORY_TAGS,
     ENUM_QUEST_STATUS,
     ENUM_EXPLORE_STATUS
 } = require('../generic/enums')
@@ -11,7 +14,9 @@ const { get } = require('../localization')
 const { WORLD_SIZE } = require('../generic/statics')
 const { party } = require('../generic/objects')
 const { getRoomByCoordinates } = require('../persistance').queries
-
+const { executeCommands } = require('../persistance/commandQueue')
+const { getDwellingByCoordinates } = require('../models/dwelling')
+const { getStoryEntry } = require('../build/story')
 
 const checkForRest = (party) => {
     if (getPercetage(party.members.length * restThresholdMultiplyer, party.food) <= restThreshold) {
@@ -30,7 +35,10 @@ const checkForRest = (party) => {
 const isInDwelling = async (world, party) => {
     try {
         if (world.map[party.position.x][party.position.y].dwellingId != undefined) {
-            output.print(get('party-is-in-dwelling', [ party.name, world.map[party.position.x][party.position.y].dwelling.name ]))
+            const dwelling = getDwellingByCoordinates(party.position.x, party.position.y, world)
+            /*await executeCommands([
+                { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('party-is-in-dwelling', [ dwelling.name ]), party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
+            ])*/
             return true
         }
         return false

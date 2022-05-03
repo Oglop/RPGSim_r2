@@ -324,6 +324,10 @@ module.exports.get = (id, args) => {
         case 'event-rest-argument-description': return `At camp an argument breaks out between the members of ${args[0]}.`
         case 'event-rest-argument-success': return `${args[0]} stops the argument in time, everyone goes to sleep.`
         case 'event-rest-argument-resolved': return `A fight breaks out and ${args[0]} starts to misstrust the rest of the party.`
+        case 'event-rest-eventless-description': return `${args[0]} sets up camp for the night.`
+        case 'event-rest-eventless-success': return `The night goes by without incident.`
+
+
         //case 'event-rest--': return `${args[0]} .`
         case 'familyTree-build-1': return `- Year of ${args[0]} -`
         case 'familyTree-peopleDie-1': return `${args[0]} of ${args[1]} dies from old age.`

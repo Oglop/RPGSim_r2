@@ -116,7 +116,7 @@ const deepSleep = (event, world, options) => {
     return event
 }
 
-const argument = (event, world, options) => { 
+const argument = (event, world,  options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('event-rest-argument-description', [ party.name ])
     i1.execute = (party) => {
@@ -137,17 +137,12 @@ const argument = (event, world, options) => {
     return event
 }
 
-const coldNight = (event, world, options) => { 
+const eventlessNight = (event, world, party, options) => { 
     const i1 = copyObject(objects.eventItem)
-    i1.description = get('')
+    i1.description = get('event-rest-eventless-description', [ party.name ])
     i1.execute = (party) => {
-        if (1 == 1) {
-            i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
-            i1.resolutionText = get('')
-        } else {
-            i1.resolution = ENUM_EVENT_ITEM_STATUS.RESOLVED
-            i1.resolutionText = get('')
-        }
+        i1.resolution = ENUM_EVENT_ITEM_STATUS.SUCCESS
+        i1.resolutionText = get('event-rest-eventless-success')
     }
     event.items.push(i1)
     return event
@@ -223,7 +218,7 @@ module.exports = {
     darkNight,
     seasonalEffect,
     deepSleep,
-    coldNight,
+    eventlessNight,
     argument,
     weaponPractice,
     travelers,

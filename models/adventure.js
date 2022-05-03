@@ -41,13 +41,16 @@ const { executeCommands } = require('../persistance/commandQueue')
  * after move execute travel event
  * @param {object} world 
  * @param {object} party 
- * @param {object} output 
  */
-const travel = (world, party, output) => {
+const travel = async (world, party) => {
+    let step = 'initial'
     try {
+        
         if (!party.path.length) {
+            step = 'find shortest path'
             party.path = findShortestPath(party.position, world.map, party.questGoal)
         }
+        step = `party.path: ${party.path}`
         let travelDifficulty = 0
         switch (world.map[party.position.x][party.position.y].biome) {
             case ENUM_BIOMES.badlands: travelDifficulty = 10; break;
@@ -60,26 +63,32 @@ const travel = (world, party, output) => {
             case ENUM_BIOMES.plains: travelDifficulty = 5; break;
             case ENUM_BIOMES.swamp: travelDifficulty = 10; break;
         }
+        step = `travelDifficulty: ${travelDifficulty}`
         const i = getRandomNumberInRange(1, 100)
         if (i >= travelDifficulty) {
-            travelInDirection(party)
+            await  travelInDirection(party)
         } else {
-            output.print(get('adventure-travel-failed', [ party.name ]))
+            await executeCommands([
+                { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('adventure-travel-failed', [ party.name ]) ,party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
+            ])
         }
-        const e = bEvent.build(world, output, ENUM_EVENT_TYPE.TRAVEL, undefined)
+        step = `pre build event`
+        const e = bEvent.build(world, ENUM_EVENT_TYPE.TRAVEL, undefined)
+        step = `event execute: ${JSON.stringify(e)}`
         e.items[0].execute(party)
-
+        step = `exhaustParty: ${JSON.stringify(party)}`
         exhaustParty(party)
     } catch(e) {
         const err = objects.error
         err.file = __filename
         err.function = 'travel'
+        err.step = step
         err.message = e.message
         logError(err)
     }
 }
 
-const quest = (world, party, output) => {
+const quest = (world, party) => {
     try {
 
     } catch(e) {
@@ -125,27 +134,27 @@ const getQuestLocation = (world, party) => {
  * @param {object} world 
  * @param {object} party 
  */
-const travelInDirection = (party) => {
+const travelInDirection = async (party) => {
     try {
         if (party.path.length) {
             if (party.path[0] === ENUM_EXPLORE_DIR.east) {
                 party.position.x = (party.position.x + 1 < WORLD_SIZE) ? party.position.x + 1 : party.position.x
-                executeCommands([
+                await executeCommands([
                     { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('adventure-travel-east', [ party.name ]),party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
                 ])
             } else if (party.path[0] === ENUM_EXPLORE_DIR.north) {
                 party.position.y = (party.position.y - 1 >= 0) ? party.position.y - 1 : party.position.y
-                executeCommands([
+                await executeCommands([
                     { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('adventure-travel-north', [ party.name ]),party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
                 ])
             } else if (party.path[0] === ENUM_EXPLORE_DIR.west) { 
                 party.position.x = (party.position.x - 1 >= 0) ? party.position.x - 1 : party.position.x
-                executeCommands([
+                await executeCommands([
                     { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('adventure-travel-west', [ party.name ]),party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
                 ])
             } else if (party.path[0] === ENUM_EXPLORE_DIR.south) {
                 party.position.y = (party.position.y + 1 < WORLD_SIZE) ? party.position.y + 1 : party.position.y
-                executeCommands([
+                await executeCommands([
                     { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('adventure-travel-south', [ party.name ]),party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
                 ])
             }
@@ -173,7 +182,7 @@ const getAdventureDailyAction = async (world, party) => {
         }*/
 
         if (!isTraveling && !inTown && party.quest != ENUM_QUEST_STATUS.IN_PROGRESS) {
-            const townPoint = await getClosestDwelling(world.map, party.position) 
+            const townPoint = getClosestDwelling(world.map, party.position) 
             party.questGoal = point2d(townPoint.x, townPoint.y)
             party.state = ENUM_PARTY_STATE.TRAVEL
             return ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP
@@ -215,12 +224,12 @@ const biomeRestMultiplier = (biome) => {
     switch (biome) {
         case ENUM_BIOMES.badlands: return 0.4
         case ENUM_BIOMES.dessert: return 0.2
-        case ENUM_BIOMES.farmlands: return 1.0
-        case ENUM_BIOMES.forest: return 2.4
-        case ENUM_BIOMES.hills: return 1.6
-        case ENUM_BIOMES.lake: return 0.6
-        case ENUM_BIOMES.mountains: return 0.4
-        case ENUM_BIOMES.plains: return 1.4
+        case ENUM_BIOMES.farmlands: return 1.5
+        case ENUM_BIOMES.forest: return 2.5
+        case ENUM_BIOMES.hills: return 1.5
+        case ENUM_BIOMES.lake: return 0.5
+        case ENUM_BIOMES.mountains: return 0.5
+        case ENUM_BIOMES.plains: return 1.5
         case ENUM_BIOMES.swamp: return 0.8
     }
     return 1.0
@@ -231,7 +240,8 @@ const biomeRestMultiplier = (biome) => {
  * @param {object} world
  * @param {object} party 
  */
-const restMap = (world, party, output) => {
+const restMap = async (world, party) => {
+    const commands = []
     try {
         const currentBiome = mMap.getBiomeAtPoint(world.map, party.position)
         const multiplier = biomeRestMultiplier(currentBiome)
@@ -239,18 +249,42 @@ const restMap = (world, party, output) => {
         const successesFishing = checkPartySkill(party, ENUM_SKILL_NAMES.fishing)
         const successRandom = getRandomNumberInRange(1, party.members.length * 2)
         const successesFinal = Math.floor( (successesHunt.length + successesFishing.length + successRandom) * multiplier )
-        party.food += successesFinal
-        if (successesHunt.length) { output.print(get('event-rest-hunt-success', [successesHunt[0].name] )) }
-        if (successesFishing.length) { output.print(get('event-rest-fishing-success', [successesFishing[0].name] )) }
-        const e = bEvent.build(world, output, ENUM_EVENT_TYPE.REST, undefined)
-        output.print(e.items[0].description)
+        party.food += successesFinal + party.members.length
+
+        
+        if (successesHunt.length) 
+        { 
+            commands.push({
+                command: ENUM_COMMANDS.INSERT_STORY,
+                data: getStoryEntry( get('event-rest-hunt-success', [successesHunt[0].name] ), party.id, ENUM_STORY_TYPE.ADVENTURE, { tag: ENUM_STORY_TAGS.PARAGRAPH } )
+            })
+        }
+        if (successesFishing.length) 
+        { 
+            commands.push({
+                command: ENUM_COMMANDS.INSERT_STORY,
+                data: getStoryEntry( get('event-rest-fishing-success', [successesFishing[0].name] ), party.id, ENUM_STORY_TYPE.ADVENTURE, { tag: ENUM_STORY_TAGS.PARAGRAPH } )
+            })
+        }
+
+        const e = bEvent.build(world, ENUM_EVENT_TYPE.REST, {party})
+        commands.push({
+            command: ENUM_COMMANDS.INSERT_STORY,
+            data: getStoryEntry( e.items[0].description, party.id, ENUM_STORY_TYPE.ADVENTURE, { tag: ENUM_STORY_TAGS.PARAGRAPH } )
+        })
         e.items[0].execute(party)
-        output.print(e.items[0].resolutionText)
+        commands.push({
+            command: ENUM_COMMANDS.INSERT_STORY,
+            data: getStoryEntry( e.items[0].resolutionText, party.id, ENUM_STORY_TYPE.ADVENTURE, { tag: ENUM_STORY_TAGS.PARAGRAPH } )
+        })
+
         const enumPersonalityResult = (e.items[0].resolution == ENUM_EVENT_ITEM_STATUS.SUCCESS) ? ENUM_PERSONALITY_DEALS_RESULT.GOOD : 
             (e.items[0].resolution == ENUM_EVENT_ITEM_STATUS.RESOLVED) ? ENUM_PERSONALITY_DEALS_RESULT.NORMAL : 
             ENUM_PERSONALITY_DEALS_RESULT.BAD
         restParty(party)
         partyDailyRelationShipRoll(party, enumPersonalityResult)
+
+        await executeCommands(commands)
     } catch(e) {
         const err = objects.error
         err.file = __filename
@@ -260,9 +294,9 @@ const restMap = (world, party, output) => {
     }
 }
 
-const restTown = (world, party, output) => {
+const restTown = (world, party) => {
     try {
-        output.print(get('event-rest-town-resting', [ party.name ] ))
+        //output.print(get('event-rest-town-resting', [ party.name ] ))
 
         let characterTraitEvents = []
         if (chance(10)) {

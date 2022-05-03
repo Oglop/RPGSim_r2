@@ -39,8 +39,19 @@ const getDifferentDwelling = (dwellings, id) => {
     return dwelling
 }
 
+
+const getDwellingByCoordinates = (x, y, world) => {
+    for(let dwelling of world.dwellings) {
+        if (dwelling.x == x && dwelling.y == y) {
+            return dwelling
+        }
+    }
+    return undefined
+}
+
 module.exports = {
     getRaceFromDwellingType,
     hasOngoingProject,
-    getDifferentDwelling
+    getDifferentDwelling,
+    getDwellingByCoordinates
 }

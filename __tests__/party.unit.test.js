@@ -31,7 +31,7 @@ describe('party unit tests', () => {
     test('isInDwellng should be instance of a funtion', () => {
         expect(m.isInDwelling).toBeInstanceOf(Function)
     })
-    test('isInDwellng should return true when party is in dwelling', () => {
+    test('isInDwellng should return true when party is in dwelling', async () => {
         const outputMock = {
             print: () => {}
         }
@@ -60,7 +60,7 @@ describe('party unit tests', () => {
             crowns:0,
             food:0
         }
-        const actual = m.isInDwelling(worldMock, partyMock, outputMock)
+        const actual = await m.isInDwelling(worldMock, partyMock, outputMock)
         expect(actual).toBeTruthy()
     })
     test('isInDwellng should return false when party is not in dwelling', () => {

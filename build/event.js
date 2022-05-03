@@ -45,10 +45,10 @@ const getDungeonEvent = (options) => {
 }
 
 const getRestEvent = (event, world, party, options) => {
-    const i = getRandomNumberInRange(0, 9)
+    const i = 1//getRandomNumberInRange(0, 9)
     switch(i) {
         case 0: return eRest.argument(event, world, party, options);
-        case 1: return eRest.coldNight(event, world, party, options);
+        case 1: return eRest.eventlessNight(event, world, party, options);
         case 2: return eRest.darkNight(event, world, party, options);
         case 3: return eRest.deepSleep(event, world, party, options);
         case 4: return eRest.hunting(event, world, party, options);
@@ -62,7 +62,7 @@ const getRestEvent = (event, world, party, options) => {
 
 const getSpecialDateEvent = (event, world, party, options) => {
     const e = copyObject(objects.event)
-    e.output = output
+    //e.output = output
     if (world.date.year % 7 == 0 && world.date.month == 8 && world.date.day == 6) {
         return eDate.bloodMoon(e, world, options)
     }
@@ -80,7 +80,6 @@ const getTravelEvent = (event, world, options) => {
  * 
  * 
  * @param {Object} world 
- * @param {Object} output 
  * @param {ENUM_EVENT_TYPE} eventType 
  * @param {Obejct} options 
  * 
@@ -91,7 +90,7 @@ module.exports.build = (world, eventType, options) => {
     switch (eventType) {
         case ENUM_EVENT_TYPE.HISTORY: return getHistoryEvent(e, world)
         case ENUM_EVENT_TYPE.DUNGEON: return getDungeonEvent(options)
-        case ENUM_EVENT_TYPE.REST: return getRestEvent(e, world, options)
+        case ENUM_EVENT_TYPE.REST: return getRestEvent(e, world, options.party, options)
         case ENUM_EVENT_TYPE.DATE: return getSpecialDateEvent(e, world, party, options)
         case ENUM_EVENT_TYPE.TRAVEL: return getTravelEvent(e, world, options)
     }

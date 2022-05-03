@@ -34,6 +34,7 @@ const getDwellingPositionById = (map, dwellingId) => {
     }
 }
 
+
 /**
  * returns true if point is on map
  * @param {integer} x 
@@ -60,7 +61,7 @@ const getDwellingById = (map, dwellingId) => {
     }
 }
 
-const getClosestDwelling = async (map, partyPosition) => {
+const getClosestDwelling = (map, partyPosition) => {
     let closest = {
         x: 99999,
         y: 99999,
