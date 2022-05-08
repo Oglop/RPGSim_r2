@@ -21,7 +21,7 @@ const main = async (args) => {
         }
 
         
-        world.parties = await createParties( {date: world.date, map: world.map} )
+        world.parties = await createParties( {date: world.date, map: world.map, dwellings: world.dwellings} )
         for (let i=0;i<160;i++) {
             await next(world, output)
         }

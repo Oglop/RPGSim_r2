@@ -86,7 +86,8 @@ module.exports.build = async (options = {}) => {
         }
     }
     party.name = get('party-name-template', [ party.members[0].name ])
-    party.position = m.getStartingPosition(options.map)
+    party.position.x = -1
+    party.position.y = -1
 
     commands.push({
         command: ENUM_COMMANDS.INSERT_STORY,

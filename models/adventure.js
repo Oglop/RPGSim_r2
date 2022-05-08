@@ -35,6 +35,7 @@ const { findShortestPath } = require('../models/pathFinding')
 const { partyDailyRelationShipRoll } = require('./personality')
 const { checkPartySkill } = require('./skill')
 const { executeCommands } = require('../persistance/commandQueue')
+const { getCharacterWithTrait } = require('../models/character')
 
 /**
  * Check if party is able to travel to new ppositon based io biome
@@ -186,7 +187,11 @@ const getAdventureDailyAction = async (world, party) => {
             party.questGoal = point2d(townPoint.x, townPoint.y)
             party.state = ENUM_PARTY_STATE.TRAVEL
             return ENUM_ADVENTURE_DAILY_ACTION.TRAVEL_MAP
-        }if (onQuestPosition && party.quest == ENUM_QUEST_STATUS.IN_PROGRESS ) {
+        }
+        if (!rest && inTown) {
+            return ENUM_ADVENTURE_DAILY_ACTION.EVENT_TOWN
+        } 
+        if (onQuestPosition && party.quest == ENUM_QUEST_STATUS.IN_PROGRESS ) {
             return ENUM_ADVENTURE_DAILY_ACTION.ATEMPT_QUEST
         }
         if (isTraveling && !rest) {
@@ -198,9 +203,7 @@ const getAdventureDailyAction = async (world, party) => {
         if (rest && !inTown) {
             return ENUM_ADVENTURE_DAILY_ACTION.REST_MAP
         }
-        if (!rest && inTown) {
-            return ENUM_ADVENTURE_DAILY_ACTION.EVENT_TOWN
-        }
+        
         if(onQuestPosition && party.quest == ENUM_QUEST_STATUS.FAILED || onQuestPosition && party.quest == ENUM_QUEST_STATUS.FINISHED) {
             return ENUM_ADVENTURE_DAILY_ACTION.SEEK_QUEST_TOWN
         }

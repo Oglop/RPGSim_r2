@@ -1,6 +1,6 @@
 const b = require('../build/party')
 const { noOfAdventuringParties } = require('../config')
-
+const { getStartingPosition } = require('../models/party')
 
 /**
  * 
@@ -12,6 +12,9 @@ const createParties = async (options = {}) => {
     const parties = []
     for (let i = 0; i < _noOfAdventuringParties; i++) {
         parties.push(await b.build(options))
+    }
+    for (let party of parties) {
+        party.position = getStartingPosition(options.dwellings)
     }
     return parties
 }

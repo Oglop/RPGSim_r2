@@ -36,9 +36,9 @@ const isInDwelling = async (world, party) => {
     try {
         if (world.map[party.position.x][party.position.y].dwellingId != undefined) {
             const dwelling = getDwellingByCoordinates(party.position.x, party.position.y, world)
-            /*await executeCommands([
+            await executeCommands([
                 { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('party-is-in-dwelling', [ dwelling.name ]), party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
-            ])*/
+            ])
             return true
         }
         return false
@@ -75,16 +75,10 @@ const isOnQuestLocation = (party) => {
  * returns a position 
  * @param {object} world 
  */
-const getStartingPosition = (map) => {
+const getStartingPosition = (dwellings) => {
     try {
-        let validPosition = false
-        while (!validPosition) {
-            const x = getRandomNumberInRange(0, WORLD_SIZE)
-            const y = getRandomNumberInRange(0, WORLD_SIZE)
-            if (map[x][y].exploreStatus != ENUM_EXPLORE_STATUS.obstacle) {
-                return point2d(x, y)
-            }
-        }
+        const dwelling = getRandomElementFromArray(dwellings)
+        return point2d(dwelling.x, dwelling.y)
     } catch(e) {
         const err = objects.error
         err.file = __filename
