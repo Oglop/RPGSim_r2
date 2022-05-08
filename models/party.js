@@ -102,6 +102,10 @@ const consumeFood = (party) => {
     }
 }
 
+/**
+ * recover stamina
+ * @param {object} party 
+ */
 const restParty = (party) => {
     try {
         for (let i = 0; i < party.members.length; i++) {

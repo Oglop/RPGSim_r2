@@ -558,5 +558,12 @@ module.exports = {
         PARAGRAPH: 'p',
         ITALIC: 'i',
         BOLD: 'b'
+    },
+    ENUM_DWELLING_DAILY_ACTION: {
+        TRAIN: 1,
+        RESUPPLY: 2,
+        SHOP: 3,
+        SEEK_AUDIENCE: 4,
+        SEEK_QUEST: 5,
     }
 }

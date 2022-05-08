@@ -17,7 +17,8 @@ const {
     ENUM_EVENT_ITEM_STATUS,
     ENUM_PERSONALITY_DEALS_RESULT,
     ENUM_SKILL_NAMES,
-    ENUM_CHARACTER_TRAITS
+    ENUM_CHARACTER_TRAITS,
+    ENUM_DWELLING_DAILY_ACTION
 } = require('../generic/enums')
 const { questLocationRadius } = require('../config')
 const { 
@@ -36,6 +37,7 @@ const { partyDailyRelationShipRoll } = require('./personality')
 const { checkPartySkill } = require('./skill')
 const { executeCommands } = require('../persistance/commandQueue')
 const { getCharacterWithTrait } = require('../models/character')
+const { restParty } = require('../models/party')
 
 /**
  * Check if party is able to travel to new ppositon based io biome
@@ -299,8 +301,6 @@ const restMap = async (world, party) => {
 
 const restTown = (world, party) => {
     try {
-        //output.print(get('event-rest-town-resting', [ party.name ] ))
-
         let characterTraitEvents = []
         if (chance(10)) {
             const i = getRandomNumberInRange(0, 4)
@@ -317,6 +317,8 @@ const restTown = (world, party) => {
                 }
             }
         }
+        restParty(party)
+
     } catch(e) {
         const err = objects.error
         err.file = __filename
@@ -326,6 +328,25 @@ const restTown = (world, party) => {
     }
 }
 
+const getDwellingDailyAction = (party) => {}
+
+/**
+ * Adventure event in dwelling
+ * @param {object} party 
+ * @param {object} dwelling 
+ */
+const dwellingEvent = async (party, world) => {
+    const action = getDwellingDailyAction(party)
+    switch (action) {
+        case ENUM_DWELLING_DAILY_ACTION.TRAIN: break;
+        case ENUM_DWELLING_DAILY_ACTION.RESUPPLY: break;
+        case ENUM_DWELLING_DAILY_ACTION.SHOP: break;
+        case ENUM_DWELLING_DAILY_ACTION.SEEK_AUDIENCE: break;
+        case ENUM_DWELLING_DAILY_ACTION.SEEK_QUEST: break;
+    }
+
+}
+
 module.exports = {
     getQuestLocation,
     getAdventureDailyAction,
@@ -333,5 +354,7 @@ module.exports = {
     restMap,
     quest,
     restTown,
-    travel
+    travel,
+    getDwellingDailyAction,
+    dwellingEvent
 }

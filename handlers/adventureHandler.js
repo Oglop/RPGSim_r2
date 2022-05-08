@@ -7,7 +7,8 @@ const {
     travel,
     restMap,
     restTown,
-    quest
+    quest,
+    dwellingEvent
 } = require('../models/adventure')
 const mParty = require('../models/party')
 const bEvent = require('../build/event')
@@ -32,7 +33,7 @@ const progressAdventure = async (world) => {
 
             switch (action) {
                 case ENUM_ADVENTURE_DAILY_ACTION.ATEMPT_QUEST: break;
-                case ENUM_ADVENTURE_DAILY_ACTION.EVENT_TOWN: break;
+                case ENUM_ADVENTURE_DAILY_ACTION.EVENT_TOWN: dwellingEvent(party, world); break;
                 case ENUM_ADVENTURE_DAILY_ACTION.REST_MAP: restMap(world, party); break;
                 case ENUM_ADVENTURE_DAILY_ACTION.REST_TOWN: restTown(world, party); break;
                 case ENUM_ADVENTURE_DAILY_ACTION.SEEK_QUEST_TOWN: break;
