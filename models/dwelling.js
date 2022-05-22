@@ -4,9 +4,8 @@ const {
     ENUM_DWELLING_LOCATION_STATUS,
     ENUM_DWELLING_SIZE
 } = require('../generic/enums');
-const { getRandomElementFromArray, getColorByIndex } = require('../lib/utils');
+const { getRandomElementFromArray } = require('../lib/utils');
 const { get } = require('../localization');
-
 const getRaceFromDwellingType = (dwelling) => {
     switch( dwelling.type ) {
         case ENUM_DWELLINGS.DARK_ELF: return ENUM_RACE_NAMES.darkElf;
@@ -75,10 +74,10 @@ const getStreetDescription = (streetTypes, streetColors) => {
     let streetTypeDescription = ''
     const streetTypeIndex = getRandomElementFromArray(streetTypes)
     switch (streetTypeIndex) {
-        case 0: streetTypeIndex = get('dwelling-street-type-mud'); break;
-        case 1: streetTypeIndex = get('dwelling-street-type-stone'); break;
-        case 2: streetTypeIndex = get('dwelling-street-type-tiles'); break;
-        case 3: streetTypeIndex = get('dwelling-street-type-mosaique'); break;
+        case 0: streetTypeDescription = get('dwelling-street-type-mud'); break;
+        case 1: streetTypeDescription = get('dwelling-street-type-stone'); break;
+        case 2: streetTypeDescription = get('dwelling-street-type-tiles'); break;
+        case 3: streetTypeDescription = get('dwelling-street-type-mosaique'); break;
     }
     const streetColorIndex = getRandomElementFromArray(streetColors)
     const streetColorDescription = getColorByIndex(streetColorIndex)
@@ -140,6 +139,36 @@ const getRoofDescription = (roofTypes, roofColors) => {
     const wallColorIndex = getRandomElementFromArray(wallColors)
     const wallColorDescription = getColorByIndex(wallColorIndex)
     return `${wallColorDescription} ${wallTypeDescription}`//get('dwelling-wall-description-base', [ `${wallColorDescription} ${wallTypeDescription}` ])
+}
+
+const getColorByIndex = (index) => {
+    const { get } = require('../localization')
+    switch (index) {
+        case 1: return get('system-color-royal-blue')
+        case 2: return get('system-color-black')
+        case 3: return get('system-color-red')
+        case 4: return get('system-color-moss-green')
+        case 5: return get('system-color-yellow')
+        case 6: return get('system-color-white')
+        case 7: return get('system-color-light-grey')
+        case 8: return get('system-color-dark-grey')
+        case 9: return get('system-color-purple')
+        case 10: return get('system-color-violet')
+        case 11: return get('system-color-pink')
+        case 12: return get('system-color-orange')
+        case 13: return get('system-color-marine-blue')
+        case 14: return get('system-color-sky-blue')
+        case 15: return get('system-color-grey-blue')
+        case 16: return get('system-color-bright-green')
+        case 17: return get('system-color-forest-green')
+        case 18: return get('system-color-mud-brown')
+        case 19: return get('system-color-terracotta')
+        case 20: return get('system-color-olive-green')
+        case 21: return get('system-color-turquoise')
+        case 22: return get('system-color-umber')
+        case 23: return get('system-color-ivory')
+        case 24: return get('system-color-crimson')
+    }
 }
 
 /**

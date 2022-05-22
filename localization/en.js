@@ -1,5 +1,3 @@
-const { restTown } = require("../models/adventure")
-
 /**
  * returns text from id
  * @param {string} id 
@@ -307,7 +305,7 @@ module.exports.get = (id, args) => {
         case 'dwelling-location-temple-description-elated': return 'elated'
         case 'dwelling-location-temple-description-exalted': return 'exalted'
 
-        case 'dwelling-dwelling-description-base': return `${args[0]} the ${args[1]} ${args[6]}. ${args[0]} houses are ${args[2]} with ${args[3]} and ${args[4]} roofs. The streets are made of ${args[5]}.`
+        case 'dwelling-dwelling-description-base': return `${args[0]} the ${args[1]} ${args[6]}. ${args[0]} houses are ${args[2]} with ${args[3]} walls and ${args[4]} roofs. The streets are made of ${args[5]}.`
         case 'dwelling-house-type-low': return 'low' // 0
         case 'dwelling-house-type-square': return 'square' // 1
         case 'dwelling-house-type-round': return 'round' // 2
@@ -489,7 +487,7 @@ module.exports.get = (id, args) => {
         case 'system-color-grey-blue': return 'grey blue' // 15
         case 'system-color-bright-green': return 'bright green' // 16
         case 'system-color-forest-green': return 'forest green' // 17
-        case 'system-color-mud-brown': return 'mud brown' // 18
+        case 'system-color-mud-brown': return 'yellow brown' // 18
         case 'system-color-terracotta': return 'terracotta' // 19
         case 'system-color-olive-green': return 'olive green' // 20
         case 'system-color-turquoise': return 'turquoise' // 21

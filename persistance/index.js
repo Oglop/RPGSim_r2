@@ -42,7 +42,7 @@ const { updateTrade } = require('./commands/updateTrade')
 
 const { getCharacterById } = require('./queries/getCharacterById')
 const { getDwellingLocationsByDwellingId } = require('./queries/getDwellingLocationsByDwellingId')
-const { getRoomByCoordinates } = require('./queries/getRoomByCoordinates')
+//const { getRoomByCoordinates } = require('./queries/getRoomByCoordinates')
 const { getDwellingByCoordinates } = require('./queries/getDwellingByCoordinates')
 const { getDwellingIdsFromRoom } = require('./queries/getDwellingIdsFromRoom')
 const { getDwellingById } = require('./queries/getDwellingById')
@@ -112,7 +112,7 @@ module.exports = {
         getLoansByCourtId: (courtId) => getLoansByCourtId(courtId),
         getNpcsByDwellingLocationId: (dwellingLocationId) => getNpcsByDwellingLocationId(dwellingLocationId),
         getRelationByCharacterId: (characterId) => getRelationByCharacterId(characterId),
-        getRoomByCoordinates: (x, y) => getRoomByCoordinates(x, y),
+        //getRoomByCoordinates: (x, y) => getRoomByCoordinates(x, y),
         getSkillByCharacterId: (id) => getSkillByCharacterId(id),
         getStory: () => getStory(),
         getTradeByDwellingId: (id) => getTradeByDwellingId(id),

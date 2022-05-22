@@ -14,13 +14,13 @@ const {
  */
 const getDwellingsFromMap = async (map) => {
     const dwellings = await getDwellingIdsFromRoom()
-    /*for (let y = 0; y < WORLD_SIZE; y++) {
+    for (let y = 0; y < WORLD_SIZE; y++) {
         for (let x = 0; x < WORLD_SIZE; x++) {
             if (map[x][y].dwellingId != undefiend) {
-                dwellings.push(map[x][y].dwellingId
+                dwellings.push(map[x][y].dwellingId)
             }
         }
-    }*/
+    }
     return dwellings
 }
 
