@@ -1,3 +1,5 @@
+const { restTown } = require("../models/adventure")
+
 /**
  * returns text from id
  * @param {string} id 
@@ -304,6 +306,42 @@ module.exports.get = (id, args) => {
         case 'dwelling-location-temple-description-great': return 'great'
         case 'dwelling-location-temple-description-elated': return 'elated'
         case 'dwelling-location-temple-description-exalted': return 'exalted'
+
+        case 'dwelling-dwelling-description-base': return `${args[0]} the ${args[1]} ${args[6]}. ${args[0]} houses are ${args[2]} with ${args[3]} and ${args[4]} roofs. The streets are made of ${args[5]}.`
+        case 'dwelling-house-type-low': return 'low' // 0
+        case 'dwelling-house-type-square': return 'square' // 1
+        case 'dwelling-house-type-round': return 'round' // 2
+        case 'dwelling-house-type-tall': return 'tall' // 3
+        case 'dwelling-house-type-large': return 'large' // 4
+        case 'dwelling-house-type-hexagonal': return 'hexagonal' // 5
+        case 'dwelling-house-type-octagonal': return 'octagonal' // 6
+        case 'dwelling-house-type-small': return 'small' // 7
+
+        case 'dwelling-roof-type-leaves': return 'leaves' // 0
+        case 'dwelling-roof-type-grass': return 'grass' // 1
+        case 'dwelling-roof-type-mud': return 'mud' // 2
+        case 'dwelling-roof-type-thach': return 'thach' // 3
+        case 'dwelling-roof-type-boards': return 'boards' // 4
+        case 'dwelling-roof-type-shingles': return 'shingles' // 5
+        case 'dwelling-roof-type-slates': return 'slates' // 6
+        case 'dwelling-roof-type-bricks': return 'bricks' // 7
+
+        case 'dwelling-size-name-town': return 'town'
+        case 'dwelling-size-name-village': return 'village'
+        case 'dwelling-size-name-city': return 'city'
+        case 'dwelling-size-name-capital': return 'capital'
+
+        case 'dwelling-street-type-mud': return 'mud' // 0
+        case 'dwelling-street-type-stone': return 'stone' // 1
+        case 'dwelling-street-type-tiles': return 'tile' // 2
+        case 'dwelling-street-type-mosaique': return 'mosaique' // 3
+
+        case 'dwelling-wall-type-mud': return 'mud' // 0
+        case 'dwelling-wall-type-wood': return 'wood' // 1
+        case 'dwelling-wall-type-stone': return 'stone' // 2
+        case 'dwelling-wall-type-bricks': return 'brick' // 3
+        case 'dwelling-wall-type-marble': return 'marble' // 4
+
         case 'dwelling-location-temple-name': return `The ${args[0]} ${args[1]} of ${args[2]}` 
         case 'event-date-bloodmoon-description': return 'Tonight is the night of the blood moon.'
         case 'event-date-bloodmoon-resolution': return 'As the red moon fills the black sky all the creatures of the night can be heard howling in the distance.'
@@ -378,13 +416,37 @@ module.exports.get = (id, args) => {
         case 'personality-description-naive' : return `unsuspecting`
         case 'personality-description-paranoid' : return `nervous`
         case 'personality-description-religious' : return `to be praying`
+
+        case 'race-dark-elf-singular': return 'dark elf'
+        case 'race-wood-elf-singular': return 'wood elf'
+        case 'race-high-elf-singular': return 'high elf'
+        case 'race-half-elf-singular': return 'helf elf'
+        case 'race-human-singular': return 'human'
+        case 'race-dwarf-singular': return 'dwarf'
+        case 'race-halfling-singular': return 'halfling'
+
+        case 'race-dark-elf-plural': return 'dark elves'
+        case 'race-wood-elf-plural': return 'wood elves'
+        case 'race-high-elf-plural': return 'high elves'
+        case 'race-half-elf-plural': return 'half elves'
+        case 'race-human-plural': return 'humans'
+        case 'race-dwarf-plural': return 'dwarves'
+        case 'race-halfling-plural': return 'halfings'
+
+        case 'race-dark-elf-possessive': return 'dark elven'
+        case 'race-wood-elf-possessive': return 'wood elven'
+        case 'race-high-elf-possessive': return 'high elven'
+        case 'race-half-elf-possessive': return 'half elven'
+        case 'race-human-possessive': return 'human'
+        case 'race-dwarf-possessive': return 'dwarven'
+        case 'race-halfling-possessive': return 'halfling'
+
         case 'troop-archers': return 'archers'
         case 'troop-men-at-arms': return 'men-at-arms'
         case 'troop-knights': return 'knights'
         case 'troop-infantry': return 'infantry'
         case 'troop-mercenaries': return 'mercenaries'
         case 'troop-catapults': return 'catapults'
-
         case 'story-adventure-party-formed': return `${args[0]} was formed.`
         case 'story-adventure-part-member': return `${args[0]} the ${args[1]} ${args[2]}. ${args[3]}`
         case 'story-history-dwelling-army-decrease': return `In ${args[0]} ${args[1]} ${args[2]} cuts army spending. `
@@ -410,6 +472,30 @@ module.exports.get = (id, args) => {
         case 'story-history-dwelling-tax-increase': return `${args[0]} ${args[1]} increases the tax rate of ${args[2]}.`
         case 'story-history-dwelling-tax-decrease': return `${args[0]} ${args[1]} decreases the tax rate of ${args[2]}.`
 
+        case 'system-color-royal-blue': return 'royal blue' // 1
+        case 'system-color-black': return 'black'// 2
+        case 'system-color-red': return 'red'// 3
+        case 'system-color-moss-green': return 'moss green' // 4
+        case 'system-color-yellow': return 'yellow' // 5
+        case 'system-color-white': return 'white' // 6
+        case 'system-color-light-grey': return 'light grey' //7
+        case 'system-color-dark-grey': return 'dark grey' // 8
+        case 'system-color-purple': return 'purple' // 9
+        case 'system-color-violet': return 'violet' // 10
+        case 'system-color-pink': return 'pink' // 11
+        case 'system-color-orange': return 'orange' // 12
+        case 'system-color-marine-blue': return 'marine blue' // 13
+        case 'system-color-sky-blue': return 'sky blue' // 14
+        case 'system-color-grey-blue': return 'grey blue' // 15
+        case 'system-color-bright-green': return 'bright green' // 16
+        case 'system-color-forest-green': return 'forest green' // 17
+        case 'system-color-mud-brown': return 'mud brown' // 18
+        case 'system-color-terracotta': return 'terracotta' // 19
+        case 'system-color-olive-green': return 'olive green' // 20
+        case 'system-color-turquoise': return 'turquoise' // 21
+        case 'system-color-umber': return 'umber' // 22
+        case 'system-color-ivory': return 'ivory' // 23
+        case 'system-color-crimson': return 'crimson' // 24
 
         case 'system-word-a': return 'a'
         case 'system-word-an': return 'an'

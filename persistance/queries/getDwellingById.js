@@ -9,6 +9,7 @@ module.exports.getDwellingById = async (id) => {
             x, 
             y,
             name,
+            description,
             type,
             size,
             citizens,

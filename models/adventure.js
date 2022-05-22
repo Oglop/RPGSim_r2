@@ -37,7 +37,6 @@ const { partyDailyRelationShipRoll } = require('./personality')
 const { checkPartySkill } = require('./skill')
 const { executeCommands } = require('../persistance/commandQueue')
 const { getCharacterWithTrait } = require('../models/character')
-const { restParty } = require('../models/party')
 
 /**
  * Check if party is able to travel to new ppositon based io biome

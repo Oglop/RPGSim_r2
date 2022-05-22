@@ -15,6 +15,7 @@ const bProduction = require('./production')
 const bCourt = require('./court')
 const bArmy = require('../build/army') 
 const bLocations = require('./dwellingLocation')
+const m = require('../models/dwelling')
 const { getDwarfWord, getElfWord, getAncientWord } = require('../lib/language')
 
 const humanProduction = (dwelling) => {
@@ -324,6 +325,7 @@ module.exports.build = async (position, options) => {
         if (options.army) { d.army = options.army }
         addCitizens(d)
         addProduction(d)
+        d.description = m.getDwellingDescription(d)
         d.growth = 0
         d.court = await bCourt.build(d, {
             date: options.date

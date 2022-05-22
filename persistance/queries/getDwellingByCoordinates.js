@@ -2,13 +2,14 @@ const { DatabaseContext } = require('../connections')
 const objects = require('../../generic/objects')
 const { copyObject } = require('../../lib/utils')
 
-module.exports.getDwellingById = async (x, y) => {
+module.exports.getDwellingByCoordinates = async (x, y) => {
     const stmt = await DatabaseContext.db.prepare(`
         SELECT 
             id, 
             x, 
             y,
             name,
+            description,
             type,
             size,
             citizens,

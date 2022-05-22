@@ -130,6 +130,7 @@ module.exports = {
         x: undefined,
         y: undefined,
         name: undefined,
+        description: undefined,
         type: undefined,
         size: undefined,
         courtId: undefined,

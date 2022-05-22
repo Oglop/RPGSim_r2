@@ -6,18 +6,14 @@ const { getPercetage, getRandomNumberInRange, copyObject, getRandomElementFromAr
 const { 
     ENUM_COMMANDS,
     ENUM_STORY_TYPE,
-    ENUM_STORY_TAGS,
-    ENUM_QUEST_STATUS,
-    ENUM_EXPLORE_STATUS
+    ENUM_STORY_TAGS
 } = require('../generic/enums')
 const { get } = require('../localization')
-const { WORLD_SIZE } = require('../generic/statics')
-const { party } = require('../generic/objects')
-const { getRoomByCoordinates } = require('../persistance').queries
+
 const { executeCommands } = require('../persistance/commandQueue')
 const { getDwellingByCoordinates } = require('../models/dwelling')
 const { getStoryEntry } = require('../build/story')
-
+const { getRoomByCoordinates } = require('../persistance').queries
 const checkForRest = (party) => {
     if (getPercetage(party.members.length * restThresholdMultiplyer, party.food) <= restThreshold) {
         return true
