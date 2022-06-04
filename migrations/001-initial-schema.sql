@@ -68,6 +68,7 @@ CREATE TABLE dwelling
     x               integer, 
     y               integer,
     name            text,
+    description     text,
     type            integer,
     size            integer,
     citizens        integer,

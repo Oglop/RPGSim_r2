@@ -215,21 +215,21 @@ const getDwellingDescription = (dwelling) => {
     }
 
     if (dwelling.type == ENUM_DWELLINGS.DWARF) {
-        roofTypes.push(...[ 2, 4, 7 ])
+        roofTypes.push(...[ 4, 7 ])
         roofColors.push(...[ 8, 12, 15, 18 ])
         streetTypes.push(...[ 0, 1 ])
         streetColors.push(...[ 22, 8, 18, 19 ])
-        wallTypes.push(...[ 0, 2, 3 ])
+        wallTypes.push(...[ 2, 3 ])
         wallColors.push(...[ 2, 7, 8, 13, 15, 22 ])
         houseTypes.push(...[ 1, 0, 6, 7 ])
     }
 
     if (dwelling.type == ENUM_DWELLINGS.HALFLING) {
-        roofTypes.push(...[ 0, 1, 2, 3 ])
+        roofTypes.push(...[ 0, 1, 3 ])
         roofColors.push(...[ 3, 4, 12, 14, 5 ])
         streetTypes.push(...[ 0 ])
         streetColors.push(...[ 22, 19, 18, 12 ])
-        wallTypes.push(...[ 0, 1 ])
+        wallTypes.push(...[ 1 ])
         wallColors.push(...[ 4, 7, 19 ])
         houseTypes.push(...[ 0, 7, 2 ])
     }
@@ -245,17 +245,17 @@ const getDwellingDescription = (dwelling) => {
     }
 
     if (dwelling.type == ENUM_DWELLINGS.HUMAN) {
-        roofTypes.push(...[ 2, 3, 4, 5, 6 ])
+        roofTypes.push(...[ 3, 4, 5, 6 ])
         roofColors.push(...[ 3, 1, 15, 19, 12 ])
         streetTypes.push(...[ 0, 1, 2 ])
         streetColors.push(...[ 22, 8, 7, 17, 18, 3 ])
-        wallTypes.push(...[ 0, 2, 3 ])
+        wallTypes.push(...[ 2, 3 ])
         wallColors.push(...[ 6, 7, 8, 15, 19, 23 ])
         houseTypes.push(...[ 4, 7, 0 ])
     }
 
     if (dwelling.type == ENUM_DWELLINGS.WOOD_ELF) {
-        roofTypes.push(...[ 1, 2 ])
+        roofTypes.push(...[ 0, 1 ])
         roofColors.push(...[ 4, 5, 16, 17, 20 ])
         streetTypes.push(...[ 0 ])
         streetColors.push(...[ 2, 3, 22, 18, 19 ])
