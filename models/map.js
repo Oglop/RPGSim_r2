@@ -1,6 +1,6 @@
-const { ENUM_DWELLINGS } = require('../generic/enums')
+const { ENUM_DWELLINGS, ENUM_BIOMES } = require('../generic/enums')
 const { WORLD_SIZE } = require('../generic/statics')
-const { copyObject, point2d, getRandomElementFromArray } = require('../lib/utils')
+const { copyObject, point2d, getRandomElementFromArray, getRandomNumberInRange } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { 
@@ -146,6 +146,35 @@ const isBiome = (biome, value) => {
     return false
 }
 
+const getRandomQuestLocation = (map, currentX, currentY) => {
+    try {
+        const rangeIndex = getRandomNumberInRange(0 , 10)
+        let range = 0
+        if (rangeIndex < 6) {
+            range = 4
+        } else if (rangeIndex >= 6 && rangeIndex < 9) {
+            range = 8
+        } else {
+            range = 12
+        }
+        let atempts = 0
+        let maxAtempts = 6
+        while (atempts < maxAtempts) {
+            const x = getRandomNumberInRange(currentX - range, currentX + range)
+            const y = getRandomNumberInRange(currentT - range, currentY + range)
+            if (isPointOnMap(x, y)) {
+                if (map[x][y].biome != ENUM_BIOMES.lake) {
+                    return point2d(x, y)
+                }
+            }
+            atempts++
+        }
+
+    } catch (e) {
+
+    }
+}
+
 module.exports = {
     getDwellingsFromMap,
     getDwellingPositionById,
@@ -156,5 +185,6 @@ module.exports = {
     getListOfPointsByBiome,
     getClosestDwelling,
     isPointOnMap,
-    isBiome
+    isBiome,
+    getRandomQuestLocation
 }

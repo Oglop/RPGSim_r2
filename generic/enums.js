@@ -410,7 +410,7 @@ module.exports = {
         FINISHED:4
     },
     ENUM_QUEST_TYPE: {
-
+        RUIN
     },
     ENUM_DUNGEON_SIZE: {
         SMALL: 0,
@@ -515,6 +515,7 @@ module.exports = {
         DELETECHARACTER: 'deleteCharacter',
         DELETE_TRADE: 'deleteTrade',
         DELETE_TROOP: 'deleteTroop',
+        DELETE_QUEST: 'deleteQuest',
         INSERTROOM: 'insertRoom',
         INSERTDWELLING: 'insertDwelling',
         INSERT_DWELLING_LOCATION: 'insertDwellingLocation',
@@ -532,6 +533,7 @@ module.exports = {
         INSERT_NPC: 'insertNPC',
         INSERT_TRADE: 'insertTrade',
         INSERT_STORY: 'insertStory',
+        INSERT_QUEST: 'insertQuest',
 
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',
@@ -544,7 +546,8 @@ module.exports = {
         UPDATETROOP: 'updateTroop',
         UPDATELOAN: 'updateLoan',
         UPDATERULERINCOURT: 'updateRulerInCourt',
-        UPDATE_TRADE: 'updateTrade'
+        UPDATE_TRADE: 'updateTrade',
+        UPDATE_QUEST: 'updateQuest'
     },
     ENUM_STORY_TYPE: {
         WORLD: 0,

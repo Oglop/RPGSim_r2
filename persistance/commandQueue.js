@@ -15,6 +15,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.DELETEADVISOR: await commands.deleteAdvisor(item.data); break;
                 case ENUM_COMMANDS.DELETECHARACTER: await commands.deleteCharacter(item.data); break;
                 case ENUM_COMMANDS.DELETE_TROOP : await commands.deleteTroop(item.data); break;
+                case ENUM_COMMANDS.DELETE_QUEST: await commands.deleteQuest(item.data); break;
                 case ENUM_COMMANDS.INSERTROOM: await commands.insertRoom(item.data); break;
                 case ENUM_COMMANDS.INSERTDWELLING: await commands.insertDwelling(item.data); break;
                 case ENUM_COMMANDS.INSERT_DWELLING_LOCATION: await commands.insertDwellingLocation(item.data); break;
@@ -32,6 +33,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.INSERTLOAN: await commands.insertLoan(item.data); break;
                 case ENUM_COMMANDS.INSERT_NPC: await commands.insertNpc(item.data); break;
                 case ENUM_COMMANDS.INSERT_TRADE: await commands.insertTrade(item.data); break;
+                case ENUM_COMMANDS.INSERT_QUEST: await commands.insertQuest(item.data); break;
                 case ENUM_COMMANDS.UPDATEROOM: await commands.updateRoom(item.data); break;
                 case ENUM_COMMANDS.UPDATEDWELLING: await commands.updateDwelling(item.data); break;
                 case ENUM_COMMANDS.UPDATE_DWELLING_LOCATION: await commands.updateDwellingLocationStatus(item.data); break;
@@ -43,7 +45,8 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.UPDATETROOP: await commands.updateTroop(item.data); break;
                 case ENUM_COMMANDS.UPDATELOAN: await commands.updateLoan(item.data); break;
                 case ENUM_COMMANDS.UPDATERULERINCOURT: await commands.updateRulerInCourt(item.data); break;
-                default: console.log(`command ${item.command} was not found.`)
+                case ENUM_COMMANDS.UPDATE_QUEST: await commands.updateQuest(item.data); break;
+                default: throw Error(`command ${item.command} was not found.`)
             }
         } catch (e) {
             const err = objects.error
