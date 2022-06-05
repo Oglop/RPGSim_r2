@@ -389,6 +389,16 @@ module.exports = {
         crowns:0,
         food:0
     },
+    quest: {
+        id: undefined,
+        type: undefined,
+        status: undefined,
+        x: undefined,
+        y: undefined,
+        originLocationId: undefined,
+        originNpcId: undefined,
+        originDwellingLocation: undefined
+    },
     queueItem: {
         command: undefined,
         data: undefined
