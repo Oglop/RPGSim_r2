@@ -1,4 +1,3 @@
-const { point, traits } = require('../generic/objects')
 const objects = require('../generic/objects')
 const { copyObject, chance, getRandomElementFromArray, getRandomNumberInRange } = require('../lib/utils')
 const { MAX_MARRIAGE_AGE_GAP, 

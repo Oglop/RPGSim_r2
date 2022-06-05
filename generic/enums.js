@@ -409,6 +409,9 @@ module.exports = {
         FAILED:3,
         FINISHED:4
     },
+    ENUM_QUEST_TYPE: {
+
+    },
     ENUM_DUNGEON_SIZE: {
         SMALL: 0,
         MEDIUM: 1,

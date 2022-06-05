@@ -397,7 +397,7 @@ module.exports = {
         y: undefined,
         originLocationId: undefined,
         originNpcId: undefined,
-        originDwellingLocation: undefined
+        originDwellingLocationId: undefined
     },
     queueItem: {
         command: undefined,
