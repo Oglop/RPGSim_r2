@@ -195,17 +195,34 @@ CREATE TABLE world
     date        text
 );
 
+CREATE TABLE quest
+(
+    id                  text,
+    type                integer,
+    status              integer,
+    x                   integer,
+    y                   integer,
+    originLocationId    text, 
+    originNpcId         text,
+    originDwellingLocationId    text
+);
+
 -- Down
-DROP TABLE room;
+DROP TABLE army;
+DROP TABLE advisor;
+DROP TABLE character;
+DROP TABLE court;
 DROP TABLE dwelling;
 DROP TABLE dwellingLocation;
-DROP TABLE army;
+DROP TABLE production;
+DROP TABLE relation;
 DROP TABLE troop;
-DROP TABLE court;
-DROP TABLE world;
+DROP TABLE room;
 DROP TABLE language;
 DROP TABLE skill;
+DROP TABLE storyLog;
 DROP TABLE npc;
 DROP TABLE trade;
 DROP TABLE story;
+DROP TABLE quest;
 DROP TABLE world;
