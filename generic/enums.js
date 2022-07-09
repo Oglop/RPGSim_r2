@@ -410,7 +410,7 @@ module.exports = {
         FINISHED:4
     },
     ENUM_QUEST_TYPE: {
-        RUIN
+        RUIN:0
     },
     ENUM_DUNGEON_SIZE: {
         SMALL: 0,

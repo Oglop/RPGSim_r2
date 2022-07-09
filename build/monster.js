@@ -6,51 +6,10 @@ const {
 } = require('../generic/enums')
 const { getRandomElementFromArray, copyObject, generateID, getRandomNumberInRange } = require('../lib/utils')
 const enemies = require('../generic/enemies')
-const attackBuilder = require('../build/enemyAttack')
+const bAttack = require('../build/enemyAttack')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
-
-/**
- * set stats to enemy object
- * @param {object} enemy 
- */
-const setStats = (enemy) => {
-    enemy.stats = copyObject(objects.enemyStats)
-    if (enemy.name == 'goblin') {
-        enemy.stats.str = getRandomNumberInRange(2, 4)
-        enemy.stats.agi = getRandomNumberInRange(4, 5)
-        enemy.stats.res = getRandomNumberInRange(1, 2)
-        enemy.stats.int = getRandomNumberInRange(2, 4)
-        enemy.hp = getRandomNumberInRange(4, 6)
-    } else if (enemy.name == 'orc') {
-        enemy.stats.str = getRandomNumberInRange(5, 7)
-        enemy.stats.agi = getRandomNumberInRange(3, 4)
-        enemy.stats.res = getRandomNumberInRange(3, 4)
-        enemy.stats.int = getRandomNumberInRange(2, 3)
-        enemy.hp = getRandomNumberInRange(7, 9)
-    } else if (enemy.name == 'troll') {
-        enemy.stats.str = getRandomNumberInRange(9, 13)
-        enemy.stats.agi = getRandomNumberInRange(1, 3)
-        enemy.stats.res = getRandomNumberInRange(4, 6)
-        enemy.stats.int = getRandomNumberInRange(1, 2)
-        enemy.hp = getRandomNumberInRange(16, 21)
-    }
-}
-
-/**
- * push attack objects to enemy object
- * @param {object} enemy 
- */
-const setAttacks = (enemy) => {
-    if (enemy.name == 'goblin') {
-        enemy.attacks.push(attackBuilder.build(ENUM_ENEMY_ATTACK.HIT))
-    } else if (enemy.name == 'orc') {
-        enemy.attacks.push(attackBuilder.build(ENUM_ENEMY_ATTACK.HIT))
-    } else if (enemy.name == 'troll') {
-        enemy.attacks.push(attackBuilder.build(ENUM_ENEMY_ATTACK.HIT))
-        enemy.attacks.push(attackBuilder.build(ENUM_ENEMY_ATTACK.SMASH))
-    }
-}
+const { setStats, setAttacks } = require('../models/monster')
 
 /**
  * options {

@@ -1,4 +1,5 @@
 const { 
+    ENUM_STAT_NAMES,
     ENUM_EXPLORE_STATUS,
     ENUM_DUNGEON_DOOR_STATUS,
     ENUM_QUEST_STATUS,
@@ -355,6 +356,7 @@ module.exports = {
     enemyAttack: {
         min: 0,
         max: 0,
+        statBase: undefined,
         name: undefined,
     },
     item: {

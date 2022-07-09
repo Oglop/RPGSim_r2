@@ -51,7 +51,7 @@ module.exports = {
          ],
          MEDIUM: [
              {
-                name: 'golem'
+                name: 'wraith'
              }
          ],
          STRONG: [
