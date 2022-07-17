@@ -571,5 +571,9 @@ module.exports = {
         SHOP: 3,
         SEEK_AUDIENCE: 4,
         SEEK_QUEST: 5,
+    },
+    ENUM_SPELLS: {
+        THIRD_EYE: 0,
+        HEAL: 1
     }
 }
