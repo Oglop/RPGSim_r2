@@ -51,6 +51,7 @@ module.exports = {
         languages: [],
         skills: [],
         statuses: [],
+        spells: [],
         birthDate: undefined,
         trait: undefined,
         age: 0,
@@ -413,6 +414,10 @@ module.exports = {
         date: undefined,
         message: undefined,
         tag: undefined
+    },
+    spell: {
+        name: undefined,
+        type: undefined
     }
     
 }
