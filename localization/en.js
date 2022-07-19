@@ -445,6 +445,7 @@ module.exports.get = (id, args) => {
         case 'troop-infantry': return 'infantry'
         case 'troop-mercenaries': return 'mercenaries'
         case 'troop-catapults': return 'catapults'
+        case 'spell-third-eye-name': return 'third eye'
         case 'story-adventure-party-formed': return `${args[0]} was formed.`
         case 'story-adventure-part-member': return `${args[0]} the ${args[1]} ${args[2]}. ${args[3]}`
         case 'story-history-dwelling-army-decrease': return `In ${args[0]} ${args[1]} ${args[2]} cuts army spending. `
