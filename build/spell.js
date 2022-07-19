@@ -10,6 +10,12 @@ const getName = (type) => {
     }
 }
 
+const getSpellCost = (type) => {
+    switch (type) {
+        case ENUM_SPELLS.THIRD_EYE: return 2;
+    }
+}
+
 /**
  * build a spell object
  * 
@@ -20,6 +26,6 @@ module.exports.build = (type) => {
     const s = copyObject(objects.spell)
     s.type = type
     s.name = getName(type)
-
+    s.cost = getSpellCost(type)
     return s
 }

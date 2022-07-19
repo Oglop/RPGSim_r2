@@ -417,7 +417,8 @@ module.exports = {
     },
     spell: {
         name: undefined,
-        type: undefined
+        type: undefined,
+        cost: 0
     }
     
 }
