@@ -1,12 +1,34 @@
-const { ENUM_SPELLS } = require('../generic/enums')
+const { 
+    ENUM_SPELLS,
+    ENUM_STAT_NAMES
+} = require('../generic/enums')
 const {
     copyArray,
     getRandomNumberInRange
 } = require('../lib/utils')
+const {
+    checkCharacterStat
+} = require('../models/skill')
 
-const castSpell = (spell) => {
+/**
+ * TODO
+ * @param {object} spell 
+ * @param {object} character 
+ * @returns {}
+ */
+const castSpell = (spell, character) => {
+    if (character.stamina >= spell.cost) {
+        const success = checkCharacterStat(character, ENUM_STAT_NAMES.int)
+        if(success.length) {
+            character.stamina -= spell.cost
 
+
+            return true
+        }
+    }
+    return false
 }
+
 
 /**
  * 
