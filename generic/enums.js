@@ -574,6 +574,7 @@ module.exports = {
     },
     ENUM_SPELLS: {
         THIRD_EYE: 0,
-        HEAL: 1
+        HEAL: 1,
+        DISGUISE: 2
     }
 }

@@ -154,8 +154,8 @@ const checkPartySkill = (p, skill) => {
 /**
  * 
  * @param {object} c character 
- * @param {ENUM_STAT_NAMES} stat 
- * @returns 
+ * @param { ENUM_STAT_NAMES } stat 
+ * @returns {object} character
  */
 const checkCharacterStat = (c, stat) => {
     try {
