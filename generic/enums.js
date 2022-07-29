@@ -575,6 +575,12 @@ module.exports = {
     ENUM_SPELLS: {
         THIRD_EYE: 0,
         HEAL: 1,
-        DISGUISE: 2
+        DISGUISE: 2,
+        QUICK_FEET: 3
+    },
+    ENUM_ENCOUNTER_RANGE: {
+        FAR: 0,
+        LONG: 1,
+        SHORT: 2
     }
 }
