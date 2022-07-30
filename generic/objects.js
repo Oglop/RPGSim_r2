@@ -421,9 +421,10 @@ module.exports = {
         cost: 0
     },
     encounter: {
+        id: undefined,
         range: undefined,
         party: undefined,
-        enemies: undefined
+        enemies: []
     }
     
 }

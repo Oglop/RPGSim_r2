@@ -1,21 +1,53 @@
 const {
-    ENUM_ENCOUNTER_RANGE
+    ENUM_ENEMY_TYPE,
+    ENUM_GAME_MODE,
+    ENUM_ENEMY_STRENGTH
 } = require('../generic/enums')
 
-const advanceRange = encounter => {
+const { 
+    copyObject,
+    getRandomNumberInRange
+} = require('../lib/utils')
+const objects = require('../generic/objects')
+const { 
+    advanceRange, 
+    escape, 
+    retreatRange } = require('../models/encounter')
 
+const bMonster = require('../build/monster')
+
+
+
+
+
+/**
+ * 
+ * options: {
+ *  enemyType: ENUM_ENEMY_TYPE,
+ *  difficultyModifyer: int 0 | 10
+ * }
+ * @param {object} party 
+ * @param {object} options 
+ */
+const randomEncounter = (party, options) => {
+    // build encounter
+    const encounter = copyObject(objects.encounter, true)
+    encounter.party = party
+    const enemyType = options.enemyType ? options.enemyType : ENUM_ENEMY_TYPE.WILD
+    const difficultyModifyer = options.difficultyModifyer ? options.difficultyModifyer : getRandomNumberInRange(0, 4)
+
+
+    // build enemies
+    encounter.enemies.push(bMonster.build({
+        mode: ENUM_GAME_MODE.ADVENTURE,
+        type: enemyType,
+        strength: ENUM_ENEMY_STRENGTH.WEAK
+    }))
+
+    // generate helper fields
 }
 
-const retreatRange = encounter => {
-
-}
-
-const escape = encounter => {
-
-}
 
 module.exports = {
-    advanceRange, 
-    retreatRange,
-    escape
+    randomEncounter
 }

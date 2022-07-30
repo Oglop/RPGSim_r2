@@ -3,7 +3,8 @@ const {
     capitalizeFirstLetter, 
     getRandomElementFromArray,
     point2d,
-    isPoint2dInArray
+    isPoint2dInArray,
+    copyObject
 } = require('../lib/utils')
 
 describe('util tests', () => {
@@ -52,4 +53,20 @@ describe('util tests', () => {
         expect(actual).toBeFalsy()
     })
 
+    it('should copy the object given as argument', () => {
+        const expected = {
+            key: 'value'
+        }
+        const actual = copyObject(expected)
+        expect(expected.key).toBe(actual.key)
+    })
+
+    it('should copy the object and add the id given as argument', () => {
+        const expected = {
+            key: 'value'
+        }
+        const actual = copyObject(expected, true)
+        expect(expected.key).toBe(actual.key)
+        expect(actual.id).toBeTruthy()
+    })
 })
