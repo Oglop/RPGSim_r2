@@ -1,6 +1,7 @@
 const {
     ENUM_ENCOUNTER_RANGE
 } = require('../generic/enums')
+const { getRandomNumber } = require('../lib/utils')
 
 const advanceRange = encounter => {
     switch (encounter.range) {
@@ -22,8 +23,17 @@ const route = encounter => {
 
 }
 
-const setInitiativeOrder = encounter => {
+const atemptRunAway = encounter => {}
 
+const setInitiativeOrder = encounter => {
+    const order = []
+    for (let member of encounter.party) {
+        // TODO insert sort
+        order.push({
+            id: member.id,
+            initiative: member.stats.agi + getRandomNumber(10)
+        })
+    }
 }
 
 const updateEncounterValues = encounter => {}
@@ -33,6 +43,9 @@ const updateEncounterValues = encounter => {}
 module.exports = {
     advanceRange, 
     retreatRange,
-    escape
+    setInitiativeOrder,
+    atemptRunAway,
+    updateEncounterValues,
+    route
 }
 
