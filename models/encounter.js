@@ -26,13 +26,30 @@ const route = encounter => {
 const atemptRunAway = encounter => {}
 
 const setInitiativeOrder = encounter => {
-    const order = []
+    const queue = []
     for (let member of encounter.party) {
         // TODO insert sort
-        order.push({
+        queue.push({
             id: member.id,
             initiative: member.stats.agi + getRandomNumber(10)
         })
+    }
+}
+
+/**
+ * 
+ * @param {array} queue 
+ * @param {object} item 
+ */
+const insertInitativeSort = (queue, item) => {
+    let inserted = false
+    for (let i = 0; i < queue.length; i++) {
+        if (item.initiative < queue[i].initiative) {
+            queue.splice(i, 0, item)
+        }
+    }
+    if (!inserted) {
+        queue.push(item)
     }
 }
 
@@ -46,6 +63,7 @@ module.exports = {
     setInitiativeOrder,
     atemptRunAway,
     updateEncounterValues,
-    route
+    route,
+    insertInitativeSort
 }
 
