@@ -10,7 +10,7 @@ const {
 const { tryToUnderstandEachOther } = require('./language')
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
-const { noOfAliveMembers } = require('../models/party')
+const { noOfAliveMembers } = require('./party')
 const { copyObject, getRandomNumberInRange, chance } = require('../lib/utils')
 const { 
     MAX_RELATIONSHIP_VALUE, 
@@ -19,7 +19,7 @@ const {
     TAX_RATE_MIN,
 } = require('../generic/statics')
 const { get } = require('../localization')
-const { locationExists } = require('../models/dwellingLocation')
+const { locationExists } = require('./dwellingLocation')
 
 
 /*

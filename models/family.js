@@ -1,4 +1,4 @@
-const { compabilityCheck } = require('../models/personality')
+const { compabilityCheck } = require('./personality')
 const { chance, copyObject, getRandomNumberInRange, getIndexOfObjectInArrayById, getRandomElementFromArray } = require('../lib/utils')
 const { logError } = require('../data/errorFile')
 const { validateCharacterCompabilityForMarige, setRelation, checkForOldAge } = require('./character')

@@ -27,16 +27,16 @@ const {
     isInDwelling, 
     checkForRest, 
     isOnQuestLocation
-} = require('../models/party')
+} = require('./party')
 const { get } = require('../localization')
 const bEvent = require('../build/event')
-const mMap = require('../models/map')
-const { getDwellingsFromMap, getPointOfRandomDwelling, getClosestDwelling } = require('../models/map')
-const { findShortestPath } = require('../models/pathFinding')
+const mMap = require('./map')
+const { getDwellingsFromMap, getPointOfRandomDwelling, getClosestDwelling } = require('./map')
+const { findShortestPath } = require('./pathFinding')
 const { partyDailyRelationShipRoll } = require('./personality')
 const { checkPartySkill } = require('./skill')
 const { executeCommands } = require('../persistance/commandQueue')
-const { getCharacterWithTrait } = require('../models/character')
+const { getCharacterWithTrait } = require('./character')
 
 /**
  * Check if party is able to travel to new ppositon based io biome

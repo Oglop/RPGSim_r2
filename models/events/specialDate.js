@@ -1,11 +1,11 @@
 const { copyObject, chance, getRandomNumber, getRandomElementFromArray, getRandomNumberInRange } = require('../../lib/utils')
 const objects = require('../../generic/objects')
-const { checkPartySkill, checkCharacterStat } = require('../../models/skill')
+const { checkPartySkill, checkCharacterStat } = require('../skill')
 const { 
     ENUM_SEASONS,
     ENUM_EVENT_ITEM_STATUS
 } = require('../../generic/enums')
-const mCharacter = require('../../models/character')
+const mCharacter = require('../character')
 const { get } = require('../../localization')
 const { Output } = require('../../output/output')
 
