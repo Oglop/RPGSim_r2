@@ -13,14 +13,14 @@ const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH,
     ENUM_PERSONALITIES,
     ENUM_SEASONS
 } = require('../../generic/enums')
-const { getDwellingsFromMap } = require('../../models/map')
+const { getDwellingsFromMap } = require('../map')
 const { 
     getLeaderByDwellingId,
     getFamiliesByDwellingId,
     distributInfluence,
     getFamilyIdByCharacterId,
-    getRandomAlivePerson } = require('../../models/family')
-const { personalityDealsWith } = require('../../models/personality')
+    getRandomAlivePerson } = require('../family')
+const { personalityDealsWith } = require('../personality')
 const { getSeason } = require('../../lib/time')
 const monsterBuilder = require('../../build/monster')
 const charachterBuilder = require('../../build/character')

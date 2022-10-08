@@ -1,6 +1,6 @@
 const { copyObject, chance, getRandomNumber, getRandomElementFromArray, getRandomNumberInRange } = require('../../lib/utils')
 const objects = require('../../generic/objects')
-const { checkPartySkill, checkCharacterStat } = require('../../models/skill')
+const { checkPartySkill, checkCharacterStat } = require('../skill')
 const { 
     ENUM_SEASONS,
     ENUM_STAT_NAMES,
@@ -17,9 +17,9 @@ const {
     ENUM_LANGUAGES, 
     ENUM_PERSONALITIES
 } = require('../../generic/enums')
-const { getDwellingsFromMap } = require('../../models/map')
-const { partyExtraRelationshipRoll } = require('../../models/personality')
-const mCharacter = require('../../models/character')
+const { getDwellingsFromMap } = require('../map')
+const { partyExtraRelationshipRoll } = require('../personality')
+const mCharacter = require('../character')
 /*const { 
     getLeaderByDwellingId,
     getFamiliesByDwellingId,

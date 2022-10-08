@@ -33,7 +33,25 @@ const setInitiativeOrder = encounter => {
             id: member.id,
             initiative: member.stats.agi + getRandomNumber(10)
         })
+        insertionSort(queue)
     }
+}
+
+const insertInitativeSort = (queue, item) => {
+    queue.push(item)
+    let n = queue.length;
+        for (let i = 1; i < n; i++) {
+            // Choosing the first element in our unsorted subarray
+            let current = queue[i];
+            // The last element of our sorted subarray
+            let j = i-1; 
+            while ((j > -1) && (current.initiative < queue[j].initiative)) {
+                queue[j+1] = queue[j];
+                j--;
+            }
+            queue[j+1] = current;
+        }
+    return queue;
 }
 
 /**
@@ -41,7 +59,7 @@ const setInitiativeOrder = encounter => {
  * @param {array} queue 
  * @param {object} item 
  */
-const insertInitativeSort = (queue, item) => {
+/*const insertInitativeSort = (queue, item) => {
     let inserted = false
     for (let i = 0; i < queue.length; i++) {
         if (item.initiative < queue[i].initiative) {
@@ -51,7 +69,7 @@ const insertInitativeSort = (queue, item) => {
     if (!inserted) {
         queue.push(item)
     }
-}
+}*/
 
 const updateEncounterValues = encounter => {}
 
