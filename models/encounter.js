@@ -1,9 +1,12 @@
 const {
     ENUM_ENCOUNTER_RANGE,
-    ENUM_ENCOUNTER_QUEUE_ITEM_TYPE
+    ENUM_ENCOUNTER_QUEUE_ITEM_TYPE,
+    ENUM_ENCOUNTER_ACTION_TYPE,
+    ENUM_ITEM_TYPE
 } = require('../generic/enums')
-const { getRandomNumber } = require('../lib/utils')
+const { getRandomNumber, getObjectByidInArray } = require('../lib/utils')
 const { INITIATIVE_TEST_INCREASE } = require('../generic/statics')
+const { isAlive } = require('./character')
 
 const advanceRange = encounter => {
     switch (encounter.range) {
@@ -33,16 +36,54 @@ const setInitiativeOrder = encounter => {
         insertInitativeSort(queue, {
             id: member.id,
             initiative: member.stats.agi + getRandomNumber(INITIATIVE_TEST_INCREASE),
-            type: ENUM_ENCOUNTER_QUEUE_ITEM_TYPE.HERO
+            type: ENUM_ENCOUNTER_QUEUE_ITEM_TYPE.HERO,
+            acted: 0
         })
     }
     for (let enemy of encounter.enemies) {
         insertInitativeSort(queue, {
             id: enemy.id,
             initiative: enemy.stats.agi + getRandomNumber(INITIATIVE_TEST_INCREASE),
-            type: ENUM_ENCOUNTER_QUEUE_ITEM_TYPE.MONSTER
+            type: ENUM_ENCOUNTER_QUEUE_ITEM_TYPE.MONSTER,
+            acted: 0
         })
     }
+}
+
+/**
+ * 
+ * @param {{ id:string, range:number, party: Array, enemies: Array }} encounter 
+ * @param {array} actionQueue 
+ * @param {ENUM_ENCOUNTER_ACTION_TYPE} encounterActionType 
+ */
+const executeEncounterActions = (encounter, actionQueue, encounterActionType) => {
+    for (encounterItem of actionQueue) {
+        // == 0 but could be multiple?
+        if (encounterItem.hasActed == 0) {
+            encounterItem.hasActed++
+            
+            if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.MELEE) {
+                // might use magic
+
+            } else if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.RANGED) {
+                // might use magic
+
+            } else {
+                // else magic
+
+            }
+        }
+    }
+}
+
+/**
+ * 
+ * @param {{ id:string, range:number, party: Array, enemies: Array }} encounter 
+ * @param {{ id:string, initiative: number, type: ENUM_ENCOUNTER_QUEUE_ITEM_TYPE, acted: number }} encounterItem 
+ */
+const getAliveEncounterItem = (encounter, encounterItem) => {
+    const actionItem = getObjectByidInArray(actionQueue, encounterItem.id)
+    if (encounterItem.type == ENUM_ENCOUNTER_QUEUE_ITEM_TYPE.HERO)
 }
 
 /**
@@ -74,6 +115,7 @@ module.exports = {
     atemptRunAway,
     updateEncounterValues,
     route,
-    insertInitativeSort
+    insertInitativeSort,
+    executeEncounterActions
 }
 

@@ -167,6 +167,12 @@ module.exports = {
         party: undefined,
         enemies: []
     },
+    encounterItem: {
+        id: undefined,
+        initiative: 0,
+        type: undefined,
+        acted: 0
+    },
     enemy: {
         id: undefined,
         type: undefined,
