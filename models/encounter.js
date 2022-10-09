@@ -4,7 +4,11 @@ const {
     ENUM_ENCOUNTER_ACTION_TYPE,
     ENUM_ITEM_TYPE
 } = require('../generic/enums')
-const { getRandomNumber, getObjectByidInArray } = require('../lib/utils')
+const { 
+    getRandomNumber, 
+    getObjectByidInArray,
+    getRandomElementFromArray
+} = require('../lib/utils')
 const { INITIATIVE_TEST_INCREASE } = require('../generic/statics')
 const { isAlive } = require('./character')
 
@@ -64,12 +68,15 @@ const executeEncounterActions = (encounter, actionQueue, encounterActionType) =>
             
             if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.MELEE) {
                 // might use magic
+                const actionTaker = getAliveEncounterItem(encounter, encounterItem)
 
             } else if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.RANGED) {
                 // might use magic
+                const actionTaker = getAliveEncounterItem(encounter, encounterItem)
 
             } else {
                 // else magic
+                const actionTaker = getAliveEncounterItem(encounter, encounterItem)
 
             }
         }
@@ -83,7 +90,19 @@ const executeEncounterActions = (encounter, actionQueue, encounterActionType) =>
  */
 const getAliveEncounterItem = (encounter, encounterItem) => {
     const actionItem = getObjectByidInArray(actionQueue, encounterItem.id)
-    if (encounterItem.type == ENUM_ENCOUNTER_QUEUE_ITEM_TYPE.HERO)
+    if (encounterItem.type == ENUM_ENCOUNTER_QUEUE_ITEM_TYPE.HERO) {
+        const enemies = encounter.enemies.filter(e => e.health > 0)
+        if (enemies.length > 0) {  
+            return getRandomElementFromArray(enemies)
+        }
+        return undefined
+    } else {
+        const members = encounter.party.filter(e => e.health > 0)
+        if (members.length > 0) {  
+            return getRandomElementFromArray(members)
+        }
+        return undefined
+    }
 }
 
 /**

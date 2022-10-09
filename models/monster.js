@@ -30,19 +30,19 @@ const setStats = (enemy) => {
         enemy.stats.agi = getRandomNumberInRange(4, 5)
         enemy.stats.res = getRandomNumberInRange(1, 2)
         enemy.stats.int = getRandomNumberInRange(2, 4)
-        enemy.hp = getRandomNumberInRange(4, 6)
+        enemy.health = getRandomNumberInRange(4, 6)
     } else if (enemy.name == 'orc') {
         enemy.stats.str = getRandomNumberInRange(5, 7)
         enemy.stats.agi = getRandomNumberInRange(3, 4)
         enemy.stats.res = getRandomNumberInRange(3, 4)
         enemy.stats.int = getRandomNumberInRange(2, 3)
-        enemy.hp = getRandomNumberInRange(7, 9)
+        enemy.health = getRandomNumberInRange(7, 9)
     } else if (enemy.name == 'troll') {
         enemy.stats.str = getRandomNumberInRange(9, 13)
         enemy.stats.agi = getRandomNumberInRange(1, 3)
         enemy.stats.res = getRandomNumberInRange(4, 6)
         enemy.stats.int = getRandomNumberInRange(1, 2)
-        enemy.hp = getRandomNumberInRange(16, 21)
+        enemy.health = getRandomNumberInRange(16, 21)
     }
 }
 

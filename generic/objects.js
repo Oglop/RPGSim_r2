@@ -177,7 +177,7 @@ module.exports = {
         id: undefined,
         type: undefined,
         name: undefined,
-        hp: 0,
+        health: 0,
         stats: undefined,
         attacks: []
 
