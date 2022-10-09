@@ -586,5 +586,13 @@ module.exports = {
     ENUM_ENCOUNTER_QUEUE_ITEM_TYPE: {
         HERO: 0,
         MONSTER: 1
+    },
+    ENUM_ENCOUNTER_ACTION_TYPE: {
+        MELEE: 0,
+        RANGED: 1,
+        MAGIC: 2
+    },
+    ENUM_HEALTH_STATUS: {
+        UNCONSCIOUS: 0
     }
 }

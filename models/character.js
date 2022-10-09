@@ -3,11 +3,11 @@ const { copyObject, chance, getRandomElementFromArray, getRandomNumberInRange } 
 const { MAX_MARRIAGE_AGE_GAP, 
     MIN_MARRIAGE_AGE,
     MAX_RELATIONS_POINTS,
-    MIN_RELATIONS_POINTS 
+    MIN_RELATIONS_POINTS
 } = require('../generic/statics')
 const { get } = require('../localization')
 const { logError } = require('../data/errorFile')
-const { ENUM_CHARACTER_TRAITS } = require('../generic/enums')
+const { ENUM_CHARACTER_TRAITS, ENUM_HEALTH_STATUS } = require('../generic/enums')
 const { getAgeSimple } = require('../lib/time')
 
 /**
@@ -168,11 +168,27 @@ const checkOldAgeHealth = (character, currentDate) => {
     return !character.isAlive
 }
 
+/**
+ * 
+ * @param {{health: number; statuses:[ ENUM_HEALTH_STATUS ]}} character 
+ * @returns { boolean } isAlive
+ */
+const isAlive = (character) => {
+    if (character.health <= 0) {
+        if (character.statuses.find(e => e == ENUM_HEALTH_STATUS.UNCONSCIOUS) == undefined) {
+            character.statuses.push(ENUM_HEALTH_STATUS.UNCONSCIOUS)
+        }
+        return false
+    }
+    return true
+}
+
 module.exports = {
     validateCharacterCompabilityForMarige,
     setRelation,
     checkOldAgeHealth,
     getTraitDescription,
     getCharacterWithTrait,
-    restCharacter
+    restCharacter,
+    isAlive
 }

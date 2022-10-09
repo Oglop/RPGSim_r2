@@ -89,13 +89,13 @@ const weapons = {
     },
     staffs: {
         common: [
-            { name: 'Wandering staff', min: 1, max: 3, value: 4, skillRequired: ENUM_SKILL_NAMES.spear },
-            { name: 'Heavy Staff', min: 2, max: 4, value: 5, skillRequired: ENUM_SKILL_NAMES.spear },
+            { name: 'Wandering staff', min: 1, max: 3, value: 4, skillRequired: ENUM_SKILL_NAMES.staff },
+            { name: 'Heavy Staff', min: 2, max: 4, value: 5, skillRequired: ENUM_SKILL_NAMES.staff },
 
         ], 
         elite: [
-            { name: 'Runed staff', min: 4, max: 7, value: 18, skillRequired: ENUM_SKILL_NAMES.spear },
-            { name: 'Wizard staff', min: 5, max: 12, value: 22, skillRequired: ENUM_SKILL_NAMES.spear },
+            { name: 'Runed staff', min: 4, max: 7, value: 18, skillRequired: ENUM_SKILL_NAMES.staff },
+            { name: 'Wizard staff', min: 5, max: 12, value: 22, skillRequired: ENUM_SKILL_NAMES.staff },
 
         ]
     }

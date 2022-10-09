@@ -1,7 +1,8 @@
 const {
     ENUM_ENEMY_TYPE,
     ENUM_GAME_MODE,
-    ENUM_ENEMY_STRENGTH
+    ENUM_ENEMY_STRENGTH,
+    ENUM_ENCOUNTER_ACTION_TYPE
 } = require('../generic/enums')
 const { 
     copyObject,
@@ -12,7 +13,8 @@ const {
     insertInitativeSort,
     advanceRange, 
     escape, 
-    retreatRange } = require('../models/encounter')
+    retreatRange,
+    executeEncounterActions } = require('../models/encounter')
 
 const bMonster = require('../build/monster')
 
@@ -50,6 +52,10 @@ const randomEncounter = (party, options) => {
     while (nextTurn) {
         const actionQueue = setInitiativeOrder(encounter)
         // generate helper fields
+        // short range
+        executeEncounterActions(encounter, actionQueue, ENUM_ENCOUNTER_ACTION_TYPE.MELEE)
+        executeEncounterActions(encounter, actionQueue, ENUM_ENCOUNTER_ACTION_TYPE.RANGED)
+        executeEncounterActions(encounter, actionQueue, ENUM_ENCOUNTER_ACTION_TYPE.MAGIC)
 
 
         nextTurn = false
