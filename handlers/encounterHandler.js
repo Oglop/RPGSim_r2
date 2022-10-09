@@ -3,13 +3,13 @@ const {
     ENUM_GAME_MODE,
     ENUM_ENEMY_STRENGTH
 } = require('../generic/enums')
-
 const { 
     copyObject,
     getRandomNumberInRange
 } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { 
+    insertInitativeSort,
     advanceRange, 
     escape, 
     retreatRange } = require('../models/encounter')
@@ -44,7 +44,19 @@ const randomEncounter = (party, options) => {
         strength: ENUM_ENEMY_STRENGTH.WEAK
     }))
 
-    // generate helper fields
+    // TURN LOOP STARTS
+    let nextTurn = true
+    
+    while (nextTurn) {
+        const actionQueue = setInitiativeOrder(encounter)
+        // generate helper fields
+
+
+        nextTurn = false
+    }
+    
+    // TURN LOOP END
+
 }
 
 

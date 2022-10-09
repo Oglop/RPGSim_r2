@@ -17,21 +17,27 @@ module.exports = {
         },
         routes: []
     },
-    world: {
+    advisor: {
         id: undefined,
+        character: undefined,
+        courtId: undefined
+    },
+    army: {
+        id: undefined,
+        dwellingId: undefined,
         name: undefined,
-        map: undefined,
-        dwellings: [],
-        locations: [],
-        date: undefined,
-        families: [],
-        dead: [],
-        darkness: undefined,
-        events: {
-            history:[],
-            adventure:[]
-        },
-        parties:[]
+        troops: []
+    },
+    court: {
+        id: undefined,
+        dwellingId: undefined,
+        rulerId: undefined,
+        ruler: undefined,
+        monthlyIncome: 0,
+        monthlyExpense: 0,
+        advisors: [],
+        loans: [],
+        projects: []
     },
     character: {
         id: undefined,
@@ -73,59 +79,9 @@ module.exports = {
             body: undefined
         }
     },
-    stats: {
-        str: 0,
-        vit: 0,
-        agi: 0,
-        wis: 0,
-        int: 0,
-        cha: 0,
-        luc: 0
-    },
-    relation: {
-        characterId: undefined,
-        id: undefined,        
-        points: 0
-    },
-    room: {
+    citizens: {
         id: undefined,
-        worldId: undefined,
-        x: 0,
-        y:0,
-        magicWind: 0,
-        elevation: 0,
-        temprature: 0,
-        biome: undefined,
-        dwellingId: undefined,
-        description: undefined,
-        exploreStatus: ENUM_EXPLORE_STATUS.empty,
-    },
-    point: {
-        x: undefined,
-        y: undefined
-    },
-    court: {
-        id: undefined,
-        dwellingId: undefined,
-        rulerId: undefined,
-        ruler: undefined,
-        monthlyIncome: 0,
-        monthlyExpense: 0,
-        advisors: [],
-        loans: [],
-        projects: []
-    },
-    loan: {
-        id: undefined,
-        courtId: undefined,
-        rulerId: undefined,
-        amount: 0,
-        from: undefined,
-    },
-    advisor: {
-        id: undefined,
-        character: undefined,
-        courtId: undefined
+        count: 0
     },
     dwelling: {
         id: undefined,
@@ -178,15 +134,127 @@ module.exports = {
         type: undefined,
         name: undefined
     },
-    citizens: {
-        id: undefined,
-        count: 0
+    dungeon: {
+        id: '',
+        size: '',
+        position: 0,
+        description: undefined,
+        theme: undefined,
+        room: undefined
     },
-    army: {
+    dungeonRoom: {
+        id:'',
+        description: '',
+        door: ENUM_DUNGEON_DOOR_STATUS.NONE,
+        event: undefined
+    },
+    dungeonRoomDoor: {
+        to: undefined
+    },
+    dungeonEventItem: {
+        description: undefined,
+        execute: undefined,
+        status: undefined
+    },
+    date: {
+        year: 0,
+        month: 0,
+        day: 0
+    },
+    encounter: {
         id: undefined,
-        dwellingId: undefined,
+        range: undefined,
+        party: undefined,
+        enemies: []
+    },
+    enemy: {
+        id: undefined,
+        type: undefined,
         name: undefined,
-        troops: []
+        hp: 0,
+        stats: undefined,
+        attacks: []
+
+    },
+    enemyStats: {
+        str:0,
+        agi:0,
+        res:0,
+        int:0
+    },
+    enemyAttack: {
+        min: 0,
+        max: 0,
+        statBase: undefined,
+        name: undefined,
+    },
+    error: {
+        time: undefined,
+        message: undefined,
+        file: undefined,
+        function: undefined,
+        step: undefined
+    },
+    event: {
+        active: true,
+        items: [],
+        output: undefined
+    },
+    eventItem: {
+        description: undefined,
+        language: undefined,
+        execute: undefined,
+        test: undefined,
+        skill: undefined,
+        resolution: 0,
+        resolutionText: undefined
+    },
+    family: {
+        id: undefined,
+        name: undefined,
+        coatOfArms: undefined,
+        ruler: undefined,
+        influence: 0,
+        members: [],
+        dwellingId: undefined
+    },
+    stats: {
+        str: 0,
+        vit: 0,
+        agi: 0,
+        wis: 0,
+        int: 0,
+        cha: 0,
+        luc: 0
+    },
+    relation: {
+        characterId: undefined,
+        id: undefined,        
+        points: 0
+    },
+    room: {
+        id: undefined,
+        worldId: undefined,
+        x: 0,
+        y:0,
+        magicWind: 0,
+        elevation: 0,
+        temprature: 0,
+        biome: undefined,
+        dwellingId: undefined,
+        description: undefined,
+        exploreStatus: ENUM_EXPLORE_STATUS.empty,
+    },
+    point: {
+        x: undefined,
+        y: undefined
+    },
+    loan: {
+        id: undefined,
+        courtId: undefined,
+        rulerId: undefined,
+        amount: 0,
+        from: undefined,
     },
     troop: {
         id: undefined,
@@ -200,15 +268,6 @@ module.exports = {
         characterId: undefined,
         language: undefined,
         mastery: 0
-    },
-    family: {
-        id: undefined,
-        name: undefined,
-        coatOfArms: undefined,
-        ruler: undefined,
-        influence: 0,
-        members: [],
-        dwellingId: undefined
     },
     traits: {
         human: {
@@ -275,28 +334,6 @@ module.exports = {
             cha: 2
         }
     },
-    dungeon: {
-        id: '',
-        size: '',
-        position: 0,
-        description: undefined,
-        theme: undefined,
-        room: undefined
-    },
-    dungeonRoom: {
-        id:'',
-        description: '',
-        door: ENUM_DUNGEON_DOOR_STATUS.NONE,
-        event: undefined
-    },
-    dungeonRoomDoor: {
-        to: undefined
-    },
-    dungeonEventItem: {
-        description: undefined,
-        execute: undefined,
-        status: undefined
-    },
     skill: {
         characterId: undefined,
         name: undefined,
@@ -304,61 +341,14 @@ module.exports = {
         luckTest: false,
         mastery: 0
     },
-    date: {
-        year: 0,
-        month: 0,
-        day: 0
-    },
     language: {
         name: undefined,
         mastery: 0
-    },
-    error: {
-        time: undefined,
-        message: undefined,
-        file: undefined,
-        function: undefined,
-        step: undefined
-    },
-    event: {
-        active: true,
-        items: [],
-        output: undefined
-    },
-    eventItem: {
-        description: undefined,
-        language: undefined,
-        execute: undefined,
-        test: undefined,
-        skill: undefined,
-        resolution: 0,
-        resolutionText: undefined
     },
     god: {
         name: undefined,
         description: undefined,
         type: undefined
-    },
-    enemy: {
-        id: undefined,
-        type: undefined,
-        name: undefined,
-        hp: 0,
-        stats: undefined,
-        attacks: []
-
-    },
-    enemyStats: {
-        str:0,
-        agi:0,
-        res:0,
-        int:0
-    },
-    enemyAttack: {
-        min: 0,
-        max: 0,
-        statBase: undefined,
-        name: undefined,
     },
     item: {
         id: undefined,
@@ -420,11 +410,22 @@ module.exports = {
         type: undefined,
         cost: 0
     },
-    encounter: {
+    world: {
         id: undefined,
-        range: undefined,
-        party: undefined,
-        enemies: []
+        name: undefined,
+        map: undefined,
+        dwellings: [],
+        locations: [],
+        date: undefined,
+        families: [],
+        dead: [],
+        darkness: undefined,
+        events: {
+            history:[],
+            adventure:[]
+        },
+        parties:[]
     }
+    
     
 }

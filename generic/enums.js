@@ -582,5 +582,9 @@ module.exports = {
         FAR: 0,
         LONG: 1,
         SHORT: 2
+    },
+    ENUM_ENCOUNTER_QUEUE_ITEM_TYPE: {
+        HERO: 0,
+        MONSTER: 1
     }
 }

@@ -1,7 +1,9 @@
 const {
-    ENUM_ENCOUNTER_RANGE
+    ENUM_ENCOUNTER_RANGE,
+    ENUM_ENCOUNTER_QUEUE_ITEM_TYPE
 } = require('../generic/enums')
 const { getRandomNumber } = require('../lib/utils')
+const { INITIATIVE_TEST_INCREASE } = require('../generic/statics')
 
 const advanceRange = encounter => {
     switch (encounter.range) {
@@ -28,30 +30,19 @@ const atemptRunAway = encounter => {}
 const setInitiativeOrder = encounter => {
     const queue = []
     for (let member of encounter.party) {
-        // TODO insert sort
-        queue.push({
+        insertInitativeSort(queue, {
             id: member.id,
-            initiative: member.stats.agi + getRandomNumber(10)
+            initiative: member.stats.agi + getRandomNumber(INITIATIVE_TEST_INCREASE),
+            type: ENUM_ENCOUNTER_QUEUE_ITEM_TYPE.HERO
         })
-        insertionSort(queue)
     }
-}
-
-const insertInitativeSort = (queue, item) => {
-    queue.push(item)
-    let n = queue.length;
-        for (let i = 1; i < n; i++) {
-            // Choosing the first element in our unsorted subarray
-            let current = queue[i];
-            // The last element of our sorted subarray
-            let j = i-1; 
-            while ((j > -1) && (current.initiative < queue[j].initiative)) {
-                queue[j+1] = queue[j];
-                j--;
-            }
-            queue[j+1] = current;
-        }
-    return queue;
+    for (let enemy of encounter.enemies) {
+        insertInitativeSort(queue, {
+            id: enemy.id,
+            initiative: enemy.stats.agi + getRandomNumber(INITIATIVE_TEST_INCREASE),
+            type: ENUM_ENCOUNTER_QUEUE_ITEM_TYPE.MONSTER
+        })
+    }
 }
 
 /**
@@ -59,17 +50,18 @@ const insertInitativeSort = (queue, item) => {
  * @param {array} queue 
  * @param {object} item 
  */
-/*const insertInitativeSort = (queue, item) => {
+const insertInitativeSort = (queue, item) => {
     let inserted = false
-    for (let i = 0; i < queue.length; i++) {
-        if (item.initiative < queue[i].initiative) {
+    const n = queue.length
+    for (let i = 0; i < n; i++) {
+        if (item.initiative >= queue[i].initiative) {
             queue.splice(i, 0, item)
+            inserted = true
+            break
         }
     }
-    if (!inserted) {
-        queue.push(item)
-    }
-}*/
+    if (!inserted) { queue.push(item) }
+}
 
 const updateEncounterValues = encounter => {}
 
