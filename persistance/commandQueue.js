@@ -4,6 +4,10 @@ const commands = require('./index').commands
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
 
+/**
+ * 
+ * @param {{command: ENUM_COMMANDS, data: { }}} queue 
+ */
 const executeCommands = async (queue) => {
     if (!(queue instanceof Array)) {
         const o = JSON.parse(JSON.stringify(queue))
