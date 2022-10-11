@@ -66,17 +66,24 @@ const executeEncounterActions = (encounter, actionQueue, encounterActionType) =>
         if (encounterItem.hasActed == 0) {
             encounterItem.hasActed++
             
-            if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.MELEE) {
+            if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.MELEE && encounter.range == ENUM_ENCOUNTER_RANGE.SHORT) {
                 // might use magic
-                const actionTaker = getAliveEncounterItem(encounter, encounterItem)
+                const actionTaker = getObjectByidInArray(actionQueue, encounterItem.id)
+                if (isAlive(actionTaker) && actionTaker.weaponHand.type != ENUM_ITEM_TYPE.BOW) {
+                    const actionReceiver = getAliveEncounterItem(encounter, encounterItem)
+                    if (actionReceiver != undefined)  {
+    
+                    }
+                }
+                
 
-            } else if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.RANGED) {
+            } else if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.RANGED && encounter.range != ENUM_ENCOUNTER_RANGE.SHORT) {
                 // might use magic
-                const actionTaker = getAliveEncounterItem(encounter, encounterItem)
+                const actionReceiver = getAliveEncounterItem(encounter, encounterItem)
 
             } else {
                 // else magic
-                const actionTaker = getAliveEncounterItem(encounter, encounterItem)
+                const actionReceiver = getAliveEncounterItem(encounter, encounterItem)
 
             }
         }
@@ -89,7 +96,6 @@ const executeEncounterActions = (encounter, actionQueue, encounterActionType) =>
  * @param {{ id:string, initiative: number, type: ENUM_ENCOUNTER_QUEUE_ITEM_TYPE, acted: number }} encounterItem 
  */
 const getAliveEncounterItem = (encounter, encounterItem) => {
-    const actionItem = getObjectByidInArray(actionQueue, encounterItem.id)
     if (encounterItem.type == ENUM_ENCOUNTER_QUEUE_ITEM_TYPE.HERO) {
         const enemies = encounter.enemies.filter(e => e.health > 0)
         if (enemies.length > 0) {  
@@ -108,7 +114,7 @@ const getAliveEncounterItem = (encounter, encounterItem) => {
 /**
  * 
  * @param {array} queue 
- * @param {object} item 
+ * @param {{id:string, initiative:number, type: ENUM_ENCOUNTER_QUEUE_ITEM_TYPE, acted: number}} item 
  */
 const insertInitativeSort = (queue, item) => {
     let inserted = false

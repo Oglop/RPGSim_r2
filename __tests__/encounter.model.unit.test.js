@@ -87,4 +87,6 @@ describe('encounter.model', () => {
         expect(queue[3].id).toBe('2')
         expect(queue[4].id).toBe('1')
     })
+
+    test
 })

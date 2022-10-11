@@ -178,6 +178,7 @@ module.exports = {
         type: undefined,
         name: undefined,
         health: 0,
+        statuses: [],
         stats: undefined,
         attacks: []
 
@@ -362,6 +363,8 @@ module.exports = {
         name: undefined,
         use: undefined,
         effect: undefined,
+        min: 0,
+        max: 0,
         value: 0,
         skillRequired: undefined
     },

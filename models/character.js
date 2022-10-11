@@ -3,7 +3,8 @@ const { copyObject, chance, getRandomElementFromArray, getRandomNumberInRange } 
 const { MAX_MARRIAGE_AGE_GAP, 
     MIN_MARRIAGE_AGE,
     MAX_RELATIONS_POINTS,
-    MIN_RELATIONS_POINTS
+    MIN_RELATIONS_POINTS,
+    ENUM_STAT_NAMES
 } = require('../generic/statics')
 const { get } = require('../localization')
 const { logError } = require('../data/errorFile')
@@ -183,7 +184,25 @@ const isAlive = (character) => {
     return true
 }
 
+/**
+ * return value of character stat
+ * @param {ENUM_STAT_NAMES} stat
+ * @returns {Number}
+ */
+const getCharacterStatValue = (character, stat) => {
+    switch (stat) {
+        case ENUM_STAT_NAMES.str: return character.stats.str;
+        case ENUM_STAT_NAMES.agi: return character.stats.agi;
+        case ENUM_STAT_NAMES.vit: return character.stats.vit;
+        case ENUM_STAT_NAMES.int: return character.stats.int;
+        case ENUM_STAT_NAMES.wis: return character.stats.wis;
+        case ENUM_STAT_NAMES.luc: return character.stats.luc;
+        case ENUM_STAT_NAMES.cha: return character.stats.cha;
+    }
+}
+
 module.exports = {
+    getCharacterStatValue,
     validateCharacterCompabilityForMarige,
     setRelation,
     checkOldAgeHealth,
