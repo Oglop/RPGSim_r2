@@ -52,7 +52,6 @@ const randomEncounter = (party, options) => {
     while (nextTurn) {
         const actionQueue = setInitiativeOrder(encounter)
         // generate helper fields
-        // short range
         executeEncounterActions(encounter, actionQueue, ENUM_ENCOUNTER_ACTION_TYPE.MELEE)
         executeEncounterActions(encounter, actionQueue, ENUM_ENCOUNTER_ACTION_TYPE.RANGED)
         executeEncounterActions(encounter, actionQueue, ENUM_ENCOUNTER_ACTION_TYPE.MAGIC)
