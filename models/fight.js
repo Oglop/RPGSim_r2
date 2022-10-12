@@ -1,6 +1,7 @@
 const { ENUM_ENCOUNTER_QUEUE_ITEM_TYPE } = require('../generic/enums')
 const { getRandomNumberInRange } = require('../lib/utils')
-
+const { getCharacterStatValue } = require('./character')
+const { getStatBaseBySkillName } = require('./skill')
 /**
  * 
  * @param {{id:string, stats:{}, name:string }} attacker 
@@ -23,7 +24,9 @@ const attack = (attacker, attackerType, defender) => {
 }
 
 const getAttackFromHero = (character) => {
-    return getRandomNumberInRange(character.weaponHand.min, character.weaponHand.max) + character.stats.str
+    const statBonus = getCharacterStatValue(character, getStatBaseBySkillName(character.weaponHand.skillRequired))
+
+    return getRandomNumberInRange(character.weaponHand.min, character.weaponHand.max) + statBonus
 }
 
 const getAttackFromMonster = (attacker) => {
