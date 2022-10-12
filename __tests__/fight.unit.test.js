@@ -5,6 +5,7 @@ const {
     getDefenceFromHero,
     getDefenceFromMonster
 } = require('../models/fight')
+const { ENUM_SKILL_NAMES } = require('../generic/enums')
 
 const mockMath = Object.create(global.Math);
 mockMath.random = () => 0.5;
@@ -18,7 +19,8 @@ describe('fight', () =>  {
         const character = {
             weaponHand: {
                 min:1,
-                max: 10
+                max: 10,
+                skillRequired: ENUM_SKILL_NAMES.oneHandSword
             },
             stats: {
                 str: 10
