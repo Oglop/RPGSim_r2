@@ -1,8 +1,8 @@
-const m = require('../models/dungeon')
-const b = require('../build/event');
-const buildDungeonRoom = require('../build/dungeonRoom')
-const { ENUM_EVENT_TYPE } = require('../generic/enums')
-const { get } = require('../localization')
+const m = require('../../models/dungeon')
+const b = require('../../build/event');
+const buildDungeonRoom = require('../../build/dungeonRoom')
+const { ENUM_EVENT_TYPE } = require('../../generic/enums')
+const { get } = require('../../localization')
 
 describe('dungeon tests', () => {
     it('should be instance of  function', () => {

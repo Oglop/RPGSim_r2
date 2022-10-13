@@ -1,5 +1,5 @@
-const m = require('../models/adventure')
-const h = require('../handlers/adventureHandler')
+const m = require('../../models/adventure')
+const h = require('../../handlers/adventureHandler')
 
 
 describe('adventure model tests', () => {

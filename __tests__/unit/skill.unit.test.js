@@ -1,9 +1,9 @@
-const m = require('../models/skill')
-const b = require('../build/skill')
-const { copyObject } = require('../lib/utils')
-const objects = require('../generic/objects')
+const m = require('../../models/skill')
+const b = require('../../build/skill')
+const { copyObject } = require('../../lib/utils')
+const objects = require('../../generic/objects')
 const { ENUM_SKILL_NAMES,
-ENUM_STAT_NAMES } = require('../generic/enums')
+ENUM_STAT_NAMES } = require('../../generic/enums')
 
 describe('skill tests', () => {
     test('check party skills', () => {

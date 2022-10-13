@@ -1,5 +1,4 @@
-
-const { build } = require('../build/coatOfArms')
+const { build } = require('../../build/coatOfArms')
 
 describe('build coat of arms', () => {
     test('build should return a string of a coat of arms', () => {

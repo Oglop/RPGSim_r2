@@ -1,9 +1,9 @@
-const b = require('../build/party')
-const m = require('../models/party')
+const b = require('../../build/party')
+const m = require('../../models/party')
 
 const setWorldStartDate = (options) => {
-    const objects = require('../generic/objects')
-    const { copyObject } = require('../lib/utils')
+    const objects = require('../../generic/objects')
+    const { copyObject } = require('../../lib/utils')
     const date = copyObject(objects.date)
     date.year = 0
     date.month = 2

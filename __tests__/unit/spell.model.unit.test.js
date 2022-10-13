@@ -1,8 +1,8 @@
-const { ENUM_SPELLS } = require('../generic/enums')
+const { ENUM_SPELLS } = require('../../generic/enums')
 const {
     partyHasSpell, 
     characterHasSpell
-} = require('../models/spell')
+} = require('../../models/spell')
 
 describe('models.spells', () => {
     test('partyHasSpell should be instance of function', () => {

@@ -1,8 +1,8 @@
-const { ENUM_STAT_NAMES } = require('../generic/enums')
+const { ENUM_STAT_NAMES } = require('../../generic/enums')
 const { 
     attackEffect,
     getEffectScaling
-} = require('../models/monster')
+} = require('../../models/monster')
 
 
 describe('monster model', () => {

@@ -2,10 +2,10 @@ const {
     date,
     textToDate,
     dateToText
-} = require('../lib/time')
+} = require('../../lib/time')
 const {
     copyObject
-} = require('../lib/utils')
+} = require('../../lib/utils')
 
 
 describe('time date test', () => {

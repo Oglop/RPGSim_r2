@@ -1,5 +1,5 @@
 
-const { findShortestPath, resetQuestGoal } = require('../models/pathFinding')
+const { findShortestPath, resetQuestGoal } = require('../../models/pathFinding')
 
 const map = [
     [

@@ -2,10 +2,10 @@ const {
     getDifferentDwelling,
     getDwellingDescription,
     getRaceFromDwellingType
-} = require('../models/dwelling')
-const { ENUM_DWELLINGS, ENUM_RACE_NAMES } = require('../generic/enums')
-const { copyObject } = require('../lib/utils')
-const objects = require('../generic/objects')
+} = require('../../models/dwelling')
+const { ENUM_DWELLINGS, ENUM_RACE_NAMES } = require('../../generic/enums')
+const { copyObject } = require('../../lib/utils')
+const objects = require('../../generic/objects')
 
 describe('dwelling.model tests', () => {
     test('getDifferentDwelling should be an instance of a function', () => {

@@ -1,4 +1,4 @@
-const m = require('../models/map')
+const m = require('../../models/map')
 
 describe('map model', () => {
     test('getDwellingById should be instance of Function', () => {
