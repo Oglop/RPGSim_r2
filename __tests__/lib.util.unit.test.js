@@ -4,7 +4,9 @@ const {
     getRandomElementFromArray,
     point2d,
     isPoint2dInArray,
-    copyObject
+    copyObject,
+    objectToString,
+    stringToObject
 } = require('../lib/utils')
 
 describe('util tests', () => {
@@ -69,4 +71,16 @@ describe('util tests', () => {
         expect(expected.key).toBe(actual.key)
         expect(actual.id).toBeTruthy()
     })
+
+    it('should stringify object and parse string', () => {
+        const a = objectToString(undefined)
+        const b = objectToString({id:'a'})
+        const c = stringToObject(a)
+        const d = stringToObject(b)
+        expect(a).toBe('')
+        expect(b).toBe(`{\"id\":\"a\"}`)
+        expect(c).toBe({})
+        expect(d).toBe({id:'a'})
+    })
+
 })

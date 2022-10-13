@@ -34,7 +34,7 @@ module.exports.getCharacterById = async (id) => {
             head,
             weaponHand,
             shieldHand,
-            body
+            body,
             str,
             vit,
             agi,
@@ -52,13 +52,17 @@ module.exports.getCharacterById = async (id) => {
     })
     const tmp = await stmt.get()
     const character = copyObject(objects.character)
-    return { ...character, ...tmp, birthDate: textToDate(tmp.birthDate), stats: {
-        str: tmp.str, 
-        vit: tmp.vit,
-        agi: tmp.agi,
-        wis: tmp.wis,
-        int: tmp.int,
-        cha: tmp.cha,
-        luc: tmp.luc
-    }}
+    return { ...character, ...tmp, 
+        birthDate: textToDate(tmp.birthDate), 
+        isAlive: (tmp.isAlive == 1) ? true : false, 
+            stats: {
+            str: tmp.str, 
+            vit: tmp.vit,
+            agi: tmp.agi,
+            wis: tmp.wis,
+            int: tmp.int,
+            cha: tmp.cha,
+            luc: tmp.luc
+        }   
+    }
 }
