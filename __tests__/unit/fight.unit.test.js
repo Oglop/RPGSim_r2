@@ -4,8 +4,8 @@ const {
     getAttackFromMonster,
     getDefenceFromHero,
     getDefenceFromMonster
-} = require('../models/fight')
-const { ENUM_SKILL_NAMES } = require('../generic/enums')
+} = require('../../models/fight')
+const { ENUM_SKILL_NAMES } = require('../../generic/enums')
 
 const mockMath = Object.create(global.Math);
 mockMath.random = () => 0.5;

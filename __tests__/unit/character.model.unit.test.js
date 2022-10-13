@@ -1,10 +1,10 @@
 const { 
     getCharacterStatValue ,
     isAlive
-} = require('../models/character')
-const { ENUM_STAT_NAMES } = require('../generic/enums')
-const objects = require('../generic/objects')
-const { copyObject } = require('../lib/utils')
+} = require('../../models/character')
+const { ENUM_STAT_NAMES } = require('../../generic/enums')
+const objects = require('../../generic/objects')
+const { copyObject } = require('../../lib/utils')
 
 const character = {
     stats: {

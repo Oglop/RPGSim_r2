@@ -1,7 +1,7 @@
-const characterBuilder = require('../build/character')
-const { validateCharacterCompabilityForMarige, getTraitDescription } = require('../models/character')
-const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_JOB_NAMES, ENUM_CHARACTER_TRAITS } = require('../generic/enums')
-const { get } = require('../localization')
+const characterBuilder = require('../../build/character')
+const { validateCharacterCompabilityForMarige, getTraitDescription } = require('../../models/character')
+const { ENUM_GENDER, ENUM_RACE_NAMES, ENUM_JOB_NAMES, ENUM_CHARACTER_TRAITS } = require('../../generic/enums')
+const { get } = require('../../localization')
 
 describe('character build', () => {
     it('should return a character', () => {

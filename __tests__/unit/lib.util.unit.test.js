@@ -7,7 +7,7 @@ const {
     copyObject,
     objectToString,
     stringToObject
-} = require('../lib/utils')
+} = require('../../lib/utils')
 
 describe('util tests', () => {
     it('should generate uniqe stringa', () => {
@@ -79,8 +79,8 @@ describe('util tests', () => {
         const d = stringToObject(b)
         expect(a).toBe('')
         expect(b).toBe(`{\"id\":\"a\"}`)
-        expect(c).toBe({})
-        expect(d).toBe({id:'a'})
+        expect(c).toStrictEqual({})
+        expect(d).toStrictEqual({id:'a'})
     })
 
 })

@@ -1,5 +1,5 @@
-const b = require('../build/spell')
-const { ENUM_SPELLS } = require('../generic/enums')
+const b = require('../../build/spell')
+const { ENUM_SPELLS } = require('../../generic/enums')
 
 
 describe('build.spell', () => {

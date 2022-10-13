@@ -2,10 +2,10 @@ const {
     advanceRange,
     retreatRange,
     insertInitativeSort
-} = require('../models/encounter')
+} = require('../../models/encounter')
 const {
     ENUM_ENCOUNTER_RANGE
-} = require('../generic/enums')
+} = require('../../generic/enums')
 describe('encounter.model', () => {
     test('should advance range to short', () => {
         const encounter = {

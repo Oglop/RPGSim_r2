@@ -4,8 +4,8 @@
   "description": "simulation fantasy world",
   "main": "app.js",
   "scripts": {
-    "test": "jest .*.test.js",
-    "unit-test": "jest .*unit.test.js",
+    "test": "jest */*.*.test.js",
+    "unit-test": "jest unit/*.*unit.test.js",
     "integration-test": "jest integration/*.*integration.test.js"
   },
   "repository": {

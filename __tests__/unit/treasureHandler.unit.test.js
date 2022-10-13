@@ -1,4 +1,4 @@
-const { getTreasure, getTreasureValue } = require('../handlers/treasureHandler')
+const { getTreasure, getTreasureValue } = require('../../handlers/treasureHandler')
 
 describe('treasureHandler tests', () => {
     test('getTreasure should be an instance of Function', () => {

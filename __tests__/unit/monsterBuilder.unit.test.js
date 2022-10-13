@@ -1,5 +1,5 @@
-const monsterBuilder = require('../build/monster')
-const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH, ENUM_ENEMY_TYPE, ENUM_GAME_MODE } = require('../generic/enums')
+const monsterBuilder = require('../../build/monster')
+const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH, ENUM_ENEMY_TYPE, ENUM_GAME_MODE } = require('../../generic/enums')
 
 describe('monsterBuilderUnitTests ', () => {
     it('should return a monster object', () => {
