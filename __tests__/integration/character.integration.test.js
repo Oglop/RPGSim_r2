@@ -3,13 +3,18 @@ const {
     ENUM_RACE_NAMES, 
     ENUM_JOB_NAMES, 
     ENUM_CHARACTER_TRAITS, 
+    ENUM_STAT_NAMES,
     ENUM_GODS, 
-    ENUM_COMMANDS 
+    ENUM_COMMANDS,
+    ENUM_HEALTH_STATUS,
+    ENUM_LANGUAGES
 } = require('../../generic/enums')
 const { textToDate } = require('../../lib/time')
 const { migrate } = require('../../persistance').infrastructure
 const { 
-    getCharacterById 
+    getCharacterById,
+    getSkillByCharacterId,
+    getLanguageByCharacterId
 } = require('../../persistance').queries
 const { executeCommands } = require('../../persistance/commandQueue')
 
@@ -30,9 +35,12 @@ const characterStub = () => {
         pregnantTime: 1,
         job: ENUM_JOB_NAMES.cleric,
         race: ENUM_RACE_NAMES.darkElf,
-        languages: ['language'],
-        skills: ['skill'],
-        statuses: ['alive'],
+        languages: [{characterId:'A1', mastery: 10, language: ENUM_LANGUAGES.common}],
+        skills: [
+            {characterId: 'A1', name: 'a1' , statsBase: ENUM_STAT_NAMES.agi, luckTest: true, mastery: 1},
+            {characterId: 'A1', name: 'b1' , statsBase: ENUM_STAT_NAMES.str, luckTest: false, mastery: 10}
+        ],
+        statuses: [ENUM_HEALTH_STATUS.UNCONSCIOUS],
         spells: [],
         birthDate: textToDate('111-2-3'),
         trait: ENUM_CHARACTER_TRAITS.ABOMINATION,
@@ -69,12 +77,23 @@ describe('persistance tests', () => {
     
 
     test('character', async () => {
+        commands = []
         await migrate()
         const stub = characterStub()
-        await executeCommands([ { command: ENUM_COMMANDS.INSERTCHARACTER, data: stub } ])
+
+        commands.push({ command: ENUM_COMMANDS.INSERTCHARACTER, data: stub })
+        stub.skills.forEach(s => {
+            commands.push({ command: ENUM_COMMANDS.INSERTSKILL, data: s })    
+        });
+        stub.languages.forEach(l => {
+            commands.push({ command: ENUM_COMMANDS.INSERTLANGUAGE, data: l })    
+        })
+        await executeCommands(commands)
 
         const character = await getCharacterById('A1')
-
+        character.skills = await getSkillByCharacterId('A1')
+        character.languages = await getLanguageByCharacterId('A1')
+        
         expect(character.name).toBe(stub.name)
         expect(character.title).toBe(stub.title)
         expect(character.description).toBe(stub.description)
@@ -96,5 +115,14 @@ describe('persistance tests', () => {
         expect(character.stats.int).toBe(stub.stats.int)
         expect(character.stats.cha).toBe(stub.stats.cha)
         expect(character.stats.luc).toBe(stub.stats.luc)
+        expect(character.languages[0].language).toBe(ENUM_LANGUAGES.common)
+        expect(character.languages[0].mastery).toBe(10)
+        expect(character.skills.length).toBe(2)
+
+
+        character.stats.str = 99
+        await executeCommands([ { command: ENUM_COMMANDS.UPDATECHARACTER, data: character } ])
+        const updatedCharacter = await getCharacterById('A1')
+        expect(updatedCharacter.stats.str).toBe(99)
     })
 })

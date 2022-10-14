@@ -3,7 +3,7 @@ const objects = require('../../generic/objects')
 const { dateToText } = require('../../lib/time')
 
 module.exports.updateCharacter = async (character) => {
-    const stmt = await DatabaseContext.db.prepare(`UPDATE charachter SET
+    const stmt = await DatabaseContext.db.prepare(`UPDATE character SET
             name = @name,
             family = @family,
             coatOfArms = @coatOfArms,
@@ -42,6 +42,7 @@ module.exports.updateCharacter = async (character) => {
         WHERE
             id = @id;`)
     await stmt.bind({
+        '@id': character.id,
         '@name': character.name,
         '@title': character.title,
         '@description': character.description,

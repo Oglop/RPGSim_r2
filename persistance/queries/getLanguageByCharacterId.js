@@ -21,5 +21,6 @@ module.exports.getLanguageByCharacterId = async (id) => {
         '@characterId': id,
     })
     //const language = copyObject(objects.language)
+    console.log(JSON.stringify(tmp))
     return tmp //{ ...language, ...tmp }
 }
