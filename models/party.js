@@ -167,6 +167,25 @@ const getRandomAliveCharacter = (party) => {
     return party
 }
 
+/**
+ * takes a party and returns string of semicolon seperated id
+ * aaa;bbb;ccc
+ * @param {{
+ *  id: string,
+ *  members: Array
+ * }} party 
+ * @returns {string} members id string
+ */
+const partyMembersToIdString = party => {
+    let ids = ''
+    const n = party.members.length
+    for (let i = 0; i < n; i++) {
+        ids += party.members[i].id
+        if(i < n - 1) {ids+=';'}
+    }
+    return ids
+}
+
 module.exports = {
     checkForRest,
     consumeFood,
@@ -177,5 +196,6 @@ module.exports = {
     restParty,
     exhaustParty,
     removeDeadMembers,
-    getRandomAliveCharacter
+    getRandomAliveCharacter,
+    partyMembersToIdString
 }

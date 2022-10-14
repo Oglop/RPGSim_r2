@@ -6,6 +6,7 @@ const { deleteCharacter } = require('./commands/deleteCharacter')
 const { deleteTrade } = require('./commands/deleteTrade')
 const { deleteTroop } = require('./commands/deleteTroop')
 const { deleteQuest } = require('./commands/deleteQuest')
+const { deleteParty } = require('./commands/deleteParty')
 
 const { insertRoom } = require('./commands/insertRoom')
 const { insertDwelling } = require('./commands/insertDwelling')
@@ -25,6 +26,7 @@ const { insertNpc } = require('./commands/insertNpc')
 const { insertStory } = require('./commands/insertStory')
 const { insertTrade } = require('./commands/insertTrade')
 const { insertQuest } = require('./commands/insertQuest')
+const { insertParty } = require('./commands/insertParty')
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
@@ -39,6 +41,7 @@ const { updateLoan } = require('./commands/updateLoan')
 const { updateRulerInCourt } = require('./commands/updateRulerInCourt')
 const { updateTrade } = require('./commands/updateTrade')
 const { updateQuest } = require('./commands/updateQuest')
+const { updateParty } = require('./commands/updateParty')
 
 const { getCharacterById } = require('./queries/getCharacterById')
 const { getDwellingLocationsByDwellingId } = require('./queries/getDwellingLocationsByDwellingId')
@@ -61,6 +64,7 @@ const { getStory } = require('./queries/getStory')
 const { getTradeByDwellingId } = require('./queries/getTradeByDwellingId')
 const { getQuestById } = require('./queries/getQuestById')
 const { quest } = require('../generic/objects')
+const { getPartyById } = require('./queries/getPartyById')
 
 module.exports = {
     commands: {
@@ -69,6 +73,7 @@ module.exports = {
         deleteTrade: (id) => deleteTrade(id),
         deleteTroop: (id) => deleteTroop(id),
         deleteQuest: (id) => deleteQuest(id),
+        deleteParty: (id) => deleteParty(id),
 
         insertArmy: (army) => insertArmy(army),
         insertAdvisor: (advisor) => insertAdvisor(advisor),
@@ -88,6 +93,7 @@ module.exports = {
         insertTrade: (trade) => insertTrade(trade),
         insertTroop: (troop) => insertTroop(troop),
         insertQuest: (quest) => insertQuest(quest),
+        insertParty: (party) => insertParty(party),
         
         updateCharacter: (character) => updateCharacter(character),
         updateDwelling: (dwelling) => updateDwelling(dwelling),
@@ -101,7 +107,8 @@ module.exports = {
         updateTrade: (trade) => updateTrade(trade),
         updateTroop: (troop) => updateTroop(troop),
         updateWorldDate: (world) => updateWorldDate(world),
-        updateQuest: (quest) => updateQuest(quest)
+        updateQuest: (quest) => updateQuest(quest),
+        updateParty: (party) => updateParty(party)
     },
     queries: {
         getArmyByDwellingId: (dwellingId) => getArmyByDwellingId(dwellingId),
@@ -123,7 +130,8 @@ module.exports = {
         getTradeByDwellingId: (id) => getTradeByDwellingId(id),
         getTroopsByArmyId: (armyId) => getTroopsByArmyId(armyId),
         getWorldById: (id) => getWorldById(id),
-        getQuestById: (id) => getQuestById(id)
+        getQuestById: (id) => getQuestById(id),
+        getPartyById: (id) => getPartyById(id)
     },
     aggregates: {
         
