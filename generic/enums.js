@@ -516,6 +516,8 @@ module.exports = {
         DELETE_TRADE: 'deleteTrade',
         DELETE_TROOP: 'deleteTroop',
         DELETE_QUEST: 'deleteQuest',
+        DELETE_PARTY: 'deleteParty',
+
         INSERTROOM: 'insertRoom',
         INSERTDWELLING: 'insertDwelling',
         INSERT_DWELLING_LOCATION: 'insertDwellingLocation',
@@ -534,6 +536,7 @@ module.exports = {
         INSERT_TRADE: 'insertTrade',
         INSERT_STORY: 'insertStory',
         INSERT_QUEST: 'insertQuest',
+        INSERT_PARTY: 'insertParty',
 
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',
@@ -547,7 +550,8 @@ module.exports = {
         UPDATELOAN: 'updateLoan',
         UPDATERULERINCOURT: 'updateRulerInCourt',
         UPDATE_TRADE: 'updateTrade',
-        UPDATE_QUEST: 'updateQuest'
+        UPDATE_QUEST: 'updateQuest',
+        UPDATE_PARTY: 'updateParty'
     },
     ENUM_STORY_TYPE: {
         WORLD: 0,

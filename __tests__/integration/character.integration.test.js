@@ -74,18 +74,16 @@ const characterMock = () => {
 }
 
 describe('persistance tests', () => {
-    
-
     test('character', async () => {
         commands = []
         await migrate()
-        const characterMock = characterMock()
+        const mock = characterMock()
 
-        commands.push({ command: ENUM_COMMANDS.INSERTCHARACTER, data: characterMock })
-        characterMock.skills.forEach(s => {
+        commands.push({ command: ENUM_COMMANDS.INSERTCHARACTER, data: mock })
+        mock.skills.forEach(s => {
             commands.push({ command: ENUM_COMMANDS.INSERTSKILL, data: s })    
         });
-        characterMock.languages.forEach(l => {
+        mock.languages.forEach(l => {
             commands.push({ command: ENUM_COMMANDS.INSERTLANGUAGE, data: l })    
         })
         await executeCommands(commands)
@@ -94,35 +92,39 @@ describe('persistance tests', () => {
         character.skills = await getSkillByCharacterId('A1')
         character.languages = await getLanguageByCharacterId('A1')
         
-        expect(character.name).toBe(characterMock.name)
-        expect(character.title).toBe(characterMock.title)
-        expect(character.description).toBe(characterMock.description)
-        expect(character.gender).toBe(characterMock.gender)
-        expect(character.birthDate).toStrictEqual(characterMock.birthDate)
-        expect(character.trait).toBe(characterMock.trait)
-        expect(character.age).toBe(characterMock.age)
-        expect(character.health).toBe(characterMock.health)
-        expect(character.maxHealth).toBe(characterMock.maxHealth)
-        expect(character.stamina).toBe(characterMock.stamina)
-        expect(character.maxStamina).toBe(characterMock.maxStamina)
-        expect(character.religion).toBe(characterMock.religion)
-        expect(character.coatOfArms).toBe(characterMock.coatOfArms)
-        expect(character.isAlive).toBe(characterMock.isAlive)
-        expect(character.stats.str).toBe(characterMock.stats.str)
-        expect(character.stats.vit).toBe(characterMock.stats.vit)
-        expect(character.stats.agi).toBe(characterMock.stats.agi)
-        expect(character.stats.wis).toBe(characterMock.stats.wis)
-        expect(character.stats.int).toBe(characterMock.stats.int)
-        expect(character.stats.cha).toBe(characterMock.stats.cha)
-        expect(character.stats.luc).toBe(characterMock.stats.luc)
+        expect(character.name).toBe(mock.name)
+        expect(character.title).toBe(mock.title)
+        expect(character.description).toBe(mock.description)
+        expect(character.gender).toBe(mock.gender)
+        expect(character.birthDate).toStrictEqual(mock.birthDate)
+        expect(character.trait).toBe(mock.trait)
+        expect(character.age).toBe(mock.age)
+        expect(character.health).toBe(mock.health)
+        expect(character.maxHealth).toBe(mock.maxHealth)
+        expect(character.stamina).toBe(mock.stamina)
+        expect(character.maxStamina).toBe(mock.maxStamina)
+        expect(character.religion).toBe(mock.religion)
+        expect(character.coatOfArms).toBe(mock.coatOfArms)
+        expect(character.isAlive).toBe(mock.isAlive)
+        expect(character.stats.str).toBe(mock.stats.str)
+        expect(character.stats.vit).toBe(mock.stats.vit)
+        expect(character.stats.agi).toBe(mock.stats.agi)
+        expect(character.stats.wis).toBe(mock.stats.wis)
+        expect(character.stats.int).toBe(mock.stats.int)
+        expect(character.stats.cha).toBe(mock.stats.cha)
+        expect(character.stats.luc).toBe(mock.stats.luc)
         expect(character.languages[0].language).toBe(ENUM_LANGUAGES.common)
         expect(character.languages[0].mastery).toBe(10)
         expect(character.skills.length).toBe(2)
  
-
         character.stats.str = 99
         await executeCommands([ { command: ENUM_COMMANDS.UPDATECHARACTER, data: character } ])
         const updatedCharacter = await getCharacterById('A1')
         expect(updatedCharacter.stats.str).toBe(99)
+        await executeCommands([ 
+            { command: ENUM_COMMANDS.DELETECHARACTER, data: 'A1' }
+        ])
+        const deletedCharacter = await getCharacterById('A1')
+        expect(deletedCharacter).toBeFalsy()
     })
 })

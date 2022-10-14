@@ -178,6 +178,24 @@ CREATE TABLE trade
     value           integer
 );
 
+CREATE TABLE party
+(
+    id              text,
+    name            text,
+    karma           integer,
+    path            text,
+    state           integer,
+    x               integer,
+    y               integer,
+    questId         text,
+    questStatus     integer,
+    questGoalX      integer,
+    questGoalY      integer,
+    crowns          integer,
+    food            integer,
+    members         text
+);
+
 CREATE TABLE troop
 (
     id          text,
@@ -226,3 +244,4 @@ DROP TABLE trade;
 DROP TABLE story;
 DROP TABLE quest;
 DROP TABLE world;
+DROP TABLE party;
