@@ -20,9 +20,9 @@ module.exports.getSkillByCharacterId = async (id) => {
         '@characterId': id,
     })
     const skills = []
-    tmp.array.forEach(e => {
+    tmp.forEach(e => {
         const skill = copyObject(objects.skill)
-        e.push({
+        skills.push({
             ...skill,
             luckTest: intToBool(e.luckTest)
         })
