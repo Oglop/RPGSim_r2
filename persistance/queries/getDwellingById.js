@@ -30,5 +30,5 @@ module.exports.getDwellingById = async (id) => {
     })
     const tmp = await stmt.get()
     const dwelling = copyObject(objects.dwelling)
-    return { ...dwelling, ...tmp }
+    return tmp ? { ...dwelling, ...tmp } : {}
 }

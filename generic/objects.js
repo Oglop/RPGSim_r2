@@ -342,6 +342,7 @@ module.exports = {
         }
     },
     skill: {
+        id: undefined,
         characterId: undefined,
         name: undefined,
         statsBase: undefined,
@@ -349,6 +350,7 @@ module.exports = {
         mastery: 0
     },
     language: {
+        id: undefined,
         name: undefined,
         mastery: 0
     },
