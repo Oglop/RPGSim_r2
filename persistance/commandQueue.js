@@ -52,6 +52,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.UPDATELOAN: await commands.updateLoan(item.data); break;
                 case ENUM_COMMANDS.UPDATERULERINCOURT: await commands.updateRulerInCourt(item.data); break;
                 case ENUM_COMMANDS.UPDATE_QUEST: await commands.updateQuest(item.data); break;
+                case ENUM_COMMANDS.UPDATE_SKILL: await commands.updateSkill(item.data); break;
                 default: throw Error(`command ${item.command} was not found.`)
             }
         } catch (e) {

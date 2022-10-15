@@ -5,6 +5,7 @@ const { copyObject, intToBool } = require('../../lib/utils')
 module.exports.getSkillByCharacterId = async (id) => {
     const stmt = await DatabaseContext.db.prepare(`
         SELECT
+            id,
             characterId,
             name,
             statsBase,
@@ -23,7 +24,8 @@ module.exports.getSkillByCharacterId = async (id) => {
     tmp.forEach(e => {
         const skill = copyObject(objects.skill)
         skills.push({
-            ...skill,
+            ...skill, 
+            ...e,
             luckTest: intToBool(e.luckTest)
         })
     });

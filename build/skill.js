@@ -1,4 +1,4 @@
-const { copyObject, getRandomNumberInRange } = require('../lib/utils')
+const { copyObject, getRandomNumberInRange, generateID } = require('../lib/utils')
 const { ENUM_SKILL_NAMES, ENUM_STAT_NAMES, ENUM_JOB_NAMES, ENUM_RACE_NAMES } = require('../generic/enums')
 const objects = require('../generic/objects')
 const m = require('../models/skill')
@@ -29,6 +29,7 @@ const setStartMasteryPoints = (c) => {
  */
 const getSkill = skill => {
     const o = copyObject(objects.skill)
+    o.id = generateID()
     switch (skill) {
         case ENUM_SKILL_NAMES.axe:
             o.name = ENUM_SKILL_NAMES.axe
