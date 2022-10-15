@@ -52,7 +52,9 @@ module.exports.getCharacterById = async (id) => {
     })
     const tmp = await stmt.get()
     const character = copyObject(objects.character)
-    return { ...character, ...tmp, 
+    return tmp ? { 
+        ...character, 
+        ...tmp, 
         birthDate: textToDate(tmp.birthDate), 
         isAlive: (tmp.isAlive == 1) ? true : false, 
             stats: {
@@ -64,5 +66,5 @@ module.exports.getCharacterById = async (id) => {
             cha: tmp.cha,
             luc: tmp.luc
         }   
-    }
+    }:{}
 }
