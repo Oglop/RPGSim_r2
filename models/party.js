@@ -13,7 +13,7 @@ const { get } = require('../localization')
 const { executeCommands } = require('../persistance/commandQueue')
 const { getDwellingByCoordinates } = require('./dwelling')
 const { getStoryEntry } = require('../build/story')
-const { getRoomByCoordinates } = require('../persistance').queries
+//const { getRoomByCoordinates } = require('../persistance').queries
 const checkForRest = (party) => {
     if (getPercetage(party.members.length * restThresholdMultiplyer, party.food) <= restThreshold) {
         return true

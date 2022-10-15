@@ -6,7 +6,7 @@ module.exports.deleteCharacter = async (id) => {
         character 
     WHERE
         id = @id
-    );`)
+    ;`)
     await stmt.bind({
         '@id': id,
     })

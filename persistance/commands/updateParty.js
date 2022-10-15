@@ -1,4 +1,4 @@
-const { partyMembersToIdString } = require('../../models/party')
+//const { partyMembersToIdString } = require('../../models/party')
 const { DatabaseContext } = require('../connections')
 module.exports.updateParty = async (party) => {
     const stmt = await DatabaseContext.db.prepare(`UPDATE party SET

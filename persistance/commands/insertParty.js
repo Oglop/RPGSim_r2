@@ -1,5 +1,5 @@
 const { DatabaseContext } = require('../connections')
-const { partyMembersToIdString } = require('../../models/party')
+//const { partyMembersToIdString } = require('../../models/party')
 module.exports.insertParty = async (party) => {
     const stmt = await DatabaseContext.db.prepare(`INSERT INTO party (
         id,
