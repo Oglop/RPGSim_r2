@@ -17,6 +17,6 @@ module.exports.getCourtByDwellingId = async (id) => {
         '@dwellingId': id
     })
     const tmp = await stmt.get()
-    return tmp
+    return tmp ? tmp : {}
     
 }

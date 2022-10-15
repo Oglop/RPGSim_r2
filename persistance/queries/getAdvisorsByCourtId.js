@@ -25,5 +25,5 @@ module.exports.getAdvisorsByCourtId = async (id) => {
             luckTest: intToBool(e.luckTest)
         })
     });*/
-    return tmp
+    return tmp ? tmp : {}
 }

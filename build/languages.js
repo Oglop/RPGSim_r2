@@ -1,5 +1,5 @@
 const { ENUM_LANGUAGES, ENUM_MASTERY_LEVELS, ENUM_RACE_NAMES, ENUM_JOB_NAMES } = require('../generic/enums')
-const { copyObject, chance, getRandomNumberInRange } = require('../lib/utils')
+const { copyObject, chance, getRandomNumberInRange, generateID } = require('../lib/utils')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
  
@@ -15,6 +15,7 @@ const checkAndAddLanguage = (language, lang, level) => {
     if (lang.find(l => l.language === language) === undefined) {
         const m = getMastery(level)
         const l = copyObject(objects.language)
+        l.id = generateID()
         l.mastery = m
         l.language = language
         lang.push(l)
