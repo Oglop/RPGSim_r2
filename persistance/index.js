@@ -42,6 +42,7 @@ const { updateRulerInCourt } = require('./commands/updateRulerInCourt')
 const { updateTrade } = require('./commands/updateTrade')
 const { updateQuest } = require('./commands/updateQuest')
 const { updateParty } = require('./commands/updateParty')
+const { updateSkill } = require('./commands/updateSkill')
 
 const { getCharacterById } = require('./queries/getCharacterById')
 const { getDwellingLocationsByDwellingId } = require('./queries/getDwellingLocationsByDwellingId')
@@ -108,7 +109,8 @@ module.exports = {
         updateTroop: (troop) => updateTroop(troop),
         updateWorldDate: (world) => updateWorldDate(world),
         updateQuest: (quest) => updateQuest(quest),
-        updateParty: (party) => updateParty(party)
+        updateParty: (party) => updateParty(party),
+        updateSkill: (skill) => updateSkill(skill)
     },
     queries: {
         getArmyByDwellingId: (dwellingId) => getArmyByDwellingId(dwellingId),

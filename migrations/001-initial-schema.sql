@@ -151,6 +151,7 @@ CREATE TABLE room
 
 CREATE TABLE skill
 (
+    id              text, 
     characterId     text,
     name            text,
     statsBase       text,

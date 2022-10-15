@@ -551,7 +551,8 @@ module.exports = {
         UPDATERULERINCOURT: 'updateRulerInCourt',
         UPDATE_TRADE: 'updateTrade',
         UPDATE_QUEST: 'updateQuest',
-        UPDATE_PARTY: 'updateParty'
+        UPDATE_PARTY: 'updateParty',
+        UPDATE_SKILL: 'updateSkill'
     },
     ENUM_STORY_TYPE: {
         WORLD: 0,
