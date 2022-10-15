@@ -81,11 +81,14 @@ describe('persistance tests', () => {
 
         commands.push({ command: ENUM_COMMANDS.INSERTCHARACTER, data: mock })
         mock.skills.forEach(s => {
+            console.log(JSON.stringify(s))
             commands.push({ command: ENUM_COMMANDS.INSERTSKILL, data: s })    
         });
         mock.languages.forEach(l => {
+            console.log(JSON.stringify(l))
             commands.push({ command: ENUM_COMMANDS.INSERTLANGUAGE, data: l })    
         })
+
         await executeCommands(commands)
 
         const character = await getCharacterById('A1')

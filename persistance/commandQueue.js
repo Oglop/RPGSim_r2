@@ -32,7 +32,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.INSERTSKILL: await commands.insertSkill(item.data); break;
                 case ENUM_COMMANDS.INSERT_STORY: await commands.insertStory(item.data); break;
                 case ENUM_COMMANDS.INSERTRELATION: await commands.insertRelation(item.data); break;
-                case ENUM_COMMANDS.INSERTPRODUCTION: await commands.insertProduction(item.data); break;(!(queue instanceof Array))(!(queue instanceof Array))
+                case ENUM_COMMANDS.INSERTPRODUCTION: await commands.insertProduction(item.data); break;
                 case ENUM_COMMANDS.INSERTARMY: await commands.insertArmy(item.data); break;
                 case ENUM_COMMANDS.INSERTTROOP: await commands.insertTroop(item.data); break;
                 case ENUM_COMMANDS.INSERTLOAN: await commands.insertLoan(item.data); break;
