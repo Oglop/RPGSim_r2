@@ -186,8 +186,9 @@ module.exports = {
     enemyStats: {
         str:0,
         agi:0,
-        res:0,
-        int:0
+        vit:0,
+        int:0,
+        luc:0
     },
     enemyAttack: {
         min: 0,

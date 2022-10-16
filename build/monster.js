@@ -9,7 +9,7 @@ const enemies = require('../generic/enemies')
 const bAttack = require('../build/enemyAttack')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
-const { setStats, setAttacks } = require('../models/monster')
+const { setAttacks, modifyStats } = require('../models/monster')
 
 /**
  * options {
@@ -29,20 +29,10 @@ module.exports.build = (options) => {
 
         let enemy = copyObject(objects.enemy)
         enemy.id = generateID()
-        let template = {}
-        if (type === ENUM_ENEMY_TYPE.VILE) {
-            template = (strength == ENUM_ENEMY_STRENGTH.WEAK) ? getRandomElementFromArray(enemies.VILE.WEAK) : 
-            (strength == ENUM_ENEMY_STRENGTH.MEDIUM) ? getRandomElementFromArray(enemies.VILE.MEDIUM) :
-            (strength == ENUM_ENEMY_STRENGTH.STRONG) ? getRandomElementFromArray(enemies.VILE.STRONG) : getRandomElementFromArray(enemies.VILE.EPIC)
-        } else if (type === ENUM_ENEMY_TYPE.WILD) {
-            template = (strength == ENUM_ENEMY_STRENGTH.WEAK) ? getRandomElementFromArray(enemies.WILD.WEAK) : 
-            (strength == ENUM_ENEMY_STRENGTH.MEDIUM) ? getRandomElementFromArray(enemies.WILD.MEDIUM) :
-            (strength == ENUM_ENEMY_STRENGTH.STRONG) ? getRandomElementFromArray(enemies.WILD.STRONG) : getRandomElementFromArray(enemies.WILD.EPIC)
-        } else {
-            template = (strength == ENUM_ENEMY_STRENGTH.WEAK) ? getRandomElementFromArray(enemies.ANCIENT.WEAK) : 
-            (strength == ENUM_ENEMY_STRENGTH.MEDIUM) ? getRandomElementFromArray(enemies.ANCIENT.MEDIUM) :
-            (strength == ENUM_ENEMY_STRENGTH.STRONG) ? getRandomElementFromArray(enemies.ANCIENT.STRONG) : getRandomElementFromArray(enemies.ANCIENT.EPIC)
-        }
+        
+        const template = (strength == ENUM_ENEMY_STRENGTH.WEAK) ? getRandomElementFromArray(enemies.TYPES[type].WEAK) : 
+        (strength == ENUM_ENEMY_STRENGTH.MEDIUM) ? getRandomElementFromArray(enemies.TYPES[type].MEDIUM) :
+        (strength == ENUM_ENEMY_STRENGTH.STRONG) ? getRandomElementFromArray(enemies.TYPES[type].STRONG) : getRandomElementFromArray(enemies.TYPES[type].EPIC)
 
         enemy = { ...enemy, ...template }
         // if in history mode we only need to know the name of the enemy
@@ -50,7 +40,7 @@ module.exports.build = (options) => {
             return enemy
         }
         // TODO adventure mode enemy
-        setStats(enemy)
+        modifyStats(enemy)
         setAttacks(enemy)
         return enemy
 

@@ -32,6 +32,15 @@ const route = encounter => {
 
 }
 
+/**
+ * Do melee attack
+ * @param {{ id: string, name: string, health: number, statuses: Array, stats: { str: Number, agu: Number, vit: Number, int: Number, luc: Number }, attacks: Array}} actionTaker 
+ * @param {{ id: string, name: string, health: number, statuses: Array, stats: { str: Number, agu: Number, vit: Number, int: Number, luc: Number }, attacks: Array}} actionReceiver 
+ */
+const meleeAttack = (actionTaker, actionReceiver) => {
+    
+}
+
 const atemptRunAway = encounter => {}
 
 const setInitiativeOrder = encounter => {
@@ -72,7 +81,7 @@ const executeEncounterActions = (encounter, actionQueue, encounterActionType) =>
                 if (isAlive(actionTaker) && actionTaker.weaponHand.type != ENUM_ITEM_TYPE.BOW) {
                     const actionReceiver = getAliveEncounterItem(encounter, encounterItem)
                     if (actionReceiver != undefined)  {
-    
+                        meleeAttack(actionTaker, actionReceiver)
                     }
                 }
                 

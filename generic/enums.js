@@ -342,7 +342,8 @@ module.exports = {
     ENUM_ENEMY_TYPE: {
         VILE:0,
         WILD:1,
-        ANCIENT:2
+        ANCIENT:2,
+        HUMAN: 3
     },
     ENUM_ENEMY_STRENGTH: {
         WEAK:0,

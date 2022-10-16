@@ -18,18 +18,14 @@ const {
 
 const bMonster = require('../build/monster')
 
-
-
-
-
 /**
  * 
  * options: {
  *  enemyType: ENUM_ENEMY_TYPE,
  *  difficultyModifyer: int 0 | 10
  * }
- * @param {object} party 
- * @param {object} options 
+ * @param {{id: string, members:[{id: string, stats: {}}]}} party 
+ * @param {{ enemyType: ENUM_ENEMY_TYPE, difficultyModifyer: Number, enemies: [] }} options 
  */
 const randomEncounter = (party, options) => {
     // build encounter
@@ -38,14 +34,17 @@ const randomEncounter = (party, options) => {
     const enemyType = options.enemyType ? options.enemyType : ENUM_ENEMY_TYPE.WILD
     const difficultyModifyer = options.difficultyModifyer ? options.difficultyModifyer : getRandomNumberInRange(0, 4)
 
-
     // build enemies
-    encounter.enemies.push(bMonster.build({
-        mode: ENUM_GAME_MODE.ADVENTURE,
-        type: enemyType,
-        strength: ENUM_ENEMY_STRENGTH.WEAK
-    }))
-
+    if (options.enemies) {
+        encounter.enemies = options.enemies
+    } else {
+        encounter.enemies.push(bMonster.build({
+            mode: ENUM_GAME_MODE.ADVENTURE,
+            type: enemyType,
+            strength: ENUM_ENEMY_STRENGTH.WEAK
+        }))
+    }
+    
     // TURN LOOP STARTS
     let nextTurn = true
     
