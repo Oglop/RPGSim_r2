@@ -6,10 +6,10 @@ const {
 } = require('../generic/enums')
 const { getRandomElementFromArray, copyObject, generateID, getRandomNumberInRange } = require('../lib/utils')
 const enemies = require('../generic/enemies')
-const bAttack = require('../build/enemyAttack')
+const bAttack = require('./enemyAttack')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
-const { setAttacks, modifyStats } = require('../models/monster')
+const { setAttacks, modifyStats } = require('../models/enemy')
 
 /**
  * options {

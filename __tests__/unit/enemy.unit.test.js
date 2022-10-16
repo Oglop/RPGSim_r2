@@ -5,7 +5,7 @@ const {
 } = require('../../generic/enums')
 const enemyAttackBuilder = require('../../build/enemyAttack')
 const { getRandomNumberInRange } = require('../../lib/utils')
-const b = require('../../build/monster')
+const b = require('../../build/enemy')
 
 describe('enemy attack tests', () => {
     test('get hit attack', () =>  {
@@ -15,7 +15,7 @@ describe('enemy attack tests', () => {
         expect(value).toBeGreaterThanOrEqual(a.min)
         expect(value).toBeLessThanOrEqual(a.max)
     })
-    test('build should return a vile monster', () => {
+    test('build should return a vile enemy', () => {
         const actual = b.build({
             type: ENUM_ENEMY_TYPE.VILE,
             strength: ENUM_ENEMY_STRENGTH.WEAK
