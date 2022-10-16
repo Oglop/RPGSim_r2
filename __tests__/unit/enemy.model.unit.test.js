@@ -2,7 +2,7 @@ const { ENUM_STAT_NAMES } = require('../../generic/enums')
 const { 
     attackEffect,
     getEffectScaling
-} = require('../../models/monster')
+} = require('../../models/enemy')
 
 
 describe('monster model', () => {

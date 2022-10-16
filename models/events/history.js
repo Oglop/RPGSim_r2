@@ -22,7 +22,7 @@ const {
     getRandomAlivePerson } = require('../family')
 const { personalityDealsWith } = require('../personality')
 const { getSeason } = require('../../lib/time')
-const monsterBuilder = require('../../build/monster')
+const monsterBuilder = require('../../build/enemy')
 const charachterBuilder = require('../../build/character')
 const familyBuilder = require('../../build/families')
 const { event, world } = require('../../generic/objects')

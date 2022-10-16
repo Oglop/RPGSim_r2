@@ -15,7 +15,7 @@ const { ENUM_EVENT_TYPE, ENUM_ENEMY_STRENGTH,
 } = require('../../generic/enums')
 const { personalityDealsWith } = require('../personality')
 const { getSeason } = require('../../lib/time')
-const bMonster = require('../../build/monster')
+const bMonster = require('../../build/enemy')
 const bCharacter = require('../../build/character')
 const objects = require('../../generic/objects')
 const { Output } = require('../../output/output')
