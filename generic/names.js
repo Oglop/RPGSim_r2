@@ -169,7 +169,17 @@ const dwellingNamePrefixes = [
     'West',
     'North',
     'South',
-    'Low'
+    'Low',
+    'Upper',
+    'Grand'
+]
+
+const dwellingNamePostFixes = [
+    'burg',
+    'heim',
+    'rock',
+    'river',
+    'borg'
 ]
 
 const dwellingNames = [
@@ -203,6 +213,8 @@ const dwellingNames = [
     'Onteroch',
     'Perion',
     'Puntorlo',
+    'Qurio',
+    'Qazad',
     'Rindolias',
     'Ross',
     'Sindas',
@@ -247,7 +259,9 @@ const dwellingNames = [
     'Spheros',
     'Siattro',
     'Tressios',
-    'Tuno'
+    'Tuno',
+    'Turi',
+    'Modran'
 
 ]
 
@@ -322,6 +336,22 @@ const getDwellingName = () => {
     return getRandomElementFromArray(dwellingNames)
 }
 
+const getVileNames = () => {
+    const names = [
+        'Ashtrok',
+        'Akkru',
+        'Brrok',
+        'Bakku',
+        'Chruz',
+        'Chraz',
+        'Drok',
+        'Drekk',
+        'Ekklo'
+    ]
+    return getRandomElementFromArray(names)
+
+}
+
 module.exports = {
-    getPersonName, getFamilyName, getDwellingName, getLandmarkName
+    getPersonName, getFamilyName, getDwellingName, getLandmarkName, getVileNames
 }
