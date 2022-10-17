@@ -3,7 +3,8 @@ const {
     ENUM_ENEMY_TYPE, 
     ENUM_ENEMY_STRENGTH,
     ENUM_ENEMY_ATTACK,
-    ENUM_STAT_NAMES
+    ENUM_STAT_NAMES,
+    ENUM_ENCOUNTER_ACTION
 } = require('../generic/enums')
 const enemies = require('../generic/enemies')
 const bAttack = require('../build/enemyAttack')
@@ -68,12 +69,11 @@ const modifyStats = enemy => {
  */
  const setAttacks = (enemy) => {
     if (enemy.name == 'goblin') {
-        enemy.attacks.push(bAttack.build(ENUM_ENEMY_ATTACK.HIT))
+        enemy.actions.push(bAttack.build(ENUM_ENCOUNTER_ACTION.ATTACK))
     } else if (enemy.name == 'orc') {
-        enemy.attacks.push(bAttack.build(ENUM_ENEMY_ATTACK.HIT))
+        enemy.actions.push(bAttack.build(ENUM_ENCOUNTER_ACTION.ATTACK))
     } else if (enemy.name == 'troll') {
-        enemy.attacks.push(bAttack.build(ENUM_ENEMY_ATTACK.HIT))
-        enemy.attacks.push(bAttack.build(ENUM_ENEMY_ATTACK.SMASH))
+        enemy.actions.push(bAttack.build(ENUM_ENCOUNTER_ACTION.ATTACK))
     }
 }
 

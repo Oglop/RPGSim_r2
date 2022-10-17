@@ -2,13 +2,17 @@ const {
     ENUM_ENCOUNTER_RANGE,
     ENUM_ENCOUNTER_QUEUE_ITEM_TYPE,
     ENUM_ENCOUNTER_ACTION_TYPE,
-    ENUM_ITEM_TYPE
+    ENUM_ITEM_TYPE,
+    ENUM_ENCOUNTER_ACTION
 } = require('../generic/enums')
 const { 
     getRandomNumber, 
     getObjectByidInArray,
     getRandomElementFromArray
 } = require('../lib/utils')
+const {
+    validate
+} = require('./encounterRulesEngine/encounterEngine')
 const { INITIATIVE_TEST_INCREASE } = require('../generic/statics')
 const { isAlive } = require('./character')
 
@@ -71,31 +75,19 @@ const setInitiativeOrder = encounter => {
  */
 const executeEncounterActions = (encounter, actionQueue, encounterActionType) => {
     for (encounterItem of actionQueue) {
-        // == 0 but could be multiple?
-        if (encounterItem.hasActed == 0) {
+        const source = getObjectByidInArray(actionQueue, encounterItem.id)
+        const action = validate(source, encounterActionType)
+        if (action.type != ENUM_ENCOUNTER_ACTION.PASS) {
             encounterItem.hasActed++
-            
-            if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.MELEE && encounter.range == ENUM_ENCOUNTER_RANGE.SHORT) {
-                // might use magic
-                const actionTaker = getObjectByidInArray(actionQueue, encounterItem.id)
-                if (isAlive(actionTaker) && actionTaker.weaponHand.type != ENUM_ITEM_TYPE.BOW) {
-                    const actionReceiver = getAliveEncounterItem(encounter, encounterItem)
-                    if (actionReceiver != undefined)  {
-                        meleeAttack(actionTaker, actionReceiver)
-                    }
+            action.execute(source, encounter)
+            /*if (isAlive(source) && source.weaponHand.type != ENUM_ITEM_TYPE.BOW) {
+                const target = getAliveEncounterItem(encounter, encounterItem)
+                if (target != undefined)  {
+                    
                 }
-                
-
-            } else if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.RANGED && encounter.range != ENUM_ENCOUNTER_RANGE.SHORT) {
-                // might use magic
-                const actionReceiver = getAliveEncounterItem(encounter, encounterItem)
-
-            } else {
-                // else magic
-                const actionReceiver = getAliveEncounterItem(encounter, encounterItem)
-
-            }
+            }*/
         }
+
     }
 }
 

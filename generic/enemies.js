@@ -1,25 +1,25 @@
-const { ENUM_ENEMY_TYPE  } = require('./enums')
+const { ENUM_ENEMY_TYPE, ENUM_ENCOUNTER_ACTION } = require('./enums')
 module.exports = {
     TYPES: {
         VILE: {
             WEAK: [
                 {
-                    name: 'goblin', type: ENUM_ENEMY_TYPE.VILE, health: 6, stats: { str: 3, agi: 7, vit: 2, int: 3, luc: 6 }, attacks: [], statuses: []
+                    name: 'goblin', type: ENUM_ENEMY_TYPE.VILE, health: 6, stats: { str: 3, agi: 7, vit: 2, int: 3, luc: 6 }, actions: [ ENUM_ENCOUNTER_ACTION.ATTACK] , statuses: []
                 }
             ],
             MEDIUM: [
                 {
-                    name: 'orc', type: ENUM_ENEMY_TYPE.VILE, health: 8, stats: { str: 5, agi: 5, vit: 4, int: 3, luc: 2 }, attacks: [], statuses: []
+                    name: 'orc', type: ENUM_ENEMY_TYPE.VILE, health: 8, stats: { str: 5, agi: 5, vit: 4, int: 3, luc: 2 }, attacks: [ ENUM_ENCOUNTER_ACTION.ATTACK ], statuses: []
                 }
             ],
             STRONG: [
                 {
-                    name: 'troll', type: ENUM_ENEMY_TYPE.VILE, health: 6, stats: { str: 3, agi: 7, vit: 2, int: 3, luc: 6 }, attacks: [], statuses: []
+                    name: 'troll', type: ENUM_ENEMY_TYPE.VILE, health: 6, stats: { str: 3, agi: 7, vit: 2, int: 3, luc: 6 }, attacks: [ ENUM_ENCOUNTER_ACTION.ATTACK ], statuses: []
                 }
             ],
             EPIC: [
                 {
-                    name: 'giant', type: ENUM_ENEMY_TYPE.VILE, health: 6, stats: { str: 3, agi: 7, vit: 2, int: 3, luc: 6 }, attacks: [], statuses: []
+                    name: 'giant', type: ENUM_ENEMY_TYPE.VILE, health: 6, stats: { str: 3, agi: 7, vit: 2, int: 3, luc: 6 }, attacks: [ ENUM_ENCOUNTER_ACTION.ATTACK ], statuses: []
                 }
             ]
         },
