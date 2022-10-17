@@ -598,6 +598,17 @@ module.exports = {
         RANGED: 1,
         MAGIC: 2
     },
+    ENUM_ENCOUNTER_ACTION: {
+        PASS: 0,
+        ATTACK: 1,
+        DEFEND: 2,
+        FLEE: 3
+    },
+    ENUM_ENCOUNTER_RULE: {
+        ATTACK: 0,
+        DEFEND: 1,
+        FLEE: 2
+    },
     ENUM_HEALTH_STATUS: {
         UNCONSCIOUS: 0
     }

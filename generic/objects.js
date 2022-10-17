@@ -180,7 +180,7 @@ module.exports = {
         health: 0,
         statuses: [],
         stats: undefined,
-        attacks: []
+        actions: []
 
     },
     enemyStats: {
