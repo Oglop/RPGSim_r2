@@ -28,6 +28,14 @@ class NoAliveCharacterInArray extends Error {
     }
 }
 
+class EncounterEndedError extends Error {
+    constructor(error) {
+        super(error.message);
+        this.data = { error };
+        this.message = error;
+    }
+}
+
 module.exports = {
     NoPositionAvailableError,
     WorldGenerationFailedError,
