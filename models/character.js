@@ -208,5 +208,6 @@ module.exports = {
     getTraitDescription,
     getCharacterWithTrait,
     restCharacter,
-    isAlive
+    isAlive,
+    isCritical
 }

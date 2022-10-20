@@ -13,6 +13,7 @@ const getRules = (source) => {
     source.actions.forEach(action => {
         switch (action) {
             case ENUM_ENCOUNTER_ACTION.ATTACK: rules.push(ENUM_ENCOUNTER_RULE.ATTACK); break;
+            case ENUM_ENCOUNTER_ACTION.DEFEND: rules.push(ENUM_ENCOUNTER_RULE.DEFEND); break;
         }
     });
     return rules
