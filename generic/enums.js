@@ -610,6 +610,7 @@ module.exports = {
         FLEE: 2
     },
     ENUM_HEALTH_STATUS: {
-        UNCONSCIOUS: 0
+        UNCONSCIOUS: 0,
+        BERZERK: 1,
     }
 }
