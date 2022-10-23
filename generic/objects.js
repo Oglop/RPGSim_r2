@@ -178,6 +178,7 @@ module.exports = {
         type: undefined,
         name: undefined,
         health: 0,
+        maxHealth: 0,
         statuses: [],
         stats: undefined,
         actions: []
