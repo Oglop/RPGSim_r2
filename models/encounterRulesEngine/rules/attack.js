@@ -6,11 +6,12 @@ const { logError } = require('../../../data/errorFile')
 
 /**
  * return true if source are able to make attack
- * @param {{}} source 
+ * @param {{statuses[], health: Number, maxHealth: Number, equipment:{}}} source 
  * @param {ENUM_ENCOUNTER_ACTION_TYPE} encounterActionType 
  */
-const process = (source, encounterActionType) => {
+ module.exports.process = (source, encounterActionType) => {
     try {
+        if ( source.statuses.find(s => s == ENUM_HEALTH_STATUS.UNCONSCIOUS) != undefined ) { return false }
         if (encounterActionType == ENUM_ENCOUNTER_ACTION_TYPE.MELEE && source.equipment.weaponHand.type == ENUM_ITEM_TYPE.BOW) { return false }
         if ( source.statuses.find(s => s == ENUM_HEALTH_STATUS.BERZERK) != undefined ) { return true }
         const healthPercentage = (source.health / source.maxHealth) * 100
@@ -25,5 +26,3 @@ const process = (source, encounterActionType) => {
         logError(err)
     }
 }
-
-module.exports = { process }

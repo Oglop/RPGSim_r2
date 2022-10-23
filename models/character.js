@@ -200,6 +200,10 @@ const getCharacterStatValue = (character, stat) => {
     }
 }
 
+const isCritical = (character) => {
+    return ((character.health / character.maxHealth) * 100 < 10)
+}
+
 module.exports = {
     getCharacterStatValue,
     validateCharacterCompabilityForMarige,
