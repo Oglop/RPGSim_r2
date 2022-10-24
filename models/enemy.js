@@ -3,8 +3,7 @@ const {
     ENUM_ENEMY_TYPE, 
     ENUM_ENEMY_STRENGTH,
     ENUM_ENEMY_ATTACK,
-    ENUM_STAT_NAMES,
-    ENUM_ENCOUNTER_ACTION
+    ENUM_STAT_NAMES
 } = require('../generic/enums')
 const enemies = require('../generic/enemies')
 const bAttack = require('../build/enemyAttack')
@@ -66,7 +65,7 @@ const modifyStats = enemy => {
 /**
  * push attack objects to enemy object
  * @param {object} enemy 
- */
+
  const setAttacks = (enemy) => {
     if (enemy.name == 'goblin') {
         enemy.actions.push(bAttack.build(ENUM_ENCOUNTER_ACTION.ATTACK))
@@ -75,7 +74,7 @@ const modifyStats = enemy => {
     } else if (enemy.name == 'troll') {
         enemy.actions.push(bAttack.build(ENUM_ENCOUNTER_ACTION.ATTACK))
     }
-}
+} */
 
 const getEffectScaling = (enemy, action) => {
     let stat = 1

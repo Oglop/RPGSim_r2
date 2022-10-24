@@ -70,6 +70,7 @@ module.exports = {
         personality: undefined,
         relationships: [],
         history: [],
+        encounterRules: [],
         isAlive: true,
         diedFrom:undefined,
         equipment: {

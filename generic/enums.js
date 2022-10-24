@@ -70,7 +70,8 @@ module.exports = {
         darkElf: 'Dark elf',
         woodElf: 'Wood elf',
         halfling: 'Halfling',
-        dwarf: 'Dwarf'
+        dwarf: 'Dwarf',
+        enemy: 'Enemy'
     },
     ENUM_EQUIPMENT_TYPE: {
         oneHandSword: 'one hand sword',
@@ -598,16 +599,11 @@ module.exports = {
         RANGED: 1,
         MAGIC: 2
     },
-    ENUM_ENCOUNTER_ACTION: {
+    ENUM_ENCOUNTER_RULE: {
         PASS: 0,
         ATTACK: 1,
         DEFEND: 2,
         FLEE: 3
-    },
-    ENUM_ENCOUNTER_RULE: {
-        ATTACK: 0,
-        DEFEND: 1,
-        FLEE: 2
     },
     ENUM_HEALTH_STATUS: {
         UNCONSCIOUS: 0,

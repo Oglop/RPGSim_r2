@@ -1,9 +1,13 @@
 const attack = require('../../models/encounterRulesEngine/rules/attack')
+const pass = require('../../models/encounterRulesEngine/rules/pass')
 const { ENUM_HEALTH_STATUS, ENUM_ENCOUNTER_ACTION_TYPE, ENUM_ITEM_TYPE } = require('../../generic/enums')
 
 describe('modles.encounterRulesEngine.rules.unit.test', () => {
     test('attack.process should be instance of a  function', () => {
         expect(attack.process).toBeInstanceOf(Function)
+    })
+    test('pass.process should be instance of a  function', () => {
+        expect(pass.process).toBeInstanceOf(Function)
     })
 
     test('attack.process should should return true if character is berzerk', () => {
@@ -68,6 +72,20 @@ describe('modles.encounterRulesEngine.rules.unit.test', () => {
             maxHealth:100
         }
         const actual = attack.process(source, ENUM_ENCOUNTER_ACTION_TYPE.MELEE)
+        expect(actual).toBe(true)
+    })
+    test('pass.process should should return true', () => {
+        const source = {
+            statuses: [],
+            equipment:{
+                weaponHand: {
+                    type: ENUM_ITEM_TYPE.AXE
+                }
+            },
+            health: 100,
+            maxHealth:100
+        }
+        const actual = pass.process(source, ENUM_ENCOUNTER_ACTION_TYPE.MELEE)
         expect(actual).toBe(true)
     })
 })
