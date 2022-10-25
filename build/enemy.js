@@ -11,6 +11,22 @@ const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
 const { modifyStats } = require('../models/enemy')
 
+
+
+/**
+ * returns type of enemy 
+ * @param {ENUM_ENEMY_TYPE} type 
+ * @returns {string} type
+ */
+const getTypeName = type => {
+    switch (type) {
+        case ENUM_ENEMY_TYPE.VILE: return 'VILE';
+        case ENUM_ENEMY_TYPE.ANCIENT: return 'ANCIENT';
+        case ENUM_ENEMY_TYPE.WILD: return 'WILD';
+        case ENUM_ENEMY_TYPE.HOSTILE: return 'HOSTILE';
+    }
+}
+
 /**
  * options {
  *  ?mode: ENUM_GAME_MODE = ENUM_GAME_MODE.ADVENTURE
@@ -18,22 +34,21 @@ const { modifyStats } = require('../models/enemy')
  * ?strength: ENUM_ENEMY_STRENGTH = ENUM_ENEMY_STRENGTH.WEAK
  * }
  * 
- * @param {Object} options 
- * @returns {Object} enemy
+ * @param {{ mode: ENUM_GAME_MODE, type: ENUM_ENEMY_TYPE, strength: ENUM_ENEMY_STRENGTH }} options 
+ * @returns {{id:string, name:string, stats: {}}} enemy
  */
 module.exports.build = (options) => {
     try {
         const mode = (options.mode || options.mode == 0) ? options.mode : ENUM_GAME_MODE.ADVENTURE
         const type = (options.type || options.type == 0) ? options.type : ENUM_ENEMY_TYPE.WILD
         const strength = (options.strength || options.strength == 0) ? options.strength : ENUM_ENEMY_STRENGTH.WEAK
-
-        let enemy = copyObject(objects.enemy)
-        enemy.id = generateID()
         
-        const template = (strength == ENUM_ENEMY_STRENGTH.WEAK) ? getRandomElementFromArray(enemies.TYPES[type].WEAK) : 
-        (strength == ENUM_ENEMY_STRENGTH.MEDIUM) ? getRandomElementFromArray(enemies.TYPES[type].MEDIUM) :
-        (strength == ENUM_ENEMY_STRENGTH.STRONG) ? getRandomElementFromArray(enemies.TYPES[type].STRONG) : getRandomElementFromArray(enemies.TYPES[type].EPIC)
+        let enemy = copyObject(objects.character)
+        enemy.id = generateID()
 
+        const template = (strength == ENUM_ENEMY_STRENGTH.WEAK) ? getRandomElementFromArray(enemies.TYPES[getTypeName(type)].WEAK) : 
+        (strength == ENUM_ENEMY_STRENGTH.MEDIUM) ? getRandomElementFromArray(enemies.TYPES[getTypeName(type)].MEDIUM) :
+        (strength == ENUM_ENEMY_STRENGTH.STRONG) ? getRandomElementFromArray(enemies.TYPES[getTypeName(type)].STRONG) : getRandomElementFromArray(enemies.TYPES[getTypeName(type)].EPIC)
         enemy = { ...enemy, ...template }
         // if in history mode we only need to know the name of the enemy
         if (mode ==  ENUM_GAME_MODE.HISTORY) {
@@ -41,9 +56,8 @@ module.exports.build = (options) => {
         }
         // TODO adventure mode enemy
         modifyStats(enemy)
-        setAttacks(enemy)
+        //setAttacks(enemy)
         return enemy
-
     } catch (e) {
         const err = objects.error
         err.file = __filename

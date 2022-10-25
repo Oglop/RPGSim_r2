@@ -1,7 +1,9 @@
 const { 
     ENUM_ENEMY_ATTACK, 
     ENUM_ENEMY_TYPE,
-    ENUM_ENEMY_STRENGTH
+    ENUM_ENEMY_STRENGTH,
+    ENUM_GAME_MODE,
+    ENUM_RACE_NAMES
 } = require('../../generic/enums')
 const enemyAttackBuilder = require('../../build/enemyAttack')
 const { getRandomNumberInRange } = require('../../lib/utils')
@@ -15,11 +17,16 @@ describe('enemy attack tests', () => {
         expect(value).toBeGreaterThanOrEqual(a.min)
         expect(value).toBeLessThanOrEqual(a.max)
     })
+
     test('build should return a vile enemy', () => {
+        const mockMath = Object.create(global.Math);
+        mockMath.random = () => 0.0;
+        global.Math = mockMath;
         const actual = b.build({
-            type: ENUM_ENEMY_TYPE.VILE,
-            strength: ENUM_ENEMY_STRENGTH.WEAK
+            mode: ENUM_GAME_MODE.HISTORY,
+            strength: ENUM_ENEMY_STRENGTH.WEAK,
+            type: ENUM_ENEMY_TYPE.VILE
         })
-        expect(actual.hp).toBeGreaterThan(0)
+        expect(actual.race).toBe(ENUM_RACE_NAMES.vile)
     })
 })
