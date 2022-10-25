@@ -755,7 +755,7 @@ const startConstruction = async (dwelling) => {
  */
 const goPlunder = async (dwelling, world) => {
     const commands = []
-    const target = getDifferentDwelling(world.dwellings)
+    const target = getDifferentDwelling(world.dwellings, dwelling)
     const targetPercentage = Math.floor(target.citizens * 0.01)
 
     let gold = getRandomNumberInRange(targetPercentage * 1, targetPercentage * 3)

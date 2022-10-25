@@ -28,16 +28,17 @@ const hasOngoingProject = (dwelling) => {
 
 /**
  * returns a
- * @param {array} dwellings 
- * @param {string} id 
- * @returns 
+ * @param {[{ id: string }]} dwellings 
+ * @param {{ id: string }} dwelling 
+ * @returns {{ id: string, x:number, y:number }} dwelling
  */
-const getDifferentDwelling = (dwellings, id) => {
-    let dwelling = { id }
-    while (dwelling.id == id) {
-        dwelling = getRandomElementFromArray(dwellings)
+ const getDifferentDwelling = (dwellings, dwelling) => {
+    const id = dwelling.id
+    let newDwelling = dwelling
+    while (newDwelling.id == id) {
+        newDwelling = getRandomElementFromArray(dwellings)
     }
-    return dwelling
+    return newDwelling
 }
 
 

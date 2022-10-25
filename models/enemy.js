@@ -118,7 +118,6 @@ const attack = (enemy, party) => {
 
 module.exports = {
     setStats,
-    setAttacks,
     attack,
     getEffectScaling,
     attackEffect,
