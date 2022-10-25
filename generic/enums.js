@@ -71,7 +71,10 @@ module.exports = {
         woodElf: 'Wood elf',
         halfling: 'Halfling',
         dwarf: 'Dwarf',
-        enemy: 'Enemy'
+        vile: 'Vile',
+        wild: 'Wild',
+        ancient: 'Ancient',
+        hostile: 'Hostile'
     },
     ENUM_EQUIPMENT_TYPE: {
         oneHandSword: 'one hand sword',
@@ -344,7 +347,7 @@ module.exports = {
         VILE:0,
         WILD:1,
         ANCIENT:2,
-        HUMAN: 3
+        HOSTILE: 3
     },
     ENUM_ENEMY_STRENGTH: {
         WEAK:0,
@@ -608,5 +611,6 @@ module.exports = {
     ENUM_HEALTH_STATUS: {
         UNCONSCIOUS: 0,
         BERZERK: 1,
+        REGENERATE: 2
     }
 }

@@ -28,7 +28,7 @@ const traverseDungeon = (dungeonRoom, dungeon) => {
     return getObjectByidInArray(dungeon.rooms, dungeonRoom.door.to)
 }
 
-const getFirstdungeonRoom = dungeon => {
+const getFirstDungeonRoom = dungeon => {
     return getObjectByidInArray(dungeon.rooms, 'start') 
 }
 
@@ -108,5 +108,5 @@ module.exports = {
     traverseDungeon,
     resolveRoom,
     resolveDoor,
-    getFirstdungeonRoom
+    getFirstDungeonRoom
 }

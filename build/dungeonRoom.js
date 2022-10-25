@@ -7,7 +7,6 @@ const {
 const objects = require('../generic/objects')
 const { 
     ENUM_EVENT_TYPE,
-    ENUM_DUNGEON_THEMES,
     ENUM_DUNGEON_ROOM_TYPE
 } = require('../generic/enums')
 const { get } = require('../localization')
