@@ -9,7 +9,7 @@ const enemies = require('../generic/enemies')
 const bAttack = require('./enemyAttack')
 const objects = require('../generic/objects')
 const { logError } = require('../data/errorFile')
-const { setAttacks, modifyStats } = require('../models/enemy')
+const { modifyStats } = require('../models/enemy')
 
 /**
  * options {
