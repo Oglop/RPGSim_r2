@@ -40,6 +40,7 @@ const getHistoryEvent = (event, world, options) => {
 const getDungeonEvent = (options) => {
     const i = getRandomNumber(1)
     switch(i) {
+        case 0: return flickeringLights();
         case 1: return flickeringLights();
     }
 }
@@ -79,9 +80,9 @@ const getTravelEvent = (event, world, options) => {
 /**
  * 
  * 
- * @param {Object} world 
+ * @param {{id:string, map: Array}} world 
  * @param {ENUM_EVENT_TYPE} eventType 
- * @param {Obejct} options 
+ * @param {{}} options 
  * 
  * @returns {Object} event
  */

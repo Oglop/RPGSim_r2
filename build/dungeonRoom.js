@@ -41,16 +41,14 @@ const eventBuilder = require('./event')
     return get('dungeon-room-description', [ roomSize, roomType ])
 }
 
-module.exports.build = (output) => {
+module.exports.build = () => {
     // world, output, eventType, options
     const r = copyObject(objects.dungeonRoom)
     r.description = getDungeonRoomType()
     const e = eventBuilder.build(undefined, 
-        output, 
         ENUM_EVENT_TYPE.DUNGEON,
         { }
     )
-    
     r.event = e
     return r
 }
