@@ -4,6 +4,24 @@ jest.mock('../../persistance/commandQueue', () => {
     executeCommands: async (command,data) => {}
 })
 
+const worldMock = {
+    map: [
+        [{}, {}, {}],
+        [{}, { dwellingId: '123' }, {}],
+        [{}, {}, {}],
+    ],
+    dwellings: [
+        {
+            id: '123',
+            name: 'name',
+            x: 1,
+            y: 1,
+            type: 0,
+            inhabited: true
+        }
+    ]
+}
+
 
 describe('party.model.unit.test', () => {
     test('isInDwellng should be instance of a funtion', () => {
@@ -11,54 +29,27 @@ describe('party.model.unit.test', () => {
     })
     
     test('isInDwellng should return true when party is in dwelling', async () => {
-        const outputMock = {
-            print: () => {}
-        }
-        const worldMock = {
-            map: [
-                [{}, {}, {}],
-                [{}, { dwelling: {
-                    id: '123',
-                    name: 'name',
-                    type: 0,
-                    inhabited: true
-                } }, {}],
-                [{}, {}, {}],
-            ]
-        }
+
         const partyMock = {
             id: 'abc',
             name:  'abc and party',
             karma: 0,
             members: [],
             path: [],
-            position: { x: 1, y: 1 },
+            position:
+            { x: 1, y: 1 },
             quest: 0,
             questStatus: 0,
             questGoal: { x: 0, y: 0 },
             crowns:0,
             food:0
         }
-        const actual = await m.isInDwelling(worldMock, partyMock, outputMock)
+        const actual = await m.isInDwelling(worldMock, partyMock)
         expect(actual).toBeTruthy()
     })
     
     test('isInDwellng should return false when party is not in dwelling', () => {
-        const outputMock = {
-            print: () => {}
-        }
-        const worldMock = {
-            map: [
-                [{}, {}, {}],
-                [{}, { dwelling: {
-                    id: '123',
-                    name: 'name',
-                    type: 0,
-                    inhabited: true
-                } }, {}],
-                [{}, {}, {}],
-            ]
-        }
+
         const partyMock = {
             id: 'abc',
             name:  'abc and party',
@@ -72,7 +63,7 @@ describe('party.model.unit.test', () => {
             crowns:0,
             food:0
         }
-        const actual = m.isInDwelling(worldMock, partyMock, outputMock)
+        const actual = m.isInDwelling(worldMock, partyMock)
         expect(actual).toBeFalsy()
     })
     

@@ -41,14 +41,15 @@ const hasOngoingProject = (dwelling) => {
     return newDwelling
 }
 
-
+/**
+ * return dwelling at coordinates
+ * @param {number} x 
+ * @param {number} y 
+ * @param {{ dwellings: [ { x:number, y:number } ] }} world 
+ * @returns { { id:string, x:number, y:number } } dwelling
+ */
 const getDwellingByCoordinates = (x, y, world) => {
-    for(let dwelling of world.dwellings) {
-        if (dwelling.x == x && dwelling.y == y) {
-            return dwelling
-        }
-    }
-    return undefined
+    return world.dwellings.find(d => d.x == x && d.y == y)
 }
 
 /**

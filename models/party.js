@@ -23,12 +23,12 @@ const checkForRest = (party) => {
 
 /**
  * returns true if current location is the same as
- * @param {object} world 
- * @param {object} party 
- * @param {object} output 
+ * @param {{ map:[ { id: string, x:number, y:number, dwellingId: string }] }} world 
+ * @param {{ id:string, members: [], position: { x:number, y:number } }} party 
  * @returns {boolean}
  */
 const isInDwelling = async (world, party) => {
+    let step = 'start'
     try {
         if (world.map[party.position.x][party.position.y].dwellingId != undefined) {
             const dwelling = getDwellingByCoordinates(party.position.x, party.position.y, world)
@@ -42,6 +42,7 @@ const isInDwelling = async (world, party) => {
         const err = objects.error
         err.file = __filename
         err.function = 'isInDwelling'
+        err.step = step
         err.message = e.message
         logError(err)
     }
