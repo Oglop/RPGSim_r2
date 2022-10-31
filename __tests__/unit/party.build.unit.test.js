@@ -1,4 +1,9 @@
 const b = require('../../build/party')
+jest.mock('../../persistance/commandQueue', () => {
+    return {
+        executeCommands: (x,y) => {}
+    }
+})
 
 const setWorldStartDate = (options) => {
     const objects = require('../../generic/objects')
@@ -14,9 +19,9 @@ describe('party.build.unit.test', () => {
     test('build should be instance of a funtion', () => {
         expect(b.build).toBeInstanceOf(Function)
     })
-    test('build should return a party of size', () => {
+    test('build should return a party of size', async () => {
         const partySize = 6
-        const actual = b.build({
+        const actual = await b.build({
             partySize,
             date: setWorldStartDate()
         })

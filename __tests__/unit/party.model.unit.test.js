@@ -1,8 +1,12 @@
 const m = require('../../models/party')
 
+
 jest.mock('../../persistance/commandQueue', () => {
-    executeCommands: async (command,data) => {}
+    return {
+        executeCommands: (x,y) => {}
+    }
 })
+
 
 const worldMock = {
     map: [
@@ -45,10 +49,10 @@ describe('party.model.unit.test', () => {
             food:0
         }
         const actual = await m.isInDwelling(worldMock, partyMock)
-        expect(actual).toBeTruthy()
+        expect(actual).toBe(true)
     })
     
-    test('isInDwellng should return false when party is not in dwelling', () => {
+    test('isInDwellng should return false when party is not in dwelling', async () => {
 
         const partyMock = {
             id: 'abc',
@@ -63,8 +67,8 @@ describe('party.model.unit.test', () => {
             crowns:0,
             food:0
         }
-        const actual = m.isInDwelling(worldMock, partyMock)
-        expect(actual).toBeFalsy()
+        const actual = await m.isInDwelling(worldMock, partyMock)
+        expect(actual).toBe(false)
     })
     
     test('number of alive characters in party', () => {
@@ -93,5 +97,6 @@ describe('party.model.unit.test', () => {
         const actual = m.noOfAliveMembers(partyMock)
         expect(actual).toBe(2)
     })
+    
 })
 
