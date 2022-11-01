@@ -24,8 +24,8 @@ const getRulerProject = (dwelling) => {
 
 /**
  * returns true or false if dwelling savings is in buget
- * @param {object} dwelling 
- * @returns 
+ * @param {{ id:String, court: { monthlyExpense: number, monthlyIncome:number, ruler: { personality: ENUM_PERSONALITIES } } }} dwelling 
+ * @returns {bool} 
  */
 const isWithinBudget = (dwelling) => {
 
