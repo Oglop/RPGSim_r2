@@ -1,6 +1,4 @@
 const { DatabaseContext } = require('../connections')
-const objects = require('../../generic/objects')
-const { copyObject } = require('../../lib/utils')
 
 module.exports.getLanguageByCharacterId = async (id) => {
     const stmt = await DatabaseContext.db.prepare(`
@@ -13,14 +11,9 @@ module.exports.getLanguageByCharacterId = async (id) => {
         WHERE
             characterId = @characterId;
     `)
-    /*await stmt.bind({
-        '@characterId': language.characterId,
-    })*/
     
     const tmp = await stmt.all({
         '@characterId': id,
     })
-    //const language = copyObject(objects.language)
-    console.log(JSON.stringify(tmp))
-    return tmp //{ ...language, ...tmp }
+    return tmp
 }

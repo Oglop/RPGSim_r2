@@ -2,6 +2,10 @@ const {
     ENUM_ENCOUNTER_RULE
 } = require('../../generic/enums')
 
+const getActionFromRule = () => {
+
+}
+
 /**
  * validate rules and return action
  * @param {{ encounterRules: [ ENUM_ENCOUNTER_RULE ] }} source 
