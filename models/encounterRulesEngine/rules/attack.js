@@ -21,7 +21,6 @@ const { logError } = require('../../../data/errorFile')
         const err = objects.error
         err.file = __filename
         err.function = 'process'
-        err.step = ''
         err.message = e.message
         logError(err)
     }
