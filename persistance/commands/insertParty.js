@@ -1,5 +1,5 @@
 const { DatabaseContext } = require('../connections')
-//const { partyMembersToIdString } = require('../../models/party')
+const { partyMembersToIdString } = require('../../models/party')
 module.exports.insertParty = async (party) => {
     const stmt = await DatabaseContext.db.prepare(`INSERT INTO party (
         id,
@@ -50,5 +50,10 @@ module.exports.insertParty = async (party) => {
         '@food': party.food,
         '@members': partyMembersToIdString(party.members)
     })
-    await stmt.run()
+    try {
+        await stmt.run()
+    } catch(e) {
+        console.log(e.message)
+    }
+    
 }
