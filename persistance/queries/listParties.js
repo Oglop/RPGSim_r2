@@ -1,3 +1,4 @@
+/*
 const { DatabaseContext } = require('../connections')
 
 module.exports.listParties = async () => {
@@ -13,3 +14,4 @@ module.exports.listParties = async () => {
     const tmp = await stmt.all({})
     return tmp
 }
+*/

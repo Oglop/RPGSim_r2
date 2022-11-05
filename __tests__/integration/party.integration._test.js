@@ -12,9 +12,9 @@ const {
 } = require('../../generic/enums')
 const { textToDate } = require('../../lib/time')
 const { migrate } = require('../../persistance').infrastructure
-const { 
+/*const { 
     listParties
-} = require('../../persistance').queries
+} = require('../../persistance').queries*/
 const { executeCommands } = require('../../persistance/commandQueue')
 
 const party = {
