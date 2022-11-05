@@ -1,4 +1,5 @@
-const { tempratureByMonth } = require('../../models/climate')
+const { tempratureByMonth, getTempratureDescription } = require('../../models/climate')
+const { get } = require('../../localization')
 
 const mockMath = Object.create(global.Math);
 mockMath.random = () => 0.1;
@@ -27,5 +28,27 @@ describe('climete.model.unit', () => {
         }
         const actual = tempratureByMonth(temprature, date)
         expect(actual).toBeGreaterThan(temprature)
+    })
+
+    test('getTempratureDescription should be instance of a Function', () => {
+        expect(getTempratureDescription).toBeInstanceOf(Function)
+    })
+    test('getTempratureDescription should return freezing when temprature is bellow -2', () => {
+        const temprature = -3
+        const expected = get('world-temprature-freezing')
+        const actual = getTempratureDescription(temprature)
+        expect(actual).toBe(expected)
+    })
+    test('getTempratureDescription should return scorching when temprature is above 7 ', () => {
+        const temprature = 8
+        const expected = get('world-temprature-scorching')
+        const actual = getTempratureDescription(temprature)
+        expect(actual).toBe(expected)
+    })
+    test('getTempratureDescription should return warm when temprature is 3', () => {
+        const temprature = 3
+        const expected = get('world-temprature-warm')
+        const actual = getTempratureDescription(temprature)
+        expect(actual).toBe(expected)
     })
 })

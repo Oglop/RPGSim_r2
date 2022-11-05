@@ -1,5 +1,5 @@
 const { getRandomNumberInRange } = require('../lib/utils')
-
+const { get } = require('../localization')
 /**
  * returns temprature based on month of year
  * @param { Number } temprature
@@ -26,6 +26,28 @@ const tempratureByMonth = (temprature, date) => {
     return temprature + monthTempratureMod
 }
 
+/**
+ * 
+ * @param {Number} temprature 
+ * @returns {string} description
+ */
+const getTempratureDescription = (temprature) => {
+    temprature = (temprature < -2) ? -2 : (temprature > 7) ? 7 : temprature
+    switch (temprature) {
+        case -2: return get('world-temprature-freezing')
+        case -1: return get('world-temprature-freezing')
+        case 0: return get('world-temprature-cold')
+        case 1: return get('world-temprature-cold')
+        case 2: return get('world-temprature-warm')
+        case 3: return get('world-temprature-warm')
+        case 4: return get('world-temprature-hot')
+        case 5: return get('world-temprature-hot')
+        case 6: return get('world-temprature-scorching')
+        case 7: return get('world-temprature-scorching')
+    }
+}
+
 module.exports = {
-    tempratureByMonth
+    tempratureByMonth,
+    getTempratureDescription
 }
