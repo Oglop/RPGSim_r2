@@ -67,7 +67,7 @@ const { getQuestById } = require('./queries/getQuestById')
 const { quest } = require('../generic/objects')
 const { getPartyById } = require('./queries/getPartyById')
 
-const { listParties } = require('./queries/listParties')
+//const { listParties } = require('./queries/listParties')
 
 module.exports = {
     commands: {
@@ -135,9 +135,9 @@ module.exports = {
         getTroopsByArmyId: (armyId) => getTroopsByArmyId(armyId),
         getWorldById: (id) => getWorldById(id),
         getQuestById: (id) => getQuestById(id),
-        getPartyById: (id) => getPartyById(id),
+        getPartyById: (id) => getPartyById(id)
 
-        listParties: () => listParties()
+        //listParties: () => listParties()
     },
     aggregates: {
         

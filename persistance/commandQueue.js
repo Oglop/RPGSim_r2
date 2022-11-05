@@ -1,6 +1,6 @@
 
 const { ENUM_COMMANDS } = require('../generic/enums')
-const commands = require('./index').commands
+const commands = require('.').commands
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
 
@@ -56,6 +56,7 @@ const executeCommands = async (queue) => {
                 default: throw Error(`command ${item.command} was not found.`)
             }
         } catch (e) {
+            console.log(e.stack)
             const err = objects.error
             err.file = __filename
             err.function = 'executeCommands'
