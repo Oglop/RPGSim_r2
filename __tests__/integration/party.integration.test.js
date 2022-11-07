@@ -58,7 +58,7 @@ const getCharacter = (id, name) => {
 
 
 const getParty = () => {
-    const p = copyObject(obejcts.party)
+    const p = copyObject(objects.party)
     id = 'ABC'
     p.name = 'test_party'
     p.karma = 4
@@ -90,7 +90,7 @@ describe('party.integration.test', () => {
     test('party aggregate', async () => {
         await migrate()
         const createdParty = getParty()
-        await executeCommands([{ command: ENUM_COMMANDS.SAVE_PARTY, party }])
+        await executeCommands([{ command: ENUM_COMMANDS.SAVE_PARTY, data: createdParty }])
 
         const loadedParty = await loadParty(createdParty.id)
 
