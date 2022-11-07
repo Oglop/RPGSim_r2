@@ -31,7 +31,7 @@ module.exports.updateParty = async (party) => {
         '@questGoalY': party.questGoalY,
         '@crowns': party.crowns,
         '@food': party.food,
-        '@members': partyMembersToIdString(party.members)
+        //'@members': partyMembersToIdString(party.members)
     })
     await stmt.run()
 }
