@@ -197,6 +197,13 @@ CREATE TABLE party
     members         text
 );
 
+CREATE TABLE partyMember
+(
+    id              text,
+    partyId         text,
+    characterId     text
+);
+
 CREATE TABLE troop
 (
     id          text,
@@ -246,3 +253,4 @@ DROP TABLE story;
 DROP TABLE quest;
 DROP TABLE world;
 DROP TABLE party;
+DROP TABLE partyMember;

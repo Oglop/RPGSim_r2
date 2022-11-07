@@ -1,6 +1,7 @@
 
 const { ENUM_COMMANDS } = require('../generic/enums')
 const commands = require('.').commands
+const aggregates = require('.').aggregates
 const { logError } = require('../data/errorFile')
 const objects = require('../generic/objects')
 
@@ -21,6 +22,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.DELETE_TROOP : await commands.deleteTroop(item.data); break;
                 case ENUM_COMMANDS.DELETE_QUEST: await commands.deleteQuest(item.data); break;
                 case ENUM_COMMANDS.DELETE_PARTY: await commands.deleteParty(item.data); break;
+                case ENUM_COMMANDS.DELETE_PARTY_MEMBER: await commands.deletePartyMember(item.data); break;
                 case ENUM_COMMANDS.INSERTROOM: await commands.insertRoom(item.data); break;
                 case ENUM_COMMANDS.INSERTDWELLING: await commands.insertDwelling(item.data); break;
                 case ENUM_COMMANDS.INSERT_DWELLING_LOCATION: await commands.insertDwellingLocation(item.data); break;
@@ -40,6 +42,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.INSERT_TRADE: await commands.insertTrade(item.data); break;
                 case ENUM_COMMANDS.INSERT_QUEST: await commands.insertQuest(item.data); break;
                 case ENUM_COMMANDS.INSERT_PARTY: await commands.insertParty(item.data); break;
+                case ENUM_COMMANDS.INSERT_PARTY_MEMBER: await commands.insertPartyMember(item.data); break;
                 case ENUM_COMMANDS.UPDATEROOM: await commands.updateRoom(item.data); break;
                 case ENUM_COMMANDS.UPDATEDWELLING: await commands.updateDwelling(item.data); break;
                 case ENUM_COMMANDS.UPDATE_DWELLING_LOCATION: await commands.updateDwellingLocationStatus(item.data); break;
@@ -53,6 +56,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.UPDATERULERINCOURT: await commands.updateRulerInCourt(item.data); break;
                 case ENUM_COMMANDS.UPDATE_QUEST: await commands.updateQuest(item.data); break;
                 case ENUM_COMMANDS.UPDATE_SKILL: await commands.updateSkill(item.data); break;
+                case ENUM_COMMANDS.SAVE_PARTY: await aggregates.saveParty(item.data); break;
                 default: throw Error(`command ${item.command} was not found.`)
             }
         } catch (e) {

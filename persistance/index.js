@@ -1,5 +1,6 @@
 const { migrate } = require('./infrastructure/migrate')
 
+const { loadParty, saveParty } = require('./aggregates/party')
 
 const { deleteAdvisor } = require('./commands/deleteAdvisor')
 const { deleteCharacter } = require('./commands/deleteCharacter')
@@ -7,6 +8,7 @@ const { deleteTrade } = require('./commands/deleteTrade')
 const { deleteTroop } = require('./commands/deleteTroop')
 const { deleteQuest } = require('./commands/deleteQuest')
 const { deleteParty } = require('./commands/deleteParty')
+const { deletePartyMember } = require('./commands/deletePartyMember')
 
 const { insertRoom } = require('./commands/insertRoom')
 const { insertDwelling } = require('./commands/insertDwelling')
@@ -27,6 +29,7 @@ const { insertStory } = require('./commands/insertStory')
 const { insertTrade } = require('./commands/insertTrade')
 const { insertQuest } = require('./commands/insertQuest')
 const { insertParty } = require('./commands/insertParty')
+const { insertPartyMember } = require('./commands/insertPartyMember')
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
@@ -65,7 +68,9 @@ const { getStory } = require('./queries/getStory')
 const { getTradeByDwellingId } = require('./queries/getTradeByDwellingId')
 const { getQuestById } = require('./queries/getQuestById')
 const { quest } = require('../generic/objects')
-const { getPartyById } = require('./queries/getPartyById')
+//const { getPartyById } = require('./queries/getPartyById')
+const { getPartyMembersByPartyId } = require('./queries/getPartyMembersByPartyId')
+const { getPartyMemberByCharacterId } = require('./queries/getPartyMemberByCharacterId')
 
 //const { listParties } = require('./queries/listParties')
 
@@ -77,6 +82,7 @@ module.exports = {
         deleteTroop: (id) => deleteTroop(id),
         deleteQuest: (id) => deleteQuest(id),
         deleteParty: (id) => deleteParty(id),
+        deletePartyMember: (id) => deletePartyMember(id),
 
         insertArmy: (army) => insertArmy(army),
         insertAdvisor: (advisor) => insertAdvisor(advisor),
@@ -97,6 +103,7 @@ module.exports = {
         insertTroop: (troop) => insertTroop(troop),
         insertQuest: (quest) => insertQuest(quest),
         insertParty: (party) => insertParty(party),
+        insertPartyMember: (data) => insertPartyMember(data),
         
         updateCharacter: (character) => updateCharacter(character),
         updateDwelling: (dwelling) => updateDwelling(dwelling),
@@ -135,12 +142,14 @@ module.exports = {
         getTroopsByArmyId: (armyId) => getTroopsByArmyId(armyId),
         getWorldById: (id) => getWorldById(id),
         getQuestById: (id) => getQuestById(id),
-        getPartyById: (id) => getPartyById(id)
-
+        //getPartyById: (id) => getPartyById(id),
+        getPartyMembersByPartyId: (partyId) => getPartyMembersByPartyId(partyId),
+        getPartyMemberByCharacterId: (characterId) => getPartyMemberByCharacterId(characterId)
         //listParties: () => listParties()
     },
     aggregates: {
-        
+        loadParty: (id) => loadParty(id),
+        saveParty: (party) => saveParty(party)
     },
     infrastructure: {
         migrate: () => migrate()
