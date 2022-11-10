@@ -14,41 +14,40 @@ const { generateID } = require('../../lib/utils')
 const saveMember = async (partyId, character) => {
     const memberExists = await getPartyMemberByCharacterId(character.id)
     if (!!memberExists) {
-        const id = generateID()
-        await insertPartyMember({ id, partyId, characterId: character.id })
+        await updateCharacter({ ...characterExists, ...character })
     }
-    
     const characterExists = await getCharacterById(character.id)
     if (!!characterExists) {
-        await insertCharacter(character)
+        const id = generateID()
+        await insertPartyMember({ id, partyId, characterId: character.id })
     } else {
-        await updateCharacter({ ...characterExists, ...character })
+        await insertCharacter(character)
     }
     
 }
 
 const saveParty = async party => {
-
     const partyExists = await getPartyById(party.id)
     if(!!partyExists) {
-        await insertParty(party)
-    } else {
         await updateParty({ ...partyExists, ...party })
+    } else {
+        await insertParty(party)
     }
     for (member of party.members) {
-        await saveMember(member)
+        await saveMember(party.id, member)
     }
 }
 
 
 const loadParty = async id => {
-    const party = await getPartyById(id)
-    const partyMembers = await getPartyMembersByPartyId(party.id)
-    
+    let party = {
+        ...await getPartyById(id),
+        members: []
+    }
+    const partyMembers = await getPartyMembersByPartyId(id)
     for (member of partyMembers) {
         party.members.push( await getCharacterById(member.partyId) )
     }
-    
     return party
 }
 
