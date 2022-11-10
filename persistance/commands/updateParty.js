@@ -23,15 +23,14 @@ module.exports.updateParty = async (party) => {
         '@karma': party.karma,
         '@path': party.path,
         '@state': party.state,
-        '@x': party.x,
-        '@y': party.y,
+        '@x': party.position.x,
+        '@y': party.position.y,
         '@questId': party.questId,
         '@questStatus': party.questStatus,
-        '@questGoalX': party.questGoalX,
-        '@questGoalY': party.questGoalY,
+        '@questGoalX': party.questGoal.x,
+        '@questGoalY': party.questGoal.y,
         '@crowns': party.crowns,
         '@food': party.food,
-        //'@members': partyMembersToIdString(party.members)
     })
     await stmt.run()
 }

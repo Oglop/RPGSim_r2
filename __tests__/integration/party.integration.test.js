@@ -59,7 +59,7 @@ const getCharacter = (id, name) => {
 
 const getParty = () => {
     const p = copyObject(objects.party)
-    id = 'ABC'
+    p.id = 'ABC'
     p.name = 'test_party'
     p.karma = 4
     p.members = []
@@ -70,10 +70,11 @@ const getParty = () => {
     p.questStatus = ENUM_QUEST_STATUS.NONE
     p.questGoal = { x: 20, y: 22 }
     p.crowns = 10
-    p.food =15
+    p.food = 15
 
     for (let i = 0; i < 3; i++) {
-        p.members.push( getCharacter(`id${i}`, `name${i}`) )
+        const c = getCharacter(`id${i}`, `name${i}`)
+        p.members.push(c)
     }
 
     return p
@@ -91,9 +92,7 @@ describe('party.integration.test', () => {
         await migrate()
         const createdParty = getParty()
         await executeCommands([{ command: ENUM_COMMANDS.SAVE_PARTY, data: createdParty }])
-
         const loadedParty = await loadParty(createdParty.id)
-
         expect(loadedParty.members.length).toBe(3)
         expect(loadedParty.name).toBe('test_party')
         expect(loadedParty.position.x).toBe(10)
