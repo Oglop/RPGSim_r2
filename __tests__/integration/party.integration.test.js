@@ -15,9 +15,6 @@ const objects = require('../../generic/objects')
 const { copyObject } = require('../../lib/utils')
 const { migrate } = require('../../persistance').infrastructure
 const { loadParty, saveParty } = require('../../persistance').aggregates
-const { 
-    getPartyById
-} = require('../../persistance').queries
 const { executeCommands } = require('../../persistance/commandQueue')
 
 
@@ -72,7 +69,7 @@ const getParty = () => {
     p.crowns = 10
     p.food = 15
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
         const c = getCharacter(`id${i}`, `name${i}`)
         p.members.push(c)
     }
@@ -93,9 +90,21 @@ describe('party.integration.test', () => {
         const createdParty = getParty()
         await executeCommands([{ command: ENUM_COMMANDS.SAVE_PARTY, data: createdParty }])
         const loadedParty = await loadParty(createdParty.id)
-        expect(loadedParty.members.length).toBe(3)
+        expect(loadedParty.members.length).toBe(1)
         expect(loadedParty.name).toBe('test_party')
         expect(loadedParty.position.x).toBe(10)
         expect(loadedParty.position.y).toBe(11)
+        loadedParty.position = {
+            x: 20,
+            y: 21
+        }
+        loadParty.crowns = 100
+        await executeCommands([{ command: ENUM_COMMANDS.SAVE_PARTY, data: loadedParty }])
+        const updatedParty = await loadParty(createdParty.id)
+        expect(updatedParty.members.length).toBe(1)
+        expect(updatedParty.name).toBe('test_party')
+        expect(updatedParty.position.x).toBe(20)
+        expect(updatedParty.position.y).toBe(21)
+        expect(updatedParty.crowns).toBe(100)
     })
 })

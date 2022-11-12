@@ -1,6 +1,7 @@
 const { DatabaseContext } = require('../connections')
 
 module.exports.getPartyMemberByCharacterId = async (characterId) => {
+    console.log(`--------------- characterId ${characterId}`)
     const stmt = await DatabaseContext.db.prepare(`
     SELECT
         id,
@@ -15,5 +16,6 @@ module.exports.getPartyMemberByCharacterId = async (characterId) => {
     const tmp = await stmt.get({
         '@characterId': characterId,
     })
+    console.log(`---------------  ${JSON.stringify(tmp)}`)
     return tmp
 }
