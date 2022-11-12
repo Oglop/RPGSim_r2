@@ -1,7 +1,9 @@
 const { DatabaseContext } = require('../connections')
 
 module.exports.insertPartyMember = async data => {
-    const stmt = await DatabaseContext.db.prepare(`INSERT INTO partyMember (
+    const stmt = await DatabaseContext.db.prepare(`
+    INSERT INTO partyMember 
+    (
         id,
         partyId,
         characterId
@@ -12,10 +14,10 @@ module.exports.insertPartyMember = async data => {
         @partyId,
         @characterId
     );`)
-await stmt.bind({
-    '@id': data.id,
-    '@partyId': data.partyId,
-    '@characterId': data.characterId
-})
-await stmt.run()
+    await stmt.bind({
+        '@id': data.id,
+        '@partyId': data.partyId,
+        '@characterId': data.characterId
+    })
+    await stmt.run()
 }
