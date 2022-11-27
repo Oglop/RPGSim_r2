@@ -610,7 +610,8 @@ module.exports = {
         PASS: 0,
         ATTACK: 1,
         DEFEND: 2,
-        FLEE: 3
+        FLEE: 3,
+        SNEAK_ATTACK: 4
     },
     ENUM_HEALTH_STATUS: {
         UNCONSCIOUS: 0,

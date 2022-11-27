@@ -35,21 +35,21 @@ const doLuckRollForSkill = (skill) => {
 
 /**
  * return 1 if successfull, 0 if failed
- * @param {Object} c Character
- * @param {ENUM_STAT_NAMES} stat 
- * @returns {int}
+ * @param {{ character: { id: string, stats: {} } }}} character
+ * @param { ENUM_STAT_NAMES } stat 
+ * @returns {number} successes
  */
-const checkCharacterSkill = (c, stat) => {
+const checkCharacterSkill = (character, stat) => {
     try {
         let i = 0
         switch (stat) {
-            case ENUM_STAT_NAMES.agi: i = c.stats.agi; break;
-            case ENUM_STAT_NAMES.cha: i = c.stats.cha; break;
-            case ENUM_STAT_NAMES.int: i = c.stats.int; break;
-            case ENUM_STAT_NAMES.luc: i = c.stats.luc; break;
-            case ENUM_STAT_NAMES.str: i = c.stats.str; break;
-            case ENUM_STAT_NAMES.vit: i = c.stats.vit; break;
-            case ENUM_STAT_NAMES.wis: i = c.stats.wis; break;
+            case ENUM_STAT_NAMES.agi: i = character.stats.agi; break;
+            case ENUM_STAT_NAMES.cha: i = character.stats.cha; break;
+            case ENUM_STAT_NAMES.int: i = character.stats.int; break;
+            case ENUM_STAT_NAMES.luc: i = character.stats.luc; break;
+            case ENUM_STAT_NAMES.str: i = character.stats.str; break;
+            case ENUM_STAT_NAMES.vit: i = character.stats.vit; break;
+            case ENUM_STAT_NAMES.wis: i = character.stats.wis; break;
         }
 
         if (getRandomNumber(20) <= i) {
@@ -109,11 +109,11 @@ const characterKnowsSkill = (character, skill) => {
 
 /**
  * returns number of successes
- * @param {object} p arty 
+ * @param {{ party: {members: []} }}} p arty 
  * @param {ENUM_SKILL_NAMES} skill 
  * @returns {int}
  */
-const checkPartySkill = (p, skill) => {
+const checkPartySkill = (party, skill) => {
     try {
         const successes = []
         const stat = getStatBaseBySkillName(skill)
