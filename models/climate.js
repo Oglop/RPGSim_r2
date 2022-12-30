@@ -1,5 +1,15 @@
 const { getRandomNumberInRange } = require('../lib/utils')
 const { get } = require('../localization')
+const {
+    ENUM_BIOMES, ENUM_WEATHER, ENUM_SEASONS
+} = require('../generic/enums')
+const {
+    chance, getRandomNumber
+} = require('../lib/utils')
+const {
+    getSeason
+} = require('../lib/time')
+
 /**
  * returns temprature based on month of year
  * @param { Number } temprature
@@ -47,7 +57,100 @@ const getTempratureDescription = (temprature) => {
     }
 }
 
+const getRainModifier = date => {
+    const season = getSeason(date)
+    let modifier = 0
+    if (season == ENUM_SEASONS.fall) { modifier += getRandomNumberInRange(2, 4) }
+    if (season == ENUM_SEASONS.spring) { modifier += getRandomNumberInRange(0, 2) }
+    if (season == ENUM_SEASONS.summer) { modifier += getRandomNumberInRange(0, 1) }
+    if (season == ENUM_SEASONS.winter) { modifier += getRandomNumberInRange(1, 2) }
+    return modifier * 10
+}
+
+const getWindModifier = date => {
+    const season = getSeason(date)
+    let modifier = 0
+    if (season == ENUM_SEASONS.fall) { modifier += getRandomNumberInRange(1, 3) }
+    if (season == ENUM_SEASONS.spring) { modifier += getRandomNumberInRange(1, 3) }
+    if (season == ENUM_SEASONS.summer) { modifier += getRandomNumberInRange(0, 1) }
+    if (season == ENUM_SEASONS.winter) { modifier += getRandomNumberInRange(0, 1) }
+    return modifier * 10
+}
+
+/**
+ * returns current weather
+ * @param {number} temprature 
+ * @param {ENUM_BIOMES} biome 
+ * @param { { year: number, month: number, day: number } } options 
+ * @returns { ENUM_WEATHER } weather
+ */
+const getWeather = (temprature, biome, date) => {
+    const temp = getRandomNumberInRange(temprature - 2, temprature + 2)
+    let rainModifier = getRainModifier(date)
+    let windModifier = getWindModifier(date)
+    
+    if (biome == ENUM_BIOMES.badlands) { rainModifier -= 10 }
+    if (biome == ENUM_BIOMES.dessert) { rainModifier -= 20 }
+    if (biome == ENUM_BIOMES.mountains) { windModifier += 20 }
+    if (biome == ENUM_BIOMES.hills) { windModifier += 10 }
+    if (biome == ENUM_BIOMES.swamp) { rainModifier += 10 }
+
+    if (temp < 0) {
+        if (chance(20 + rainModifier)) {
+            return ENUM_WEATHER.SNOWY
+        }
+        if (chance(30 + rainModifier)) {
+            return ENUM_WEATHER.CLOUDY
+        }
+    } else if (temp >= 0 && temp < 3) {
+        if (chance(20 + rainModifier)) {
+            return ENUM_WEATHER.RAINY
+        }
+        if (chance(30 + rainModifier)) {
+            return ENUM_WEATHER.CLOUDY
+        }
+        if (chance(10 + windModifier)) {
+            return ENUM_WEATHER.WINDY
+        }
+    } else if (temp >= 3 && temp < 5) {
+        if (chance(10 + rainModifier)) {
+            return ENUM_WEATHER.RAINY
+        }
+        if (chance(20 + rainModifier)) {
+            return ENUM_WEATHER.CLOUDY
+        }
+        if (chance(10 + windModifier)) {
+            return ENUM_WEATHER.WINDY
+        }
+    } else {
+        if (chance(10 + windModifier)) {
+            return ENUM_WEATHER.CLOUDY
+        }
+        if (chance(10 + windModifier)) {
+            return ENUM_WEATHER.WINDY
+        }
+    }
+    return ENUM_WEATHER.CLEAR
+}
+
+/**
+ * returns description of weather
+ * @param {ENUM_WEATHER} weather 
+ * @returns {Text}
+ */
+const getWeatherDescription = weather => {
+    switch (weather) {
+        case ENUM_WEATHER.CLEAR: return get('weather-clear-description');
+        case ENUM_WEATHER.CLOUDY: return get('weather-cloudy-description');
+        case ENUM_WEATHER.RAINY: return get('weather-rain-description');
+        case ENUM_WEATHER.SNOWY: return get('weather-snow-description');
+        case ENUM_WEATHER.WINDY: return get('weather-windy-description');
+    }
+}
+
 module.exports = {
     tempratureByMonth,
-    getTempratureDescription
+    getTempratureDescription,
+    getWeather,
+    getWeatherDescription
 }

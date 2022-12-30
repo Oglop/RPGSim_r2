@@ -23,7 +23,7 @@ const getTypeName = type => {
         case ENUM_ENEMY_TYPE.VILE: return 'VILE';
         case ENUM_ENEMY_TYPE.ANCIENT: return 'ANCIENT';
         case ENUM_ENEMY_TYPE.WILD: return 'WILD';
-        case ENUM_ENEMY_TYPE.HOSTILE: return 'HOSTILE';
+        case ENUM_ENEMY_TYPE.ORDER: return 'HOSTILE';
     }
 }
 
