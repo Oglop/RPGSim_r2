@@ -507,6 +507,11 @@ module.exports.get = (id, args) => {
         case 'system-word-five': return 'five'
         case 'system-word-six': return 'six'
         case 'time-birthDate': return `month of ${args[0]} in the year ${args[1]}`
+        case 'weather-clear-description': return 'The weather is clear.'
+        case 'weather-cloudy-description': return 'The weather is cloudy.'
+        case 'weather-rain-description': return 'It´s raining.'
+        case 'weather-snow-description': return 'It´s snowing.'
+        case 'weather-windy-description': return 'It´s windy.'
         case 'world-temprature-freezing': return 'freezing'
         case 'world-temprature-cold': return 'cold'
         case 'world-temprature-warm': return 'warm'

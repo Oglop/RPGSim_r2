@@ -180,6 +180,13 @@ module.exports = {
         alive: 'alive',
         died: 'died'
     },
+    ENUM_WEATHER: {
+        CLEAR,
+        CLOUDY,
+        RAINY,
+        SNOWY,
+        WINDY
+    },
     ENUM_CHARACTER_TRAITS: {
         ABOMINATION: 0,
         DARK_PAST: 1,
@@ -347,7 +354,7 @@ module.exports = {
         VILE:0,
         WILD:1,
         ANCIENT:2,
-        HOSTILE: 3
+        ORDER: 3
     },
     ENUM_ENEMY_STRENGTH: {
         WEAK:0,
