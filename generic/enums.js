@@ -181,11 +181,11 @@ module.exports = {
         died: 'died'
     },
     ENUM_WEATHER: {
-        CLEAR,
-        CLOUDY,
-        RAINY,
-        SNOWY,
-        WINDY
+        CLEAR: 0,
+        CLOUDY: 1,
+        RAINY: 2,
+        SNOWY: 3,
+        WINDY: 4
     },
     ENUM_CHARACTER_TRAITS: {
         ABOMINATION: 0,
