@@ -1,5 +1,8 @@
-const { tempratureByMonth, getTempratureDescription } = require('../../models/climate')
+const { tempratureByMonth, getTempratureDescription, getWeatherDescription, getWeather } = require('../../models/climate')
 const { get } = require('../../localization')
+const { 
+    ENUM_WEATHER, ENUM_BIOMES
+ } = require('../../generic/enums')
 
 const mockMath = Object.create(global.Math);
 mockMath.random = () => 0.1;
@@ -51,4 +54,24 @@ describe('climete.model.unit', () => {
         const actual = getTempratureDescription(temprature)
         expect(actual).toBe(expected)
     })
+
+    test('getWeatherDescription should be instance of a Function', () => {
+        expect(getWeatherDescription).toBeInstanceOf(Function)
+    })
+    test('getWeatherDescription should return description of weather clear', () => {
+        const expected = get('weather-clear-description')
+        const actual = getWeatherDescription(ENUM_WEATHER.CLEAR)
+        expect(expected).toBe(actual)
+    })
+    test('getWeatherDescription should return description of weather windy', () => {
+        const expected = get('weather-windy-description')
+        const actual = getWeatherDescription(ENUM_WEATHER.WINDY)
+        expect(expected).toBe(actual)
+    })
+
+    test('getWeather should be instance of a Function', () => {
+        expect(getWeather).toBeInstanceOf(Function)
+    })
+
+    
 })
