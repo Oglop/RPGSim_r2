@@ -152,26 +152,26 @@ const checkPartySkill = (party, skill) => {
 }
 
 /**
- * 
- * @param {object} c character 
+ * return character object if stat check is successful
+ * @param {{ id:Text, stats: {} }} character 
  * @param { ENUM_STAT_NAMES } stat 
- * @returns {object} character
+ * @returns {[{ id:Text, stats: {} }]} character
  */
-const checkCharacterStat = (c, stat) => {
+const checkCharacterStat = (character, stat) => {
     try {
         const successes = []
         let i = 0
         switch (stat) {
-            case ENUM_STAT_NAMES.agi: i = c.stats.agi; break;
-            case ENUM_STAT_NAMES.cha: i = c.stats.cha; break;
-            case ENUM_STAT_NAMES.int: i = c.stats.int; break;
-            case ENUM_STAT_NAMES.luc: i = c.stats.luc; break;
-            case ENUM_STAT_NAMES.str: i = c.stats.str; break;
-            case ENUM_STAT_NAMES.vit: i = c.stats.vit; break;
-            case ENUM_STAT_NAMES.wis: i = c.stats.wis; break;
+            case ENUM_STAT_NAMES.agi: i = character.stats.agi; break;
+            case ENUM_STAT_NAMES.cha: i = character.stats.cha; break;
+            case ENUM_STAT_NAMES.int: i = character.stats.int; break;
+            case ENUM_STAT_NAMES.luc: i = character.stats.luc; break;
+            case ENUM_STAT_NAMES.str: i = character.stats.str; break;
+            case ENUM_STAT_NAMES.vit: i = character.stats.vit; break;
+            case ENUM_STAT_NAMES.wis: i = character.stats.wis; break;
         }
         if (getRandomNumber(20) <= i) {
-            successes.push(c)
+            successes.push(character)
         }
         return successes
     } catch (e) {
