@@ -370,6 +370,16 @@ module.exports.get = (id, args) => {
         case 'familyTree-moves-1': return `${args[0]} founded the town of ${args[1]}.`
         case 'familyTree-removeDeadFamilies-1': return `The last of house ${args[0]} has died.`
         case 'familyTree-newFamily-1': return `The house of ${args[0]} enters the nobility of ${args[1]}.`
+
+        case 'moon-phase-new': return 'a new moon'
+        case 'moon-phase-waxing-crescent': return 'a waxing crescent moon'
+        case 'moon-phase-first-quarter': return 'a first quarter moon'
+        case 'moon-phase-waxing-gibbious': return 'a waxing gibbious moon'
+        case 'moon-phase-full': return 'a full moon'
+        case 'moon-phase-waning-gibbious': return 'a vaning gibbious moon'
+        case 'moon-phase-third-quarter': return 'a third quarter moon'
+        case 'moon-phase-waning-crescent': return 'a waning crescent moon'
+        
         case 'npc-description-administrator': return `administrator ${args[0]}`
         case 'npc-description-inn-keeper': return `${args[0]} the inn keeper`
         case 'npc-description-bar-keeper': return `${args[0]} the bar keeper`
@@ -507,6 +517,7 @@ module.exports.get = (id, args) => {
         case 'system-word-five': return 'five'
         case 'system-word-six': return 'six'
         case 'time-birthDate': return `month of ${args[0]} in the year ${args[1]}`
+        
         case 'weather-clear-description': return 'The weather is clear.'
         case 'weather-cloudy-description': return 'The weather is cloudy.'
         case 'weather-rain-description': return 'It´s raining.'
