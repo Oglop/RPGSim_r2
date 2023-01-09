@@ -624,5 +624,15 @@ module.exports = {
         UNCONSCIOUS: 0,
         BERZERK: 1,
         REGENERATE: 2
+    },
+    ENUM_MOON_PHASE: {
+        NEW: 0,
+        WAXING_CRESCENT: 1,
+        FIRST_QUARTER: 2,
+        WAXING_GIBBIOUS: 3,
+        FULL: 4,
+        WANING_GIBBIOUS: 5,
+        THIRD_QUARTER: 6,
+        WANING_CRESCENT: 7
     }
 }
