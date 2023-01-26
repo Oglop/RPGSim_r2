@@ -343,6 +343,9 @@ module.exports.get = (id, args) => {
         case 'dwelling-location-temple-name': return `The ${args[0]} ${args[1]} of ${args[2]}` 
         case 'event-date-bloodmoon-description': return 'Tonight is the night of the blood moon.'
         case 'event-date-bloodmoon-resolution': return 'As the red moon fills the black sky all the creatures of the night can be heard howling in the distance.'
+
+        case 'events-rest-moon-full': return 'A full moon'
+
         case 'event-rest-story-description': return `At camp ${args[0]} begins telling a story.`
         case 'event-rest-story-success': return `${args[0]} tells a captivating story, everyone feels a little closer to eachother.`
         case 'event-rest-story-fail': return `${args[0]}´s story drags on and no one is listening. Soon everyone is falling asleep.`

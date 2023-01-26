@@ -15,11 +15,15 @@ const {
     ENUM_JOB_NAMES, 
     ENUM_RACE_NAMES, 
     ENUM_LANGUAGES, 
-    ENUM_PERSONALITIES
+    ENUM_PERSONALITIES,
+    ENUM_MOON_PHASE,
+    ENUM_BIOMES
 } = require('../../generic/enums')
 const { getDwellingsFromMap } = require('../map')
 const { partyExtraRelationshipRoll } = require('../personality')
 const mCharacter = require('../character')
+const { moonPhase, getSeason } = require('../../lib/time')
+const { getWeather, tempratureByMonth } = require('../climate')
 /*const { 
     getLeaderByDwellingId,
     getFamiliesByDwellingId,
@@ -30,7 +34,6 @@ const { personalityDealsWith } = require('../../models/personality')
 const { getSeason } = require('../../lib/time')
 const { getPersonName } = require('../../generic/names')*/
 const { get } = require('../../localization')
-const { getSeason } = require('../../lib/time')
 const { Output } = require('../../output/output')
 
 const story = (event, world, options) => { 
@@ -197,7 +200,7 @@ const hunting = (event, world, options) => {
     return event
 }
 
-const dreams = (event, world, options) => { 
+const dreams = (event, world, party, options) => { 
     const i1 = copyObject(objects.eventItem)
     i1.description = get('')
     i1.execute = (party) => {
@@ -211,6 +214,21 @@ const dreams = (event, world, options) => {
     }
     event.items.push(i1)
     return event
+}
+
+const moon = (event, world, options) => {
+    
+
+    const weather = getWeather(1,ENUM_BIOMES.badlands, world.date)
+    const phase = moonPhase(world.date)
+
+    const i1 = copyObject(objects.eventItem)
+    let i1Desc = (phase == ENUM_MOON_PHASE.FULL) ? get('events-rest-moon-full') : (phase == ENUM_MOON_PHASE.NEW) ? get('events-rest-moon-new') : get('events-rest-moon-other')
+    if (phase == ENUM_MOON_PHASE.FULL) {
+
+    } else if (phase == ENUM)
+
+    i1.description = get('')
 }
 
 module.exports = {
