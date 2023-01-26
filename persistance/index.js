@@ -109,6 +109,7 @@ module.exports = {
         insertQuest: (quest) => insertQuest(quest),
         insertParty: (party) => insertParty(party),
         insertPartyMember: (data) => insertPartyMember(data),
+        insertRumor: (data) => insertRumor(data),
         
         updateCharacter: (character) => updateCharacter(character),
         updateDwelling: (dwelling) => updateDwelling(dwelling),
