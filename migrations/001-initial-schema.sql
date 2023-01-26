@@ -204,6 +204,17 @@ CREATE TABLE partyMember
     characterId     text
 );
 
+CREATE TABLE rumor
+(
+    id              text,
+    description     text,
+    type            integer,
+    positionX       integer,
+    positionY       integer,
+    targetX         integer,
+    targetY         integer
+);
+
 CREATE TABLE troop
 (
     id          text,
@@ -254,3 +265,4 @@ DROP TABLE quest;
 DROP TABLE world;
 DROP TABLE party;
 DROP TABLE partyMember;
+DROP TABLE rumor;

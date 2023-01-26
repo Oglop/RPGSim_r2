@@ -254,6 +254,19 @@ module.exports = {
         description: undefined,
         exploreStatus: ENUM_EXPLORE_STATUS.empty,
     },
+    rumor: {
+        id: undefined,
+        description: undefined,
+        type: 0,
+        position: {
+            x: 0,
+            y: 0
+        },
+        target: {
+            x:0,
+            y:0
+        }
+    },
     point: {
         x: undefined,
         y: undefined
