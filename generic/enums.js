@@ -530,6 +530,7 @@ module.exports = {
         DELETE_QUEST: 'deleteQuest',
         DELETE_PARTY: 'deleteParty',
         DELETE_PARTY_MEMBER: 'deletePartyMember',
+        DELETE_RUMOR: 'deleteRumor',
 
         INSERTROOM: 'insertRoom',
         INSERTDWELLING: 'insertDwelling',
@@ -551,6 +552,7 @@ module.exports = {
         INSERT_QUEST: 'insertQuest',
         INSERT_PARTY: 'insertParty',
         INSERT_PARTY_MEMBER: 'insertPartyMember',
+        INSERT_RUMOR: 'insertRumor',
 
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',
@@ -567,6 +569,7 @@ module.exports = {
         UPDATE_QUEST: 'updateQuest',
         UPDATE_PARTY: 'updateParty',
         UPDATE_SKILL: 'updateSkill',
+        UPDATE_RUMOR: 'updateRumor',
 
         SAVE_PARTY: 'saveParty'
     },
@@ -634,5 +637,11 @@ module.exports = {
         WANING_GIBBIOUS: 5,
         THIRD_QUARTER: 6,
         WANING_CRESCENT: 7
+    },
+    ENUM_RUMOR_TYPE: {
+        ARTIFACT: 0,
+        RUIN: 1,
+        ENEMY: 2,
+        TREASURE: 3
     }
 }
