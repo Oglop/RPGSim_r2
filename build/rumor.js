@@ -21,8 +21,8 @@ const getRumorType = () => {
  * @returns { { x:number, y:number} } target
  */
 const getRumorTarget = (position) => {
-    const target = point2d(0,0)
-    while (target.x != position.x && target.y != position.y) {
+    let target = point2d(position.x,position.y)
+    while (target.x === position.x && target.y === position.y) {
         target.x = getRandomNumberInRange(0,10) - 5
         target.y = getRandomNumberInRange(0,10) - 5
         if (target.x > worldSize) { target.x = worldSize }
@@ -43,14 +43,13 @@ const getRumorDescription = type => {
     return ''
 }
 
-
 /**
  * builds a new rumor on position
  * @param {{position: { x:number, y:number }, type: ENUM_RUMOR_TYPE}} options 
  */
 module.exports.build = options => {
     const rumor = copyObject(objects.rumor)
-    rumor.id = generateID
+    rumor.id = generateID()
     rumor.type = (options.type != undefined) ? options.type : getRumorType()
     rumor.position.x = options.position.x
     rumor.position.y = options.position.y
