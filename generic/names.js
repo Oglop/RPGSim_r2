@@ -314,6 +314,9 @@ const getLandmarkName = (biome) => {
  * returns a persons name
  */
 const getPersonName = sex => {
+    if (sex == undefined) {
+        sex = getRandomElementFromArray([ ENUM_GENDER.FEMALE, ENUM_GENDER.MALE ])
+    }
     if (sex === ENUM_GENDER.FEMALE) {
         return getRandomElementFromArray(firstFemaleNames)
     } else {
