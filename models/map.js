@@ -183,8 +183,9 @@ const getRandomQuestLocation = (map, currentX, currentY) => {
 const mapSafeCoordinates = (position) => {
     if (position.x < 0) { position.x = 0 }
     if (position.y < 0) { position.y = 0 }
+    if (position.x > WORLD_SIZE) { position.x = WORLD_SIZE }
     if (position.y > WORLD_SIZE) { position.y = WORLD_SIZE }
-    if (position.y > WORLD_SIZE) { position.y = WORLD_SIZE }
+    return position
 }
 
 module.exports = {
