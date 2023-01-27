@@ -175,6 +175,18 @@ const getRandomQuestLocation = (map, currentX, currentY) => {
     }
 }
 
+/**
+ * turns position into a position within world size
+ * @param {{ x:integer, y:integer}} position 
+ * @returns {{ x:integer, y:integer}} position 
+ */
+const mapSafeCoordinates = (position) => {
+    if (position.x < 0) { position.x = 0 }
+    if (position.y < 0) { position.y = 0 }
+    if (position.y > WORLD_SIZE) { position.y = WORLD_SIZE }
+    if (position.y > WORLD_SIZE) { position.y = WORLD_SIZE }
+}
+
 module.exports = {
     getDwellingsFromMap,
     getDwellingPositionById,
@@ -186,5 +198,6 @@ module.exports = {
     getClosestDwelling,
     isPointOnMap,
     isBiome,
-    getRandomQuestLocation
+    getRandomQuestLocation,
+    mapSafeCoordinates
 }

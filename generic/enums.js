@@ -641,7 +641,9 @@ module.exports = {
     ENUM_RUMOR_TYPE: {
         ARTIFACT: 0,
         RUIN: 1,
-        ENEMY: 2,
-        TREASURE: 3
+        BOUNTY: 2,
+        TREASURE: 3,
+        DOOM: 4,
+        LOST_NOBLE: 5
     }
 }

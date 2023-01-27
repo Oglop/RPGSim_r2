@@ -452,6 +452,16 @@ module.exports.get = (id, args) => {
         case 'race-dwarf-possessive': return 'dwarven'
         case 'race-halfling-possessive': return 'halfling'
 
+        
+        case 'rumor-of-treasure': return `a large treasure burid in the wilderness.`
+        case 'rumor-of-artifact': return `the artifact ${args[0]} which is suposed to have been near from here.`
+        case 'rumor-of-ruin': return `the ruins of ${args[0]} a few days from here.`
+        case 'rumor-of-doom': return `the gathering of dark creatures not far from here.`
+        case 'rumor-of-bounty': return `the creature ${args[0]} terrorizing the nearby villages.`
+        case 'rumor-of-lost-noble': return `the noble ${args[0]} was lost during travels in this region.`
+        case 'rumor-tell': return `${args[0]} tells of ${args[1]}`
+        case 'rumor-commit': return `${args[0]} decides to persue ${args[1]}`
+
         case 'troop-archers': return 'archers'
         case 'troop-men-at-arms': return 'men-at-arms'
         case 'troop-knights': return 'knights'
