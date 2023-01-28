@@ -2,7 +2,7 @@ const objects = require('../generic/objects')
 const characterBuilder = require('./character')
 const equipmentBuilder = require('./equipment')
 const { ENUM_JOB_NAMES, ENUM_QUEST_STATUS } = require('../generic/enums')
-const { chance, copyObject, generateID, getRandomNumberInRange } = require('../lib/utils')
+const { copyObject, generateID, getRandomNumberInRange } = require('../lib/utils')
 const { logError } = require('../data/errorFile')
 const { get } = require('../localization')
 const { partySize } = require('../config')
@@ -11,7 +11,7 @@ const m = require('../models/party')
 const { executeCommands } = require('../persistance/commandQueue')
 const { getStoryEntry } = require('../build/story')
 const { ENUM_COMMANDS, ENUM_STORY_TYPE, ENUM_STORY_TAGS } = require('../generic/enums')
-
+const { getPartyName } = require('../generic/names')
 
 /**
  * Builds party object
@@ -85,7 +85,7 @@ module.exports.build = async (options = {}) => {
             party.crowns += getRandomNumberInRange(5,9)
         }
     }
-    party.name = get('party-name-template', [ party.members[0].name ])
+    party.name = getPartyName(party.members[0].name)
     party.position.x = -1
     party.position.y = -1
 

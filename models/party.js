@@ -33,7 +33,7 @@ const isInDwelling = async (world, party) => {
         if (world.map[party.position.x][party.position.y].dwellingId != undefined) {
             const dwelling = getDwellingByCoordinates(party.position.x, party.position.y, world)
             await executeCommands([
-                { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('party-is-in-dwelling', [ dwelling.name ]), party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
+                { command: ENUM_COMMANDS.INSERT_STORY, data: getStoryEntry(get('party-is-in-dwelling', [ party.name, dwelling.name ]), party.id, ENUM_STORY_TYPE.ADVENTURE, {tag: ENUM_STORY_TAGS.PARAGRAPH}) }
             ])
             return true
         }

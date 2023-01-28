@@ -38,4 +38,10 @@ describe('rumor.unit.test', () => {
         const actual = getRumorDescription(ENUM_RUMOR_TYPE.ARTIFACT)
         expect(actual).toBe(expected)
     })
+    test('getRumorTarget should return a coordinate', () => {
+        const expected = { x: 2, y: 3 }
+        const actual = getRumorTarget({ x: 6, y: 7 })
+        expect(actual.x).toBe(expected.x)
+        expect(actual.y).toBe(expected.y)
+    })
 })
