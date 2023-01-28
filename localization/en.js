@@ -415,6 +415,8 @@ module.exports.get = (id, args) => {
         case 'npc-approaches-party': return `${args[0]} is approaching ${args[1]}.`
         case 'npc-greets-party': return `${args[0]} greets ${args[1]}.`
 
+        case 'party-name-template-none': return `The ${args[0]} ${args[1]}`
+        case 'party-name-template-of': return `The ${args[0]} of ${args[1]}`
         case 'party-name-template': return `${args[0]} and party`
         case 'party-is-in-dwelling': return `${args[0]} is in ${args[1]}.`
         case 'personality-description-ambitious' : return `hard working`
@@ -456,7 +458,7 @@ module.exports.get = (id, args) => {
         case 'rumor-of-treasure': return `a large treasure burid in the wilderness.`
         case 'rumor-of-artifact': return `the artifact ${args[0]} which is suposed to have been near from here.`
         case 'rumor-of-ruin': return `the ruins of ${args[0]} a few days from here.`
-        case 'rumor-of-doom': return `the gathering of dark creatures not far from here.`
+        case 'rumor-of-doom': return `the gathering of vile forces not far from here.`
         case 'rumor-of-bounty': return `the creature ${args[0]} terrorizing the nearby villages.`
         case 'rumor-of-lost-noble': return `the noble ${args[0]} was lost during travels in this region.`
         case 'rumor-tell': return `${args[0]} tells of ${args[1]}`
@@ -529,6 +531,10 @@ module.exports.get = (id, args) => {
         case 'system-word-four': return 'four'
         case 'system-word-five': return 'five'
         case 'system-word-six': return 'six'
+        case 'system-word-seven': return 'seven'
+        case 'system-word-eight': return 'eight'
+        case 'system-word-nine': return 'nine'
+        case 'system-word-ten': return 'ten'
         case 'time-birthDate': return `month of ${args[0]} in the year ${args[1]}`
         
         case 'weather-clear-description': return 'The weather is clear.'

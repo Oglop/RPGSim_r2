@@ -37,8 +37,8 @@ const getRumorType = () => {
 const getRumorTarget = (position) => {
     let target = point2d(position.x,position.y)
     while (target.x === position.x && target.y === position.y) {
-        target.x = getRandomNumberInRange(0,10) - 5
-        target.y = getRandomNumberInRange(0,10) - 5
+        target.x = position.x + getRandomNumberInRange(0,10) - 5
+        target.y = position.y + getRandomNumberInRange(0,10) - 5
         target = mapSafeCoordinates(target)
     }
     return target

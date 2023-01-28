@@ -3,6 +3,7 @@ const {
     getRandomElementFromArray,
     chance
 } = require('../lib/utils')
+const { get } = require('../localization')
 const { ENUM_GENDER, ENUM_BIOME_DESCRIPTIONS, ENUM_BIOMES } = require('../generic/enums')
 
 const firstFamilyNames = [
@@ -265,6 +266,96 @@ const dwellingNames = [
 
 ]
 
+const descriptive = [
+    'arching',
+    'angry',
+    'beholding',
+    'boundless',
+    'brittle',
+    'crazy',
+    'crumbeling',
+    'chrome',
+    'crossed',
+    'dreaded',
+    'dreaming',
+    'deaf',
+    'filthy',
+    'flying',
+    'focused',
+    'feeding',
+    'hope',
+    'joking',
+    'luminous',
+    'left',
+    'moonlight',
+    'negative',
+    'optimistic',
+    'pesimistic',
+    'praying',
+    'rolling',
+    'serious',
+    'acrobatic',
+    'adorable',
+    'adventurous',
+    'bitter',
+    'boundless',
+    'bright',
+    'brilliant',
+    'brittle',
+    'delirious',
+    'diminutive',
+    'exultant',
+    'filthy',
+    'foolhardy',
+    'gregarious',
+    'intrepid',
+    'jocular',
+    'joyful',
+    'jubilant',
+    'keen',
+    'kooky',
+    'lanky',
+    'lazy',
+    'limp',
+    'lush',
+    'luxurious',
+    'macabre',
+    'magnanimous',
+    'mellow',
+    'miserable',
+    'nimble',
+    'nocturnal',
+    'opulent',
+    'ornate',
+    'ordinary',
+    'palatial',
+    'parsimonious',
+    'peevish',
+    'picturesque',
+    'potent',
+    'practical',
+    'precious',
+    'putrid',
+    'questionable',
+    'quirky',
+    'radiant',
+    'raspy',
+    'rustic',
+    'scornful',
+    'scrumptious',
+    'silky',
+    'sly',
+    'spider-like',
+    'spectacular',
+    'tentacular',
+    'tense',
+    'thorny',
+    'verdant',
+    'whimsical',
+    'woeful',
+    'zesty'
+]
+
 const landmarkDescrptions = [
     'finger',
     'silent',
@@ -284,6 +375,92 @@ const landmarkDescrptions = [
     'spider',
     'sunny',
     'moon',
+]
+
+const things = [
+    'axe',
+    'armor', 
+    'anvil',
+    'arrow',
+    'bolt',
+    'beard',
+    'bard',
+    'cow',
+    'cork',
+    'corn',
+    'dream',
+    'dragon',
+    'eal',
+    'eagle',
+    'foot',
+    'father',
+    'feeling',
+    'guard',
+    'ghost',
+    'head',
+    'inn',
+    'iron',
+    'jester',
+    'knife',
+    'knight',
+    'knock',
+    'knuckle',
+    'keep',
+    'knot',
+    'laugh',
+    'lady',
+    'lion',
+    'library',
+    'lake',
+    'leaf',
+    'leather',
+    'labyrinth',
+    'lexicon',
+    'map',
+    'mountain',
+    'mine',
+    'market',
+    'mug',
+    'mace',
+    'moon',
+    'mask',
+    'necklace',
+    'nail',
+    'night',
+    'ocean',
+    'onyx',
+    'plume',
+    'pig',
+    'pillar',
+    'poison',
+    'priest',
+    'portal',
+    'plague',
+    'pigeon',
+    'peasant',
+    'pot',
+    'rock',
+    'road',
+    'ring',
+    'root',
+    'rift',
+    'river',
+    'raven',
+    'rouge',
+    'sword',
+    'spear',
+    'shield',
+    'stone',
+    'shell',
+    'shark',
+    'sky',
+    'song',
+    'star',
+    'scyth',
+    'tree',
+    'thorn',
+    'trap',
+    'thread',
 ]
 
 
@@ -355,6 +532,26 @@ const getVileNames = () => {
 
 }
 
+/**
+ * returns name for an adventuring party
+ * @param {string} nameOfCharacter 
+ * @returns {string} name
+ */
+const getPartyName = (nameOfCharacter) => {
+    if (chance(30)) {
+        return get('party-name-template', [nameOfCharacter])
+    } else {
+        const plural = chance(50)
+        const description = getRandomElementFromArray(descriptive)
+        const thing = `${getRandomElementFromArray(things)}${plural ? 's' : ''}`
+        if (chance(50)) {
+            return get('party-name-template-none', [description, thing])
+        } else {
+            return get('party-name-template-of', [ thing, description ])
+        }
+    }
+}
+
 module.exports = {
-    getPersonName, getFamilyName, getDwellingName, getLandmarkName, getVileNames
+    getPersonName, getFamilyName, getDwellingName, getLandmarkName, getVileNames, getPartyName
 }
