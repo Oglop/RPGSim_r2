@@ -5,6 +5,7 @@ const { migrate } = require('../../persistance').infrastructure
 const { ENUM_RUMOR_TYPE, ENUM_COMMANDS } = require('../../generic/enums')
 
 describe('rumor integration tests', () => {
+    
     test('rumor integration', async () => {
         await migrate()
         const rumorInitial = rumorBuilder.build({
@@ -26,6 +27,7 @@ describe('rumor integration tests', () => {
         expect(rumorActualFirst.target.y).toBe(rumorInitial.target.y)
 
         rumorActualFirst.type = ENUM_RUMOR_TYPE.TREASURE
+        rumorActualFirst.questId = '123456789'
         rumorActualFirst.target.x = 20
         rumorActualFirst.target.y = 21
 
@@ -39,6 +41,7 @@ describe('rumor integration tests', () => {
         
         expect(rumorActualSecond.target.x).toBe(20)
         expect(rumorActualSecond.target.y).toBe(21)
+        expect(rumorActualSecond.questId).toBe('123456789')
     })
 })
 

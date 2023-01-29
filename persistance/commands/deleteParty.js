@@ -6,7 +6,7 @@ module.exports.deleteParty = async (id) => {
         party    
     WHERE
         id = @id
-    );`)
+    ;`)
     await stmt.bind({
         '@id': id,
     })

@@ -6,7 +6,7 @@ module.exports.deleteRumor = async (id) => {
         rumor 
     WHERE
         id = @id
-    );`)
+    ;`)
     await stmt.bind({
         '@id': id,
     })

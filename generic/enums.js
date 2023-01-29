@@ -532,6 +532,7 @@ module.exports = {
         DELETE_PARTY_MEMBER: 'deletePartyMember',
         DELETE_RUMOR: 'deleteRumor',
         DELETE_DWELLING_RUMOR: 'deleteDwellingRumor',
+        DELETE_PARTY_RUMOR: 'deletePartyRumor',
 
         INSERTROOM: 'insertRoom',
         INSERTDWELLING: 'insertDwelling',
@@ -555,6 +556,7 @@ module.exports = {
         INSERT_PARTY: 'insertParty',
         INSERT_PARTY_MEMBER: 'insertPartyMember',
         INSERT_RUMOR: 'insertRumor',
+        INSERT_PARTY_RUMOR: 'insertPartyRumor',
 
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',

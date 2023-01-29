@@ -6,7 +6,7 @@ module.exports.deleteAdvisor = async (id) => {
         advisor 
     WHERE
         id = @id
-    );`)
+    ;`)
     await stmt.bind({
         '@id': id,
     })
