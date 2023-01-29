@@ -6,7 +6,7 @@ module.exports.deleteQuest = async (id) => {
         quest    
     WHERE
         id = @id
-    );`)
+    ;`)
     await stmt.bind({
         '@id': id,
     })

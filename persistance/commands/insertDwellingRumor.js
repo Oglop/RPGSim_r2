@@ -11,7 +11,7 @@ module.exports.insertDwellingRumor = async (dwellingRumor) => {
     );`)
     await stmt.bind({
         '@dwellingId': dwellingRumor.dwellingId,
-        '@rumorId': dwellingRumor.questId
+        '@rumorId': dwellingRumor.rumorId
     })
     await stmt.run()
 }

@@ -6,7 +6,7 @@ module.exports.deletePartyRumor = async (rumorId) => {
         partyRumor    
     WHERE
         rumorId = @rumorId
-    );`)
+    ;`)
     await stmt.bind({
         '@rumorId': rumorId
     })

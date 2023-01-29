@@ -24,9 +24,12 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.DELETE_PARTY: await commands.deleteParty(item.data); break;
                 case ENUM_COMMANDS.DELETE_PARTY_MEMBER: await commands.deletePartyMember(item.data); break;
                 case ENUM_COMMANDS.DELETE_RUMOR: await commands.deleteRumor(item.data); break;
+                case ENUM_COMMANDS.DELETE_PARTY_RUMOR: await commands.deletePartyRumor(item.data); break;
+                case ENUM_COMMANDS.DELETE_DWELLING_RUMOR: await commands.deleteDwellingRumor(item.data); break;
                 case ENUM_COMMANDS.INSERTROOM: await commands.insertRoom(item.data); break;
                 case ENUM_COMMANDS.INSERTDWELLING: await commands.insertDwelling(item.data); break;
                 case ENUM_COMMANDS.INSERT_DWELLING_LOCATION: await commands.insertDwellingLocation(item.data); break;
+                case ENUM_COMMANDS.INSERT_DWELLING_RUMOR: await commands.insertDwellingRumor(item.data); break;
                 case ENUM_COMMANDS.INSERTCHARACTER: await commands.insertCharacter(item.data); break;
                 case ENUM_COMMANDS.INSERTWORLD: await commands.insertWorld(item.data); break;
                 case ENUM_COMMANDS.INSERTCOURT: await commands.insertCourt(item.data); break;
@@ -45,6 +48,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.INSERT_PARTY: await commands.insertParty(item.data); break;
                 case ENUM_COMMANDS.INSERT_PARTY_MEMBER: await commands.insertPartyMember(item.data); break;
                 case ENUM_COMMANDS.INSERT_RUMOR: await commands.insertRumor(item.data); break;
+                case ENUM_COMMANDS.INSERT_PARTY_RUMOR: await commands.insertPartyRumor(item.data); break;
                 case ENUM_COMMANDS.UPDATEROOM: await commands.updateRoom(item.data); break;
                 case ENUM_COMMANDS.UPDATEDWELLING: await commands.updateDwelling(item.data); break;
                 case ENUM_COMMANDS.UPDATE_DWELLING_LOCATION: await commands.updateDwellingLocationStatus(item.data); break;

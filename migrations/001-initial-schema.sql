@@ -85,6 +85,12 @@ CREATE TABLE dwelling
     guards          integer
 );
 
+CREATE TABLE dwellingRumor
+(
+    dwellingId  text,
+    rumorId     text
+);
+
 CREATE TABLE dwellingLocation
 (
     id              text, 
