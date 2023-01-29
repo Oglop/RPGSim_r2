@@ -10,6 +10,8 @@ const { deleteQuest } = require('./commands/deleteQuest')
 const { deleteParty } = require('./commands/deleteParty')
 const { deletePartyMember } = require('./commands/deletePartyMember')
 const { deleteRumor } = require('./commands/deleteRumor')
+const { deleteDwellingRumor } = require('./commands/deleteDwellingRumor')
+const { deletePartyRumor } = require('./commands/deletePartyRumor')
 
 const { insertRoom } = require('./commands/insertRoom')
 const { insertDwelling } = require('./commands/insertDwelling')
@@ -32,6 +34,8 @@ const { insertQuest } = require('./commands/insertQuest')
 const { insertParty } = require('./commands/insertParty')
 const { insertPartyMember } = require('./commands/insertPartyMember')
 const { insertRumor } = require('./commands/insertRumor')
+const { insertDwellingRumor } = require('./commands/insertDwellingRumor')
+const { insertPartyRumor } = require('./commands/insertPartyRumor')
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
@@ -56,6 +60,7 @@ const { getDwellingLocationsByDwellingId } = require('./queries/getDwellingLocat
 const { getDwellingByCoordinates } = require('./queries/getDwellingByCoordinates')
 const { getDwellingIdsFromRoom } = require('./queries/getDwellingIdsFromRoom')
 const { getDwellingById } = require('./queries/getDwellingById')
+const { getDwellingRumorsByDwellingId } = require('./queries/getDweelingRumorsByDwellingId')
 const { getLanguageByCharacterId } = require('./queries/getLanguageByCharacterId')
 const { getWorldById } = require('./queries/getWorldById')
 const { getSkillByCharacterId } = require('./queries/getSkillByCharacterId')
@@ -71,9 +76,10 @@ const { getStory } = require('./queries/getStory')
 const { getTradeByDwellingId } = require('./queries/getTradeByDwellingId')
 const { getQuestById } = require('./queries/getQuestById')
 const { getRumorById } = require('./queries/getRumorById')
-const { quest } = require('../generic/objects')
+//const { quest } = require('../generic/objects')
 //const { getPartyById } = require('./queries/getPartyById')
 const { getPartyMembersByPartyId } = require('./queries/getPartyMembersByPartyId')
+const { getPartyRumorByPartyId } = require('./queries/getPartyRumorByPartyId')
 const { getPartyMemberByCharacterId } = require('./queries/getPartyMemberByCharacterId')
 
 //const { listParties } = require('./queries/listParties')
@@ -88,6 +94,8 @@ module.exports = {
         deleteParty: (id) => deleteParty(id),
         deletePartyMember: (id) => deletePartyMember(id),
         deleteRumor: (id) => deleteRumor(id),
+        deleteDwellingRumor: (rumorId) => deleteDwellingRumor(rumorId),
+        deletePartyRumor: (rumorId) => deletePartyRumor(rumorId),
 
         insertArmy: (army) => insertArmy(army),
         insertAdvisor: (advisor) => insertAdvisor(advisor),
@@ -110,6 +118,8 @@ module.exports = {
         insertParty: (party) => insertParty(party),
         insertPartyMember: (data) => insertPartyMember(data),
         insertRumor: (data) => insertRumor(data),
+        insertDwellingRumor: (dwellingRumor) => insertDwellingRumor(dwellingRumor),
+        insertPartyRumor: (partyRumor) => insertPartyRumor(partyRumor),
         
         updateCharacter: (character) => updateCharacter(character),
         updateDwelling: (dwelling) => updateDwelling(dwelling),
@@ -152,7 +162,9 @@ module.exports = {
         getQuestById: (id) => getQuestById(id),
         //getPartyById: (id) => getPartyById(id),
         getPartyMembersByPartyId: (partyId) => getPartyMembersByPartyId(partyId),
-        getPartyMemberByCharacterId: (characterId) => getPartyMemberByCharacterId(characterId)
+        getPartyMemberByCharacterId: (characterId) => getPartyMemberByCharacterId(characterId),
+        getPartyRumorByPartyId: (partyId) => getPartyRumorByPartyId(partyId),
+        getDwellingRumorsByDwellingId: (dwellingId) => getDwellingRumorsByDwellingId(dwellingId)
         //listParties: () => listParties()
     },
     aggregates: {
