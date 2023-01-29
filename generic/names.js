@@ -245,7 +245,7 @@ const dwellingNames = [
     'Iktos',
     'Junos',
     'Kriaos',
-    'Knossos',
+    'Koria',
     'Lua',
     'Omios',
     'Ourto',
@@ -387,7 +387,7 @@ const things = [
     'bard',
     'cow',
     'cork',
-    'corn',
+    'bridge',
     'dream',
     'dragon',
     'eal',
@@ -541,9 +541,8 @@ const getPartyName = (nameOfCharacter) => {
     if (chance(30)) {
         return get('party-name-template', [nameOfCharacter])
     } else {
-        const plural = chance(50)
         const description = getRandomElementFromArray(descriptive)
-        const thing = `${getRandomElementFromArray(things)}${plural ? 's' : ''}`
+        const thing = `${getRandomElementFromArray(things)}${chance(50) ? 's' : ''}`
         if (chance(50)) {
             return get('party-name-template-none', [description, thing])
         } else {
