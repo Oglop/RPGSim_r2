@@ -6,6 +6,7 @@ module.exports.updateRumor = async (rumor) => {
         rumor 
     SET
         description = @description,
+        questId = @questId,
         type = @type,
         targetX = @targetX,
         targetY = @targetY
@@ -13,6 +14,7 @@ module.exports.updateRumor = async (rumor) => {
         id = @id;`)
     await stmt.bind({
         '@id': rumor.id,
+        '@questId': rumor.questId,
         '@type': rumor.type,
         '@targetX': rumor.target.x,
         '@targetY': rumor.targety

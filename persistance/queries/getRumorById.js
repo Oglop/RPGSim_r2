@@ -6,6 +6,7 @@ module.exports.getRumorById = async (id) => {
     const stmt = await DatabaseContext.db.prepare(`
         SELECT
             id,
+            questId,
             description,
             type,
             positionX,

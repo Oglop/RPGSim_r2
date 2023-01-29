@@ -2,6 +2,7 @@ const { DatabaseContext } = require('../connections')
 module.exports.insertRumor = async (rumor) => {
     const stmt = await DatabaseContext.db.prepare(`INSERT INTO rumor (
         id,
+        questId,
         description,
         type,
         positionX,
@@ -12,6 +13,7 @@ module.exports.insertRumor = async (rumor) => {
     VALUES
     (
         @id,
+        @questId,
         @description,
         @type,
         @positionX,
@@ -21,6 +23,7 @@ module.exports.insertRumor = async (rumor) => {
     );`)
     await stmt.bind({
         '@id': rumor.id,
+        '@questId': rumor.questId,
         '@description': rumor.description,
         '@type': rumor.type,
         '@positionX': rumor.position.x,

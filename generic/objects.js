@@ -134,6 +134,10 @@ module.exports = {
         type: undefined,
         name: undefined
     },
+    dwellingRumor: {
+        dwellingId: undefined,
+        rumorId: undefined
+    },
     dungeon: {
         id: '',
         size: '',
@@ -256,6 +260,7 @@ module.exports = {
     },
     rumor: {
         id: undefined,
+        questId: undefined,
         description: undefined,
         type: 0,
         position: {
@@ -405,8 +410,13 @@ module.exports = {
         quest: {},
         questStatus: ENUM_QUEST_STATUS.NONE,
         questGoal: { x: -1, y: -1 },
+        knownRumors: [],
         crowns:0,
         food:0
+    },
+    partyRumor: {
+        partyId: undefined,
+        rumorId: undefined
     },
     quest: {
         id: undefined,

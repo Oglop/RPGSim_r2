@@ -531,10 +531,12 @@ module.exports = {
         DELETE_PARTY: 'deleteParty',
         DELETE_PARTY_MEMBER: 'deletePartyMember',
         DELETE_RUMOR: 'deleteRumor',
+        DELETE_DWELLING_RUMOR: 'deleteDwellingRumor',
 
         INSERTROOM: 'insertRoom',
         INSERTDWELLING: 'insertDwelling',
         INSERT_DWELLING_LOCATION: 'insertDwellingLocation',
+        INSERT_DWELLING_RUMOR: 'insertDwellingRumor',
         INSERTCHARACTER: 'insertCharacter',
         INSERTWORLD: 'insertWorld',
         INSERTCOURT: 'insertCourt',
@@ -557,6 +559,7 @@ module.exports = {
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',
         UPDATE_DWELLING_LOCATION: 'updateDwellingLocation',
+        
         UPDATECHARACTER: 'updateCharacter',
         UPDATEWORLDDATE: 'updateWorldDate',
         UPDATELANGUAGEMASTERY: 'updateLanguageMastery',
