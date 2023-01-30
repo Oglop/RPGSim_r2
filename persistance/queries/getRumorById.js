@@ -27,6 +27,7 @@ module.exports.getRumorById = async (id) => {
     if (tmp != undefined) {
         rumor.id = tmp.id
         rumor.description = tmp.description
+        rumor.questId = tmp.questId
         rumor.type = tmp.type
         rumor.position = point2d(tmp.positionX, tmp.positionY)
         rumor.target = point2d(tmp.targetX, tmp.targetY)
