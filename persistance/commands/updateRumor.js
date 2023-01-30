@@ -17,7 +17,7 @@ module.exports.updateRumor = async (rumor) => {
         '@questId': rumor.questId,
         '@type': rumor.type,
         '@targetX': rumor.target.x,
-        '@targetY': rumor.targety
+        '@targetY': rumor.target.y
     })
     await stmt.run()
 }

@@ -15,12 +15,13 @@ describe('rumor integration tests', () => {
             },
             type: ENUM_RUMOR_TYPE.RUIN
         })
-
+        expect(rumorInitial.type).toBe(ENUM_RUMOR_TYPE.RUIN)
         await executeCommands([
             { command: ENUM_COMMANDS.INSERT_RUMOR, data: rumorInitial }
         ])
 
         const rumorActualFirst = await getRumorById(rumorInitial.id)
+        
         expect(rumorActualFirst.id).toBe(rumorInitial.id)
         expect(rumorActualFirst.type).toBe(rumorInitial.type)
         expect(rumorActualFirst.target.x).toBe(rumorInitial.target.x)
@@ -30,7 +31,6 @@ describe('rumor integration tests', () => {
         rumorActualFirst.questId = '123456789'
         rumorActualFirst.target.x = 20
         rumorActualFirst.target.y = 21
-
         await executeCommands([
             { command: ENUM_COMMANDS.UPDATE_RUMOR, data: rumorActualFirst }
         ])
