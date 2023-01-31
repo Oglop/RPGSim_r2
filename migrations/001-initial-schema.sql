@@ -257,6 +257,19 @@ CREATE TABLE quest
     originDwellingLocationId    text
 );
 
+CREATE TABLE item
+(
+    id          text,
+    type        integer,
+    name        text,
+    use         text,
+    effect      text,
+    min         integer,
+    max         integer,
+    value       integer,
+    skillRequired   text
+);
+
 -- Down
 DROP TABLE army;
 DROP TABLE advisor;
@@ -281,3 +294,4 @@ DROP TABLE partyMember;
 DROP TABLE rumor;
 DROP TABLE dwellingRumor;
 DROP TABLE partyRumor;
+DROP TABLE item;
