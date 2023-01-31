@@ -52,7 +52,7 @@ module.exports.getCharacterById = async (id) => {
     })
     const tmp = await stmt.get()
     const character = copyObject(objects.character)
-    return tmp ? { 
+    return { 
         ...character, 
         ...tmp, 
         birthDate: textToDate(tmp.birthDate), 
@@ -65,6 +65,12 @@ module.exports.getCharacterById = async (id) => {
             int: tmp.int,
             cha: tmp.cha,
             luc: tmp.luc
+        },
+        equipment: {
+            head: tmp.head,
+            weaponHand: tmp.weaponHand,
+            shieldHand:tmp.shieldHand,
+            body: tmp.body
         }   
-    }:{}
+    }
 }
