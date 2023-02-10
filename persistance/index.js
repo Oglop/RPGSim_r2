@@ -12,6 +12,7 @@ const { deletePartyMember } = require('./commands/deletePartyMember')
 const { deleteRumor } = require('./commands/deleteRumor')
 const { deleteDwellingRumor } = require('./commands/deleteDwellingRumor')
 const { deletePartyRumor } = require('./commands/deletePartyRumor')
+const { deleteItem } = require('./commands/deleteItem')
 
 const { insertRoom } = require('./commands/insertRoom')
 const { insertDwelling } = require('./commands/insertDwelling')
@@ -36,6 +37,7 @@ const { insertPartyMember } = require('./commands/insertPartyMember')
 const { insertRumor } = require('./commands/insertRumor')
 const { insertDwellingRumor } = require('./commands/insertDwellingRumor')
 const { insertPartyRumor } = require('./commands/insertPartyRumor')
+const { insertItem } = require('./commands/insertItem')
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
@@ -53,6 +55,7 @@ const { updateQuest } = require('./commands/updateQuest')
 const { updateParty } = require('./commands/updateParty')
 const { updateSkill } = require('./commands/updateSkill')
 const { updateRumor } = require('./commands/updateRumor')
+const { updateItem } = require('./commands/updateItem')
 
 const { getCharacterById } = require('./queries/getCharacterById')
 const { getDwellingLocationsByDwellingId } = require('./queries/getDwellingLocationsByDwellingId')
@@ -76,6 +79,7 @@ const { getStory } = require('./queries/getStory')
 const { getTradeByDwellingId } = require('./queries/getTradeByDwellingId')
 const { getQuestById } = require('./queries/getQuestById')
 const { getRumorById } = require('./queries/getRumorById')
+const { getItemById } = require('./queries/getItemById')
 //const { quest } = require('../generic/objects')
 //const { getPartyById } = require('./queries/getPartyById')
 const { getPartyMembersByPartyId } = require('./queries/getPartyMembersByPartyId')
@@ -96,6 +100,7 @@ module.exports = {
         deleteRumor: (id) => deleteRumor(id),
         deleteDwellingRumor: (rumorId) => deleteDwellingRumor(rumorId),
         deletePartyRumor: (rumorId) => deletePartyRumor(rumorId),
+        deleteItem: (id) => deleteItem(id),
 
         insertArmy: (army) => insertArmy(army),
         insertAdvisor: (advisor) => insertAdvisor(advisor),
@@ -120,7 +125,8 @@ module.exports = {
         insertRumor: (data) => insertRumor(data),
         insertDwellingRumor: (dwellingRumor) => insertDwellingRumor(dwellingRumor),
         insertPartyRumor: (partyRumor) => insertPartyRumor(partyRumor),
-        
+        insertItem: (item) => insertItem(item),
+
         updateCharacter: (character) => updateCharacter(character),
         updateDwelling: (dwelling) => updateDwelling(dwelling),
         updateDwellingLocationStatus: (dwelling) => updateDwellingLocationStatus(dwelling),
@@ -136,7 +142,8 @@ module.exports = {
         updateQuest: (quest) => updateQuest(quest),
         updateParty: (party) => updateParty(party),
         updateSkill: (skill) => updateSkill(skill),
-        updateRumor: (rumor) => updateRumor(rumor)
+        updateRumor: (rumor) => updateRumor(rumor),
+        updateItem: (item) => updateItem(item),
     },
     queries: {
         getArmyByDwellingId: (dwellingId) => getArmyByDwellingId(dwellingId),
@@ -164,7 +171,8 @@ module.exports = {
         getPartyMembersByPartyId: (partyId) => getPartyMembersByPartyId(partyId),
         getPartyMemberByCharacterId: (characterId) => getPartyMemberByCharacterId(characterId),
         getPartyRumorByPartyId: (partyId) => getPartyRumorByPartyId(partyId),
-        getDwellingRumorsByDwellingId: (dwellingId) => getDwellingRumorsByDwellingId(dwellingId)
+        getDwellingRumorsByDwellingId: (dwellingId) => getDwellingRumorsByDwellingId(dwellingId),
+        getItemById: (id) => getItemById(id)
         //listParties: () => listParties()
     },
     aggregates: {
