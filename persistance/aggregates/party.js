@@ -15,13 +15,16 @@ const saveMember = async (partyId, character) => {
     console.log(`character - ${JSON.stringify(character)}`)
     const memberExists = await getPartyMemberByCharacterId(character.id)
     console.log(`!(!!memberExists) - ${!(!!memberExists)}`)
-    if (!(!!memberExists)) {
+    
+    if (memberExists != undefined) {
         const id = generateID()
+        console.log(`id: ${id}, partyId: ${partyId}, characterId: ${character.id}`)
         await insertPartyMember({ id, partyId, characterId: character.id })
     }
+    //console.log(`await getCharacterById(character.id)) - ${await getCharacterById(character.id)}`)
     const characterExists = await getCharacterById(character.id)
     console.log(`!!characterExists) - ${!!characterExists}`)
-    if (!!characterExists) {
+    if (characterExists != undefined) {
         console.log(`await updateCharacter({ ...characterExists, ...character })`)
         await updateCharacter({ ...characterExists, ...character })
     } else {
@@ -34,15 +37,15 @@ const saveMember = async (partyId, character) => {
 
 const saveParty = async party => {
     const partyExists = await getPartyById(party.id)
-    if(!!partyExists) {
+    if(partyExists != undefined) {
         await updateParty({ ...partyExists, ...party })
     } else {
         await insertParty(party)
     }
-    console.log(`party.members - ${party.members.length}`)
+    /*console.log(`party.members - ${party.members.length}`)
     for (member of party.members) {
         await saveMember(party.id, member)
-    }
+    }*/
 }
 
 

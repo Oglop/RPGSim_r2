@@ -26,6 +26,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.DELETE_RUMOR: await commands.deleteRumor(item.data); break;
                 case ENUM_COMMANDS.DELETE_PARTY_RUMOR: await commands.deletePartyRumor(item.data); break;
                 case ENUM_COMMANDS.DELETE_DWELLING_RUMOR: await commands.deleteDwellingRumor(item.data); break;
+                case ENUM_COMMANDS.DELETE_ITEM: await commands.deleteItem(item.data); break;
                 case ENUM_COMMANDS.INSERTROOM: await commands.insertRoom(item.data); break;
                 case ENUM_COMMANDS.INSERTDWELLING: await commands.insertDwelling(item.data); break;
                 case ENUM_COMMANDS.INSERT_DWELLING_LOCATION: await commands.insertDwellingLocation(item.data); break;
@@ -49,6 +50,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.INSERT_PARTY_MEMBER: await commands.insertPartyMember(item.data); break;
                 case ENUM_COMMANDS.INSERT_RUMOR: await commands.insertRumor(item.data); break;
                 case ENUM_COMMANDS.INSERT_PARTY_RUMOR: await commands.insertPartyRumor(item.data); break;
+                case ENUM_COMMANDS.INSERT_ITEM: await commands.insertItem(item.data); break;
                 case ENUM_COMMANDS.UPDATEROOM: await commands.updateRoom(item.data); break;
                 case ENUM_COMMANDS.UPDATEDWELLING: await commands.updateDwelling(item.data); break;
                 case ENUM_COMMANDS.UPDATE_DWELLING_LOCATION: await commands.updateDwellingLocationStatus(item.data); break;
@@ -63,6 +65,8 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.UPDATE_QUEST: await commands.updateQuest(item.data); break;
                 case ENUM_COMMANDS.UPDATE_SKILL: await commands.updateSkill(item.data); break;
                 case ENUM_COMMANDS.UPDATE_RUMOR: await commands.updateRumor(item.data); break;
+                case ENUM_COMMANDS.UPDATE_ITEM: await commands.updateItem(item.data); break;
+
                 case ENUM_COMMANDS.SAVE_PARTY: await aggregates.saveParty(item.data); break;
                 default: throw Error(`command ${item.command} was not found.`)
             }

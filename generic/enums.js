@@ -533,6 +533,7 @@ module.exports = {
         DELETE_RUMOR: 'deleteRumor',
         DELETE_DWELLING_RUMOR: 'deleteDwellingRumor',
         DELETE_PARTY_RUMOR: 'deletePartyRumor',
+        DELETE_ITEM: 'deleteItem',
 
         INSERTROOM: 'insertRoom',
         INSERTDWELLING: 'insertDwelling',
@@ -557,11 +558,11 @@ module.exports = {
         INSERT_PARTY_MEMBER: 'insertPartyMember',
         INSERT_RUMOR: 'insertRumor',
         INSERT_PARTY_RUMOR: 'insertPartyRumor',
+        INSERT_ITEM: 'insertItem',
 
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',
         UPDATE_DWELLING_LOCATION: 'updateDwellingLocation',
-        
         UPDATECHARACTER: 'updateCharacter',
         UPDATEWORLDDATE: 'updateWorldDate',
         UPDATELANGUAGEMASTERY: 'updateLanguageMastery',
@@ -575,6 +576,7 @@ module.exports = {
         UPDATE_PARTY: 'updateParty',
         UPDATE_SKILL: 'updateSkill',
         UPDATE_RUMOR: 'updateRumor',
+        UPDATE_ITEM: 'updateItem',
 
         SAVE_PARTY: 'saveParty'
     },
