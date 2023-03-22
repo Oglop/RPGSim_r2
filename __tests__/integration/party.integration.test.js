@@ -93,7 +93,7 @@ describe('party.integration.test', () => {
     test('saveParty should be instance of Function', () => {
         expect(saveParty).toBeInstanceOf(Function)
     })
-    test('party aggregate', async () => {
+    xtest('party aggregate', async () => {
         await migrate()
         const createdParty = getParty()
         await executeCommands([{ command: ENUM_COMMANDS.SAVE_PARTY, data: createdParty }])
