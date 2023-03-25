@@ -645,5 +645,8 @@ module.exports = {
         TREASURE: 3,
         DOOM: 4,
         LOST_NOBLE: 5
+    },
+    ENUM_COMMAND_PROMPTS: {
+        SIMULATION_MAIN: 0
     }
 }
