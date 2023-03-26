@@ -7,6 +7,7 @@ const { next } = require('./models/turn')
 const { Output } = require('./output/output')
 const { tellWholeStory } = require('./handlers/storyHandler')
 const { commandPrompt, parseArgv } = require('./interfaces')
+const { ENUM_COMMAND_PROMPTS } = require('./generic/enums')
 
 
 /**
@@ -19,19 +20,26 @@ const main = async (args) => {
     const arguments = parseArgv(process.argv)
     
     try {
-        console.log('START')
-
         let world = {}
 
+        let enterWorldIdResult
+        if (arguments.useExistingWorld) {
+            enterWorldIdResult = await commandPrompt(ENUM_COMMAND_PROMPTS.ENTER_WORLD_ID)
+            console.log(enterWorldIdResult.worldId)
+        }
+        
         await migrate()
         const output = (!args.outputType) ? consoleType : htmlType
         Output.setPrinter(output)
-        if (!arguments.useExistingWorld) {
+        if (enterWorldIdResult.worldId =! undefined) {
             world = await generateWorld()
         }
 
+        if (arguments.generateParties) {
+            const noOfAdventuringParties = await commandPrompt(ENUM_COMMAND_PROMPTS.NO_OF_ADVENTURING_PARTIES)
+            world.parties = await createParties( {date: world.date, map: world.map, dwellings: world.dwellings, noOfAdventuringParties} )
+        }
         
-        world.parties = await createParties( {date: world.date, map: world.map, dwellings: world.dwellings} )
         for (let i=0;i<160;i++) {
             await next(world, output)
         }

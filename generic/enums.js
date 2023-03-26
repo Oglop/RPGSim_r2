@@ -647,6 +647,8 @@ module.exports = {
         LOST_NOBLE: 5
     },
     ENUM_COMMAND_PROMPTS: {
-        SIMULATION_MAIN: 0
+        SIMULATION_MAIN: 0,
+        ENTER_WORLD_ID: 1,
+        NO_OF_ADVENTURING_PARTIES: 2
     }
 }

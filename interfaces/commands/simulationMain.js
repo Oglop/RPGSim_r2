@@ -1,8 +1,7 @@
 
 
-const mainPrompt = [ 'start', 'settings' ]
-
-
 module.exports = {
-    mainPrompt
+    mainPrompt: [ 'start', 'settings' ],
+    enterWorldId: [ 'worldId' ],
+    numberOfAdventuringParties: ['numberOfAdventuringParties']
 }
