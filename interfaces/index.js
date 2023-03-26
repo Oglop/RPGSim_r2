@@ -36,14 +36,17 @@ const parseArgv = argv => {
         generateParties: false
     }
 
-    argv.forEach(a => {
-        console.log(a)
-        switch (a.trim()) {
-            case '-s': result.skipCommandPropmt = true; break;
-            case '-u': result.useExistingWorld = true; break;
-            case '-f': result.tellFullStory = true; break;
-            case '-p': result.generateParties = true; break;
-        }
+    argv.forEach(x => {
+        const arguments = x.split(' ')
+        console.log(arguments)
+        arguments.forEach(argument => {
+            switch (argument.trim()) {
+                case '-s': result.skipCommandPropmt = true; break;
+                case '-u': result.useExistingWorld = true; break;
+                case '-f': result.tellFullStory = true; break;
+                case '-p': result.generateParties = true; break;
+            }
+        })
     })
     return result
 }

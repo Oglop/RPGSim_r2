@@ -31,8 +31,15 @@ const main = async (args) => {
         await migrate()
         const output = (!args.outputType) ? consoleType : htmlType
         Output.setPrinter(output)
-        if (enterWorldIdResult.worldId =! undefined) {
+        if (!arguments.useExistingWorld) {
             world = await generateWorld()
+            
+            
+        } else {
+            if (enterWorldIdResult.worldId =! undefined) {
+                // load world
+                return
+            }
         }
 
         if (arguments.generateParties) {
