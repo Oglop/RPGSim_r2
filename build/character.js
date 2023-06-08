@@ -13,8 +13,57 @@ const {
     isVowel
 } = require('../lib/utils')
 const { getPersonName } = require('../generic/names')
-const { ENUM_CHARACTER_TRAITS, ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITIES } = require('../generic/enums')
-const { STAT_MAXIMUM_VALUE, STAT_MINIMUM_VALUE, STATS_MINIMUM_SUM, STAT_HEALTH_BASE, STAT_HEALTH_INCREASE, STAT_STAMINA_BASE, STAT_STAMINA_INCREASE } = require('../generic/statics')
+    ENUM_AGE_RANGE 
+const { ENUM_CHARACTER_TRAITS, ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITIES, ENUM_AGE_RANGE } = require('../generic/enums')
+const { 
+    STAT_MAXIMUM_VALUE, 
+    STAT_MINIMUM_VALUE, 
+    STATS_MINIMUM_SUM, 
+    STAT_HEALTH_BASE, 
+    STAT_HEALTH_INCREASE, 
+    STAT_STAMINA_BASE, 
+    STAT_STAMINA_INCREASE,
+    RACE_AGE_CHILD_HUMAN_MIN,
+    RACE_AGE_CHILD_HUMAN_MAX,
+    RACE_AGE_YOUNG_HUMAN_MIN,
+    RACE_AGE_YOUNG_HUMAN_MAX,
+    RACE_AGE_MIDDLE_AGED_HUMAN_MIN,
+    RACE_AGE_MIDDLE_AGED_HUMAN_MAX,
+    RACE_AGE_OLD_HUMAN_MIN,
+    RACE_AGE_OLD_HUMAN_MAX, 
+    RACE_AGE_CHILD_DWARF_MIN,
+    RACE_AGE_CHILD_DWARF_MAX,
+    RACE_AGE_YOUNG_DWARF_MIN,
+    RACE_AGE_YOUNG_DWARF_MAX,
+    RACE_AGE_MIDDLE_AGED_DWARF_MIN,
+    RACE_AGE_MIDDLE_AGED_DWARF_MAX, 
+    RACE_AGE_OLD_DWARF_MIN,
+    RACE_AGE_OLD_DWARF_MAX, 
+    RACE_AGE_CHILD_ELF_MIN,
+    RACE_AGE_CHILD_ELF_MAX,
+    RACE_AGE_YOUNG_ELF_MIN,
+    RACE_AGE_YOUNG_ELF_MAX,
+    RACE_AGE_MIDDLE_AGED_ELF_MIN,
+    RACE_AGE_MIDDLE_AGED_ELF_MAX, 
+    RACE_AGE_OLD_ELF_MIN,
+    RACE_AGE_OLD_ELF_MAX,
+    ACE_AGE_CHILD_HALF_ELF_MIN,
+    RACE_AGE_CHILD_HALF_ELF_MAX,
+    RACE_AGE_YOUNG_HALF_ELF_MIN,
+    RACE_AGE_YOUNG_HALF_ELF_MAX,
+    RACE_AGE_MIDDLE_AGED_HALF_ELF_MIN,
+    RACE_AGE_MIDDLE_AGED_HALF_ELF_MAX,
+    RACE_AGE_OLD_HALF_ELF_MIN,
+    RACE_AGE_OLD_HALF_ELF_MAX, 
+    RACE_AGE_CHILD_HALFLING_MIN,
+    RACE_AGE_CHILD_HALFLING_MAX,
+    RACE_AGE_YOUNG_HALFLING_MIN,
+    RACE_AGE_YOUNG_HALFLING_MAX,
+    RACE_AGE_MIDDLE_AGED_HALFLING_MIN,
+    RACE_AGE_MIDDLE_AGED_HALFLING_MAX, 
+    RACE_AGE_OLD_HALFLING_MIN, 
+    RACE_AGE_OLD_HALFLING_MAX
+} = require('../generic/statics')
 const { getBirthDate } = require('../lib/time')
 const { logError } = require('../data/errorFile')
 const { getRandomReligion } = require('../generic/religions')
@@ -301,6 +350,17 @@ const getCharacterDescription = (name, race, gender, options = {}) => {
     const descPersonality = capitalizeFirstLetter(get('character-description-personality', [ pronoun, getDescriptionByPersonality(options.personality) ] ))
     const descBirthDate = capitalizeFirstLetter(get('character-birthDate', [ name, getBirthDateDescription(options.birthDate) ]))
     return `${descRaceAndBody} ${descLooks} ${extraDescription} ${descReligion} ${descPersonality} ${descBirthDate}`
+}
+
+/**
+ * 
+ * @param {{ id:text, race: ENUM_RACE_NAMES }} character 
+ * @param {{ ageRange: ENUM_AGE_RANGE }} options 
+ */
+const getAgeByRace = (character, options) => {
+    
+
+
 }
 
 /**
