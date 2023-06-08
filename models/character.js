@@ -3,11 +3,16 @@ const { copyObject, chance, getRandomElementFromArray, getRandomNumberInRange } 
 const { MAX_MARRIAGE_AGE_GAP, 
     MIN_MARRIAGE_AGE,
     MAX_RELATIONS_POINTS,
-    MIN_RELATIONS_POINTS
+    MIN_RELATIONS_POINTS,
 } = require('../generic/statics')
 const { get } = require('../localization')
 const { logError } = require('../data/errorFile')
-const { ENUM_CHARACTER_TRAITS, ENUM_HEALTH_STATUS, ENUM_STAT_NAMES } = require('../generic/enums')
+const { 
+    ENUM_CHARACTER_TRAITS, 
+    ENUM_HEALTH_STATUS, 
+    ENUM_STAT_NAMES,
+    ENUM_AGE_RANGE 
+} = require('../generic/enums')
 const { getAgeSimple } = require('../lib/time')
 
 /**

@@ -652,5 +652,11 @@ module.exports = {
         TREASURE: 3,
         DOOM: 4,
         LOST_NOBLE: 5
+    },
+    ENUM_AGE_RANGE: {
+        CHILD:0,
+        YOUNG:1,
+        MIDDLE_AGED:2,
+        OLD:3
     }
 }
