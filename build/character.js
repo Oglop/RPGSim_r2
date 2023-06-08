@@ -12,8 +12,7 @@ const {
     capitalizeFirstLetter,
     isVowel
 } = require('../lib/utils')
-const { getPersonName } = require('../generic/names')
-    ENUM_AGE_RANGE 
+const { getPersonName } = require('../generic/names') 
 const { ENUM_CHARACTER_TRAITS, ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITIES, ENUM_AGE_RANGE } = require('../generic/enums')
 const { 
     STAT_MAXIMUM_VALUE, 
@@ -22,47 +21,7 @@ const {
     STAT_HEALTH_BASE, 
     STAT_HEALTH_INCREASE, 
     STAT_STAMINA_BASE, 
-    STAT_STAMINA_INCREASE,
-    RACE_AGE_CHILD_HUMAN_MIN,
-    RACE_AGE_CHILD_HUMAN_MAX,
-    RACE_AGE_YOUNG_HUMAN_MIN,
-    RACE_AGE_YOUNG_HUMAN_MAX,
-    RACE_AGE_MIDDLE_AGED_HUMAN_MIN,
-    RACE_AGE_MIDDLE_AGED_HUMAN_MAX,
-    RACE_AGE_OLD_HUMAN_MIN,
-    RACE_AGE_OLD_HUMAN_MAX, 
-    RACE_AGE_CHILD_DWARF_MIN,
-    RACE_AGE_CHILD_DWARF_MAX,
-    RACE_AGE_YOUNG_DWARF_MIN,
-    RACE_AGE_YOUNG_DWARF_MAX,
-    RACE_AGE_MIDDLE_AGED_DWARF_MIN,
-    RACE_AGE_MIDDLE_AGED_DWARF_MAX, 
-    RACE_AGE_OLD_DWARF_MIN,
-    RACE_AGE_OLD_DWARF_MAX, 
-    RACE_AGE_CHILD_ELF_MIN,
-    RACE_AGE_CHILD_ELF_MAX,
-    RACE_AGE_YOUNG_ELF_MIN,
-    RACE_AGE_YOUNG_ELF_MAX,
-    RACE_AGE_MIDDLE_AGED_ELF_MIN,
-    RACE_AGE_MIDDLE_AGED_ELF_MAX, 
-    RACE_AGE_OLD_ELF_MIN,
-    RACE_AGE_OLD_ELF_MAX,
-    ACE_AGE_CHILD_HALF_ELF_MIN,
-    RACE_AGE_CHILD_HALF_ELF_MAX,
-    RACE_AGE_YOUNG_HALF_ELF_MIN,
-    RACE_AGE_YOUNG_HALF_ELF_MAX,
-    RACE_AGE_MIDDLE_AGED_HALF_ELF_MIN,
-    RACE_AGE_MIDDLE_AGED_HALF_ELF_MAX,
-    RACE_AGE_OLD_HALF_ELF_MIN,
-    RACE_AGE_OLD_HALF_ELF_MAX, 
-    RACE_AGE_CHILD_HALFLING_MIN,
-    RACE_AGE_CHILD_HALFLING_MAX,
-    RACE_AGE_YOUNG_HALFLING_MIN,
-    RACE_AGE_YOUNG_HALFLING_MAX,
-    RACE_AGE_MIDDLE_AGED_HALFLING_MIN,
-    RACE_AGE_MIDDLE_AGED_HALFLING_MAX, 
-    RACE_AGE_OLD_HALFLING_MIN, 
-    RACE_AGE_OLD_HALFLING_MAX
+    STAT_STAMINA_INCREASE
 } = require('../generic/statics')
 const { getBirthDate } = require('../lib/time')
 const { logError } = require('../data/errorFile')
@@ -70,6 +29,7 @@ const { getRandomReligion } = require('../generic/religions')
 const { getDescriptionByPersonality } = require('../models/personality')
 const { get } = require('../localization')
 const { getBirthDateDescription } = require('../lib/time')
+const { getMinMaxAgeByAgeRange } = require('../models/character')
 
 /**
  * edit character stats by race
@@ -352,14 +312,27 @@ const getCharacterDescription = (name, race, gender, options = {}) => {
     return `${descRaceAndBody} ${descLooks} ${extraDescription} ${descReligion} ${descPersonality} ${descBirthDate}`
 }
 
+const getRandomNonChildAgeRange = () => {
+    const i = getRandomNumberInRange(0, 2)
+    switch (i) {
+        case 0: return ENUM_AGE_RANGE.YOUNG;
+        case 1: return ENUM_AGE_RANGE.MIDDLE_AGED;
+        case 2: return ENUM_AGE_RANGE.OLD;
+    }
+}
+
 /**
  * 
  * @param {{ id:text, race: ENUM_RACE_NAMES }} character 
  * @param {{ ageRange: ENUM_AGE_RANGE }} options 
  */
 const getAgeByRace = (character, options) => {
-    
+    const ageRange = (options.ageRange != undefined ) ? options.ageRange : getRandomNonChildAgeRange()
+    const minMax = getMinMaxAgeByAgeRange(character, ageRange)
+    return getRandomNumberInRange(minMax.min, minMax.max)
+}
 
+const getAgeRangeByCharacter = (charracter, options) => {
 
 }
 
@@ -386,8 +359,8 @@ module.exports.build = (options = {}) => {
         c.gender = (options.gender) ? options.gender : (chance(50)) ? ENUM_GENDER.MALE : ENUM_GENDER.FEMALE
         c.religion = (options.religion) ? options.religion : getRandomReligion()
         c.name = (options.name) ? options.name : getPersonName(c.gender)
-        c.age = (options.age ||options.age === 0) ? options.age : getRandomNumberInRange(15, 60)
         c.race = (options.race) ? options.race : getRandomRace()
+        c.age = (options.age ||options.age === 0) ? options.age : getAgeByRace(c, {})
         c.job = (options.job) ? options.job : getRandomJob()
         if (c.job == ENUM_JOB_NAMES.noble) {
             c.coatOfArms = (options.coatOfArms) ? options.coatOfArms : bCoatOfArms.build()

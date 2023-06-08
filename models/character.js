@@ -4,6 +4,46 @@ const { MAX_MARRIAGE_AGE_GAP,
     MIN_MARRIAGE_AGE,
     MAX_RELATIONS_POINTS,
     MIN_RELATIONS_POINTS,
+    RACE_AGE_CHILD_HUMAN_MIN,
+    RACE_AGE_CHILD_HUMAN_MAX,
+    RACE_AGE_YOUNG_HUMAN_MIN,
+    RACE_AGE_YOUNG_HUMAN_MAX,
+    RACE_AGE_MIDDLE_AGED_HUMAN_MIN,
+    RACE_AGE_MIDDLE_AGED_HUMAN_MAX,
+    RACE_AGE_OLD_HUMAN_MIN,
+    RACE_AGE_OLD_HUMAN_MAX, 
+    RACE_AGE_CHILD_DWARF_MIN,
+    RACE_AGE_CHILD_DWARF_MAX,
+    RACE_AGE_YOUNG_DWARF_MIN,
+    RACE_AGE_YOUNG_DWARF_MAX,
+    RACE_AGE_MIDDLE_AGED_DWARF_MIN,
+    RACE_AGE_MIDDLE_AGED_DWARF_MAX, 
+    RACE_AGE_OLD_DWARF_MIN,
+    RACE_AGE_OLD_DWARF_MAX, 
+    RACE_AGE_CHILD_ELF_MIN,
+    RACE_AGE_CHILD_ELF_MAX,
+    RACE_AGE_YOUNG_ELF_MIN,
+    RACE_AGE_YOUNG_ELF_MAX,
+    RACE_AGE_MIDDLE_AGED_ELF_MIN,
+    RACE_AGE_MIDDLE_AGED_ELF_MAX, 
+    RACE_AGE_OLD_ELF_MIN,
+    RACE_AGE_OLD_ELF_MAX,
+    RACE_AGE_CHILD_HALF_ELF_MIN,
+    RACE_AGE_CHILD_HALF_ELF_MAX,
+    RACE_AGE_YOUNG_HALF_ELF_MIN,
+    RACE_AGE_YOUNG_HALF_ELF_MAX,
+    RACE_AGE_MIDDLE_AGED_HALF_ELF_MIN,
+    RACE_AGE_MIDDLE_AGED_HALF_ELF_MAX,
+    RACE_AGE_OLD_HALF_ELF_MIN,
+    RACE_AGE_OLD_HALF_ELF_MAX, 
+    RACE_AGE_CHILD_HALFLING_MIN,
+    RACE_AGE_CHILD_HALFLING_MAX,
+    RACE_AGE_YOUNG_HALFLING_MIN,
+    RACE_AGE_YOUNG_HALFLING_MAX,
+    RACE_AGE_MIDDLE_AGED_HALFLING_MIN,
+    RACE_AGE_MIDDLE_AGED_HALFLING_MAX, 
+    RACE_AGE_OLD_HALFLING_MIN, 
+    RACE_AGE_OLD_HALFLING_MAX
 } = require('../generic/statics')
 const { get } = require('../localization')
 const { logError } = require('../data/errorFile')
@@ -11,7 +51,8 @@ const {
     ENUM_CHARACTER_TRAITS, 
     ENUM_HEALTH_STATUS, 
     ENUM_STAT_NAMES,
-    ENUM_AGE_RANGE 
+    ENUM_AGE_RANGE,
+    ENUM_RACE_NAMES
 } = require('../generic/enums')
 const { getAgeSimple } = require('../lib/time')
 
@@ -209,6 +250,52 @@ const isCritical = (character) => {
     return ((character.health / character.maxHealth) * 100 < 10)
 }
 
+/**
+ * 
+ * @param {{id: text, name: text, race: ENUM_RACE_NAMES}} character 
+ * @param {*} options 
+ * @returns { { min: number, max: number } } min max age
+ */
+const getMinMaxAgeByAgeRange = (character, ageRange) => {
+    if (character.race == ENUM_RACE_NAMES.human) {
+        switch (ageRange) {
+            case ENUM_AGE_RANGE.CHILD: return { min: RACE_AGE_CHILD_HUMAN_MIN, max: RACE_AGE_CHILD_HUMAN_MAX };
+            case ENUM_AGE_RANGE.YOUNG: return { min: RACE_AGE_YOUNG_HUMAN_MIN, max: RACE_AGE_YOUNG_HUMAN_MAX };
+            case ENUM_AGE_RANGE.MIDDLE_AGED: return { min: RACE_AGE_MIDDLE_AGED_HUMAN_MIN, max: RACE_AGE_MIDDLE_AGED_HUMAN_MAX };
+            case ENUM_AGE_RANGE.OLD: return { min: RACE_AGE_OLD_HUMAN_MIN, max: RACE_AGE_OLD_HUMAN_MAX };
+        }
+    } else if (character.race == ENUM_RACE_NAMES.dwarf) {
+        switch (ageRange) {
+            case ENUM_AGE_RANGE.CHILD: return { min: RACE_AGE_CHILD_DWARF_MIN, max: RACE_AGE_CHILD_DWARF_MAX };
+            case ENUM_AGE_RANGE.YOUNG: return { min: RACE_AGE_YOUNG_DWARF_MIN, max: RACE_AGE_YOUNG_DWARF_MAX };
+            case ENUM_AGE_RANGE.MIDDLE_AGED: return { min: RACE_AGE_MIDDLE_AGED_DWARF_MIN, max: RACE_AGE_MIDDLE_AGED_DWARF_MAX };
+            case ENUM_AGE_RANGE.OLD: return { min: RACE_AGE_OLD_DWARF_MIN, max: RACE_AGE_OLD_DWARF_MAX };
+        }
+    } else if (character.race == ENUM_RACE_NAMES.halfElf) {
+        switch (ageRange) {
+            case ENUM_AGE_RANGE.CHILD: return { min: RACE_AGE_CHILD_HALF_ELF_MIN, max: RACE_AGE_CHILD_HALF_ELF_MAX };
+            case ENUM_AGE_RANGE.YOUNG: return { min: RACE_AGE_YOUNG_HALF_ELF_MIN, max: RACE_AGE_YOUNG_HALF_ELF_MAX };
+            case ENUM_AGE_RANGE.MIDDLE_AGED: return { min: RACE_AGE_MIDDLE_AGED_HALF_ELF_MIN, max: RACE_AGE_MIDDLE_AGED_HALF_ELF_MAX };
+            case ENUM_AGE_RANGE.OLD: return { min: RACE_AGE_OLD_HALF_ELF_MIN, max: RACE_AGE_OLD_HALF_ELF_MAX };
+        }
+    } else if (character.race == ENUM_RACE_NAMES.halfling) {
+        switch (ageRange) {
+            case ENUM_AGE_RANGE.CHILD: return { min: RACE_AGE_CHILD_HALFLING_MIN, max: RACE_AGE_CHILD_HALFLING_MAX };
+            case ENUM_AGE_RANGE.YOUNG: return { min: RACE_AGE_YOUNG_HALFLING_MIN, max: RACE_AGE_YOUNG_HALFLING_MAX };
+            case ENUM_AGE_RANGE.MIDDLE_AGED: return { min: RACE_AGE_MIDDLE_AGED_HALFLING_MIN, max: RACE_AGE_MIDDLE_AGED_HALFLING_MAX };
+            case ENUM_AGE_RANGE.OLD: return { min: RACE_AGE_OLD_HALFLING_MIN, max: RACE_AGE_OLD_HALFLING_MAX };
+        }
+    } else if (character.race == ENUM_RACE_NAMES.highElf || character.race == ENUM_RACE_NAMES.darkElf || character.race == ENUM_RACE_NAMES.woodElf) {
+        switch (ageRange) {
+            case ENUM_AGE_RANGE.CHILD: return { min: RACE_AGE_CHILD_ELF_MIN, max: RACE_AGE_CHILD_ELF_MAX };
+            case ENUM_AGE_RANGE.YOUNG: return { min: RACE_AGE_YOUNG_ELF_MIN, max: RACE_AGE_YOUNG_ELF_MAX };
+            case ENUM_AGE_RANGE.MIDDLE_AGED: return { min: RACE_AGE_MIDDLE_AGED_ELF_MIN, max: RACE_AGE_MIDDLE_AGED_ELF_MAX };
+            case ENUM_AGE_RANGE.OLD: return { min: RACE_AGE_OLD_ELF_MIN, max: RACE_AGE_OLD_ELF_MAX };
+        }
+    }
+    return {min: 20, max: 40}
+}
+
 module.exports = {
     getCharacterStatValue,
     validateCharacterCompabilityForMarige,
@@ -218,5 +305,6 @@ module.exports = {
     getCharacterWithTrait,
     restCharacter,
     isAlive,
-    isCritical
+    isCritical,
+    getMinMaxAgeByAgeRange
 }
