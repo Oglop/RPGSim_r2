@@ -1,5 +1,11 @@
 const objects = require('../generic/objects')
-const { copyObject, chance, getRandomElementFromArray, getRandomNumberInRange } = require('../lib/utils')
+const { 
+    copyObject, 
+    chance, 
+    getRandomElementFromArray, 
+    getRandomNumberInRange,
+    getPercetage
+ } = require('../lib/utils')
 const { MAX_MARRIAGE_AGE_GAP, 
     MIN_MARRIAGE_AGE,
     MAX_RELATIONS_POINTS,
@@ -199,19 +205,57 @@ const restCharacter = (character) => {
  */
 const checkOldAgeHealth = (character, currentDate) => {
     const age = getAgeSimple(currentDate, character.birthDate)
-    const healthDecreaseInterval = Math.floor(age * 0.1)
-    const healthDecreaseChance = Math.floor((age - 40) * 2)
-    if (healthDecreaseChance <= 0) { return false }
-    if (chance(healthDecreaseChance)) {
-        character.maxHealth -= Math.floor( getRandomNumberInRange(0, healthDecreaseInterval) * 0.5) 
-        if (character.health > character.maxHealth) { character.health = character.maxHealth }
+    const isOld = (age > getMinOldAgeByCharacter(character)) ? true : false;
+    if (isOld) {
+        const decreaseChange = getPercetage(getMaxAgeByCharacter(character), age)
+        if (decreaseChange <= 0) { return false }
+        if (chance(decreaseChange)) {
+            character.maxHealth -= Math.floor( getRandomNumberInRange(0, decreaseChange) * 0.5) 
+            if (character.health > character.maxHealth) { character.health = character.maxHealth }
+        }
+        if (character.maxHealth < 10) {
+            const diedChance = (10 - character.maxHealth) * 10
+            character.isAlive = !chance(diedChance)
+            if (!character.isAlive) { character.diedFrom = get('character-died-from-age') }
+        }
     }
-    if (character.maxHealth < 10) {
-        const diedChance = (10 - character.maxHealth) * 10
-        character.isAlive = !chance(diedChance)
-        if (!character.isAlive) { character.diedFrom = get('character-died-from-age') }
-    }
+    
     return !character.isAlive
+}
+
+/**
+ * returns min old age for race
+ * @param {{ id: number, race: ENUM_RACE_NAMES }} character 
+ * @returns {  }
+ */
+const getMinOldAgeByCharacter = (character) => {
+    switch (character.race) {
+        case ENUM_RACE_NAMES.human: return RACE_AGE_OLD_HUMAN_MIN;
+        case ENUM_RACE_NAMES.halfling: return RACE_AGE_OLD_HALFLING_MIN;
+        case ENUM_RACE_NAMES.halfElf: return RACE_AGE_OLD_HALF_ELF_MIN;
+        case ENUM_RACE_NAMES.dwarf: return RACE_AGE_OLD_DWARF_MIN;
+        case ENUM_RACE_NAMES.darkElf: return RACE_AGE_OLD_ELF_MIN;
+        case ENUM_RACE_NAMES.highElf: return RACE_AGE_OLD_ELF_MIN;
+        case ENUM_RACE_NAMES.woodElf: return RACE_AGE_OLD_ELF_MIN;
+    }
+}
+
+
+/**
+ * returns min old age for race
+ * @param {{ id: number, race: ENUM_RACE_NAMES }} character 
+ * @returns {  }
+ */
+const getMaxAgeByCharacter = (character) => {
+    switch (character.race) {
+        case ENUM_RACE_NAMES.human: return RACE_AGE_OLD_HUMAN_MAX;
+        case ENUM_RACE_NAMES.halfling: return RACE_AGE_OLD_HALFLING_MAX;
+        case ENUM_RACE_NAMES.halfElf: return RACE_AGE_OLD_HALF_ELF_MAX;
+        case ENUM_RACE_NAMES.dwarf: return RACE_AGE_OLD_DWARF_MAX;
+        case ENUM_RACE_NAMES.darkElf: return RACE_AGE_OLD_ELF_MAX;
+        case ENUM_RACE_NAMES.highElf: return RACE_AGE_OLD_ELF_MAX;
+        case ENUM_RACE_NAMES.woodElf: return RACE_AGE_OLD_ELF_MAX;
+    }
 }
 
 /**
@@ -306,5 +350,7 @@ module.exports = {
     restCharacter,
     isAlive,
     isCritical,
-    getMinMaxAgeByAgeRange
+    getMinMaxAgeByAgeRange,
+    getMinOldAgeByCharacter,
+    getMaxAgeByCharacter
 }
