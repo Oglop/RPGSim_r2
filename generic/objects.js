@@ -231,6 +231,12 @@ module.exports = {
         members: [],
         dwellingId: undefined
     },
+    god: {
+        id: undefined,
+        name: undefined,
+        profile: undefined,
+        symbol: undefined
+    },
     stats: {
         str: 0,
         vit: 0,
@@ -452,6 +458,7 @@ module.exports = {
         map: undefined,
         dwellings: [],
         locations: [],
+        gods: [],
         date: undefined,
         families: [],
         dead: [],

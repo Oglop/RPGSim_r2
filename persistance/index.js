@@ -38,6 +38,7 @@ const { insertRumor } = require('./commands/insertRumor')
 const { insertDwellingRumor } = require('./commands/insertDwellingRumor')
 const { insertPartyRumor } = require('./commands/insertPartyRumor')
 const { insertItem } = require('./commands/insertItem')
+const { insertGod } = require('./commands/insertGod')
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
@@ -85,6 +86,7 @@ const { getItemById } = require('./queries/getItemById')
 const { getPartyMembersByPartyId } = require('./queries/getPartyMembersByPartyId')
 const { getPartyRumorByPartyId } = require('./queries/getPartyRumorByPartyId')
 const { getPartyMemberByCharacterId } = require('./queries/getPartyMemberByCharacterId')
+const { listGods } = require('./queries/listGods')
 
 //const { listParties } = require('./queries/listParties')
 
@@ -126,6 +128,7 @@ module.exports = {
         insertDwellingRumor: (dwellingRumor) => insertDwellingRumor(dwellingRumor),
         insertPartyRumor: (partyRumor) => insertPartyRumor(partyRumor),
         insertItem: (item) => insertItem(item),
+        insertGod: (god) => insertGod(god),
 
         updateCharacter: (character) => updateCharacter(character),
         updateDwelling: (dwelling) => updateDwelling(dwelling),
@@ -172,7 +175,8 @@ module.exports = {
         getPartyMemberByCharacterId: (characterId) => getPartyMemberByCharacterId(characterId),
         getPartyRumorByPartyId: (partyId) => getPartyRumorByPartyId(partyId),
         getDwellingRumorsByDwellingId: (dwellingId) => getDwellingRumorsByDwellingId(dwellingId),
-        getItemById: (id) => getItemById(id)
+        getItemById: (id) => getItemById(id),
+        listGods: () => listGods()
         //listParties: () => listParties()
     },
     aggregates: {

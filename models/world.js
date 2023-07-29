@@ -11,7 +11,8 @@ const {
     insertProduction,
     insertDwellingLocation,
     insertNpc,
-    insertSkill
+    insertSkill,
+    insertGod
 } = require('../persistance').commands
 const { WORLD_SIZE } = require('../generic/statics')
 const { insertArmy } = require('../persistance/commands/insertArmy')
@@ -75,6 +76,21 @@ const saveCourts = async (dwellings) => {
             err.file = __filename
             err.function = 'saveCourts'
             err.step = `dwelling: ${JSON.stringify(d)}`
+            err.message = e.message
+            logError(err)
+        }
+    }
+}
+
+const saveGods = async (gods) => {
+    for (let god of gods) {
+        try{
+            await insertGod(god)
+        } catch(e) {
+            const err = objects.error
+            err.file = __filename
+            err.function = 'saveGods'
+            err.step = `god: ${JSON.stringify(god)}`
             err.message = e.message
             logError(err)
         }
@@ -157,6 +173,17 @@ const offLoadWorld = async (world) => {
         err.file = __filename
         err.function = 'offLoadWorld'
         err.step = 'saveArmies'
+        err.message = e.message                                                                                                                      
+        errors.push(err)
+    }
+
+    try {
+        await saveGods(world.gods)
+    } catch (e) {
+        const err = objects.error
+        err.file = __filename
+        err.function = 'offLoadWorld'
+        err.step = 'saveGods'
         err.message = e.message                                                                                                                      
         errors.push(err)
     }

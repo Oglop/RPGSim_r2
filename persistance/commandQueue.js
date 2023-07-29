@@ -51,6 +51,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.INSERT_RUMOR: await commands.insertRumor(item.data); break;
                 case ENUM_COMMANDS.INSERT_PARTY_RUMOR: await commands.insertPartyRumor(item.data); break;
                 case ENUM_COMMANDS.INSERT_ITEM: await commands.insertItem(item.data); break;
+                case ENUM_COMMANDS.INSERT_GOD: await commands.insertGod(item.data); break;
                 case ENUM_COMMANDS.UPDATEROOM: await commands.updateRoom(item.data); break;
                 case ENUM_COMMANDS.UPDATEDWELLING: await commands.updateDwelling(item.data); break;
                 case ENUM_COMMANDS.UPDATE_DWELLING_LOCATION: await commands.updateDwellingLocationStatus(item.data); break;

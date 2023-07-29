@@ -270,6 +270,14 @@ CREATE TABLE item
     skillRequired   text
 );
 
+CREATE TABLE god
+(
+    id          text,
+    name        text,
+    profile     text,
+    symbol      text
+);
+
 -- Down
 DROP TABLE army;
 DROP TABLE advisor;
@@ -295,3 +303,4 @@ DROP TABLE rumor;
 DROP TABLE dwellingRumor;
 DROP TABLE partyRumor;
 DROP TABLE item;
+DROP TABLE god;

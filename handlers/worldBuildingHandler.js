@@ -2,6 +2,7 @@ const { WorldGenerationFailedError } = require('../exceptions')
 const objects = require('../generic/objects')
 const mapBuilder = require('../build/map')
 const familyBuilder = require('../build/families')
+const mythosBuilder = require('../build/mythos')
 // const familyTreeBuilder = require('../build/familyTree')
 const { copyObject, generateID } = require('../lib/utils')
 const { getDwellingsFromMap } = require('../models/map')
@@ -28,6 +29,18 @@ const generateWorld = async (options = {}) => {
         world.id = generateID()
         world.name = 'Heria'
         
+        try {
+            world.gods = mythosBuilder.build()
+        } catch (e) {
+            const err = objects.error
+            err.file = __filename
+            err.function = 'generateWorld'
+            err.step = 'mapBuilder.build'
+            err.message = e.message
+            errors.push(err)
+        }
+
+
         try {
             world.date = setWorldStartDate({})
             await mapBuilder.build(world)

@@ -559,6 +559,7 @@ module.exports = {
         INSERT_RUMOR: 'insertRumor',
         INSERT_PARTY_RUMOR: 'insertPartyRumor',
         INSERT_ITEM: 'insertItem',
+        INSERT_GOD: 'insertGod',
 
         UPDATEROOM: 'updateRoom',
         UPDATEDWELLING: 'updateDwelling',

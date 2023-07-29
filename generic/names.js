@@ -378,13 +378,18 @@ const landmarkDescrptions = [
 ]
 
 const things = [
+    'ant',
+    'apple',
     'axe',
     'armor', 
     'anvil',
     'arrow',
+    'bee',
     'bolt',
     'beard',
     'bard',
+    'bull',
+    'cross',
     'cow',
     'cork',
     'bridge',
@@ -394,6 +399,7 @@ const things = [
     'cup',
     'eal',
     'eagle',
+    'fist',
     'foot',
     'father',
     'flame',
@@ -555,5 +561,5 @@ const getPartyName = (nameOfCharacter) => {
 }
 
 module.exports = {
-    getPersonName, getFamilyName, getDwellingName, getLandmarkName, getVileNames, getPartyName
+    getPersonName, getFamilyName, getDwellingName, getLandmarkName, getVileNames, getPartyName, descriptive, things
 }
