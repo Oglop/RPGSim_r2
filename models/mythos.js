@@ -82,6 +82,70 @@ const godElements = [
     'Music',
 ]
 
+const attributes = [
+    'shy',
+    'brave',
+    'blue',
+    'red',
+    'pale',
+    'dark',
+    'striped',
+    'scarred',
+    'raging',
+    'calm',
+    'tantacled',
+    'clawed',
+    'horned',
+    'beaked',
+    'three eyed',
+    'one eyed',
+    'four armed',
+    'six armed',
+    'silent',
+    'smiling',
+    'laughing',
+    'crying',
+    'lost',
+    'four legged',
+    'eight legged',
+    'two headed',
+    'three headed',
+    'burning',
+    'drowning',
+    'wandering',
+    'white',
+    'sleeping'
+]
+
+const creatures = [
+    'cow',
+    'ant',
+    'spider',
+    'bull',
+    'sheep',
+    'goat',
+    'dragon',
+    'sparrow',
+    'lizard',
+    'whale',
+    'fish',
+    'bird',
+    'elephant',
+    'horse',
+    'giant',
+    'humanoid',
+    'snake',
+    'eagle',
+    'vulture',
+    'tiger',
+    'lion',
+    'cat',
+    'wolf',
+    'crow',
+    'crab',
+    'rabbit'
+]
+
 /**
  * 
  * @param {Array} gods 
@@ -123,6 +187,13 @@ const createProfile = () => {
     return profile
 }
 
+const createDescription = () => {
+    let description = getRandomElementFromArray(attributes)
+    if(chance(60)) { description += ` ${getRandomElementFromArray(attributes)}` }
+    description += ` ${getRandomElementFromArray(creatures)}`
+    return description
+}
+
 /**
  * 
  */
@@ -132,8 +203,20 @@ const createSymbol = () => {
     return `${desc} ${thing}`
 }
 
+const getRandomGod = (gods) => {
+    return getRandomElementFromArray(gods)
+}
+
+const getGod = (id, gods) => {
+    const god = gods.find(x => x.id == id)
+    return god
+}
+
 module.exports = {
     createUniqueGodName,
     createProfile,
-    createSymbol
+    createSymbol,
+    getRandomGod,
+    getGod,
+    createDescription
 }

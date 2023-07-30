@@ -1,12 +1,13 @@
 const {
     createUniqueGodName,
     createProfile,
-    createSymbol
+    createSymbol,
+    createDescription
 } = require('../models/mythos')
 const {
     generateID,
     copyObject,
-    getRandomNumberInRange
+    getRandomNumberInRange,
 } = require('../lib/utils')
 const objects = require('../generic/objects')
 
@@ -25,7 +26,7 @@ module.exports.build = (options = {}) => {
         god.name = createUniqueGodName(names)
         god.profile = createProfile()
         god.symbol = createSymbol()
-
+        god.description = createDescription()
         gods.push(god)
     }
 

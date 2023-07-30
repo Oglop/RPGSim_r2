@@ -275,7 +275,8 @@ CREATE TABLE god
     id          text,
     name        text,
     profile     text,
-    symbol      text
+    symbol      text,
+    description text
 );
 
 -- Down

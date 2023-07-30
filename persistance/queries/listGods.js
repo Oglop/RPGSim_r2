@@ -6,7 +6,8 @@ module.exports.listGods = async () => {
             id,
             name,
             profile,
-            symbol
+            symbol,
+            description
         FROM
             god
         ORDER BY

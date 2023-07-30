@@ -235,7 +235,8 @@ module.exports = {
         id: undefined,
         name: undefined,
         profile: undefined,
-        symbol: undefined
+        symbol: undefined,
+        description: undefined
     },
     stats: {
         str: 0,

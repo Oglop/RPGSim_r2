@@ -5,20 +5,23 @@ module.exports.insertGod = async (god) => {
         id,
         name,
         profile,
-        symbol
+        symbol,
+        description
     ) 
     VALUES
     (
         @id,
         @name,
         @profile,
-        @symbol
+        @symbol,
+        @description
     );`)
     await stmt.bind({
         '@id': god.id,
         '@name': god.name,
         '@profile': god.profile,
-        '@symbol': god.symbol
+        '@symbol': god.symbol,
+        '@description': god.description
     })
     await stmt.run()
 }

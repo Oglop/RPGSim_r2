@@ -7,8 +7,6 @@ const { next } = require('./models/turn')
 const { Output } = require('./output/output')
 const { tellWholeStory } = require('./handlers/storyHandler')
 
-const { createProfile, createUniqueGodName } = require('./models/mythos')
-
 const main = async (args) => {
     try {
         console.log('START')
