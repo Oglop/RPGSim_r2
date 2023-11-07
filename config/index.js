@@ -2,7 +2,7 @@ module.exports = {
     databasePath: ':memory:',
     fileStorage: 'storage',
     version: 1.0,
-    saveVisualization: false,
+    saveVisualization: true,
     saveWorld: false,
     language: 'en',
     noOfAdventuringParties: 1,

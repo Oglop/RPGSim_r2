@@ -28,6 +28,8 @@ const {
     lakeSnake
 } = require('../build/mapBuilderUtility')
 
+const { waveCollapse, cleanup, normalizeElevation } = require('../models/mapFunctions')
+
 /**
  * 
  * @param {text} worldId 
@@ -176,6 +178,7 @@ const drawElevation = (map, startX, startY, filter, positive) => {
     try {
         for (let y = 0; y < filter[0].length; y++) {
             for (let x = 0; x < filter[0].length; x++) {
+                
                 if (
                     startX + x >= 0 &&
                     startX + x < map.length &&
@@ -198,9 +201,24 @@ const drawElevation = (map, startX, startY, filter, positive) => {
     }
 }
 
+
+/**
+ * 
+ * @param {Array} map 
+ * @param {*} options 
+ */
 const generateBaseElevation = (map, options) => {
     try {
-        trueNoice(map, WORLD_SIZE)
+        const elevationMap = waveCollapse(-1, 5, {
+            resistance:2,
+            placeHolder: 999,
+            defaultValue: 1
+        })
+        for (let y = 0; y < WORLD_SIZE - 1; y++) {
+            for (let x = 0; x < WORLD_SIZE - 1; x++) {
+                map[x][y].elevation = elevationMap[x][y]
+            }
+        }
     } catch (e) {
         const err = objects.error
         err.file = __filename
@@ -210,6 +228,7 @@ const generateBaseElevation = (map, options) => {
         logError(err)
     }
 
+    /*
     try {
         const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 2, Math.floor( WORLD_SIZE * 0.1 ) + 2 )
         for (let i = 0; i < iterations; i++) {
@@ -225,7 +244,7 @@ const generateBaseElevation = (map, options) => {
         err.message = e.message
         logError(err)
     }
-
+    
     try {
         const iterations = getRandomNumberInRange( Math.floor( WORLD_SIZE * 0.1 ) - 3, Math.floor( WORLD_SIZE * 0.1 ) )
         for (let i = 0; i < iterations; i++) {
@@ -248,6 +267,7 @@ const generateBaseElevation = (map, options) => {
         err.message = e.message
         logError(err)
     }
+    */
 }
 
 /**
@@ -546,15 +566,19 @@ const visualizeMap = (map) => {
 module.exports.build = async (world) => {
     try {
         const map = generateBaseMap( world.id )
+        
         generateTempratures(map)
         generateBaseElevation(map, {})
-        generateMountains(map)
+        
+        // generateMountains(map)
         generateLakes(map)
+        normalizeElevation(map, -1, false)
+        cleanup(map, -1, -1)
         setBiome(map)
         world.dwellings = await generateDwellings(map, { date: world.date })
         generateFarmlands(map, world.dwellings)
         windsOfMagic(map)
-        //setLandmarks(map, worldSize)
+        // setLandmarks(map, worldSize)
         world.map = map
         // visualizeMap(map, worldSize)
     } catch (e) {
@@ -564,4 +588,3 @@ module.exports.build = async (world) => {
 }
 
 module.exports.buildLandMarks = (map, worldSize) => { setLandmarks(map, worldSize) }
-module.exports.buildFarmlands = (map, worldSize) => { setFarmlands(map, worldSize) }

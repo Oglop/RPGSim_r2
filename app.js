@@ -10,6 +10,7 @@ const { tellWholeStory } = require('./handlers/storyHandler')
 const main = async (args) => {
     try {
         console.log('START')
+
         const useExistingWorld = (args.worldId) ? true : false
         let world = {}
 

@@ -175,6 +175,9 @@ const getRandomQuestLocation = (map, currentX, currentY) => {
     }
 }
 
+
+
+
 /**
  * turns position into a position within world size
  * @param {{ x:integer, y:integer}} position 
