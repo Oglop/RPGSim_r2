@@ -13,7 +13,7 @@ const {
     isVowel
 } = require('../lib/utils')
 const { getPersonName } = require('../generic/names') 
-const { ENUM_CHARACTER_TRAITS, ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITIES, ENUM_AGE_RANGE } = require('../generic/enums')
+const { ENUM_CHARACTER_TRAITS, ENUM_GENDER, ENUM_JOB_NAMES, ENUM_RACE_NAMES, ENUM_LANGUAGES, ENUM_PERSONALITIES, ENUM_AGE_RANGE, ENUM_MAGIC_SCHOOLS } = require('../generic/enums')
 const { 
     STAT_MAXIMUM_VALUE, 
     STAT_MINIMUM_VALUE, 
@@ -175,6 +175,37 @@ const validateBuild = (c) => {
     if (c.languages.length == 0) { throw new Error('Missing value language') }
     if (c.skills.length == 0) { throw new Error('Missing value skills') }
 
+}
+
+/**
+ * Set magicSchool: ENUM_MAGIC_SCHOOLS based on job
+ * @param {{id:Text, magicSchool: ENUM_MAGIC_SCHOOLS, job: ENUM_JOB_NAMES }} character 
+ */
+const setMagicSchool = (character) => {
+    // wizard knows nature or power
+    if (character.job == ENUM_JOB_NAMES.wizard) {
+        if (chance(50)) {
+            character.magicSchool = ENUM_MAGIC_SCHOOLS.POWER
+        } else {
+            character.magicSchool = ENUM_MAGIC_SCHOOLS.NATURE
+        }
+    }
+    // cleric knows mystic
+    if (character.job == ENUM_JOB_NAMES.cleric) {
+        character.magicSchool = ENUM_MAGIC_SCHOOLS.MYSTIC
+    }
+
+    if (character.job == ENUM_JOB_NAMES.monk) {
+        if (chance(50)) {
+            character.magicSchool = ENUM_MAGIC_SCHOOLS.MYSTIC
+        }
+    }
+
+    if (character.job == ENUM_JOB_NAMES.ranger) {
+        if (chance(50)) {
+            character.magicSchool = ENUM_MAGIC_SCHOOLS.NATURE
+        }
+    }
 }
 
 
@@ -362,6 +393,7 @@ module.exports.build = (options = {}) => {
         c.race = (options.race) ? options.race : getRandomRace()
         c.age = (options.age ||options.age === 0) ? options.age : getAgeByRace(c, {})
         c.job = (options.job) ? options.job : getRandomJob()
+        setMagicSchool(c)
         if (c.job == ENUM_JOB_NAMES.noble) {
             c.coatOfArms = (options.coatOfArms) ? options.coatOfArms : bCoatOfArms.build()
             c.family = (options.family) ? options.family : getFamilyName()

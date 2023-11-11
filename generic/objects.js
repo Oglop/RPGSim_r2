@@ -6,7 +6,8 @@ const {
     ENUM_DWELLING_CONDITIONS,
     ENUM_DWELLING_PRODUCTION_TYPE,
     ENUM_STORY_TYPE,
-    ENUM_STORY_SUB_TYPE
+    ENUM_STORY_SUB_TYPE,
+    ENUM_MAGIC_SCHOOLS
 
 } = require('../generic/enums')
 module.exports = {
@@ -71,6 +72,7 @@ module.exports = {
         history: [],
         encounterRules: [],
         isAlive: true,
+        magicSchool: ENUM_MAGIC_SCHOOLS.NONE,
         diedFrom:undefined,
         equipment: {
             head: undefined,

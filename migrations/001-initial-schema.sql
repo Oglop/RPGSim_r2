@@ -43,6 +43,7 @@ CREATE TABLE character
     head            text,
     weaponHand      text,
     shieldHand      text,
+    magicSchool     integer,
     body            text,
     str             integer,
     vit             integer,

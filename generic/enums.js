@@ -659,5 +659,11 @@ module.exports = {
         YOUNG:1,
         MIDDLE_AGED:2,
         OLD:3
+    },
+    ENUM_MAGIC_SCHOOLS: {
+        NONE: 0,
+        MYSTIC: 1,
+        NATURE: 2,
+        POWER: 3
     }
 }
