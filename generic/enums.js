@@ -605,10 +605,20 @@ module.exports = {
         SEEK_QUEST: 5,
     },
     ENUM_SPELLS: {
-        THIRD_EYE: 0,
-        HEAL: 1,
-        DISGUISE: 2,
-        QUICK_FEET: 3
+        // mystic
+        THIRD_EYE: 'mystic_third_eye',
+        HEAL: 'mystic_heal',
+        LIGHT: 'mystic_light',
+        
+        // nature
+        FLAME_SPEAR: 'nature_flame_spear',
+        FREEZE: 'nature_freeze',
+        QUAKE: 'nature_quake',
+
+        // power
+        INSIGHT: 'power_insight',
+        RIP: 'power_rip',
+        DISGUISE: 'mystic_disguise',
     },
     ENUM_ENCOUNTER_RANGE: {
         FAR: 0,
