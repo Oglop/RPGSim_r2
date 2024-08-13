@@ -473,6 +473,8 @@ const things = [
 ]
 
 
+
+
 /**
  * return name of landmark based on bioms
  * @param {ENUM_BIOMES} biome 
@@ -560,6 +562,37 @@ const getPartyName = (nameOfCharacter) => {
     }
 }
 
-module.exports = {
-    getPersonName, getFamilyName, getDwellingName, getLandmarkName, getVileNames, getPartyName, descriptive, things
+const getHumanFactionName = () => {
+    return ''
 }
+
+const getDwarfFactionName = () => {
+    return ''
+}
+
+const getWoodElfFactionName = () => {
+    return ''
+}
+
+const getHighElfFactionName = () => {
+    return ''
+}
+
+const getDarkElfFactionName = () => {
+    return ''
+}
+
+const getVileFactionName = () => {
+    return ''
+}
+
+module.exports = {
+    getPersonName, getFamilyName, getDwellingName, getLandmarkName, getVileNames, getPartyName, descriptive, things,
+    getHumanFactionName,
+    getDwarfFactionName,
+    getWoodElfFactionName,
+    getHighElfFactionName,
+    getDarkElfFactionName,
+    getVileFactionName
+}
+

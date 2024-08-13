@@ -101,6 +101,22 @@ CREATE TABLE dwellingLocation
     status          int
 );
 
+CREATE TABLE faction
+(
+    id              text, 
+    race            text,
+    name            text,
+    godId           text
+);
+
+CREATE TABLE factionRelation
+(
+    id                  text, 
+    factionId           text,
+    relationFactionId   text,
+    status              int
+);
+
 CREATE TABLE npc
 (
     id                  text,
@@ -306,3 +322,5 @@ DROP TABLE dwellingRumor;
 DROP TABLE partyRumor;
 DROP TABLE item;
 DROP TABLE god;
+DROP TABLE faction;
+DROP TABLE factionRelation;

@@ -224,6 +224,19 @@ module.exports = {
         resolution: 0,
         resolutionText: undefined
     },
+    faction: {
+        id: undefined,
+        race: undefined,
+        name: undefined,
+        godId: undefined,
+        relations: []
+    },
+    factionRelations: {
+        id: undefined,
+        factionId: undefined,
+        relationFactionId: undefined,
+        status: undefined
+    },
     family: {
         id: undefined,
         name: undefined,

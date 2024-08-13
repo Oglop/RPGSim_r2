@@ -1,5 +1,6 @@
 module.exports = {
     ENUM_SKILL_NAMES: {
+        castSpell: 'Cast spell',
         lockPicking: 'Lock picking',
         steal: 'Steal',
         sneak: 'Sneak',
@@ -75,6 +76,11 @@ module.exports = {
         wild: 'Wild',
         ancient: 'Ancient',
         hostile: 'Hostile'
+    },
+    ENUM_FACTION_RELATION_STATUS: {
+        UNKNOWN: 0,
+        PEACE: 1,
+        WAR: 2
     },
     ENUM_EQUIPMENT_TYPE: {
         oneHandSword: 'one hand sword',
@@ -541,6 +547,8 @@ module.exports = {
         INSERT_DWELLING_RUMOR: 'insertDwellingRumor',
         INSERTCHARACTER: 'insertCharacter',
         INSERTWORLD: 'insertWorld',
+        INSERT_FACTION: 'insertFaction',
+        INSERT_FACTION_RELATION: 'insertFactionRelation',
         INSERTCOURT: 'insertCourt',
         INSERTADVISOR: 'insertAdvisor',
         INSERTLANGUAGE: 'insertLanguage',

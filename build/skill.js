@@ -1,5 +1,11 @@
 const { copyObject, getRandomNumberInRange, generateID } = require('../lib/utils')
-const { ENUM_SKILL_NAMES, ENUM_STAT_NAMES, ENUM_JOB_NAMES, ENUM_RACE_NAMES } = require('../generic/enums')
+const { 
+    ENUM_SKILL_NAMES, 
+    ENUM_STAT_NAMES, 
+    ENUM_JOB_NAMES, 
+    ENUM_RACE_NAMES, 
+    ENUM_MAGIC_SCHOOLS 
+} = require('../generic/enums')
 const objects = require('../generic/objects')
 const m = require('../models/skill')
 
@@ -19,8 +25,6 @@ const setStartMasteryPoints = (c) => {
             case ENUM_STAT_NAMES.wis: c.skills[i].mastery = getRandomNumberInRange(Math.floor(c.stats.wis) / 2, c.stats.wis); break;
         }
     }
-
-
 }
 
 /**
@@ -181,6 +185,7 @@ module.exports.build = (c) => {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.lightArmor)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.scholar)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.healing)))
+        c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.castSpell)))
     }
     if (c.job === ENUM_JOB_NAMES.fighter) {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.oneHandSword)))
@@ -206,6 +211,7 @@ module.exports.build = (c) => {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.robes)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.scholar)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.woodWorking)))
+        c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.castSpell)))
     }
     if (c.job === ENUM_JOB_NAMES.noble) {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.oneHandSword)))
@@ -232,6 +238,9 @@ module.exports.build = (c) => {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.hunting)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.scout)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.tracking)))
+        if (c.magicSchool != ENUM_MAGIC_SCHOOLS.NONE) {
+            c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.castSpell)))
+        } 
     }
     if (c.job === ENUM_JOB_NAMES.rouge) {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.bow)))
@@ -255,6 +264,7 @@ module.exports.build = (c) => {
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.leadership)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.scholar)))
         c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.persuade)))
+        c.skills.push(copyObject(getSkill(ENUM_SKILL_NAMES.castSpell)))
     }
     if (c.race === ENUM_RACE_NAMES.dwarf) {
         if (c.skills.find(e => e.name == ENUM_SKILL_NAMES.axe) === undefined) {

@@ -39,6 +39,8 @@ const { insertDwellingRumor } = require('./commands/insertDwellingRumor')
 const { insertPartyRumor } = require('./commands/insertPartyRumor')
 const { insertItem } = require('./commands/insertItem')
 const { insertGod } = require('./commands/insertGod')
+const { insertFaction } = require('./commands/insertFaction')
+const { insertFactionRelation } = require('./commands/insertFactionRelation')
 
 const { updateRoom } = require('./commands/updateRoom')
 const { updateDwelling } = require('./commands/updateDwelling')
@@ -129,6 +131,8 @@ module.exports = {
         insertPartyRumor: (partyRumor) => insertPartyRumor(partyRumor),
         insertItem: (item) => insertItem(item),
         insertGod: (god) => insertGod(god),
+        insertFaction: (faction) => insertFaction(faction),
+        insertFactionRelation: (factionRelation) => insertFactionRelation(factionRelation),
 
         updateCharacter: (character) => updateCharacter(character),
         updateDwelling: (dwelling) => updateDwelling(dwelling),
