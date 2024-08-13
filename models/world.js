@@ -3,6 +3,7 @@ const { logError } = require('../data/errorFile')
 const {
     insertWorld,
     insertRoom,
+    insertRoomBiomes,
     insertDwelling,
     insertCourt,
     insertAdvisor,
@@ -24,6 +25,7 @@ const saveMap = async (map) => {
         for (let x = 0; x < WORLD_SIZE; x++) {
             try {
                 await insertRoom(map[x][y])
+                await insertRoomBiomes( map[x][y].roomBiomes)
             } catch (e) {
                 const err = objects.error
                 err.file = __filename
@@ -114,7 +116,6 @@ const saveArmies = async (dwellings) => {
         }
     }
 }
-
 
 const offLoadWorld = async (world) => {
     const errors = []

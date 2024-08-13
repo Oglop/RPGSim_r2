@@ -6,24 +6,26 @@ const {
     ENUM_FACTION_RELATION_STATUS,
     ENUM_COMMANDS
 } = require('../generic/enums')
-const objects = require('../generic/objects')
 const { getHumanFactionName,
     getDwarfFactionName,
     getWoodElfFactionName,
     getHighElfFactionName,
-    getDarkElfFactionName} = require('../generic/names')
+    getDarkElfFactionName,
+    getVileFactionName
+} = require('../generic/names')
 const { executeCommands } = require('../persistance/commandQueue')
 
 /**
  * builds factions for world
- * @param {{}} options 
+ * @param {{gods}} options 
  */
 module.exports.build = async (options = {}) => {
     let numberOfFactions = 0;
     const factionRaces = [ ]
     const factions = []
 
-    const gods = await listGods()
+
+    const gods = (options.gods != undefined) ? options.gods : await listGods()
 
     // Human race
     numberOfFactions = getRandomNumberInRange(4, 8)
@@ -67,14 +69,18 @@ module.exports.build = async (options = {}) => {
         factionRaces.push(ENUM_RACE_NAMES.vile)
     }
 
-    numberOfFactions.forEach(race => {
-        factions.push(createFaction(race), gods )
+    factionRaces.forEach(race => {
+        factions.push(createFaction(race, gods))
     })
-
 
     const relations = createFactionRelations(factions)
 
     const commands = []
+
+    for (let f of factions) {
+        f.relations = relations.filter(x => x.factionId == f.id)
+    }
+
     factions.forEach(f => commands.push({ command: ENUM_COMMANDS.INSERT_FACTION, data: f }))
     relations.forEach(r => commands.push({ command: ENUM_COMMANDS.INSERT_FACTION_RELATION, data: r }))
 
@@ -100,22 +106,21 @@ const createFaction = (race, gods) => {
 
 /**
  * 
- * @param {*} factions 
+ * @param {[{ id:String, factionId: String }]} factions 
  * @returns {[]} relations
  */
 const createFactionRelations = (factions) => {
     const relations = []
     for (let i = 0; i < factions.length; i++) {
-        for (let j = i + 1; j < factions.length; j++) {
-            const factionRelation = copyObject(objects.factionRelations)
-            factionRelation.id = generateID()
-            factionRelation.factionId = factions[i].id
-            factionRelation.relationFactionId = factions[j].id
-            factionRelation.status = (
-                (factions[i].race == ENUM_RACE_NAMES.vile && factions[j].race != ENUM_RACE_NAMES.vile) ||
-                (factions[i].race != ENUM_RACE_NAMES.vile && factions[j].race == ENUM_RACE_NAMES.vile)
-            ) ? ENUM_FACTION_RELATION_STATUS.WAR : ENUM_FACTION_RELATION_STATUS.UNKNOWN
-            relations.push(factionRelation)
+        for (let j = 0; j < factions.length; j++) {
+            if (i != j) {
+                const factionRelation = copyObject(objects.factionRelations)
+                factionRelation.id = generateID()
+                factionRelation.factionId = factions[i].id
+                factionRelation.relationFactionId = factions[j].id
+                factionRelation.status = ENUM_FACTION_RELATION_STATUS.UNKNOWN
+                relations.push(factionRelation)
+            }
         }
     }
     return relations

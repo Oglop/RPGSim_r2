@@ -172,6 +172,22 @@ CREATE TABLE room
     exploreStatus   integer
 );
 
+CREATE TABLE roomBiomes
+(
+    id      text, 
+    roomId  text,
+    earth   integer,
+    clay    integer,
+    sand    integer,
+    rock    integer,
+    iron    integer,
+    silver  integer,
+    gold    integer,
+    mithril integer,
+    gems    integer,
+    lava    integer
+);
+
 CREATE TABLE skill
 (
     id              text, 
@@ -324,3 +340,4 @@ DROP TABLE item;
 DROP TABLE god;
 DROP TABLE faction;
 DROP TABLE factionRelation;
+DROP TABLE roomBiomes;

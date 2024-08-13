@@ -2,7 +2,9 @@ const { NoPositionAvailableError, WorldGenerationFailedError } = require('../exc
 const dwellingsBuilder = require('./dwelling')
 const objects = require('../generic/objects')
 const { filters, clouds } = require('../generic/filters')
-const { copyObject, 
+const { 
+    generateID,
+    copyObject, 
     getRandomElementFromArray, 
     getRandomNumberInRange, 
     getRandomNumber, 
@@ -44,6 +46,7 @@ const generateBaseMap = (worldId) => {
         for (let j = 0; j < WORLD_SIZE; j++) {
             try {
                 const r = copyObject(objects.room);
+                r.id = generateID()
                 r.worldId = worldId
                 r.x = i
                 r.y = j
@@ -165,6 +168,88 @@ const setBiome = (map) => {
         }
     }
 }
+
+/**
+ * 
+ * @param {[{id:string, biome:ENUM_BIOMES}]} map 
+ * @param {*} options 
+ */
+const createRoomBiomes = (map, options) => {
+    for (let y = 0; y < WORLD_SIZE; y++) {
+        for (let x = 0; x < WORLD_SIZE; x++) {
+            const rb = copyObject(objects.roomBiomes)
+            rb.id = generateID()
+            rb.roomId = map[x][y].id
+            const biome = map[x][y].biome
+            if (biome == ENUM_BIOMES.plains) {
+                rb.earth = 1
+                rb.clay = (chance(60)) ? 1 : 0
+                rb.sand = (chance(40)) ? 1 : 0
+                rb.rock = (chance(20)) ? 1 : 0
+                rb.water = (chance(70)) ? 1 : 0
+            }
+            else if (biome == ENUM_BIOMES.badlands) {
+                rb.earth = 1
+                rb.clay = (chance(60)) ? 1 : 0
+                rb.sand = (chance(40)) ? 1 : 0
+                rb.rock = (chance(20)) ? 1 : 0
+                rb.gold = (chance(2)) ? 1 : 0
+                rb.water = (chance(10)) ? 1 : 0
+            }
+            else if (biome == ENUM_BIOMES.dessert) {
+                rb.earth = (chance(10)) ? 1 : 0
+                rb.sand = 1
+                rb.rock = (chance(30)) ? 1 : 0
+                rb.iron = (chance(10)) ? 1 : 0
+                rb.lava = (chance(10)) ? 1 : 0
+                rb.water = (chance(5)) ? 1 : 0
+            }
+            else if (biome == ENUM_BIOMES.forest) {
+                rb.earth = 1
+                rb.clay = (chance(80)) ? 1 : 0
+                rb.sand = (chance(50)) ? 1 : 0
+                rb.rock = (chance(20)) ? 1 : 0
+                rb.iron = (chance(10)) ? 1 : 0
+                rb.water = (chance(80)) ? 1 : 0
+            }
+            else if (biome == ENUM_BIOMES.hills) {
+                rb.earth = (chance(90)) ? 1 : 0
+                rb.clay = (chance(60)) ? 1 : 0
+                rb.sand = (chance(20)) ? 1 : 0
+                rb.rock = (chance(80)) ? 1 : 0
+                rb.iron = (chance(20)) ? 1 : 0
+                rb.silver = (chance(5)) ? 1 : 0
+                rb.water = (chance(30)) ? 1 : 0
+            }
+            else if (biome == ENUM_BIOMES.lake) {
+                rb.earth = (chance(10)) ? 1 : 0
+                rb.clay = 1
+                rb.sand = (chance(70)) ? 1 : 0
+                rb.rock = (chance(30)) ? 1 : 0
+                rb.water = 1
+            }
+            else if (biome == ENUM_BIOMES.mountains) {
+                rb.earth = (chance(20)) ? 1 : 0
+                rb.rock = 1
+                rb.iron = (chance(40)) ? 1 : 0
+                rb.silver = (chance(30)) ? 1 : 0
+                rb.gold = (chance(20)) ? 1 : 0
+                rb.mithril = (chance(5)) ? 1 : 0
+                rb.gems = (chance(10)) ? 1 : 0
+                rb.lava = (chance(5)) ? 1 : 0
+                rb.water = (chance(70)) ? 1 : 0
+            }
+            else if (biome == ENUM_BIOMES.swamp) {
+                rb.clay = (chance(40)) ? 1 : 0
+                rb.sand = (chance(20)) ? 1 : 0
+                rb.silver = (chance(5)) ? 1 : 0
+                rb.water = (chance(90)) ? 1 : 0
+            }
+            map[x][y].roomBiomes = rb
+        }
+    } 
+}
+
 
 /**
  * draw elevation to map
@@ -575,6 +660,7 @@ module.exports.build = async (world) => {
         normalizeElevation(map, -1, false)
         cleanup(map, -1, -1)
         setBiome(map)
+        createRoomBiomes(map)
         world.dwellings = await generateDwellings(map, { date: world.date })
         generateFarmlands(map, world.dwellings)
         windsOfMagic(map)

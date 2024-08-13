@@ -1,6 +1,7 @@
 const { WorldGenerationFailedError } = require('../exceptions')
 const objects = require('../generic/objects')
 const mapBuilder = require('../build/map')
+const factionBuilder = require('../build/factionBuilder')
 const familyBuilder = require('../build/families')
 const mythosBuilder = require('../build/mythos')
 // const familyTreeBuilder = require('../build/familyTree')
@@ -40,12 +41,20 @@ const generateWorld = async (options = {}) => {
             errors.push(err)
         }
 
+        try {
+            world.factions = factionBuilder.build({ gods: world.gods })
+        } catch (e) {
+            const err = objects.error
+            err.file = __filename
+            err.function = 'generateWorld'
+            err.step = 'factionBuilder.build'
+            err.message = e.message
+            errors.push(err)
+        }
 
         try {
             world.date = setWorldStartDate({})
             await mapBuilder.build(world)
-
-            
         } catch (e) {
             const err = objects.error
             err.file = __filename

@@ -542,6 +542,7 @@ module.exports = {
         DELETE_ITEM: 'deleteItem',
 
         INSERTROOM: 'insertRoom',
+        INSERT_ROOM_BIOMES: 'insertRoomBiomes',
         INSERTDWELLING: 'insertDwelling',
         INSERT_DWELLING_LOCATION: 'insertDwellingLocation',
         INSERT_DWELLING_RUMOR: 'insertDwellingRumor',

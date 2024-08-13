@@ -28,6 +28,7 @@ const executeCommands = async (queue) => {
                 case ENUM_COMMANDS.DELETE_DWELLING_RUMOR: await commands.deleteDwellingRumor(item.data); break;
                 case ENUM_COMMANDS.DELETE_ITEM: await commands.deleteItem(item.data); break;
                 case ENUM_COMMANDS.INSERTROOM: await commands.insertRoom(item.data); break;
+                case ENUM_COMMANDS.INSERT_ROOM_BIOMES: await commands.insertRoomBiomes(item.data); break;
                 case ENUM_COMMANDS.INSERTDWELLING: await commands.insertDwelling(item.data); break;
                 case ENUM_COMMANDS.INSERT_DWELLING_LOCATION: await commands.insertDwellingLocation(item.data); break;
                 case ENUM_COMMANDS.INSERT_DWELLING_RUMOR: await commands.insertDwellingRumor(item.data); break;

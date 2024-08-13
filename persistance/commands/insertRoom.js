@@ -18,6 +18,7 @@ const { DatabaseContext } = require('../connections')
  */
 module.exports.insertRoom = async (room) => {
     const stmt = await DatabaseContext.db.prepare(`INSERT INTO room (
+            id,
             x, 
             y, 
             worldId,
@@ -31,6 +32,7 @@ module.exports.insertRoom = async (room) => {
         ) 
     VALUES
         (
+            @id,
             @x, 
             @y, 
             @worldId,
@@ -43,6 +45,7 @@ module.exports.insertRoom = async (room) => {
             @exploreStatus
         );`)
     await stmt.bind({
+        '@id': room.id,
         '@x': room.x, 
         '@y': room.y, 
         '@worldId': room.worldId,

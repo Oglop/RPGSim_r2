@@ -276,9 +276,25 @@ module.exports = {
         elevation: 0,
         temprature: 0,
         biome: undefined,
+        roomBiomes: undefined,
         dwellingId: undefined,
         description: undefined,
         exploreStatus: ENUM_EXPLORE_STATUS.empty,
+    },
+    roomBiomes: {
+        id: undefined,
+        roomId: undefined,
+        earth: 0,
+        clay: 0,
+        sand: 0,
+        rock: 0,
+        iron: 0,
+        silver: 0,
+        gold: 0,
+        mithril: 0,
+        gems: 0,
+        lava: 0,
+        water: 0
     },
     rumor: {
         id: undefined,
@@ -478,6 +494,7 @@ module.exports = {
         date: undefined,
         families: [],
         dead: [],
+        factions: [],
         darkness: undefined,
         events: {
             history:[],

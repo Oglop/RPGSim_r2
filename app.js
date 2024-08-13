@@ -20,7 +20,6 @@ const main = async (args) => {
         if (!useExistingWorld) {
             world = await generateWorld()
         }
-
         
         world.parties = await createParties( {date: world.date, map: world.map, dwellings: world.dwellings} )
         for (let i=0;i<160;i++) {

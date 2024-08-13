@@ -2,7 +2,7 @@ const { DatabaseContext } = require('../connections')
 module.exports.insertFactionRelation = async (factionRelation) => {
 
 
-    const stmt = await DatabaseContext.db.prepare(`INSERT INTO faction (
+    const stmt = await DatabaseContext.db.prepare(`INSERT INTO factionRelation (
         id,
         factionId,
         relationFactionId,
