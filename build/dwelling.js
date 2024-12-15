@@ -349,3 +349,18 @@ module.exports.build = async (position, options) => {
         logError(err)
     }   
 }
+
+module.exports.buildSimple = (position, race) => {
+    const d = copyObject(objects.dwelling)
+    d.id = generateID()
+    d.x = position.x
+    d.y = position.y
+    d.type = race
+    d.name = getDwellingNameByType(d.type)
+    d.size = ENUM_DWELLING_SIZE.VILLAGE
+    addCitizens(d)
+    addProduction(d)
+    d.description = m.getDwellingDescription(d)
+    d.growth = 0
+    return d
+}

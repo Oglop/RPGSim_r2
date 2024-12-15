@@ -563,27 +563,198 @@ const getPartyName = (nameOfCharacter) => {
 }
 
 const getHumanFactionName = () => {
-    return ''
+    const first = [
+        'first',
+        'crossed',
+        'rising',
+        'drinking',
+        'white',
+        'yellow',
+        'blue',
+        'shielded',
+        'united',
+        'drunk',
+        'eternal',
+        'golden',
+        'red',
+        'blessed',
+        'wandering',
+        'morning',
+        'great'
+    ]
+    const second = [
+        'horse',
+        'swords',
+        'goat',
+        'bridge',
+        'fortress',
+        'tower',
+        'towers',
+        'windmill',
+        'pony',
+        'eagles',
+        'dove',
+        'griffin',
+        'maces',
+        'star',
+        'hands',
+        'hounds',
+        'feathers',
+        'farmers',
+        'warriors'
+    ]
+    return `the ${getRandomElementFromArray(first)} ${getRandomElementFromArray(second)}`
 }
 
 const getDwarfFactionName = () => {
-    return ''
+    const first = [
+        'iron',
+        'gold',
+        'rock',
+        'stone',
+        'mithril',
+        'humming',
+        'working',
+        'slow',
+        'hard',
+        'diamond',
+        'sleeping'
+    ]
+    const second = [
+        'hammers',
+        'axes',
+        'shields',
+        'picks',
+        'miners',
+        'smiths',
+        'diggers',
+        'spears',
+        'lanterns',
+        'mails',
+        'engineers',
+        'beards',
+        'forge',
+        'mines',
+        'fortress'
+    ]
+    return `the ${getRandomElementFromArray(first)} ${getRandomElementFromArray(second)}`
 }
 
 const getWoodElfFactionName = () => {
-    return ''
+    const first = [
+        'green',
+        'orange',
+        'wooden',
+        'dreaming',
+        'oaken',
+        'blooming',
+        'shadow',
+        'umbre'
+    ]
+    const second = [
+        'archers',
+        'weeds',
+        'flowers',
+        'arrows',
+        'spears',
+        'grass',
+        'tree',
+        'river',
+        'forest',
+        'hunters'
+    ]
+    return `the ${getRandomElementFromArray(first)} ${getRandomElementFromArray(second)}`
 }
 
 const getHighElfFactionName = () => {
-    return ''
+    const first = [
+        'bright',
+        'silver',
+        'guildd',
+        'high',
+        'sunny',
+        'sharp',
+        'white',
+        'azure',
+        'marine',
+        'runed',
+        'dawn',
+        'just'
+    ]
+    const second = [
+        'suns',
+        'swords',
+        'magicians',
+        'lords',
+        'tomes',
+        'staffs',
+        'lances',
+        'dragons',
+        'helmet',
+        'academy',
+        'mirror',
+        'sky'
+    ]
+    return `the ${getRandomElementFromArray(first)} ${getRandomElementFromArray(second)}`
 }
 
 const getDarkElfFactionName = () => {
-    return ''
+    const first = [
+        'black',
+        'purple',
+        'pale',
+        'poisonous',
+        'venomous',
+        'screaming',
+        'laughing',
+        'midninght',
+        'hooded',
+    ]
+    const second = [
+        'daggers',
+        'spiders',
+        'scorpions',
+        'cloaks',
+        'lords',
+        'murderers',
+        'wiches',
+        'warlocks',
+        'assassins',
+        'hydra',
+    ]
+    return `the ${getRandomElementFromArray(first)} ${getRandomElementFromArray(second)}`
 }
 
 const getVileFactionName = () => {
-    return ''
+    const first = [
+        'black',
+        'crimson',
+        'dark',
+        'vile',
+        'screaming',
+        'hungry',
+        'evil',
+        'bleeding',
+        'hateful',
+        'masked',
+        'blaspemous',
+        'bloody',
+        'death'
+    ]
+    const second = [
+        'moon',
+        'night',
+        'claws',
+        'fangs',
+        'hornes',
+        'wolves',
+        'snake',
+        'flame',
+        'fire',
+        'eye',
+        'shadows',
+    ]
+    return `the ${getRandomElementFromArray(first)} ${getRandomElementFromArray(second)}`
 }
 
 module.exports = {

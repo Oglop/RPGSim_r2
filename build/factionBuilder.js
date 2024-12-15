@@ -85,6 +85,8 @@ module.exports.build = async (options = {}) => {
     relations.forEach(r => commands.push({ command: ENUM_COMMANDS.INSERT_FACTION_RELATION, data: r }))
 
     await executeCommands(commands)
+
+    return factions
     
 }
 

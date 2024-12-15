@@ -14,6 +14,7 @@ const { writeMap } = require('../output/visualize')
 const { saveVisualization } = require('../config')
 const { Output } = require('../output/output')
 const { offLoadWorld } = require('../models/world')
+const { createWorldHistory } = require('../handlers/historyBuilderHandler')
 
 const setWorldStartDate = (options) => {
     const date = copyObject(objects.date)
@@ -42,7 +43,8 @@ const generateWorld = async (options = {}) => {
         }
 
         try {
-            world.factions = factionBuilder.build({ gods: world.gods })
+            world.factions = await factionBuilder.build({ gods: world.gods })
+            
         } catch (e) {
             const err = objects.error
             err.file = __filename
@@ -55,6 +57,7 @@ const generateWorld = async (options = {}) => {
         try {
             world.date = setWorldStartDate({})
             await mapBuilder.build(world)
+            createWorldHistory(world)
         } catch (e) {
             const err = objects.error
             err.file = __filename
